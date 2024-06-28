@@ -17,6 +17,18 @@
 		0BFCC5AC2C2E864C00B5E0DB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5AB2C2E864C00B5E0DB /* SnapKit */; };
 		0BFCC5AF2C2E865B00B5E0DB /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5AE2C2E865B00B5E0DB /* Then */; };
 		0BFCC5B22C2E86EF00B5E0DB /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5B12C2E86EF00B5E0DB /* Lottie */; };
+		0BFCC5B92C2E892300B5E0DB /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5B82C2E892300B5E0DB /* RxBlocking */; };
+		0BFCC5BB2C2E892300B5E0DB /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5BA2C2E892300B5E0DB /* RxCocoa */; };
+		0BFCC5BD2C2E892300B5E0DB /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5BC2C2E892300B5E0DB /* RxRelay */; };
+		0BFCC5C82C2E8D0500B5E0DB /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5C72C2E8D0500B5E0DB /* String.swift */; };
+		0BFCC5CF2C2E8DAE00B5E0DB /* BaseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5CE2C2E8DAE00B5E0DB /* BaseTargetType.swift */; };
+		0BFCC5DA2C2E8F0200B5E0DB /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5D92C2E8F0100B5E0DB /* CalendarModel.swift */; };
+		0BFCC5DD2C2E8F1300B5E0DB /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5DC2C2E8F1300B5E0DB /* CalendarViewController.swift */; };
+		0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5DE2C2E8F1F00B5E0DB /* CalendarViewModel.swift */; };
+		0BFCC5E12C2E8F2800B5E0DB /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5E02C2E8F2800B5E0DB /* CalendarView.swift */; };
+		0BFCC5E32C2E8F5400B5E0DB /* CalenderDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5E22C2E8F5400B5E0DB /* CalenderDateCell.swift */; };
+		0BFCC5EE2C2F850400B5E0DB /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5ED2C2F850400B5E0DB /* UIView+.swift */; };
+		0BFCC5F02C2F852D00B5E0DB /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5EF2C2F852D00B5E0DB /* UIStackView+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +39,15 @@
 		0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B20F3E82C2C4DAB00F8D62D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B20F3EA2C2C4DAB00F8D62D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0BFCC5C72C2E8D0500B5E0DB /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = String.swift; path = ../../../../../../../Downloads/String.swift; sourceTree = "<group>"; };
+		0BFCC5CE2C2E8DAE00B5E0DB /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
+		0BFCC5D92C2E8F0100B5E0DB /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
+		0BFCC5DC2C2E8F1300B5E0DB /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		0BFCC5DE2C2E8F1F00B5E0DB /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		0BFCC5E02C2E8F2800B5E0DB /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		0BFCC5E22C2E8F5400B5E0DB /* CalenderDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderDateCell.swift; sourceTree = "<group>"; };
+		0BFCC5ED2C2F850400B5E0DB /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		0BFCC5EF2C2F852D00B5E0DB /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,9 +56,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0BFCC5B22C2E86EF00B5E0DB /* Lottie in Frameworks */,
+				0BFCC5B92C2E892300B5E0DB /* RxBlocking in Frameworks */,
 				0BFCC5AC2C2E864C00B5E0DB /* SnapKit in Frameworks */,
+				0BFCC5BB2C2E892300B5E0DB /* RxCocoa in Frameworks */,
 				0BFCC5A92C2E847300B5E0DB /* Moya in Frameworks */,
 				0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */,
+				0BFCC5BD2C2E892300B5E0DB /* RxRelay in Frameworks */,
 				0BFCC5AF2C2E865B00B5E0DB /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -64,14 +88,207 @@
 		0B20F3DB2C2C4DAA00F8D62D /* Clody_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				0B20F3DC2C2C4DAA00F8D62D /* AppDelegate.swift */,
-				0B20F3DE2C2C4DAA00F8D62D /* SceneDelegate.swift */,
+				0BFCC5BE2C2E8BE900B5E0DB /* Application */,
+				0BFCC5BF2C2E8C0000B5E0DB /* Global */,
+				0BFCC5C92C2E8D6700B5E0DB /* Network */,
+				0BFCC5D02C2E8E3600B5E0DB /* Presentation */,
 				0B20F3E02C2C4DAA00F8D62D /* ViewController.swift */,
-				0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */,
-				0B20F3E72C2C4DAB00F8D62D /* LaunchScreen.storyboard */,
-				0B20F3EA2C2C4DAB00F8D62D /* Info.plist */,
 			);
 			path = Clody_iOS;
+			sourceTree = "<group>";
+		};
+		0BFCC5BE2C2E8BE900B5E0DB /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				0B20F3DC2C2C4DAA00F8D62D /* AppDelegate.swift */,
+				0B20F3DE2C2C4DAA00F8D62D /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		0BFCC5BF2C2E8C0000B5E0DB /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				0BFCC5C02C2E8C1A00B5E0DB /* Extensions */,
+				0BFCC5C12C2E8C2F00B5E0DB /* Literals */,
+				0BFCC5C22C2E8C3C00B5E0DB /* Protocols */,
+				0BFCC5C32C2E8C4600B5E0DB /* Resources */,
+				0BFCC5C42C2E8C5400B5E0DB /* SupportingFiles */,
+			);
+			path = Global;
+			sourceTree = "<group>";
+		};
+		0BFCC5C02C2E8C1A00B5E0DB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0BFCC5ED2C2F850400B5E0DB /* UIView+.swift */,
+				0BFCC5EF2C2F852D00B5E0DB /* UIStackView+.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		0BFCC5C12C2E8C2F00B5E0DB /* Literals */ = {
+			isa = PBXGroup;
+			children = (
+				0BFCC5C72C2E8D0500B5E0DB /* String.swift */,
+			);
+			path = Literals;
+			sourceTree = "<group>";
+		};
+		0BFCC5C22C2E8C3C00B5E0DB /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		0BFCC5C32C2E8C4600B5E0DB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0BFCC5C62C2E8C9C00B5E0DB /* Font */,
+				0B20F3EA2C2C4DAB00F8D62D /* Info.plist */,
+				0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		0BFCC5C42C2E8C5400B5E0DB /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				0BFCC5C52C2E8C5F00B5E0DB /* Base */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		0BFCC5C52C2E8C5F00B5E0DB /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				0B20F3E72C2C4DAB00F8D62D /* LaunchScreen.storyboard */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		0BFCC5C62C2E8C9C00B5E0DB /* Font */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		0BFCC5C92C2E8D6700B5E0DB /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				0BFCC5CA2C2E8D7A00B5E0DB /* Base */,
+				0BFCC5CB2C2E8D8000B5E0DB /* Environment */,
+				0BFCC5CC2C2E8D8C00B5E0DB /* MoyaTarget */,
+				0BFCC5CD2C2E8D9400B5E0DB /* Service */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		0BFCC5CA2C2E8D7A00B5E0DB /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				0BFCC5CE2C2E8DAE00B5E0DB /* BaseTargetType.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		0BFCC5CB2C2E8D8000B5E0DB /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Environment;
+			sourceTree = "<group>";
+		};
+		0BFCC5CC2C2E8D8C00B5E0DB /* MoyaTarget */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MoyaTarget;
+			sourceTree = "<group>";
+		};
+		0BFCC5CD2C2E8D9400B5E0DB /* Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		0BFCC5D02C2E8E3600B5E0DB /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				0BFCC5D22C2E8E6700B5E0DB /* Common */,
+				0BFCC5D12C2E8E5E00B5E0DB /* Base */,
+				0BFCC5D32C2E8E7900B5E0DB /* Calendar */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		0BFCC5D12C2E8E5E00B5E0DB /* Base */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		0BFCC5D22C2E8E6700B5E0DB /* Common */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		0BFCC5D32C2E8E7900B5E0DB /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				0BFCC5D72C2E8EC300B5E0DB /* Models */,
+				0BFCC5D52C2E8EB200B5E0DB /* ViewControllers */,
+				0BFCC5D62C2E8EBA00B5E0DB /* ViewModels */,
+				0BFCC5D42C2E8E9800B5E0DB /* Views */,
+				0BFCC5D82C2E8ED600B5E0DB /* Cells */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		0BFCC5D42C2E8E9800B5E0DB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0BFCC5E02C2E8F2800B5E0DB /* CalendarView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0BFCC5D52C2E8EB200B5E0DB /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0BFCC5DC2C2E8F1300B5E0DB /* CalendarViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		0BFCC5D62C2E8EBA00B5E0DB /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				0BFCC5DE2C2E8F1F00B5E0DB /* CalendarViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		0BFCC5D72C2E8EC300B5E0DB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0BFCC5D92C2E8F0100B5E0DB /* CalendarModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0BFCC5D82C2E8ED600B5E0DB /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0BFCC5E22C2E8F5400B5E0DB /* CalenderDateCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -96,6 +313,9 @@
 				0BFCC5AB2C2E864C00B5E0DB /* SnapKit */,
 				0BFCC5AE2C2E865B00B5E0DB /* Then */,
 				0BFCC5B12C2E86EF00B5E0DB /* Lottie */,
+				0BFCC5B82C2E892300B5E0DB /* RxBlocking */,
+				0BFCC5BA2C2E892300B5E0DB /* RxCocoa */,
+				0BFCC5BC2C2E892300B5E0DB /* RxRelay */,
 			);
 			productName = Clody_iOS;
 			productReference = 0B20F3D92C2C4DAA00F8D62D /* Clody_iOS.app */;
@@ -131,6 +351,7 @@
 				0BFCC5AA2C2E864C00B5E0DB /* XCRemoteSwiftPackageReference "SnapKit" */,
 				0BFCC5AD2C2E865B00B5E0DB /* XCRemoteSwiftPackageReference "Then" */,
 				0BFCC5B02C2E86EF00B5E0DB /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				0BFCC5B72C2E892300B5E0DB /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 0B20F3DA2C2C4DAA00F8D62D /* Products */;
 			projectDirPath = "";
@@ -158,9 +379,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BFCC5EE2C2F850400B5E0DB /* UIView+.swift in Sources */,
+				0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */,
+				0BFCC5CF2C2E8DAE00B5E0DB /* BaseTargetType.swift in Sources */,
+				0BFCC5DA2C2E8F0200B5E0DB /* CalendarModel.swift in Sources */,
 				0B20F3E12C2C4DAA00F8D62D /* ViewController.swift in Sources */,
 				0B20F3DD2C2C4DAA00F8D62D /* AppDelegate.swift in Sources */,
+				0BFCC5E12C2E8F2800B5E0DB /* CalendarView.swift in Sources */,
+				0BFCC5F02C2F852D00B5E0DB /* UIStackView+.swift in Sources */,
+				0BFCC5C82C2E8D0500B5E0DB /* String.swift in Sources */,
+				0BFCC5DD2C2E8F1300B5E0DB /* CalendarViewController.swift in Sources */,
 				0B20F3DF2C2C4DAA00F8D62D /* SceneDelegate.swift in Sources */,
+				0BFCC5E32C2E8F5400B5E0DB /* CalenderDateCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,6 +647,14 @@
 				minimumVersion = 4.4.3;
 			};
 		};
+		0BFCC5B72C2E892300B5E0DB /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.7.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -444,6 +682,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0BFCC5B02C2E86EF00B5E0DB /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		0BFCC5B82C2E892300B5E0DB /* RxBlocking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BFCC5B72C2E892300B5E0DB /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxBlocking;
+		};
+		0BFCC5BA2C2E892300B5E0DB /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BFCC5B72C2E892300B5E0DB /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		0BFCC5BC2C2E892300B5E0DB /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BFCC5B72C2E892300B5E0DB /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
