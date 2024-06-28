@@ -7,7 +7,7 @@
 | 김선우 | 김나연 | 오서영 |
 | :--------: | :--------: | :--------: |
 | <img src="https://github.com/33th-SOPKATHON-TEAM-APP3/SISTAR23-iOS/assets/102219161/fc955987-9966-4ef5-850e-b3d709cc9186" width="200px"/>  | <img src="https://github.com/33th-SOPKATHON-TEAM-APP3/SISTAR23-iOS/assets/102219161/fc955987-9966-4ef5-850e-b3d709cc9186" width="200px"/> | <img src="https://github.com/33th-SOPKATHON-TEAM-APP3/SISTAR23-iOS/assets/102219161/fc955987-9966-4ef5-850e-b3d709cc9186" width="200px"/> | 
-| Main | Onboarding & Login | Diary & MyPage | 
+| Main | Onboarding & Login | MyPage | 
 | 캘린더 & 일기 작성 & 푸시 알림 | 온보딩 & 로그인 & 일기응답 | 마이페이지 & 과거 일기 |
 
 ## 💻 프로젝트 기술 스택
