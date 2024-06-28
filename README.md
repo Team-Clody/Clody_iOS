@@ -35,9 +35,13 @@
 
 6. RxSwift
     - 반응형 프로그래밍을 위한 라이브러리로, 비동기 및 이벤트 기반 프로그램을 더 쉽게 작성할 수 있게 도와줌
+  
+7. FScalendar
+   - 손쉬운 캘린더 구현을 도와줌
 
 ## 📌 Git Convention
-[🚀 git convention 바로가기](https://github.com/Team-Clody/Clody_iOS/wiki/Clody_iOS)
+[🚀 git convention 바로가기](https://github.com/Team-Clody/Clody_iOS/wiki/Clody_iOS_git-Convention)
+
 ### 브랜치 전략
 ```swift
 main - release 관리 
@@ -63,9 +67,46 @@ feat - 각자 사용하는 브랜치
 |Delete| 파일 삭제 |
 |Fix| 버그 해결 |
 |Chore| 기타 |
-#### 규칙
-- 마침표, 특수기호는 사용하지 않는다.
-- 간결한 설명만 덧붙인다.
 
-## 🖥️ Swift Style Guide
+## 🖥️ Coding Convention
+[🚀 coding convention 바로가기](https://github.com/Team-Clody/Clody_iOS/wiki/Clody_iOS_Coding-Convention)
+[🚀 coding template 바로가기](https://github.com/Team-Clody/Clody_iOS/wiki/Clody_iOS_Coding-Template)
+## 🍀 Foldering
 
+```
+├── Application
+│   ├── Appdelegate
+│   ├── SceneDelegate
+├── Global
+│   ├── Extensions
+│   ├── Literals
+│   │   ├── Literal
+│   │   ├── String
+│   ├── Protocols
+│   ├── Resources
+│   │   ├── Font
+│   │   ├── Assets
+│   │   ├── Info.plist
+│   ├── SupportingFiles
+│   │   ├── Base
+├───├───├───── LaunchScreen
+├── Network
+│   ├── Base
+│   │   ├── BaseTargetType.swift
+│   │   ├── GeneralResponse.swift
+│   │   ├── ... (기본 네트워크 세팅 파일)
+│   ├── Environment
+│   │   ├── Config
+│   ├── MoyaTarget
+│   ├── Service
+├── Presentation 
+│   ├── Base
+│   ├── Common
+│   │   ├── Component
+│   ├── Home
+│   │   ├── ViewControllers
+│   │   ├── Views
+│   │   ├── Models
+├───├───├── ViewModels
+├───├───├── Cells
+```
