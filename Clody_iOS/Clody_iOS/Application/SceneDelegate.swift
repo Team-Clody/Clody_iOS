@@ -5,13 +5,6 @@
 //  Created by Seonwoo Kim on 6/26/24.
 //
 
-//
-//  SceneDelegate.swift
-//  33th-SOPKATHON-iOS-TEAM3
-//
-//  Created by 민 on 11/25/23.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
