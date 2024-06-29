@@ -23,20 +23,17 @@
     
 2. KakaoOpenSDK
     - 카카오 소셜 로그인을 위한 라이브러리
-
-3. KingFisher
-    - 서버 통신의 이미지를 가져오기 위한 라이브러리
     
-4. Lottie
+3. Lottie
     - 애니메이션 효과를 가진 뷰를 구현하기 위한 라이브러리
     
-5. SnapKit
+4. SnapKit
     - Code base 개발을 원활하게 도와주는 라이브러리
 
-6. RxSwift
+5. RxSwift
     - 반응형 프로그래밍을 위한 라이브러리로, 비동기 및 이벤트 기반 프로그램을 더 쉽게 작성할 수 있게 도와줌
   
-7. FScalendar
+6. FScalendar
    - 손쉬운 캘린더 구현을 도와줌
 
 ## 📌 Git Convention
@@ -57,7 +54,7 @@ feat - 각자 사용하는 브랜치
     - `set` : 프로젝트 세팅과 같은 기초 세팅
 ### 커밋 규칙
 #### 커밋 메시지
-- `[prefix/#issueNumber] discription` 형식으로 작성한다.
+- `[prefix/#issueNumber] description` 형식으로 작성한다.
 #### Prefix
 |Prefix|Role|
 |:---:|:---:|
@@ -86,7 +83,6 @@ feat - 각자 사용하는 브랜치
 │   ├── Resources
 │   │   ├── Font
 │   │   ├── Assets
-│   │   ├── Info.plist
 │   ├── SupportingFiles
 │   │   ├── Base
 ├───├───├───── LaunchScreen
@@ -109,4 +105,5 @@ feat - 각자 사용하는 브랜치
 │   │   ├── Models
 ├───├───├── ViewModels
 ├───├───├── Cells
+├── Info.plist
 ```
