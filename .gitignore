@@ -1,5 +1,38 @@
-# Created by https://www.toptal.com/developers/gitignore/api/xcode,swift,swiftpackagemanager
-# Edit at https://www.toptal.com/developers/gitignore?templates=xcode,swift,swiftpackagemanager
+# Created by https://www.toptal.com/developers/gitignore/api/swift,macos,xcode
+# Edit at https://www.toptal.com/developers/gitignore?templates=swift,macos,xcode
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+### macOS Patch ###
+# iCloud generated files
+*.icloud
 
 ### Swift ###
 # Xcode
@@ -12,7 +45,7 @@ xcuserdata/
 ## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
 *.xcscmblueprint
 *.xccheckout
-
+*.xcuserstate
 ## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
 build/
 DerivedData/
@@ -54,9 +87,9 @@ playground.xcworkspace
 # We recommend against adding the Pods directory to your .gitignore. However
 # you should judge for yourself, the pros and cons are mentioned at:
 # https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
-# Pods/
+Pods/
 # Add this line if you want to avoid checking in source code from the Xcode workspace
-# *.xcworkspace
+*.xcworkspace
 
 # Carthage
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
@@ -74,22 +107,17 @@ Dependencies/
 # For more information about the recommended setup visit:
 # https://docs.fastlane.tools/best-practices/source-control/#source-control
 
-fastlane/report.xml
-fastlane/Preview.html
-fastlane/screenshots/**/*.png
-fastlane/test_output
+**/fastlane/README.md
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots/**/*.png
+**/fastlane/test_output
 
 # Code Injection
 # After new code Injection tools there's a generated folder /iOSInjectionProject
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
-
-### SwiftPackageManager ###
-Packages
-xcuserdata
-*.xcodeproj
-
 
 ### Xcode ###
 
@@ -104,16 +132,9 @@ xcuserdata
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
-.DS_Store
-._.DS_Store
-**/.DS_Store
-**/._.DS_Store
-
 ### Env
 *.xcconfig
 .env
 
 ### Firebase
 GoogleService-Info.plist
-
-# End of https://www.toptal.com/developers/gitignore/api/xcode,swift,swiftpackagemanager
