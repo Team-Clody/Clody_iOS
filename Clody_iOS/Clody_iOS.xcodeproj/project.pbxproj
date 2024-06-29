@@ -93,6 +93,7 @@
 				0BFCC5C92C2E8D6700B5E0DB /* Network */,
 				0BFCC5D02C2E8E3600B5E0DB /* Presentation */,
 				0B20F3E02C2C4DAA00F8D62D /* ViewController.swift */,
+				0B20F3EA2C2C4DAB00F8D62D /* Info.plist */,
 			);
 			path = Clody_iOS;
 			sourceTree = "<group>";
@@ -138,7 +139,6 @@
 			isa = PBXGroup;
 			children = (
 				0BFCC5C62C2E8C9C00B5E0DB /* Font */,
-				0B20F3EA2C2C4DAB00F8D62D /* Info.plist */,
 				0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -210,7 +210,6 @@
 		0BFCC5D02C2E8E3600B5E0DB /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				0BFCC5D22C2E8E6700B5E0DB /* Common */,
 				0BFCC5D12C2E8E5E00B5E0DB /* Base */,
 				0BFCC5D32C2E8E7900B5E0DB /* Calendar */,
 			);
@@ -222,13 +221,6 @@
 			children = (
 			);
 			path = Base;
-			sourceTree = "<group>";
-		};
-		0BFCC5D22C2E8E6700B5E0DB /* Common */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Common;
 			sourceTree = "<group>";
 		};
 		0BFCC5D32C2E8E7900B5E0DB /* Calendar */ = {
