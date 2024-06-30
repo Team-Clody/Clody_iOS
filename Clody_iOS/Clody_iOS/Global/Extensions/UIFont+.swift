@@ -8,16 +8,24 @@
 import UIKit
 
 enum FontName {
-    case head1, head2, head3, head4, body1_semibold, body2_semibold, body3_semibold, detail1_semibold, detail2_semibold
-    case body1_medium, body2_medium, body3_medium, detail1_medium, detail2_medium
-    
+    case head1, head2, head3, head4
+    case body1_semibold, body2_semibold, body3_semibold
+    case body1_medium, body2_medium, body3_medium
+    case detail1_semibold, detail2_semibold
+    case detail1_medium, detail2_medium
+
     var rawValue: String {
         switch self {
-        case .head1, .head2, .head3, .head4, .body1_semibold, .body2_semibold, .body3_semibold, .detail1_semibold, .detail2_semibold:
+        case .head1, .head2, .head3, .head4:
             return "Pretendard-SemiBold"
-        case .body1_medium, .body2_medium, .body3_medium, .detail1_medium, .detail2_medium:
+        case .body1_semibold, .body2_semibold, .body3_semibold:
+            return "Pretendard-SemiBold"
+        case .body1_medium, .body2_medium, .body3_medium:
             return "Pretendard-Medium"
-
+        case .detail1_semibold, .detail2_semibold:
+            return "Pretendard-SemiBold"
+        case .detail1_medium, .detail2_medium:
+            return "Pretendard-Medium"
         }
     }
     
@@ -43,21 +51,10 @@ enum FontName {
             return 10
         }
     }
-    
 }
 
 extension UIFont {
-    
     static func pretendard(_ style: FontName) -> UIFont {
         return UIFont(name: style.rawValue, size: style.size)!
-    }
-    
-    static func pretendardWithSpacing(_ style: FontName, spacing: CGFloat = -0.3) -> NSAttributedString {
-        let font = UIFont.pretendard(style)
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: font,
-            .kern: spacing
-        ]
-        return NSAttributedString(string: "", attributes: attributes)
     }
 }
