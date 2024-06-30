@@ -29,6 +29,9 @@
 		0BFCC5EE2C2F850400B5E0DB /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5ED2C2F850400B5E0DB /* UIView+.swift */; };
 		0BFCC5F02C2F852D00B5E0DB /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5EF2C2F852D00B5E0DB /* UIStackView+.swift */; };
 		0BFCC5F32C306D3B00B5E0DB /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5F22C306D3B00B5E0DB /* String.swift */; };
+		2C0B3C822C30DB56002EB1A3 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */; };
+		2C0B3C862C30DD55002EB1A3 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2C0B3C852C30DD55002EB1A3 /* Pretendard-Medium.otf */; };
+		2C0B3C882C30DD5B002EB1A3 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2C0B3C872C30DD5B002EB1A3 /* Pretendard-SemiBold.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +51,9 @@
 		0BFCC5ED2C2F850400B5E0DB /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		0BFCC5EF2C2F852D00B5E0DB /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		0BFCC5F22C306D3B00B5E0DB /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
+		2C0B3C852C30DD55002EB1A3 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		2C0B3C872C30DD5B002EB1A3 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +130,7 @@
 			children = (
 				0BFCC5ED2C2F850400B5E0DB /* UIView+.swift */,
 				0BFCC5EF2C2F852D00B5E0DB /* UIStackView+.swift */,
+				2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -163,6 +170,8 @@
 		0BFCC5C62C2E8C9C00B5E0DB /* Font */ = {
 			isa = PBXGroup;
 			children = (
+				2C0B3C872C30DD5B002EB1A3 /* Pretendard-SemiBold.otf */,
+				2C0B3C852C30DD55002EB1A3 /* Pretendard-Medium.otf */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -361,6 +370,8 @@
 			files = (
 				0B20F3E62C2C4DAB00F8D62D /* Assets.xcassets in Resources */,
 				0B20F3E92C2C4DAB00F8D62D /* Base in Resources */,
+				2C0B3C862C30DD55002EB1A3 /* Pretendard-Medium.otf in Resources */,
+				2C0B3C882C30DD5B002EB1A3 /* Pretendard-SemiBold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,6 +382,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C0B3C822C30DB56002EB1A3 /* UIFont+.swift in Sources */,
 				0BFCC5EE2C2F850400B5E0DB /* UIView+.swift in Sources */,
 				0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */,
 				0BFCC5CF2C2E8DAE00B5E0DB /* BaseTargetType.swift in Sources */,
