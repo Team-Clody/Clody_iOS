@@ -16,16 +16,10 @@ enum FontName {
 
     var rawValue: String {
         switch self {
-        case .head1, .head2, .head3, .head4:
-            return "Pretendard-SemiBold"
-        case .body1_semibold, .body2_semibold, .body3_semibold:
-            return "Pretendard-SemiBold"
-        case .body1_medium, .body2_medium, .body3_medium:
-            return "Pretendard-Medium"
-        case .detail1_semibold, .detail2_semibold:
-            return "Pretendard-SemiBold"
-        case .detail1_medium, .detail2_medium:
-            return "Pretendard-Medium"
+        case .head1, .head2, .head3, .head4, .body1_semibold, .body2_semibold, .body3_semibold, .detail1_semibold, .detail2_semibold:
+         return "Pretendard-SemiBold"
+        case .body1_medium, .body2_medium, .body3_medium, .detail1_medium, .detail2_medium:
+         return "Pretendard-Medium"
         }
     }
     
@@ -56,5 +50,17 @@ enum FontName {
 extension UIFont {
     static func pretendard(_ style: FontName) -> UIFont {
         return UIFont(name: style.rawValue, size: style.size)!
+    }
+    
+    static func pretendardAttributedString(text: String, style: FontName) -> NSAttributedString {
+        let font = UIFont.pretendard(style)
+        let letterSpacing = -0.003 * style.size
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .kern: letterSpacing
+        ]
+        
+        return NSAttributedString(string: text, attributes: attributes)
     }
 }
