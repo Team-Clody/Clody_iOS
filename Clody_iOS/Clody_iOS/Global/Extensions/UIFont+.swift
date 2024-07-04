@@ -10,16 +10,19 @@ import UIKit
 enum FontName {
     case head1, head2, head3, head4, head5
     case body1_semibold, body2_semibold, body3_semibold
-    case body1_medium, body2_medium, body3_medium
+    case body1_medium, body2_medium, body3_medium, body4_medium
     case detail1_semibold, detail2_semibold
     case detail1_medium, detail2_medium
+    case detail2_help
 
     var rawValue: String {
         switch self {
         case .head1, .head2, .head3, .head4, .head5, .body1_semibold, .body2_semibold, .body3_semibold, .detail1_semibold, .detail2_semibold:
-         return "Pretendard-SemiBold"
-        case .body1_medium, .body2_medium, .body3_medium, .detail1_medium, .detail2_medium:
-         return "Pretendard-Medium"
+            return "Pretendard-SemiBold"
+        case .body1_medium, .body2_medium, .body3_medium, .body4_medium, .detail1_medium, .detail2_medium:
+            return "Pretendard-Medium"
+        case .detail2_help:
+            return "Pretendard-Regular"
         }
     }
     
@@ -37,11 +40,11 @@ enum FontName {
             return 16
         case .body1_semibold, .body1_medium:
             return 15
-        case .body2_semibold, .body2_medium:
+        case .body2_semibold, .body2_medium, .body4_medium:
             return 14
         case .body3_semibold, .body3_medium:
             return 13
-        case .detail1_semibold, .detail1_medium:
+        case .detail1_semibold, .detail1_medium, .detail2_help:
             return 12
         case .detail2_semibold, .detail2_medium:
             return 10
