@@ -33,6 +33,7 @@
 		2C0B3C822C30DB56002EB1A3 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */; };
 		2C0B3C862C30DD55002EB1A3 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2C0B3C852C30DD55002EB1A3 /* Pretendard-Medium.otf */; };
 		2C0B3C882C30DD5B002EB1A3 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2C0B3C872C30DD5B002EB1A3 /* Pretendard-SemiBold.otf */; };
+		2CE3AB2F2C36E9F50042085A /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		2C0B3C852C30DD55002EB1A3 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		2C0B3C872C30DD5B002EB1A3 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 		0BFCC5C62C2E8C9C00B5E0DB /* Font */ = {
 			isa = PBXGroup;
 			children = (
+				2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */,
 				2C0B3C872C30DD5B002EB1A3 /* Pretendard-SemiBold.otf */,
 				2C0B3C852C30DD55002EB1A3 /* Pretendard-Medium.otf */,
 			);
@@ -376,6 +379,7 @@
 			files = (
 				0B20F3E62C2C4DAB00F8D62D /* Assets.xcassets in Resources */,
 				0B20F3E92C2C4DAB00F8D62D /* Base in Resources */,
+				2CE3AB2F2C36E9F50042085A /* Pretendard-Regular.otf in Resources */,
 				2C0B3C862C30DD55002EB1A3 /* Pretendard-Medium.otf in Resources */,
 				2C0B3C882C30DD5B002EB1A3 /* Pretendard-SemiBold.otf in Resources */,
 			);
