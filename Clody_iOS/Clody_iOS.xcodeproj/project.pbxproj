@@ -12,6 +12,7 @@
 		0B20F3E12C2C4DAA00F8D62D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B20F3E02C2C4DAA00F8D62D /* ViewController.swift */; };
 		0B20F3E62C2C4DAB00F8D62D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */; };
 		0B20F3E92C2C4DAB00F8D62D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 0B20F3E82C2C4DAB00F8D62D /* Base */; };
+		0BCD4FA52C363C90006390D2 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 0BCD4FA42C363C90006390D2 /* FirebaseMessaging */; };
 		0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A52C2E843C00B5E0DB /* FSCalendar */; };
 		0BFCC5A92C2E847300B5E0DB /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A82C2E847300B5E0DB /* Moya */; };
 		0BFCC5AC2C2E864C00B5E0DB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5AB2C2E864C00B5E0DB /* SnapKit */; };
@@ -62,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BCD4FA52C363C90006390D2 /* FirebaseMessaging in Frameworks */,
 				0BFCC5B22C2E86EF00B5E0DB /* Lottie in Frameworks */,
 				0BFCC5B92C2E892300B5E0DB /* RxBlocking in Frameworks */,
 				0BFCC5AC2C2E864C00B5E0DB /* SnapKit in Frameworks */,
@@ -319,6 +321,7 @@
 				0BFCC5B82C2E892300B5E0DB /* RxBlocking */,
 				0BFCC5BA2C2E892300B5E0DB /* RxCocoa */,
 				0BFCC5BC2C2E892300B5E0DB /* RxRelay */,
+				0BCD4FA42C363C90006390D2 /* FirebaseMessaging */,
 			);
 			productName = Clody_iOS;
 			productReference = 0B20F3D92C2C4DAA00F8D62D /* Clody_iOS.app */;
@@ -355,6 +358,7 @@
 				0BFCC5AD2C2E865B00B5E0DB /* XCRemoteSwiftPackageReference "Then" */,
 				0BFCC5B02C2E86EF00B5E0DB /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				0BFCC5B72C2E892300B5E0DB /* XCRemoteSwiftPackageReference "RxSwift" */,
+				0BCD4FA32C363C90006390D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 0B20F3DA2C2C4DAA00F8D62D /* Products */;
 			projectDirPath = "";
@@ -553,7 +557,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Clody.Clody;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -582,7 +586,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Clody.Clody;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -615,6 +619,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0BCD4FA32C363C90006390D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.28.1;
+			};
+		};
 		0BFCC5A42C2E843C00B5E0DB /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/WenchaoD/FSCalendar";
@@ -666,6 +678,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0BCD4FA42C363C90006390D2 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BCD4FA32C363C90006390D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
 		0BFCC5A52C2E843C00B5E0DB /* FSCalendar */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0BFCC5A42C2E843C00B5E0DB /* XCRemoteSwiftPackageReference "FSCalendar" */;
