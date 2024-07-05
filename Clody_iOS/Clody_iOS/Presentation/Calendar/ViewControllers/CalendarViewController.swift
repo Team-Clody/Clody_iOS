@@ -64,7 +64,7 @@ private extension CalendarViewController {
     }
     
     func registerCells() {
-        rootView.calendarCollectionView.register(CalendarCollectionView.self, forCellWithReuseIdentifier: CalendarCollectionView.description())
+        rootView.calendarCollectionView.register(CalendarCollectionViewCell.self, forCellWithReuseIdentifier: CalendarCollectionViewCell.description())
         rootView.calendarCollectionView.register(DailyCalendarCollectionViewCell.self, forCellWithReuseIdentifier: DailyCalendarCollectionViewCell.description())
         
         rootView.calendarCollectionView.register(DailyCalendarHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: DailyCalendarHeaderView.description())
@@ -90,8 +90,8 @@ extension CalendarViewController: UICollectionViewDataSource {
         
         switch indexPath.section {
         case 0:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionView.description(), for: indexPath)
-                    as? CalendarCollectionView else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.description(), for: indexPath)
+                    as? CalendarCollectionViewCell else { return UICollectionViewCell() }
             
             return cell
             
@@ -126,7 +126,7 @@ extension CalendarViewController: UICollectionViewDataSource {
     
 }
 
-extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
+extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource {
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
 

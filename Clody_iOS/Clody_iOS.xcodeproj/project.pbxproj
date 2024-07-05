@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B17F8032C368447008A9998 /* CalendarCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B17F8022C368447008A9998 /* CalendarCollectionView.swift */; };
+		0B17F8032C368447008A9998 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B17F8022C368447008A9998 /* CalendarCollectionViewCell.swift */; };
 		0B17F8052C368465008A9998 /* DailyCalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B17F8042C368465008A9998 /* DailyCalendarCollectionViewCell.swift */; };
 		0B17F8072C368F5B008A9998 /* DailyCalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B17F8062C368F5B008A9998 /* DailyCalendarHeaderView.swift */; };
 		0B20F3DD2C2C4DAA00F8D62D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B20F3DC2C2C4DAA00F8D62D /* AppDelegate.swift */; };
@@ -41,7 +41,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0B17F8022C368447008A9998 /* CalendarCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionView.swift; sourceTree = "<group>"; };
+		0B17F8022C368447008A9998 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
 		0B17F8042C368465008A9998 /* DailyCalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCalendarCollectionViewCell.swift; sourceTree = "<group>"; };
 		0B17F8062C368F5B008A9998 /* DailyCalendarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCalendarHeaderView.swift; sourceTree = "<group>"; };
 		0B20F3D92C2C4DAA00F8D62D /* Clody_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clody_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -296,7 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				0BFCC5E22C2E8F5400B5E0DB /* CalenderDateCell.swift */,
-				0B17F8022C368447008A9998 /* CalendarCollectionView.swift */,
+				0B17F8022C368447008A9998 /* CalendarCollectionViewCell.swift */,
 				0B17F8042C368465008A9998 /* DailyCalendarCollectionViewCell.swift */,
 				0B17F8062C368F5B008A9998 /* DailyCalendarHeaderView.swift */,
 			);
@@ -428,7 +428,7 @@
 				0B20F3E12C2C4DAA00F8D62D /* ViewController.swift in Sources */,
 				0B20F3DD2C2C4DAA00F8D62D /* AppDelegate.swift in Sources */,
 				0BFCC5F32C306D3B00B5E0DB /* String.swift in Sources */,
-				0B17F8032C368447008A9998 /* CalendarCollectionView.swift in Sources */,
+				0B17F8032C368447008A9998 /* CalendarCollectionViewCell.swift in Sources */,
 				0BFCC5E12C2E8F2800B5E0DB /* CalendarView.swift in Sources */,
 				0B17F8052C368465008A9998 /* DailyCalendarCollectionViewCell.swift in Sources */,
 				0BFCC5F02C2F852D00B5E0DB /* UIStackView+.swift in Sources */,
