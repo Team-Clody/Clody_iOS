@@ -20,6 +20,9 @@ final class CalendarViewController: UIViewController {
     private let viewModel = CalendarViewModel()
     private let disposeBag = DisposeBag()
     
+    private let tapDateRelay = PublishRelay<Date>()
+    private let currentPageRelay = PublishRelay<Date>()
+    
     // MARK: - UI Components
      
     private let rootView = CalendarView()
@@ -48,9 +51,14 @@ final class CalendarViewController: UIViewController {
 private extension CalendarViewController {
 
     func bindViewModel() {
-//        viewModel.isLoginButtonEnabled
-//            .bind(to: loginButton.rx.isEnabled)
-//            .disposed(by: disposeBag)
+        let input = CalendarViewModel.Input(
+            viewDidLoad: Observable.just(()),
+            tapDateCell: tapDateRelay.asSignal(),
+            tapResponseButton: rootView.calenderButton.rx.tap.asSignal(),
+            currentPageChanged: currentPageRelay.asSignal()
+        )
+        
+        let output = viewModel.transform(from: input, disposeBag: disposeBag)
     }
 
     func setUI() { // 탭바, 내비바, 그외 ...
@@ -93,12 +101,14 @@ extension CalendarViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.description(), for: indexPath)
                     as? CalendarCollectionViewCell else { return UICollectionViewCell() }
             
+            cell.configure(data: viewModel.calendarDummyDataRelay.value)
             return cell
             
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyCalendarCollectionViewCell.description(), for: indexPath)
                     as? DailyCalendarCollectionViewCell else { return UICollectionViewCell() }
             
+            cell.bindData(data: viewModel.dailyDiaryDummyDataRelay.value.diary[0])
             return cell
         default:
             return UICollectionViewCell()
@@ -126,16 +136,4 @@ extension CalendarViewController: UICollectionViewDataSource {
     
 }
 
-extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource {
-    
-    func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
 
-        guard let cell = calendar.dequeueReusableCell(withIdentifier: CalenderDateCell.description(), for: date, at: position) as? CalenderDateCell else { return FSCalendarCell() }
-        
-        return cell
-    }
-    
-    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
-        return .black
-    }
-}

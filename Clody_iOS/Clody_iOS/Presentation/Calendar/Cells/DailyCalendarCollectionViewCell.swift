@@ -73,6 +73,10 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
             $0.leading.equalTo(listNumberLabel.snp.trailing).offset(9)
         }
     }
+    
+    func bindData(data: String) {
+        diaryTextLabel.text = data
+    }
 }
 
 
