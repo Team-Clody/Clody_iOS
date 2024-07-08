@@ -67,13 +67,6 @@ final class CalendarViewModel: CalendarViewModelType {
             })
             .disposed(by: disposeBag)
         
-        input.currentPageChanged
-            .emit(onNext: { [weak self] date in
-                guard let self = self else { return }
-                self.loadDummyData(for: date)
-            })
-            .disposed(by: disposeBag)
-        
         let cellText = calendarDummyDataRelay
             .map { $0.cellData.first?.date ?? "No Data" }
             .asDriver(onErrorJustReturn: "Error")

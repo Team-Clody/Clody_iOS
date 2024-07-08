@@ -139,6 +139,7 @@ extension CalendarViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyCalendarCollectionViewCell.description(), for: indexPath)
                     as? DailyCalendarCollectionViewCell else { return UICollectionViewCell() }
             
+            cell.bindData(data: viewModel.dailyDiaryDummyDataRelay.value.diary[indexPath.item], index: "\(indexPath.item + 1).")
             print(indexPath.item)
             return cell
         default:

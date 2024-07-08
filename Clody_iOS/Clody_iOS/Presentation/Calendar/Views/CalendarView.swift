@@ -134,35 +134,39 @@ class CalendarView: UIView {
 
     
     func createDailyCalendarSection() -> NSCollectionLayoutSection {
-        let itemFractionalWidthFraction = 1.0
-        let itemInset: CGFloat = 8
-        
-        // item
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                              heightDimension: .absolute(66))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: itemInset,
-                                                     leading: itemInset,
-                                                     bottom: itemInset,
-                                                     trailing: itemInset)
-        
-        // group
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(1)
-        )
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        
-        // section
-        let section = NSCollectionLayoutSection(group: group)
-        
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(54))
-        let header = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top
-        )
-        section.boundarySupplementaryItems = [header]
-        return section
-    }
+           let itemInset: CGFloat = 8
+           
+           // item
+           let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                 heightDimension: .estimated(66))
+           let item = NSCollectionLayoutItem(layoutSize: itemSize)
+           item.contentInsets = NSDirectionalEdgeInsets(top: itemInset,
+                                                        leading: itemInset,
+                                                        bottom: itemInset,
+                                                        trailing: itemInset)
+           
+           // group
+           let groupSize = NSCollectionLayoutSize(
+               widthDimension: .fractionalWidth(1),
+               heightDimension: .estimated(66)
+           )
+           let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+           
+           // section
+           let section = NSCollectionLayoutSection(group: group)
+           section.contentInsets = NSDirectionalEdgeInsets(top: itemInset,
+                                                           leading: itemInset,
+                                                           bottom: itemInset,
+                                                           trailing: itemInset)
+           section.interGroupSpacing = 8
+           
+           let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(54))
+           let header = NSCollectionLayoutBoundarySupplementaryItem(
+               layoutSize: headerSize,
+               elementKind: UICollectionView.elementKindSectionHeader,
+               alignment: .top
+           )
+           section.boundarySupplementaryItems = [header]
+           return section
+       }
 }

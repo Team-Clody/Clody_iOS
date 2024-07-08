@@ -18,7 +18,7 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
     
     private let listContainerView = UIView()
     private let listNumberLabel = UILabel()
-    private let diaryTextLabel = UILabel()
+    let diaryTextLabel = UILabel()
     
     
     override init(frame: CGRect) {
@@ -28,7 +28,7 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
         setHierarchy()
         setLayout()
     }
-
+    
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -47,8 +47,9 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
         }
         
         diaryTextLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "마지막 세미나에 참석할 수 있어 감사해", style: .body2_semibold)
+            $0.attributedText = UIFont.pretendardString(text: "마지막이라 감사해. 정말~어쩌구, 2. 마지막이라 감사해. 정말~어쩌구,마지막이라 감사해. 정말~어쩌구, 마지막이라 감사해. 정말~어쩌구,", style: .body2_semibold)
             $0.textColor = .grey03
+            $0.numberOfLines = 0
         }
     }
     
@@ -71,11 +72,14 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
         diaryTextLabel.snp.makeConstraints {
             $0.top.equalTo(listNumberLabel.snp.top)
             $0.leading.equalTo(listNumberLabel.snp.trailing).offset(9)
+            $0.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(17)
         }
     }
     
-    func bindData(data: String) {
+    func bindData(data: String, index: String) {
         diaryTextLabel.text = data
+        listNumberLabel.text = index
     }
 }
 
