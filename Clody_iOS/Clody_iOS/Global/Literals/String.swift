@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+enum I18N {
+    
+    enum Common {
+        static let year = "년"
+        static let month = "월"
+    }
+}
