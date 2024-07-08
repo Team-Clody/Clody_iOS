@@ -68,6 +68,25 @@ private extension CalendarViewController {
                 }
             })
             .disposed(by: disposeBag)
+        
+        output.selectedDate
+            .drive(onNext: { [weak self] dateString in
+                self?.rootView.calendarCollectionView.reloadData()
+                }
+            )
+            .disposed(by: disposeBag)
+        
+        output.responseButtonStatus
+            .drive(onNext: { status in
+                print("Response Button Status: \(status)")
+            })
+            .disposed(by: disposeBag)
+        
+        rootView.calenderButton.rx.tap
+            .bind { [weak self] in
+                self?.viewModel.responseButtonStatusRelay.accept(self?.viewModel.dailyDiaryDummyDataRelay.value.status ?? "")
+            }
+            .disposed(by: disposeBag)
     }
 
     func setUI() { // 탭바, 내비바, 그외 ...
@@ -120,7 +139,6 @@ extension CalendarViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyCalendarCollectionViewCell.description(), for: indexPath)
                     as? DailyCalendarCollectionViewCell else { return UICollectionViewCell() }
             
-            cell.bindData(data: viewModel.dailyDiaryDummyDataRelay.value.diary[indexPath.item])
             print(indexPath.item)
             return cell
         default:
@@ -135,7 +153,7 @@ extension CalendarViewController: UICollectionViewDataSource {
             switch indexPath.section {
             case 1:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: DailyCalendarHeaderView.description(), for: indexPath) as? DailyCalendarHeaderView else { return UICollectionReusableView() }
-                header.setDate(date: viewModel.dailyDiaryDummyDataRelay.value.date)
+
                 return header
                 
             default:

@@ -32,12 +32,14 @@ final class CalendarViewModel: CalendarViewModelType {
         let dateLabel: Driver<String>
         let diaryText: Driver<String>
         let selectedDate: Driver<String>
+        let responseButtonStatus: Driver<String>
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
     let statusRelay = BehaviorRelay<Int>(value: 0)
     let calendarDummyDataRelay = BehaviorRelay<CalendarModel>(value: CalendarModel(month: "", cellData: [CalendarCellModel(date: "", cloverStatus: "")]))
     let dailyDiaryDummyDataRelay = BehaviorRelay<CalendarDailyModel>(value: CalendarDailyModel(date: "", status: "", diary: []))
+    let responseButtonStatusRelay = BehaviorRelay<String>(value: "")
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
@@ -59,8 +61,9 @@ final class CalendarViewModel: CalendarViewModelType {
             .disposed(by: disposeBag)
         
         input.tapResponseButton
-            .emit(onNext: { [weak self] date in
-                self?.dailyDiaryDummyDataRelay.value.status
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.responseButtonStatusRelay.accept(self.dailyDiaryDummyDataRelay.value.status)
             })
             .disposed(by: disposeBag)
         
@@ -97,12 +100,15 @@ final class CalendarViewModel: CalendarViewModelType {
             }
             .asDriver(onErrorJustReturn: "Error")
         
+        let responseButtonStatus = responseButtonStatusRelay.asDriver(onErrorJustReturn: "")
+        
         return Output(
             cellText: cellText,
             cellStatus: cellStatus,
             dateLabel: dateLabel,
             diaryText: diaryText,
-            selectedDate: selectedDate
+            selectedDate: selectedDate,
+            responseButtonStatus: responseButtonStatus
         )
         
     }
