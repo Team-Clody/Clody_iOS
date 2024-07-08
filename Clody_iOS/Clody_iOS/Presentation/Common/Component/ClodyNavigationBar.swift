@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-enum NavigationType {
+enum NavigationBarType {
     case normal
     case calendar
     case list
@@ -112,7 +112,7 @@ class ClodyNavigationBar: UIView {
     
     // MARK: - Properties
     
-    private var type: NavigationType
+    private let type: NavigationBarType
     private var includedComponents: [UIView] = []
     
     var titleText: String = "" {
@@ -135,7 +135,7 @@ class ClodyNavigationBar: UIView {
     
     // MARK: - Life Cycles
     
-    init(type: NavigationType) {
+    init(type: NavigationBarType) {
         self.type = type
         super.init(frame: .zero)
         setStyle()
@@ -154,7 +154,7 @@ class ClodyNavigationBar: UIView {
         }
     }
     
-    convenience init(type: NavigationType, date: String) {
+    convenience init(type: NavigationBarType, date: String) {
         self.init(type: type)
         
         defer {
@@ -162,7 +162,7 @@ class ClodyNavigationBar: UIView {
         }
     }
     
-    convenience init(type: NavigationType, title: String) {
+    convenience init(type: NavigationBarType, title: String) {
         self.init(type: type)
         
         defer {
@@ -174,6 +174,8 @@ class ClodyNavigationBar: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+// MARK: - Extensions
 
 private extension ClodyNavigationBar {
     
