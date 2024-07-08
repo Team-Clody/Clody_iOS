@@ -59,7 +59,7 @@ final class DailyCalendarHeaderView: UICollectionReusableView {
         
         dateLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20)
-            $0.leading.equalToSuperview().inset(25)
+            $0.leading.equalToSuperview()
         }
         
         dayLabel.snp.makeConstraints {
@@ -69,7 +69,7 @@ final class DailyCalendarHeaderView: UICollectionReusableView {
         
         kebabButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
-            $0.trailing.equalToSuperview().inset(24)
+            $0.trailing.equalToSuperview()
         }
     }
     

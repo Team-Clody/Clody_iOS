@@ -71,15 +71,15 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
         
         diaryTextLabel.snp.makeConstraints {
             $0.top.equalTo(listNumberLabel.snp.top)
-            $0.leading.equalTo(listNumberLabel.snp.trailing).offset(9)
+            $0.leading.equalToSuperview().inset(35)
             $0.trailing.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(17)
         }
     }
     
     func bindData(data: String, index: String) {
-        diaryTextLabel.text = data
         listNumberLabel.text = index
+        diaryTextLabel.text = data
     }
 }
 

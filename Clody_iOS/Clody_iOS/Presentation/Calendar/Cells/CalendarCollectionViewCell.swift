@@ -17,6 +17,7 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
     
     var dateCellData: CalendarModel = CalendarModel(month: "", cellData: [])
     var dateSelected: ((Date) -> Void)?
+    var selectedDate: String = DateFormatter.string(from: Date(), format: "yyyy-MM-dd")
     
     // MARK: - UI Componets
     
@@ -66,7 +67,7 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
             $0.headerHeight = 0
             $0.weekdayHeight = 50
             $0.rowHeight = 71
-//            $0.scrollEnabled = false
+            //            $0.scrollEnabled = false
             
             $0.appearance.weekdayFont = .pretendard(.body3_medium)
             $0.appearance.weekdayTextColor = .grey06
@@ -87,7 +88,7 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
         
         cloverContinerView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(12)
-            $0.trailing.equalToSuperview().inset(24)
+            $0.trailing.equalToSuperview()
             $0.width.equalTo(83)
             $0.height.equalTo(26)
         }
@@ -97,7 +98,7 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
         }
         
         calendarView.snp.makeConstraints {
-            $0.top.equalTo(cloverContinerView.snp.bottom)
+            $0.top.equalTo(cloverContinerView.snp.bottom).offset(5)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
@@ -106,9 +107,10 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
 
 extension CalendarCollectionViewCell {
     
-    func configure(data: CalendarModel) {
+    func configure(data: CalendarModel, date: String) {
         self.dateCellData = data
-        calendarView.reloadData()
+        self.selectedDate = date
+//        self.calendarView.reloadData()
     }
 }
 
@@ -123,13 +125,19 @@ extension CalendarCollectionViewCell: FSCalendarDelegate, FSCalendarDataSource, 
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let dateString = dateFormatter.string(from: date)
         
-        print(dateCellData.cellData.first ?? "")
         if let dateForBind = dateCellData.cellData.first(where: { $0.date == dateString }) {
-            cell.configure(data: dateForBind)
+            var dateStatus = CalendarCellState.normal
+            if dateString == selectedDate {
+                dateStatus = .selected
+            } else if dateString == DateFormatter.string(from: Date(), format: "yyyy-MM-dd") {
+                dateStatus = .today
+            }
+            cell.configure(data: dateForBind, dateStatus: dateStatus)
         } else {
-            cell.configure(data: CalendarCellModel(date: "", cloverStatus: ""))
+            cell.configure(data: CalendarCellModel(date: "", cloverStatus: ""), dateStatus: .normal)
             print("error", dateCellData.cellData.first?.date ?? "nil", dateString)
         }
+        
         return cell
     }
     

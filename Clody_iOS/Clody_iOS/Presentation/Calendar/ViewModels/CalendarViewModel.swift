@@ -27,16 +27,12 @@ final class CalendarViewModel: CalendarViewModelType {
     }
     
     struct Output {
-        let cellText: Driver<String>
-        let cellStatus: Driver<String>
         let dateLabel: Driver<String>
-        let diaryText: Driver<String>
         let selectedDate: Driver<String>
         let responseButtonStatus: Driver<String>
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
-    let statusRelay = BehaviorRelay<Int>(value: 0)
     let calendarDummyDataRelay = BehaviorRelay<CalendarModel>(value: CalendarModel(month: "", cellData: [CalendarCellModel(date: "", cloverStatus: "")]))
     let dailyDiaryDummyDataRelay = BehaviorRelay<CalendarDailyModel>(value: CalendarDailyModel(date: "", status: "", diary: []))
     let responseButtonStatusRelay = BehaviorRelay<String>(value: "")
@@ -67,23 +63,11 @@ final class CalendarViewModel: CalendarViewModelType {
             })
             .disposed(by: disposeBag)
         
-        let cellText = calendarDummyDataRelay
-            .map { $0.cellData.first?.date ?? "No Data" }
-            .asDriver(onErrorJustReturn: "Error")
-        
-        let cellStatus = calendarDummyDataRelay
-            .map { $0.cellData.first?.cloverStatus ?? "No Status" }
-            .asDriver(onErrorJustReturn: "Error")
-        
         let dateLabel = selectedDateRelay
             .map { date -> String in
-                let dateSelected = DateFormatter.string(from: date, format: "M.dd")
+                let dateSelected = DateFormatter.string(from: date, format: "M.d")
                 return dateSelected
             }
-            .asDriver(onErrorJustReturn: "Error")
-        
-        let diaryText = dailyDiaryDummyDataRelay
-            .map { $0.diary.isEmpty ? "No Diary" : $0.diary.joined(separator: "\n") }
             .asDriver(onErrorJustReturn: "Error")
         
         let selectedDate = selectedDateRelay
@@ -96,10 +80,7 @@ final class CalendarViewModel: CalendarViewModelType {
         let responseButtonStatus = responseButtonStatusRelay.asDriver(onErrorJustReturn: "")
         
         return Output(
-            cellText: cellText,
-            cellStatus: cellStatus,
             dateLabel: dateLabel,
-            diaryText: diaryText,
             selectedDate: selectedDate,
             responseButtonStatus: responseButtonStatus
         )
@@ -110,9 +91,7 @@ final class CalendarViewModel: CalendarViewModelType {
 extension CalendarViewModel {
     
     private func loadDummyData(for date: Date) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM"
-        let monthString = dateFormatter.string(from: date)
+        let monthString = DateFormatter.string(from: date, format: "yyyy-MM")
         let calendarData = CalendarModel.dummy(monthString: monthString)
         self.calendarDummyDataRelay.accept(calendarData)
         
@@ -122,9 +101,7 @@ extension CalendarViewModel {
     }
     
     private func loadDailyDummyData(for date: Date) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let dateString = dateFormatter.string(from: date)
+        let dateString = DateFormatter.string(from: date, format: "yyyy-MM-dd")
         let dailyData = CalendarDailyModel.dummy(dateString: dateString)
         self.dailyDiaryDummyDataRelay.accept(dailyData)
     }

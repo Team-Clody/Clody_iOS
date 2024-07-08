@@ -16,7 +16,7 @@ final class CalenderDateCell: FSCalendarCell {
     private var cloverImageView = UIImageView()
     var clendarDateLabel = UILabel()
     private let newImageView = UIImageView()
-    private let backgroundSelectView = UIView()
+    let backgroundSelectView = UIView()
     
     
     
@@ -40,7 +40,7 @@ final class CalenderDateCell: FSCalendarCell {
     func setStyle() {
         
         cloverImageView.do {
-            $0.image = .cloverNone
+            $0.image = .clover1
             $0.contentMode = .scaleAspectFit
         }
         
@@ -56,6 +56,7 @@ final class CalenderDateCell: FSCalendarCell {
         
         backgroundSelectView.do {
             $0.backgroundColor = .grey02
+            $0.isHidden = true
             $0.layer.cornerRadius = 8
         }
     }
@@ -65,10 +66,9 @@ final class CalenderDateCell: FSCalendarCell {
         contentView.addSubviews(
             cloverImageView,
             newImageView,
-            backgroundSelectView
+            backgroundSelectView,
+            clendarDateLabel
         )
-        
-        backgroundSelectView.addSubview(clendarDateLabel)
     }
     
     func setLayout() {
@@ -94,17 +94,26 @@ final class CalenderDateCell: FSCalendarCell {
         }
         
         clendarDateLabel.snp.makeConstraints {
-            $0.center.equalTo(backgroundSelectView)
+            $0.centerX.equalTo(backgroundSelectView)
+            $0.top.equalTo(cloverImageView.snp.bottom).offset(5)
         }
     }
 }
 
 extension CalenderDateCell {
     
-    func configure(data: CalendarCellModel) {
-        
+    func configure(data: CalendarCellModel, dateStatus: CalendarCellState) {
+        print(dateStatus)
         self.cloverImageView.image = UIImage(named: "clover\(data.cloverStatus)")
         let label = DateFormatter.date(from: data.date)
         self.clendarDateLabel.text = DateFormatter.string(from: label ?? Date(), format: "d")
+        switch dateStatus {
+        case .today:
+            self.clendarDateLabel.textColor = .red
+        case .selected:
+            self.cloverImageView.isHidden = false
+        case .normal:
+            break
+        }
     }
 }

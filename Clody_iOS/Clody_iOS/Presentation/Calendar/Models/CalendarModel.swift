@@ -58,7 +58,7 @@ extension CalendarModel {
             let dateFormatterForDay = DateFormatter()
             dateFormatterForDay.dateFormat = "yyyy-MM-dd"
             let dateString = dateFormatterForDay.string(from: date)
-            let cloverStatus = day % 2 == 0 ? "1" : "2" // 짝수 날은 "1", 홀수 날은 "0"
+            let cloverStatus = day % 2 == 0 ? "1" : "2"
             let cellModel = CalendarCellModel(date: dateString, cloverStatus: cloverStatus)
             
             cellData.append(cellModel)

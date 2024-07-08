@@ -13,6 +13,12 @@ import RxSwift
 import SnapKit
 import Then
 
+enum CalendarCellState {
+    case today
+    case selected
+    case normal
+}
+
 final class CalendarViewController: UIViewController {
     
     // MARK: - Properties
@@ -38,11 +44,9 @@ final class CalendarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        bindViewModel()
-        setUI()
-        setAddTarget()
         registerCells()
         setDelegate()
+        bindViewModel()
     }
 }
 
@@ -72,13 +76,14 @@ private extension CalendarViewController {
         output.selectedDate
             .drive(onNext: { [weak self] dateString in
                 self?.rootView.calendarCollectionView.reloadData()
-                }
+            }
             )
             .disposed(by: disposeBag)
         
         output.responseButtonStatus
             .drive(onNext: { status in
-                print("Response Button Status: \(status)")
+                print("Status: \(status)")
+                // 이후 status에 따른 분기 처리
             })
             .disposed(by: disposeBag)
         
@@ -88,15 +93,9 @@ private extension CalendarViewController {
             }
             .disposed(by: disposeBag)
     }
-
-    func setUI() { // 탭바, 내비바, 그외 ...
-    }
     
     func setDelegate() {
         rootView.calendarCollectionView.dataSource = self
-    }
-    
-    func setAddTarget() {
     }
     
     func registerCells() {
@@ -129,18 +128,22 @@ extension CalendarViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.description(), for: indexPath)
                     as? CalendarCollectionViewCell else { return UICollectionViewCell() }
             
-            cell.configure(data: viewModel.calendarDummyDataRelay.value)
+            cell.configure(data: viewModel.calendarDummyDataRelay.value, date: viewModel.dailyDiaryDummyDataRelay.value.date)
             cell.dateSelected = { [weak self] date in
                 self?.tapDateRelay.accept(date)
             }
+        
             return cell
             
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyCalendarCollectionViewCell.description(), for: indexPath)
                     as? DailyCalendarCollectionViewCell else { return UICollectionViewCell() }
             
-            cell.bindData(data: viewModel.dailyDiaryDummyDataRelay.value.diary[indexPath.item], index: "\(indexPath.item + 1).")
-            print(indexPath.item)
+            cell.bindData(
+                data: viewModel.dailyDiaryDummyDataRelay.value.diary[indexPath.item],
+                index: "\(indexPath.item + 1)."
+            )
+    
             return cell
         default:
             return UICollectionViewCell()
@@ -154,7 +157,7 @@ extension CalendarViewController: UICollectionViewDataSource {
             switch indexPath.section {
             case 1:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: DailyCalendarHeaderView.description(), for: indexPath) as? DailyCalendarHeaderView else { return UICollectionReusableView() }
-
+                
                 return header
                 
             default:
