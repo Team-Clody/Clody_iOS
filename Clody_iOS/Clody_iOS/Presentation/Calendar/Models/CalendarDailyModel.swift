@@ -9,6 +9,7 @@ import Foundation
 
 struct CalendarDailyModel {
     let date: String
+    let status: String
     let diary: [String]
 }
 
@@ -28,6 +29,8 @@ extension CalendarDailyModel {
             possibleDiaries.randomElement()!
         }
         
-        return CalendarDailyModel(date: dateString, diary: diaries)
+        let status = "\(Int.random(in: 0...3))"
+        
+        return CalendarDailyModel(date: dateString, status: status, diary: diaries)
     }
 }

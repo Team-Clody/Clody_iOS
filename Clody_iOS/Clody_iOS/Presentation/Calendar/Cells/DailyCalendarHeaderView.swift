@@ -72,4 +72,8 @@ final class DailyCalendarHeaderView: UICollectionReusableView {
             $0.trailing.equalToSuperview().inset(24)
         }
     }
+    
+    func setDate(date: String) {
+        dateLabel.text = date
+    }
 }

@@ -37,7 +37,7 @@ final class CalendarViewModel: CalendarViewModelType {
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
     let statusRelay = BehaviorRelay<Int>(value: 0)
     let calendarDummyDataRelay = BehaviorRelay<CalendarModel>(value: CalendarModel(month: "", cellData: [CalendarCellModel(date: "", cloverStatus: "")]))
-    let dailyDiaryDummyDataRelay = BehaviorRelay<CalendarDailyModel>(value: CalendarDailyModel(date: "", diary: []))
+    let dailyDiaryDummyDataRelay = BehaviorRelay<CalendarDailyModel>(value: CalendarDailyModel(date: "", status: "", diary: []))
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
@@ -60,7 +60,7 @@ final class CalendarViewModel: CalendarViewModelType {
         
         input.tapResponseButton
             .emit(onNext: { [weak self] date in
-
+                self?.dailyDiaryDummyDataRelay.value.status
             })
             .disposed(by: disposeBag)
         
@@ -81,9 +81,8 @@ final class CalendarViewModel: CalendarViewModelType {
         
         let dateLabel = selectedDateRelay
             .map { date -> String in
-                let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy-MM-dd"
-                return formatter.string(from: date)
+                let dateSelected = DateFormatter.string(from: date, format: "M.dd")
+                return dateSelected
             }
             .asDriver(onErrorJustReturn: "Error")
         
@@ -93,9 +92,8 @@ final class CalendarViewModel: CalendarViewModelType {
         
         let selectedDate = selectedDateRelay
             .map { date -> String in
-                let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy-MM-dd"
-                return formatter.string(from: date)
+                let dateSelected = DateFormatter.string(from: date, format: "yyyy-MM-dd")
+                return dateSelected
             }
             .asDriver(onErrorJustReturn: "Error")
         

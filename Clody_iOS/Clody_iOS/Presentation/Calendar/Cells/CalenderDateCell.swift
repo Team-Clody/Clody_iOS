@@ -5,13 +5,6 @@
 //  Created by Seonwoo Kim on 6/28/24.
 //
 
-//
-//  CalenderDateCell.swift
-//  Clody_iOS
-//
-//  Created by Seonwoo Kim on 6/28/24.
-//
-
 import UIKit
 
 import FSCalendar
@@ -21,7 +14,7 @@ import Then
 final class CalenderDateCell: FSCalendarCell {
     
     private var cloverImageView = UIImageView()
-    private let clendarDateLabel = UILabel()
+    var clendarDateLabel = UILabel()
     private let newImageView = UIImageView()
     private let backgroundSelectView = UIView()
     

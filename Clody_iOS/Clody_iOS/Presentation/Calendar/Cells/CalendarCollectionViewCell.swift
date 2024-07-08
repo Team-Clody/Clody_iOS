@@ -16,6 +16,7 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     
     var dateCellData: CalendarModel = CalendarModel(month: "", cellData: [])
+    var dateSelected: ((Date) -> Void)?
     
     // MARK: - UI Componets
     
@@ -65,6 +66,7 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
             $0.headerHeight = 0
             $0.weekdayHeight = 50
             $0.rowHeight = 71
+//            $0.scrollEnabled = false
             
             $0.appearance.weekdayFont = .pretendard(.body3_medium)
             $0.appearance.weekdayTextColor = .grey06
@@ -132,8 +134,7 @@ extension CalendarCollectionViewCell: FSCalendarDelegate, FSCalendarDataSource, 
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        print(type(of: date))
-        print(date)
+        dateSelected?(date)
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {

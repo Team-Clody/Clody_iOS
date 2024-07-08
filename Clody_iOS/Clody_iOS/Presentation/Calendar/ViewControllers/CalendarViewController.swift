@@ -24,7 +24,7 @@ final class CalendarViewController: UIViewController {
     private let currentPageRelay = PublishRelay<Date>()
     
     // MARK: - UI Components
-     
+    
     private let rootView = CalendarView()
     
     // MARK: - Life Cycles
@@ -49,7 +49,7 @@ final class CalendarViewController: UIViewController {
 // MARK: - Extensions
 
 private extension CalendarViewController {
-
+    
     func bindViewModel() {
         let input = CalendarViewModel.Input(
             viewDidLoad: Observable.just(()),
@@ -59,6 +59,15 @@ private extension CalendarViewController {
         )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
+        
+        output.dateLabel
+            .drive(onNext: { [weak self] dateString in
+                guard let self = self else { return }
+                if let header = self.rootView.calendarCollectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: 1)) as? DailyCalendarHeaderView {
+                    header.setDate(date: dateString)
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
     func setUI() { // 탭바, 내비바, 그외 ...
@@ -88,7 +97,7 @@ extension CalendarViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 1:
-            return 5
+            return viewModel.dailyDiaryDummyDataRelay.value.diary.count
         default:
             return 1
         }
@@ -102,13 +111,17 @@ extension CalendarViewController: UICollectionViewDataSource {
                     as? CalendarCollectionViewCell else { return UICollectionViewCell() }
             
             cell.configure(data: viewModel.calendarDummyDataRelay.value)
+            cell.dateSelected = { [weak self] date in
+                self?.tapDateRelay.accept(date)
+            }
             return cell
             
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyCalendarCollectionViewCell.description(), for: indexPath)
                     as? DailyCalendarCollectionViewCell else { return UICollectionViewCell() }
             
-            cell.bindData(data: viewModel.dailyDiaryDummyDataRelay.value.diary[0])
+            cell.bindData(data: viewModel.dailyDiaryDummyDataRelay.value.diary[indexPath.item])
+            print(indexPath.item)
             return cell
         default:
             return UICollectionViewCell()
@@ -122,7 +135,7 @@ extension CalendarViewController: UICollectionViewDataSource {
             switch indexPath.section {
             case 1:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: DailyCalendarHeaderView.description(), for: indexPath) as? DailyCalendarHeaderView else { return UICollectionReusableView() }
-                
+                header.setDate(date: viewModel.dailyDiaryDummyDataRelay.value.date)
                 return header
                 
             default:
