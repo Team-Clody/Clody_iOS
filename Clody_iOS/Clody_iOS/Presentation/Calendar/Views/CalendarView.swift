@@ -25,7 +25,7 @@ final class CalendarView: UIView {
     private let dayLabel = UILabel()
     private lazy var kebabButton = UIButton()
     lazy var dailyDiaryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
-    lazy var calenderButton = UIButton()
+    lazy var calendarButton = UIButton()
     
     
     // MARK: - Life Cycles
@@ -55,7 +55,7 @@ final class CalendarView: UIView {
             $0.backgroundColor = .red
         }
         
-        calenderButton.do {
+        calendarButton.do {
             $0.makeCornerRound(radius: 10)
             $0.backgroundColor = .grey02
             $0.setAttributedTitle(UIFont.pretendardString(text: "답장 확인", style: .body1_semibold), for: .normal)
@@ -114,7 +114,7 @@ final class CalendarView: UIView {
     
     func setHierarchy() {
         
-        self.addSubviews(scrollView, calenderButton)
+        self.addSubviews(scrollView, calendarButton)
         scrollView.addSubview(contentView)
         
         contentView.addSubviews(
@@ -165,7 +165,7 @@ final class CalendarView: UIView {
             $0.height.equalTo(399)
         }
         
-        calenderButton.snp.makeConstraints {
+        calendarButton.snp.makeConstraints {
             $0.bottom.equalTo(safeAreaLayoutGuide).inset(5)
             $0.centerX.equalToSuperview()
             $0.horizontalEdges.equalTo(calendarView)

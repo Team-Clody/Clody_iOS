@@ -1,5 +1,5 @@
 //
-//  CalenderDateCell.swift
+//  CalendarDateCell.swift
 //  Clody_iOS
 //
 //  Created by Seonwoo Kim on 6/28/24.
@@ -11,7 +11,7 @@ import FSCalendar
 import SnapKit
 import Then
 
-final class CalenderDateCell: FSCalendarCell {
+final class CalendarDateCell: FSCalendarCell {
     
     // MARK: - UI Components
     
@@ -98,7 +98,7 @@ final class CalenderDateCell: FSCalendarCell {
     }
 }
 
-extension CalenderDateCell {
+extension CalendarDateCell {
     
     func configure(data: CalendarCellModel, dataStatus: CalendarCellState) {
         switch dataStatus {

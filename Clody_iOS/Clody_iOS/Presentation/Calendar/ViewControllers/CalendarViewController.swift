@@ -60,7 +60,7 @@ private extension CalendarViewController {
         let input = CalendarViewModel.Input(
             viewDidLoad: Observable.just(()),
             tapDateCell: tapDateRelay.asSignal(),
-            tapResponseButton: rootView.calenderButton.rx.tap.asSignal(),
+            tapResponseButton: rootView.calendarButton.rx.tap.asSignal(),
             currentPageChanged: currentPageRelay.asSignal()
         )
         
@@ -98,7 +98,7 @@ private extension CalendarViewController {
             })
             .disposed(by: disposeBag)
         
-        rootView.calenderButton.rx.tap
+        rootView.calendarButton.rx.tap
             .bind { [weak self] in
                 self?.viewModel.responseButtonStatusRelay.accept(self?.viewModel.dailyDiaryDummyDataRelay.value.status ?? "")
             }
@@ -115,7 +115,7 @@ private extension CalendarViewController {
     }
     
     func registerCells() {
-        rootView.calendarView.register(CalenderDateCell.self, forCellReuseIdentifier: CalenderDateCell.description())
+        rootView.calendarView.register(CalendarDateCell.self, forCellReuseIdentifier: CalendarDateCell.description())
         rootView.dailyDiaryCollectionView.register(DailyCalendarCollectionViewCell.self, forCellWithReuseIdentifier: DailyCalendarCollectionViewCell.description())
     }
 }
@@ -124,7 +124,7 @@ private extension CalendarViewController {
 extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
-        guard let cell = calendar.dequeueReusableCell(withIdentifier: CalenderDateCell.description(), for: date, at: position) as? CalenderDateCell else { return FSCalendarCell() }
+        guard let cell = calendar.dequeueReusableCell(withIdentifier: CalendarDateCell.description(), for: date, at: position) as? CalendarDateCell else { return FSCalendarCell() }
         
         let data = calendarData.first { DateFormatter.string(from: date, format: "yyyy-MM-dd") == $0.date }
         let dateStatus: CalendarCellState = {
