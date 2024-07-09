@@ -15,7 +15,7 @@ enum TextFieldType {
     case email
 }
 
-class ClodyTextField: UIView {
+final class ClodyTextField: UIView {
     
     // MARK: - UI Components
     

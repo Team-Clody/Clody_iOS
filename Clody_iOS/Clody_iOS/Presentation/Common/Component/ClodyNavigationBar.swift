@@ -18,7 +18,7 @@ enum NavigationBarType {
     case bottomSheet
 }
 
-class ClodyNavigationBar: UIView {
+final class ClodyNavigationBar: UIView {
     
     // MARK: - UI Components
 

@@ -17,7 +17,77 @@ enum AlertType {
     case saveDiary
 }
 
-class ClodyAlert: UIView {
+final class ClodyAlertViewController: UIViewController {
+    
+    // MARK: - UI Components
+    
+    private let alertView: ClodyAlert
+    
+    // MARK: - Properties
+    
+    var type: AlertType {
+        get { return alertView.type }
+    }
+    
+    // MARK: - Life Cycles
+    
+    init(
+        type: AlertType,
+        title: String,
+        message: String,
+        rightButtonText: String
+    ) {
+        self.alertView = ClodyAlert(type, title, message, rightButtonText)
+        super.init(nibName: nil, bundle: nil)
+        
+        setStyle()
+        setHierarchy()
+        setLayout()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            self.alertView.alpha = 1
+        })
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        UIView.animate(withDuration: 0.5, animations: {
+            self.alertView.alpha = 0
+        })
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+private extension ClodyAlertViewController {
+    
+    // MARK: - Methods
+    
+    func setStyle() {
+        self.modalPresentationStyle = .fullScreen
+        view.backgroundColor = .white.withAlphaComponent(0.4)
+    }
+    
+    func setHierarchy() {
+        view.addSubview(alertView)
+    }
+    
+    func setLayout() {
+        alertView.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.center.equalToSuperview()
+        }
+    }
+}
+
+final class ClodyAlert: UIView {
     
     // MARK: - UI Components
     
@@ -33,10 +103,10 @@ class ClodyAlert: UIView {
     // MARK: - Life Cycles
 
     init(
-        type: AlertType,
-        title: String,
-        message: String,
-        rightButtonText: String
+        _ type: AlertType,
+        _ title: String,
+        _ message: String,
+        _ rightButtonText: String
     ) {
         self.type = type
         super.init(frame: .zero)
@@ -79,6 +149,7 @@ extension ClodyAlert {
             $0.textColor = .grey01
             $0.font = .pretendard(.body1_semibold)
             $0.textAlignment = .center
+            $0.numberOfLines = 0
         }
         
         messageLabel.do {
@@ -86,6 +157,7 @@ extension ClodyAlert {
             $0.textColor = .grey04
 //            $0.font = .pretendard(.popup_regular)
             $0.textAlignment = .center
+            $0.numberOfLines = 0
         }
         
         leftButton.do {

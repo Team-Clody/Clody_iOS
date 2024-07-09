@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ClodyBottomButton: UIButton {
+final class ClodyBottomButton: UIButton {
     
     // MARK: - Properties
     
