@@ -26,7 +26,7 @@ final class ClodyTextField: UIView {
         .then {
             $0.text = type == .nickname ? I18N.Common.nicknameCondition : nil
             $0.textColor = .grey04
-            $0.font = .pretendard(.detail2_help)
+            $0.font = .pretendard(.help_regular)
         }
         .then {
             addSubview($0)

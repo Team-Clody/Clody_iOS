@@ -72,7 +72,6 @@ private extension ClodyAlertViewController {
     
     func setStyle() {
         self.modalPresentationStyle = .fullScreen
-        view.backgroundColor = .white.withAlphaComponent(0.4)
     }
     
     func setHierarchy() {
@@ -155,7 +154,7 @@ extension ClodyAlert {
         messageLabel.do {
             $0.text = message
             $0.textColor = .grey04
-//            $0.font = .pretendard(.popup_regular)
+            $0.font = .pretendard(.popup_regular)
             $0.textAlignment = .center
             $0.numberOfLines = 0
         }
