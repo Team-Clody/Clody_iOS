@@ -11,15 +11,12 @@ import SnapKit
 import Then
 
 final class DailyCalendarCollectionViewCell: UICollectionViewCell {
-    
-    // MARK: - Properties
-    
+
     // MARK: - UI Components
     
     private let listContainerView = UIView()
     private let listNumberLabel = UILabel()
     let diaryTextLabel = UILabel()
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -55,13 +52,17 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
     
     func setHierarchy() {
         
-        self.addSubviews(listContainerView, listNumberLabel, diaryTextLabel)
+        self.addSubview(listContainerView)
+        
+        listContainerView.addSubviews(listNumberLabel, diaryTextLabel)
     }
     
     func setLayout() {
         
         listContainerView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview().inset(8)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
         
         listNumberLabel.snp.makeConstraints {
@@ -72,7 +73,7 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
         diaryTextLabel.snp.makeConstraints {
             $0.top.equalTo(listNumberLabel.snp.top)
             $0.leading.equalToSuperview().inset(35)
-            $0.trailing.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(18)
             $0.bottom.equalToSuperview().inset(17)
         }
     }

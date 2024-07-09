@@ -13,19 +13,19 @@ import Then
 
 final class CalenderDateCell: FSCalendarCell {
     
+    // MARK: - UI Components
+    
     private var cloverImageView = UIImageView()
     var clendarDateLabel = UILabel()
     private let newImageView = UIImageView()
     let backgroundSelectView = UIView()
-    
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         setUI()
     }
-
+    
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -56,7 +56,6 @@ final class CalenderDateCell: FSCalendarCell {
         
         backgroundSelectView.do {
             $0.backgroundColor = .grey02
-            $0.isHidden = true
             $0.layer.cornerRadius = 8
         }
     }
@@ -94,26 +93,27 @@ final class CalenderDateCell: FSCalendarCell {
         }
         
         clendarDateLabel.snp.makeConstraints {
-            $0.centerX.equalTo(backgroundSelectView)
-            $0.top.equalTo(cloverImageView.snp.bottom).offset(5)
+            $0.center.equalTo(backgroundSelectView)
         }
     }
 }
 
 extension CalenderDateCell {
     
-    func configure(data: CalendarCellModel, dateStatus: CalendarCellState) {
-        print(dateStatus)
+    func configure(data: CalendarCellModel, dataStatus: CalendarCellState) {
+        switch dataStatus {
+        case .today:
+            clendarDateLabel.textColor = .black
+            backgroundSelectView.isHidden = true
+        case .selected:
+            clendarDateLabel.textColor = .white
+            backgroundSelectView.isHidden = false
+        case .normal:
+            clendarDateLabel.textColor = .grey05
+            backgroundSelectView.isHidden = true
+        }
         self.cloverImageView.image = UIImage(named: "clover\(data.cloverStatus)")
         let label = DateFormatter.date(from: data.date)
         self.clendarDateLabel.text = DateFormatter.string(from: label ?? Date(), format: "d")
-        switch dateStatus {
-        case .today:
-            self.clendarDateLabel.textColor = .red
-        case .selected:
-            self.cloverImageView.isHidden = false
-        case .normal:
-            break
-        }
     }
 }

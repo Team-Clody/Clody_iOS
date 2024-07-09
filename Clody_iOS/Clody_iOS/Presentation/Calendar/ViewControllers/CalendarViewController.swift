@@ -28,6 +28,7 @@ final class CalendarViewController: UIViewController {
     
     private let tapDateRelay = PublishRelay<Date>()
     private let currentPageRelay = PublishRelay<Date>()
+    private var calendarData: [CalendarCellModel] = []
     
     // MARK: - UI Components
     
@@ -47,6 +48,7 @@ final class CalendarViewController: UIViewController {
         registerCells()
         setDelegate()
         bindViewModel()
+        setStyle()
     }
 }
 
@@ -65,25 +67,34 @@ private extension CalendarViewController {
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
         output.dateLabel
-            .drive(onNext: { [weak self] dateString in
-                guard let self = self else { return }
-                if let header = self.rootView.calendarCollectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: 1)) as? DailyCalendarHeaderView {
-                    header.setDate(date: dateString)
-                }
-            })
+            .drive(rootView.dateLabel.rx.text)
             .disposed(by: disposeBag)
         
-        output.selectedDate
-            .drive(onNext: { [weak self] dateString in
-                self?.rootView.calendarCollectionView.reloadData()
+        output.diaryData
+            .drive(rootView.dailyDiaryCollectionView.rx.items(cellIdentifier: DailyCalendarCollectionViewCell.description(), cellType: DailyCalendarCollectionViewCell.self)) { index, model, cell in
+                cell.bindData(data: model, index: "\(index + 1).")
             }
-            )
             .disposed(by: disposeBag)
         
         output.responseButtonStatus
             .drive(onNext: { status in
                 print("Status: \(status)")
                 // 이후 status에 따른 분기 처리
+            })
+            .disposed(by: disposeBag)
+        
+        output.calendarData
+            .drive(onNext: { [weak self] data in
+                guard let self = self else { return }
+                self.calendarData = data
+            })
+            .disposed(by: disposeBag)
+        
+        output.selectedDate
+            .drive(onNext: { [weak self] data in
+                guard let self = self else { return }
+                self.rootView.calendarView.reloadData()
+                
             })
             .disposed(by: disposeBag)
         
@@ -95,80 +106,82 @@ private extension CalendarViewController {
     }
     
     func setDelegate() {
-        rootView.calendarCollectionView.dataSource = self
+        rootView.calendarView.delegate = self
+        rootView.calendarView.dataSource = self
+    }
+    
+    func setStyle() {
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     func registerCells() {
-        rootView.calendarCollectionView.register(CalendarCollectionViewCell.self, forCellWithReuseIdentifier: CalendarCollectionViewCell.description())
-        rootView.calendarCollectionView.register(DailyCalendarCollectionViewCell.self, forCellWithReuseIdentifier: DailyCalendarCollectionViewCell.description())
-        
-        rootView.calendarCollectionView.register(DailyCalendarHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: DailyCalendarHeaderView.description())
+        rootView.calendarView.register(CalenderDateCell.self, forCellReuseIdentifier: CalenderDateCell.description())
+        rootView.dailyDiaryCollectionView.register(DailyCalendarCollectionViewCell.self, forCellWithReuseIdentifier: DailyCalendarCollectionViewCell.description())
     }
 }
 
-extension CalendarViewController: UICollectionViewDataSource {
+
+extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch section {
-        case 1:
-            return viewModel.dailyDiaryDummyDataRelay.value.diary.count
-        default:
-            return 1
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
+        guard let cell = calendar.dequeueReusableCell(withIdentifier: CalenderDateCell.description(), for: date, at: position) as? CalenderDateCell else { return FSCalendarCell() }
         
-        switch indexPath.section {
-        case 0:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.description(), for: indexPath)
-                    as? CalendarCollectionViewCell else { return UICollectionViewCell() }
-            
-            cell.configure(data: viewModel.calendarDummyDataRelay.value, date: viewModel.dailyDiaryDummyDataRelay.value.date)
-            cell.dateSelected = { [weak self] date in
-                self?.tapDateRelay.accept(date)
+        let data = calendarData.first { DateFormatter.string(from: date, format: "yyyy-MM-dd") == $0.date }
+        let dateStatus: CalendarCellState = {
+            if Calendar.current.isDateInToday(date) {
+                return .today
+            } else if Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value) {
+                return .selected
+            } else {
+                return .normal
             }
+        }()
         
-            return cell
-            
-        case 1:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyCalendarCollectionViewCell.description(), for: indexPath)
-                    as? DailyCalendarCollectionViewCell else { return UICollectionViewCell() }
-            
-            cell.bindData(
-                data: viewModel.dailyDiaryDummyDataRelay.value.diary[indexPath.item],
-                index: "\(indexPath.item + 1)."
-            )
-    
-            return cell
-        default:
-            return UICollectionViewCell()
-        }
-        
+        cell.configure(data: data ?? CalendarCellModel(date: "", cloverStatus: ""), dataStatus: dateStatus)
+        return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        switch kind {
-        case UICollectionView.elementKindSectionHeader:
-            switch indexPath.section {
-            case 1:
-                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: DailyCalendarHeaderView.description(), for: indexPath) as? DailyCalendarHeaderView else { return UICollectionReusableView() }
-                
-                return header
-                
-            default:
-                return UICollectionReusableView()
-            }
-            
-        default:
-            return UICollectionReusableView()
-        }
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        tapDateRelay.accept(date)
     }
     
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
+        return .clear // 날짜 숫자를 숨김
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, subtitleDefaultColorFor date: Date) -> UIColor? {
+        return .clear // 서브타이틀 숨김
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleSelectionColorFor date: Date) -> UIColor? {
+        return .clear // 선택된 날짜 숫자를 숨김
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, subtitleSelectionColorFor date: Date) -> UIColor? {
+        return .clear // 선택된 날짜의 서브타이틀 숨김
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderDefaultColorFor date: Date) -> UIColor? {
+        return .clear // 기본 테두리 숨김
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderSelectionColorFor date: Date) -> UIColor? {
+        return .clear // 선택된 날짜의 테두리 숨김
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
+        return .clear // 기본 배경색 숨김
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
+        return .clear // 선택된 날짜의 배경색 숨김
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titlePlaceholderColorFor date: Date) -> UIColor? {
+        return .clear // 이전/다음 달 날짜 숨김
+    }
+    
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        return 0 // 이벤트 숨김
+    }
 }
-
-
