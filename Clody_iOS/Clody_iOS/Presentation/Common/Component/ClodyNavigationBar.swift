@@ -118,7 +118,6 @@ final class ClodyNavigationBar: UIView {
     var titleText: String = "" {
         didSet {
             titleLabel.text = titleText
-            print(titleLabel.isHidden)
         }
     }
     
