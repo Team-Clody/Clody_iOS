@@ -19,8 +19,8 @@ final class ListViewController: UIViewController {
     
     private let viewModel = ListViewModel()
     private let disposeBag = DisposeBag()
-    private let tapReplyRelay = PublishRelay<Int>()
-    private let tapKebobRelay = PublishRelay<Void>()
+    private let tapReplyRelay = PublishRelay<String>()
+    private let tapKebobRelay = PublishRelay<String>()
     private let tabMonthRelay = PublishRelay<String>()
     private var listData = ListModel(totalMonthlyCount: 0, diaries: [])
     
@@ -103,8 +103,18 @@ extension ListViewController: UICollectionViewDataSource {
         case UICollectionView.elementKindSectionHeader:
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ListHeaderView.description(), for: indexPath) as? ListHeaderView else { return UICollectionReusableView() }
             
-            
+            let diaryDate = viewModel.listDummyDataRelay.value.diaries[indexPath.section].date
+        
             header.bindData(diary: viewModel.listDummyDataRelay.value.diaries[indexPath.section])
+            header.replyButton.rx.tap
+                .map { diaryDate }
+                .bind(to: tapReplyRelay)
+                .disposed(by: disposeBag)
+            
+            header.kebabButton.rx.tap
+                .map { diaryDate }
+                .bind(to: tapKebobRelay)
+                .disposed(by: disposeBag)
             
             return header
         default:

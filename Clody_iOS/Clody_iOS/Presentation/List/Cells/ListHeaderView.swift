@@ -21,7 +21,7 @@ final class ListHeaderView: UICollectionReusableView {
     private let dayLabel = UILabel()
     lazy var replyButton = UIButton()
     private let newImageView = UIImageView()
-    private let kebabButton = UIButton()
+    lazy var kebabButton = UIButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

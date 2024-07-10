@@ -14,8 +14,8 @@ final class ListViewModel: CalendarViewModelType {
     
     struct Input {
         let viewDidLoad: Observable<Void>
-        let tapReplyButton: Signal<Int>
-        let tapKebabButton: Signal<Void>
+        let tapReplyButton: Signal<String>
+        let tapKebabButton: Signal<String>
         let monthTap: Signal<String>
     }
     
@@ -43,9 +43,8 @@ final class ListViewModel: CalendarViewModelType {
             .disposed(by: disposeBag)
         
         input.tapKebabButton
-            .emit(onNext: { [weak self] in
+            .emit(onNext: { [weak self] date in
                 guard let self = self else { return }
-                
             })
             .disposed(by: disposeBag)
         
