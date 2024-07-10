@@ -34,8 +34,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     func setStyle() {
         
         listContainerView.do {
-            $0.backgroundColor = .grey08
-            $0.layer.cornerRadius = 10
+            $0.backgroundColor = .whiteCustom
         }
         
         listNumberLabel.do {
@@ -60,9 +59,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     func setLayout() {
         
         listContainerView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
         
         listNumberLabel.snp.makeConstraints {

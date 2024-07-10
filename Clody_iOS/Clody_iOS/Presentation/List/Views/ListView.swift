@@ -37,14 +37,15 @@ final class ListView: UIView {
     
     
     func setStyle() {
-        self.backgroundColor = .white
+        self.backgroundColor = .grey08
         navigationBarView.do {
             $0.backgroundColor = .red
         }
-//        
-//        listCollectionView.do {
-//            
-//        }
+        
+        listCollectionView.do {
+            $0.backgroundColor = .grey08
+            $0.showsVerticalScrollIndicator = false
+        }
     }
     
     func setHierarchy() {
@@ -69,17 +70,20 @@ final class ListView: UIView {
     
     func listCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionNumber, environment) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(66))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(54))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(66))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
             
+            // Set section insets and interGroupSpacin
+            //            section.interGroupSpacing = 10
+            
             let headerSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .estimated(60)
+                heightDimension: .estimated(46)
             )
             let header = NSCollectionLayoutBoundarySupplementaryItem(
                 layoutSize: headerSize,
@@ -89,6 +93,9 @@ final class ListView: UIView {
             section.boundarySupplementaryItems = [header]
             
             let sectionBackgroundDecoration = NSCollectionLayoutDecorationItem.background(elementKind: ListBackgroundView.description())
+            
+            sectionBackgroundDecoration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
+            
             section.decorationItems = [sectionBackgroundDecoration]
             
             return section
@@ -97,5 +104,8 @@ final class ListView: UIView {
         layout.register(ListBackgroundView.self, forDecorationViewOfKind: ListBackgroundView.description())
         return layout
     }
+    
+    
+    
 }
 

@@ -105,7 +105,7 @@ final class ListHeaderView: UICollectionReusableView {
         
         replyCotainerView.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
-            $0.trailing.equalTo(kebabButton.snp.leading).offset(-14)
+            $0.trailing.equalTo(kebabButton.snp.leading).offset(-4)
             $0.width.equalTo(64)
             $0.height.equalTo(28)
         }
@@ -120,8 +120,10 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         kebabButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(4)
             $0.centerY.equalTo(dateLabel)
+            $0.width.equalTo(28)
+            $0.height.equalTo(28)
         }
     }
     
