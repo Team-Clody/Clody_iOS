@@ -19,9 +19,8 @@ final class ListHeaderView: UICollectionReusableView {
     private let cloverImageView = UIImageView()
     private let dateLabel = UILabel()
     private let dayLabel = UILabel()
-    private let replyCotainerView = UIView()
+    lazy var replyButton = UIButton()
     private let newImageView = UIImageView()
-    private let replyLabel = UILabel()
     private let kebabButton = UIButton()
     
     override init(frame: CGRect) {
@@ -53,18 +52,16 @@ final class ListHeaderView: UICollectionReusableView {
             $0.textColor = .grey02
         }
         
-        replyCotainerView.do {
-            $0.backgroundColor = .lightBlue
-            $0.makeCornerRound(radius: 10)
-        }
+        replyButton.do {
+             $0.backgroundColor = .lightBlue
+             $0.makeCornerRound(radius: 10)
+             $0.setTitleColor(.blueCustom, for: .normal)
+             let attributedTitle = UIFont.pretendardString(text: "답장 확인", style: .body2_semibold)
+             $0.setAttributedTitle(attributedTitle, for: .normal)
+         }
         
         newImageView.do {
             $0.image = .new
-        }
-        
-        replyLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "답장 확인", style: .body2_semibold)
-            $0.textColor = .blueCustom
         }
         
         kebabButton.do {
@@ -78,12 +75,10 @@ final class ListHeaderView: UICollectionReusableView {
             cloverImageView,
             dateLabel,
             dayLabel,
-            replyCotainerView,
+            replyButton,
             newImageView,
             kebabButton
         )
-        
-        replyCotainerView.addSubview(replyLabel)
     }
     
     func setLayout() {
@@ -103,7 +98,7 @@ final class ListHeaderView: UICollectionReusableView {
             $0.leading.equalTo(dateLabel.snp.trailing).offset(2)
         }
         
-        replyCotainerView.snp.makeConstraints {
+        replyButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
             $0.trailing.equalTo(kebabButton.snp.leading).offset(-4)
             $0.width.equalTo(64)
@@ -111,12 +106,8 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         newImageView.snp.makeConstraints {
-            $0.centerY.equalTo(replyCotainerView.snp.top)
-            $0.centerX.equalTo(replyCotainerView.snp.trailing)
-        }
-        
-        replyLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.centerY.equalTo(replyButton.snp.top)
+            $0.centerX.equalTo(replyButton.snp.trailing)
         }
         
         kebabButton.snp.makeConstraints {

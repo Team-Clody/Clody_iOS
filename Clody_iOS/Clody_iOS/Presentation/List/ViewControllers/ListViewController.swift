@@ -105,6 +105,7 @@ extension ListViewController: UICollectionViewDataSource {
             
             
             header.bindData(diary: viewModel.listDummyDataRelay.value.diaries[indexPath.section])
+            
             return header
         default:
             return UICollectionReusableView()

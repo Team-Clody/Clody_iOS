@@ -39,12 +39,12 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
         }
         
         listNumberLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "1.", style: .body2_semibold)
+            $0.attributedText = UIFont.pretendardString(text: "1.", style: .body2_semibold, lineHeightMultiple: 1.5)
             $0.textColor = .grey02
         }
         
         diaryTextLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "마지막이라 감사해. 정말~어쩌구, 2. 마지막이라 감사해. 정말~어쩌구,마지막이라 감사해. 정말~어쩌구, 마지막이라 감사해. 정말~어쩌구,", style: .body2_semibold)
+            $0.attributedText = UIFont.pretendardString(text: "마지막이라 감사해. 정말~어쩌구, 2. 마지막이라 감사해. 정말~어쩌구,마지막이라 감사해. 정말~어쩌구, 마지막이라 감사해. 정말~어쩌구,", style: .body2_semibold, lineHeightMultiple: 1.5)
             $0.textColor = .grey03
             $0.numberOfLines = 0
         }
