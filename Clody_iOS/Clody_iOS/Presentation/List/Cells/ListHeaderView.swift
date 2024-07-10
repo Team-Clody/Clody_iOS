@@ -12,8 +12,6 @@ import Then
 
 final class ListHeaderView: UICollectionReusableView {
     
-    // MARK: - Properties
-    
     // MARK: - UI Components
     
     private let cloverImageView = UIImageView()

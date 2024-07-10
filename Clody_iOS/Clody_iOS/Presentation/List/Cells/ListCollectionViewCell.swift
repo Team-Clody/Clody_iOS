@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 final class ListCollectionViewCell: UICollectionViewCell {
-
+    
     // MARK: - UI Components
     
     let listContainerView = UIView()
@@ -80,9 +80,3 @@ final class ListCollectionViewCell: UICollectionViewCell {
         diaryTextLabel.text = diaryContent
     }
 }
-
-
-
-
-
-

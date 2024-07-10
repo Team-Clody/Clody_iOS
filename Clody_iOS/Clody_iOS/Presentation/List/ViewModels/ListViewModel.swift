@@ -20,8 +20,8 @@ final class ListViewModel: CalendarViewModelType {
     }
     
     struct Output {
-        let cloverData: Driver<String>
-        let listData: Driver<[Diaries]>
+        let replyDate: Driver<String>
+        let kebabDate: Driver<String>
     }
     
     let listDummyDataRelay = BehaviorRelay<ListModel>(value: ListModel(totalMonthlyCount: 0, diaries: []))
@@ -35,32 +35,17 @@ final class ListViewModel: CalendarViewModelType {
             })
             .disposed(by: disposeBag)
         
-        input.tapReplyButton
-            .emit(onNext: { [weak self] date in
-                guard let self = self else { return }
-                // 뷰로 이동 연결, date
-            })
-            .disposed(by: disposeBag)
+        let replyDate = input.tapReplyButton
+            .asDriver(onErrorJustReturn: "")
         
-        input.tapKebabButton
-            .emit(onNext: { [weak self] date in
-                guard let self = self else { return }
-                // 뷰로 이동 연결, date
-            })
-            .disposed(by: disposeBag)
-        
-        let cloverData = listDummyDataRelay
-            .map { date -> String in
-                let cloverData = "\(self.listDummyDataRelay.value.totalMonthlyCount)"
-                return cloverData
-            }
-            .asDriver(onErrorJustReturn: "Error")
+        let kebabDate = input.tapKebabButton
+            .asDriver(onErrorJustReturn: "")
         
         let listData = listDummyDataRelay
             .map { $0.diaries }
             .asDriver(onErrorJustReturn: [])
         
-        return Output(cloverData: cloverData, listData: listData)
+        return Output(replyDate: replyDate, kebabDate: kebabDate)
     }
 }
 

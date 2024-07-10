@@ -22,7 +22,6 @@ final class ListViewController: UIViewController {
     private let tapReplyRelay = PublishRelay<String>()
     private let tapKebobRelay = PublishRelay<String>()
     private let tabMonthRelay = PublishRelay<String>()
-    private var listData = ListModel(totalMonthlyCount: 0, diaries: [])
     
     // MARK: - UI Components
     
@@ -39,10 +38,10 @@ final class ListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-                registerCells()
-                setDelegate()
-                bindViewModel()
-                setStyle()
+        registerCells()
+        setDelegate()
+        bindViewModel()
+        setStyle()
     }
 }
 
@@ -50,17 +49,32 @@ final class ListViewController: UIViewController {
 
 private extension ListViewController {
     
-        func bindViewModel() {
-            let input = ListViewModel.Input(
-                viewDidLoad: Observable.just(()),
-                tapReplyButton: tapReplyRelay.asSignal(),
-                tapKebabButton: tapKebobRelay.asSignal(),
-                monthTap: tabMonthRelay.asSignal()
-            )
-    
-            let output = viewModel.transform(from: input, disposeBag: disposeBag)
-    
-        }
+    func bindViewModel() {
+        let input = ListViewModel.Input(
+            viewDidLoad: Observable.just(()),
+            tapReplyButton: tapReplyRelay.asSignal(),
+            tapKebabButton: tapKebobRelay.asSignal(),
+            monthTap: tabMonthRelay.asSignal()
+        )
+        
+        let output = viewModel.transform(from: input, disposeBag: disposeBag)
+        
+        output.replyDate
+            .drive(onNext: { [weak self] date in
+                guard let self = self else { return }
+                // 필요한 동작 수행
+                print("Reply Date: \(date)")
+            })
+            .disposed(by: disposeBag)
+        
+        output.kebabDate
+            .drive(onNext: { [weak self] date in
+                guard let self = self else { return }
+                // 필요한 동작 수행
+                print("Kebab Date: \(date)")
+            })
+            .disposed(by: disposeBag)
+    }
     
     func setDelegate() {
         rootView.listCollectionView.dataSource = self
@@ -73,10 +87,8 @@ private extension ListViewController {
     func registerCells() {
         rootView.listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.description())
         rootView.listCollectionView.register(ListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ListHeaderView.description())
-        
     }
 }
-
 
 extension ListViewController: UICollectionViewDataSource {
     
@@ -95,7 +107,6 @@ extension ListViewController: UICollectionViewDataSource {
         
         cell.bindData(diaryContent: viewModel.listDummyDataRelay.value.diaries[indexPath.section].diary[indexPath.item], index: indexPath.item)
         return cell
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -104,7 +115,7 @@ extension ListViewController: UICollectionViewDataSource {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ListHeaderView.description(), for: indexPath) as? ListHeaderView else { return UICollectionReusableView() }
             
             let diaryDate = viewModel.listDummyDataRelay.value.diaries[indexPath.section].date
-        
+            
             header.bindData(diary: viewModel.listDummyDataRelay.value.diaries[indexPath.section])
             header.replyButton.rx.tap
                 .map { diaryDate }
