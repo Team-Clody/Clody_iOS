@@ -14,100 +14,60 @@ final class ListViewModel: CalendarViewModelType {
     
     struct Input {
         let viewDidLoad: Observable<Void>
-        let tapDateCell: Signal<Date>
-        let tapResponseButton: Signal<Void>
-        let currentPageChanged: Signal<Date>
+        let tapReplyButton: Signal<Int>
+        let tapKebabButton: Signal<Void>
+        let monthTap: Signal<String>
     }
     
     struct Output {
-        let dateLabel: Driver<String>
-        let selectedDate: Driver<String>
-        let responseButtonStatus: Driver<String>
-        let diaryData: Driver<[String]>
-        let calendarData: Driver<[CalendarCellModel]>
+        let cloverData: Driver<String>
+        let listData: Driver<[Diaries]>
     }
     
-    let selectedDateRelay = BehaviorRelay<Date>(value: Date())
-    let calendarDummyDataRelay = BehaviorRelay<CalendarModel>(value: CalendarModel(month: "", cellData: [CalendarCellModel(date: "", cloverStatus: "")]))
-    let dailyDiaryDummyDataRelay = BehaviorRelay<CalendarDailyModel>(value: CalendarDailyModel(date: "", status: "", diary: []))
-    let responseButtonStatusRelay = BehaviorRelay<String>(value: "")
+    let listDummyDataRelay = BehaviorRelay<ListModel>(value: ListModel(totalMonthlyCount: 0, diaries: []))
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
-//        input.viewDidLoad
-//            .subscribe(onNext: { [weak self] in
-//                guard let self = self else { return }
-//                let today = Date()
-//                self.selectedDateRelay.accept(today)
-//                self.loadDummyData(for: today)
-//            })
-//            .disposed(by: disposeBag)
-//        
-//        input.tapDateCell
-//            .emit(onNext: { [weak self] date in
-//                guard let self = self else { return }
-//                self.selectedDateRelay.accept(date)
-//                self.loadDailyDummyData(for: date)
-//            })
-//            .disposed(by: disposeBag)
-        
-        input.tapResponseButton
-            .emit(onNext: { [weak self] in
+        input.viewDidLoad
+            .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.responseButtonStatusRelay.accept(self.dailyDiaryDummyDataRelay.value.status)
+                self.loadDailyDummyData()
             })
             .disposed(by: disposeBag)
         
-        let dateLabel = selectedDateRelay
+        input.tapReplyButton
+            .emit(onNext: { [weak self] date in
+                guard let self = self else { return }
+                
+            })
+            .disposed(by: disposeBag)
+        
+        input.tapKebabButton
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                
+            })
+            .disposed(by: disposeBag)
+        
+        let cloverData = listDummyDataRelay
             .map { date -> String in
-                let dateSelected = DateFormatter.string(from: date, format: "M.d")
-                return dateSelected
+                let cloverData = "\(self.listDummyDataRelay.value.totalMonthlyCount)"
+                return cloverData
             }
             .asDriver(onErrorJustReturn: "Error")
         
-        let selectedDate = selectedDateRelay
-            .map { date -> String in
-                let dateSelected = DateFormatter.string(from: date, format: "yyyy-MM-dd")
-                return dateSelected
-            }
-            .asDriver(onErrorJustReturn: "Error")
-        
-        let responseButtonStatus = responseButtonStatusRelay.asDriver(onErrorJustReturn: "")
-        
-        let diaryData = dailyDiaryDummyDataRelay
-            .map { $0.diary }
+        let listData = listDummyDataRelay
+            .map { $0.diaries }
             .asDriver(onErrorJustReturn: [])
         
-        let calendarData = calendarDummyDataRelay
-            .map { $0.cellData }
-            .asDriver(onErrorJustReturn: [])
-        
-        return Output(
-            dateLabel: dateLabel,
-            selectedDate: selectedDate,
-            responseButtonStatus: responseButtonStatus,
-            diaryData: diaryData,
-            calendarData: calendarData
-        )
+        return Output(cloverData: cloverData, listData: listData)
     }
 }
 
-extension CalendarViewModel {
+extension ListViewModel {
     
-    private func loadDummyData(for date: Date) {
-        let monthString = DateFormatter.string(from: date, format: "yyyy-MM")
-        let calendarData = CalendarModel.dummy(monthString: monthString)
-        self.calendarDummyDataRelay.accept(calendarData)
-        
-        let dateString = DateFormatter.string(from: date, format: "yyyy-MM-dd")
-        let dailyData = CalendarDailyModel.dummy(dateString: dateString)
-        self.dailyDiaryDummyDataRelay.accept(dailyData)
-    }
-    
-    private func loadDailyDummyData(for date: Date) {
-        let dateString = DateFormatter.string(from: date, format: "yyyy-MM-dd")
-        let dailyData = CalendarDailyModel.dummy(dateString: dateString)
-        self.dailyDiaryDummyDataRelay.accept(dailyData)
+    private func loadDailyDummyData() {
+        let listData = ListModel.dummy()
+        self.listDummyDataRelay.accept(listData)
     }
 }
-

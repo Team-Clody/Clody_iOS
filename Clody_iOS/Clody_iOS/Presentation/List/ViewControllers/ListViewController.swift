@@ -19,6 +19,10 @@ final class ListViewController: UIViewController {
     
     private let viewModel = ListViewModel()
     private let disposeBag = DisposeBag()
+    private let tapReplyRelay = PublishRelay<Int>()
+    private let tapKebobRelay = PublishRelay<Void>()
+    private let tabMonthRelay = PublishRelay<String>()
+    private var listData = ListModel(totalMonthlyCount: 0, diaries: [])
     
     // MARK: - UI Components
     
@@ -37,7 +41,7 @@ final class ListViewController: UIViewController {
         
                 registerCells()
                 setDelegate()
-//                bindViewModel()
+                bindViewModel()
                 setStyle()
     }
 }
@@ -46,54 +50,17 @@ final class ListViewController: UIViewController {
 
 private extension ListViewController {
     
-    //    func bindViewModel() {
-    //        let input = CalendarViewModel.Input(
-    //            viewDidLoad: Observable.just(()),
-    //            tapDateCell: tapDateRelay.asSignal(),
-    //            tapResponseButton: rootView.calendarButton.rx.tap.asSignal(),
-    //            currentPageChanged: currentPageRelay.asSignal()
-    //        )
-    //
-    //        let output = viewModel.transform(from: input, disposeBag: disposeBag)
-    //
-    //        output.dateLabel
-    //            .drive(rootView.dateLabel.rx.text)
-    //            .disposed(by: disposeBag)
-    //
-    //        output.diaryData
-    //            .drive(rootView.dailyDiaryCollectionView.rx.items(cellIdentifier: DailyCalendarCollectionViewCell.description(), cellType: DailyCalendarCollectionViewCell.self)) { index, model, cell in
-    //                cell.bindData(data: model, index: "\(index + 1).")
-    //            }
-    //            .disposed(by: disposeBag)
-    //
-    //        output.responseButtonStatus
-    //            .drive(onNext: { status in
-    //                print("Status: \(status)")
-    //                // 이후 status에 따른 분기 처리
-    //            })
-    //            .disposed(by: disposeBag)
-    //
-    //        output.calendarData
-    //            .drive(onNext: { [weak self] data in
-    //                guard let self = self else { return }
-    //                self.calendarData = data
-    //            })
-    //            .disposed(by: disposeBag)
-    //
-    //        output.selectedDate
-    //            .drive(onNext: { [weak self] data in
-    //                guard let self = self else { return }
-    //                self.rootView.calendarView.reloadData()
-    //
-    //            })
-    //            .disposed(by: disposeBag)
-    //
-    //        rootView.calendarButton.rx.tap
-    //            .bind { [weak self] in
-    //                self?.viewModel.responseButtonStatusRelay.accept(self?.viewModel.dailyDiaryDummyDataRelay.value.status ?? "")
-    //            }
-    //            .disposed(by: disposeBag)
-    //    }
+        func bindViewModel() {
+            let input = ListViewModel.Input(
+                viewDidLoad: Observable.just(()),
+                tapReplyButton: tapReplyRelay.asSignal(),
+                tapKebabButton: tapKebobRelay.asSignal(),
+                monthTap: tabMonthRelay.asSignal()
+            )
+    
+            let output = viewModel.transform(from: input, disposeBag: disposeBag)
+    
+        }
     
     func setDelegate() {
         rootView.listCollectionView.dataSource = self
@@ -107,8 +74,6 @@ private extension ListViewController {
         rootView.listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.description())
         rootView.listCollectionView.register(ListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ListHeaderView.description())
         
-//        rootView.listCollectionView.register(ListBackgroundView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ListBackgroundView.description())
-        
     }
 }
 
@@ -116,16 +81,11 @@ private extension ListViewController {
 extension ListViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 5
+        return viewModel.listDummyDataRelay.value.diaries.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch section {
-        case 1:
-            return 3
-        default:
-            return 1
-        }
+        return viewModel.listDummyDataRelay.value.diaries[section].diary.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -133,6 +93,7 @@ extension ListViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.description(), for: indexPath)
                 as? ListCollectionViewCell else { return UICollectionViewCell() }
         
+        cell.bindData(diaryContent: viewModel.listDummyDataRelay.value.diaries[indexPath.section].diary[indexPath.item], index: indexPath.item)
         return cell
         
     }
@@ -142,10 +103,11 @@ extension ListViewController: UICollectionViewDataSource {
         case UICollectionView.elementKindSectionHeader:
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ListHeaderView.description(), for: indexPath) as? ListHeaderView else { return UICollectionReusableView() }
             
+            
+            header.bindData(diary: viewModel.listDummyDataRelay.value.diaries[indexPath.section])
             return header
         default:
             return UICollectionReusableView()
         }
     }
-    
 }

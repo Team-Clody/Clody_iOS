@@ -14,7 +14,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
 
     // MARK: - UI Components
     
-    private let listContainerView = UIView()
+    let listContainerView = UIView()
     private let listNumberLabel = UILabel()
     let diaryTextLabel = UILabel()
     
@@ -38,12 +38,12 @@ final class ListCollectionViewCell: UICollectionViewCell {
         }
         
         listNumberLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "1.", style: .body2_semibold)
+            $0.attributedText = UIFont.pretendardString(text: "1.", style: .body2_semibold, lineHeightMultiple: 1.5)
             $0.textColor = .grey02
         }
         
         diaryTextLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "마지막이라 감사해. 정말~어쩌구, 2. 마지막이라 감사해. 정말~어쩌구,마지막이라 감사해. 정말~어쩌구, 마지막이라 감사해. 정말~어쩌구,", style: .body2_semibold)
+            $0.attributedText = UIFont.pretendardString(text: "마지막이라 감사해. 정말~어쩌구, 2. 마지막이라 감사해. 정말~어쩌구,마지막이라 감사해. 정말~어쩌구, 마지막이라 감사해. 정말~어쩌구,", style: .body2_semibold, lineHeightMultiple: 1.5)
             $0.textColor = .grey03
             $0.numberOfLines = 0
         }
@@ -68,16 +68,16 @@ final class ListCollectionViewCell: UICollectionViewCell {
         }
         
         diaryTextLabel.snp.makeConstraints {
-            $0.top.equalTo(listNumberLabel.snp.top)
             $0.leading.equalToSuperview().inset(35)
             $0.trailing.equalToSuperview().inset(18)
-            $0.bottom.equalToSuperview().inset(17)
+            $0.top.equalTo(listNumberLabel)
+            $0.bottom.equalToSuperview()
         }
     }
     
-    func bindData(data: String, index: String) {
-        listNumberLabel.text = index
-        diaryTextLabel.text = data
+    func bindData(diaryContent: String, index: Int) {
+        listNumberLabel.text = "\(index + 1)."
+        diaryTextLabel.text = diaryContent
     }
 }
 

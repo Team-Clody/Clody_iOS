@@ -38,7 +38,7 @@ final class ListHeaderView: UICollectionReusableView {
     }
     
     func setStyle() {
-        
+        self.backgroundColor = .clear
         cloverImageView.do {
             $0.image = .cloverNone
         }
@@ -54,7 +54,7 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         replyCotainerView.do {
-            $0.backgroundColor = .blueCustom
+            $0.backgroundColor = .lightBlue
             $0.makeCornerRound(radius: 10)
         }
         
@@ -64,7 +64,7 @@ final class ListHeaderView: UICollectionReusableView {
         
         replyLabel.do {
             $0.attributedText = UIFont.pretendardString(text: "답장 확인", style: .body2_semibold)
-            $0.textColor = .grey02
+            $0.textColor = .blueCustom
         }
         
         kebabButton.do {
@@ -89,7 +89,7 @@ final class ListHeaderView: UICollectionReusableView {
     func setLayout() {
         
         cloverImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(30)
             $0.leading.equalToSuperview().inset(20)
         }
         
@@ -127,7 +127,9 @@ final class ListHeaderView: UICollectionReusableView {
         }
     }
     
-    func setDate(date: String) {
-        dateLabel.text = date
+    func bindData(diary: Diaries) {
+        cloverImageView.image = UIImage(named: diary.diaryCount == 0 ? "cloverNone" : "clover\(diary.diaryCount)")
+        newImageView.isHidden = diary.replyStatus != "not_read"
+        dateLabel.text = "\(diary.date.split(separator: "-").last!)일"
     }
 }
