@@ -1,8 +1,8 @@
 //
-//  DailyCalendarCollectionViewCell.swift
+//  ListCollectionViewCell.swift
 //  Clody_iOS
 //
-//  Created by Seonwoo Kim on 7/4/24.
+//  Created by Seonwoo Kim on 7/10/24.
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class DailyCalendarCollectionViewCell: UICollectionViewCell {
+final class ListCollectionViewCell: UICollectionViewCell {
 
     // MARK: - UI Components
     
@@ -83,3 +83,9 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
         diaryTextLabel.text = data
     }
 }
+
+
+
+
+
+
