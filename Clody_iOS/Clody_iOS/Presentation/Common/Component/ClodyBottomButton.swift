@@ -38,10 +38,9 @@ extension ClodyBottomButton {
     private func setStyle() {
         backgroundColor = isGreyButton ? .grey02 : .mainYellow
         makeCornerRound(radius: 10)
-        setTitle(title, for: .normal)
         setTitleColor(isGreyButton ? .white : .grey01, for: .normal)
         setTitleColor(isGreyButton ? nil : .grey06, for: .disabled)
-        titleLabel?.font = .pretendard(.body1_semibold)
+        setAttributedTitle(UIFont.pretendardString(text: "난 바보다", style: .body1_semibold), for: .normal)
     }
     
     /// Bool값에 따른 버튼 활성화, 비활성화 상태 지정 함수입니다.

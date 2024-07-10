@@ -11,8 +11,8 @@ import SnapKit
 import Then
 
 enum PickerType {
-    case calendar
     case notification
+    case calendar
 }
 
 final class ClodyPickerView: UIPickerView {
@@ -72,17 +72,16 @@ extension ClodyPickerView: UIPickerViewDelegate {
             label = UILabel()
         }
         
-        switch type {
-        case .calendar:
-            label.text = dataOfRowsInCalendar(component: component, row: row)
-        case .notification:
-            label.text = dataOfRowsInNotification(component: component, row: row)
-        }
-        
         label.do {
             $0.textAlignment = .center
             $0.textColor = .grey01
-            $0.font = .pretendard(.head3_medium)
+        }
+        
+        switch type {
+        case .calendar:
+            label.attributedText = UIFont.pretendardString(text: dataOfRowsInCalendar(component: component, row: row), style: .head3_medium)
+        case .notification:
+            label.attributedText = UIFont.pretendardString(text: dataOfRowsInNotification(component: component, row: row), style: .head3_medium)
         }
         
         return label
@@ -93,9 +92,9 @@ extension ClodyPickerView: UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         switch type {
-        case .calendar:
-            return 3
         case .notification:
+            return 3
+        case .calendar:
             return 2
         }
     }
@@ -109,7 +108,7 @@ extension ClodyPickerView: UIPickerViewDataSource {
         }
     }
     
-    func numberOfRowsInCalendar(_ component: Int) -> Int {
+    func numberOfRowsInNotification(_ component: Int) -> Int {
         switch component {
         case 0:
             return timePeriods.count
@@ -122,7 +121,7 @@ extension ClodyPickerView: UIPickerViewDataSource {
         }
     }
     
-    func numberOfRowsInNotification(_ component: Int) -> Int {
+    func numberOfRowsInCalendar(_ component: Int) -> Int {
         switch component {
         case 0:
             return years.count
@@ -133,7 +132,7 @@ extension ClodyPickerView: UIPickerViewDataSource {
         }
     }
     
-    func dataOfRowsInCalendar(component: Int, row: Int) -> String {
+    func dataOfRowsInNotification(component: Int, row: Int) -> String {
         switch component {
         case 0:
             return timePeriods[row]
@@ -146,7 +145,7 @@ extension ClodyPickerView: UIPickerViewDataSource {
         }
     }
     
-    func dataOfRowsInNotification(component: Int, row: Int) -> String {
+    func dataOfRowsInCalendar(component: Int, row: Int) -> String {
         switch component {
         case 0:
             return "\(years[row])년"

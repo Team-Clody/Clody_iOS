@@ -145,32 +145,28 @@ extension ClodyAlert {
         }
         
         titleLabel.do {
-            $0.text = title
             $0.textColor = .grey01
-            $0.font = .pretendard(.body1_semibold)
+            $0.attributedText = UIFont.pretendardString(text: title, style: .body1_semibold)
             $0.textAlignment = .center
             $0.numberOfLines = 0
         }
         
         messageLabel.do {
-            $0.text = message
             $0.textColor = .grey04
-            $0.font = .pretendard(.popup_regular)
+            $0.attributedText = UIFont.pretendardString(text: message, style: .body3_regular)
             $0.textAlignment = .center
             $0.numberOfLines = 0
         }
         
         leftButton.do {
             $0.backgroundColor = .grey07
-            $0.setTitle(I18N.Alert.cancel, for: .normal)
-            $0.titleLabel?.font = .pretendard(.body3_semibold)
             $0.setTitleColor(.grey04, for: .normal)
+            $0.setAttributedTitle(UIFont.pretendardString(text: I18N.Alert.cancel, style: .body3_semibold), for: .normal)
             $0.makeCornerRound(radius: 8)
         }
         
         rightButton.do {
-            $0.setTitle(rightButtonText, for: .normal)
-            $0.titleLabel?.font = .pretendard(.body3_semibold)
+            $0.setAttributedTitle(UIFont.pretendardString(text: rightButtonText, style: .body3_semibold), for: .normal)
             $0.makeCornerRound(radius: 8)
         }
     }

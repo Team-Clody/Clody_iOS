@@ -24,9 +24,11 @@ final class ClodyTextField: UIView {
     
     private lazy var messageLabel = UILabel()
         .then {
-            $0.text = type == .nickname ? I18N.Common.nicknameCondition : nil
             $0.textColor = .grey04
-            $0.font = .pretendard(.help_regular)
+            $0.attributedText = UIFont.pretendardString(
+                text: type == .nickname ? I18N.Common.nicknameCondition : "",
+                style: .body3_regular
+            )
         }
         .then {
             addSubview($0)
@@ -37,9 +39,8 @@ final class ClodyTextField: UIView {
     
     private lazy var countLabel = UILabel()
         .then {
-            $0.text = "\(count)"
             $0.textColor = .grey04
-            $0.font = .pretendard(.detail1_medium)
+            $0.attributedText = UIFont.pretendardString(text: "\(count)", style: .detail1_medium)
         }
         .then {
             addSubview($0)
@@ -51,9 +52,8 @@ final class ClodyTextField: UIView {
     
     private lazy var charLimitLabel = UILabel()
         .then {
-            $0.text = I18N.Common.charLimit
             $0.textColor = .grey06
-            $0.font = .pretendard(.detail1_medium)
+            $0.attributedText = UIFont.pretendardString(text: I18N.Common.charLimit, style: .detail1_medium)
         }
         .then {
             addSubview($0)
