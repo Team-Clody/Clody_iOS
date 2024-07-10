@@ -57,13 +57,20 @@ extension UIFont {
         return UIFont(name: style.rawValue, size: style.size)!
     }
     
-    static func pretendardString(text: String, style: FontName) -> NSAttributedString {
+    static func pretendardString(text: String, style: FontName, lineHeightMultiple: CGFloat? = nil) -> NSAttributedString {
         let font = UIFont.pretendard(style)
         let letterSpacing = -0.003 * style.size
         
+        let paragraphStyle = NSMutableParagraphStyle()
+        if let lineHeightMultiple = lineHeightMultiple {
+            paragraphStyle.minimumLineHeight = style.size * lineHeightMultiple
+            paragraphStyle.maximumLineHeight = style.size * lineHeightMultiple
+        }
+        
         let attributes: [NSAttributedString.Key: Any] = [
             .font: font,
-            .kern: letterSpacing
+            .kern: letterSpacing,
+            .paragraphStyle: paragraphStyle
         ]
         
         return NSAttributedString(string: text, attributes: attributes)
