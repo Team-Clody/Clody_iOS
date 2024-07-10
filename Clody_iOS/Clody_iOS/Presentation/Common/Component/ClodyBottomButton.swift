@@ -48,12 +48,7 @@ extension ClodyBottomButton {
     func setEnabledState(to status: Bool) {
         if isGreyButton == true { return }
         
-        if status {
-            self.isEnabled = true
-            backgroundColor = .mainYellow
-        } else {
-            self.isEnabled = false
-            backgroundColor = .lightYellow
-        }
+        self.isEnabled = status
+        self.backgroundColor = status ? .mainYellow : .lightYellow
     }
 }

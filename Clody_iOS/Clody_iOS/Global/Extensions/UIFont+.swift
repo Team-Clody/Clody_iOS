@@ -11,11 +11,11 @@ enum FontName {
     case head1, head2, head3, head3_medium, head4
     case body1_semibold, body1_medium
     case body2_semibold, body2_medium
-    case body3_semibold, body3_medium
+    case body3_semibold, body3_medium, body3_regular
     case body4_semibold, body4_medium
-    case detail1_semibold, detail1_medium
+    case detail1_semibold, detail1_medium, detail1_regular
     case detail2_semibold, detail2_medium
-    case letter_medium, popup_regular, help_regular
+    case letter_medium
 
     var rawValue: String {
         switch self {
@@ -23,7 +23,7 @@ enum FontName {
             return "Pretendard-SemiBold"
         case .head3_medium, .body1_medium, .body2_medium, .body3_medium, .body4_medium, .detail1_medium, .detail2_medium, .letter_medium:
             return "Pretendard-Medium"
-        case .popup_regular, .help_regular:
+        case .body3_regular, .detail1_regular:
             return "Pretendard-Regular"
         }
     }
@@ -42,11 +42,11 @@ enum FontName {
             return 16
         case .body2_semibold, .body2_medium:
             return 15
-        case .body3_semibold, .body3_medium, .letter_medium, .popup_regular:
+        case .body3_semibold, .body3_medium, .body3_regular, .letter_medium:
             return 14
         case .body4_semibold, .body4_medium:
             return 13
-        case .detail1_semibold, .detail1_medium, .help_regular:
+        case .detail1_semibold, .detail1_medium, .detail1_regular:
             return 12
         case .detail2_semibold, .detail2_medium:
             return 10
