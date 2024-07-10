@@ -74,7 +74,7 @@ extension MyPageViewController: UITableViewDataSource {
             let latestVersionLabel = UILabel().then {
                 $0.text = item.detail
                 $0.font = UIFont.pretendard(.body3_medium)
-                $0.textColor = UIColor(named: "grey05")
+                $0.textColor = .grey05
             }
 
             cell.contentView.addSubview(latestVersionLabel)

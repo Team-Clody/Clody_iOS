@@ -5,16 +5,19 @@ import Then
 
 final class MyPageView: BaseView {
     
-    let tableView = UITableView().then {
-        $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.identifier)
-        $0.tableFooterView = UIView()
-        $0.rowHeight = UITableView.automaticDimension
-        $0.estimatedRowHeight = 100
-        $0.separatorStyle = .none
-    }
+    let tableView = UITableView()
     
     override func setStyle() {
         super.setStyle()
+        
+        tableView.do {
+            $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.identifier)
+            $0.tableFooterView = UIView()
+            $0.rowHeight = UITableView.automaticDimension
+            $0.estimatedRowHeight = 100
+            $0.separatorStyle = .none
+        }
+        
         backgroundColor = UIColor(named: "whiteCustom")
     }
     
