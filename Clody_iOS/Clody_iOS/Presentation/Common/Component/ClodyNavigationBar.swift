@@ -124,10 +124,7 @@ final class ClodyNavigationBar: UIView {
     var dateText: String = "" {
         didSet {
             dateButton.configuration?.attributedTitle = AttributedString(
-                dateText,
-                attributes: AttributeContainer([
-                    NSAttributedString.Key.font: UIFont.pretendard(.head4)
-                ])
+                UIFont.pretendardString(text: dateText, style: .head4)
             )
         }
     }
