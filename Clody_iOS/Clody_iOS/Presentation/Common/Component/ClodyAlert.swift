@@ -72,6 +72,7 @@ private extension ClodyAlertViewController {
     
     func setStyle() {
         self.modalPresentationStyle = .fullScreen
+        view.backgroundColor = .white.withAlphaComponent(0.4)
     }
     
     func setHierarchy() {

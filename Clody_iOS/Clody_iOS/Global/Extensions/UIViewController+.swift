@@ -21,6 +21,6 @@ extension UIViewController {
             message: message,
             rightButtonText: rightButtonText
         )
-        self.present(alertViewController, animated: true, completion: nil)
+        self.present(alertViewController, animated: false, completion: nil)
     }
 }
