@@ -38,6 +38,7 @@ final class ListHeaderView: UICollectionReusableView {
     
     func setStyle() {
         self.backgroundColor = .clear
+        
         cloverImageView.do {
             $0.image = .cloverNone
         }
@@ -121,6 +122,15 @@ final class ListHeaderView: UICollectionReusableView {
     func bindData(diary: Diaries) {
         cloverImageView.image = UIImage(named: diary.diaryCount == 0 ? "cloverNone" : "clover\(diary.diaryCount)")
         newImageView.isHidden = diary.replyStatus != "not_read"
-        dateLabel.text = "\(diary.date.split(separator: "-").last!)일"
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        if let date = dateFormatter.date(from: diary.date) {
+            let formattedDate = DateFormatter.string(from: date, format: "d")
+            dateLabel.text = "\(formattedDate)일"
+        } else {
+            dateLabel.text = "\(diary.date.split(separator: "-").last!)일"
+        }
     }
 }

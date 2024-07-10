@@ -38,13 +38,14 @@ final class ListViewModel: CalendarViewModelType {
         input.tapReplyButton
             .emit(onNext: { [weak self] date in
                 guard let self = self else { return }
-                
+                // 뷰로 이동 연결, date
             })
             .disposed(by: disposeBag)
         
         input.tapKebabButton
             .emit(onNext: { [weak self] date in
                 guard let self = self else { return }
+                // 뷰로 이동 연결, date
             })
             .disposed(by: disposeBag)
         

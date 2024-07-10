@@ -103,8 +103,4 @@ final class ListView: UIView {
         layout.register(ListBackgroundView.self, forDecorationViewOfKind: ListBackgroundView.description())
         return layout
     }
-    
-    
-    
 }
-
