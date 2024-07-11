@@ -19,10 +19,10 @@ struct CalendarCellModel {
 
 extension CalendarModel {
     static func dummy(monthString: String) -> CalendarModel {
-
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM"
-
+        
         guard let monthDate = dateFormatter.date(from: monthString) else {
             fatalError("Invalid month string format")
         }

@@ -93,7 +93,7 @@ private extension CalendarViewController {
         output.selectedDate
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
-                self.rootView.calendarView.reloadData()
+                self.rootView.mainCalendarView.reloadData()
                 
             })
             .disposed(by: disposeBag)
@@ -106,8 +106,8 @@ private extension CalendarViewController {
     }
     
     func setDelegate() {
-        rootView.calendarView.delegate = self
-        rootView.calendarView.dataSource = self
+        rootView.mainCalendarView.delegate = self
+        rootView.mainCalendarView.dataSource = self
     }
     
     func setStyle() {
@@ -115,7 +115,7 @@ private extension CalendarViewController {
     }
     
     func registerCells() {
-        rootView.calendarView.register(CalendarDateCell.self, forCellReuseIdentifier: CalendarDateCell.description())
+        rootView.mainCalendarView.register(CalendarDateCell.self, forCellReuseIdentifier: CalendarDateCell.description())
         rootView.dailyDiaryCollectionView.register(DailyCalendarCollectionViewCell.self, forCellWithReuseIdentifier: DailyCalendarCollectionViewCell.description())
     }
 }
