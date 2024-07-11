@@ -27,7 +27,7 @@ final class ClodyTextField: UIView {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(
                 text: type == .nickname ? I18N.Common.nicknameCondition : "",
-                style: .body3_regular
+                style: .detail1_regular
             )
         }
         .then {
@@ -110,7 +110,7 @@ extension ClodyTextField {
             $0.backgroundColor = .clear
             $0.font = .pretendard(.body1_medium)
             $0.textColor = .grey03
-            $0.clearButtonMode = .whileEditing
+            $0.clearButtonMode = .always
             $0.attributedPlaceholder = NSAttributedString(
                 string: type == .nickname ? I18N.Common.enterNickname : I18N.Common.enterEmail,
                 attributes: [NSAttributedString.Key.foregroundColor : UIColor.grey05]
@@ -118,7 +118,7 @@ extension ClodyTextField {
         }
         
         underline.do {
-            $0.backgroundColor = .grey04
+            $0.backgroundColor = .grey07
         }
     }
     

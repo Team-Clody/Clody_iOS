@@ -53,6 +53,8 @@
 		95310F8A2C401A1F00023C7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95310F892C401A1F00023C7B /* GoogleService-Info.plist */; };
 		95310F8C2C401BE200023C7B /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F8B2C401BE200023C7B /* TermsView.swift */; };
 		95310F8E2C401BED00023C7B /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F8D2C401BED00023C7B /* TermsViewController.swift */; };
+		95310F902C40705600023C7B /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F8F2C40705600023C7B /* NicknameViewController.swift */; };
+		95310F922C40706600023C7B /* NicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F912C40706600023C7B /* NicknameView.swift */; };
 		95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A89E762C36EE4100E07ABC /* BaseView.swift */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +97,8 @@
 		95310F892C401A1F00023C7B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		95310F8B2C401BE200023C7B /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		95310F8D2C401BED00023C7B /* TermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
+		95310F8F2C40705600023C7B /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
+		95310F912C40706600023C7B /* NicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameView.swift; sourceTree = "<group>"; };
 		95A89E762C36EE4100E07ABC /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -362,6 +366,7 @@
 			children = (
 				95310F7E2C3FF44E00023C7B /* LoginViewController.swift */,
 				95310F8D2C401BED00023C7B /* TermsViewController.swift */,
+				95310F8F2C40705600023C7B /* NicknameViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -371,6 +376,7 @@
 			children = (
 				95310F822C3FF53400023C7B /* LoginView.swift */,
 				95310F8B2C401BE200023C7B /* TermsView.swift */,
+				95310F912C40706600023C7B /* NicknameView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -510,11 +516,13 @@
 				0BFCC5EE2C2F850400B5E0DB /* UIView+.swift in Sources */,
 				0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */,
 				95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */,
+				95310F902C40705600023C7B /* NicknameViewController.swift in Sources */,
 				95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */,
 				0BFCC5CF2C2E8DAE00B5E0DB /* BaseTargetType.swift in Sources */,
 				95310F832C3FF53400023C7B /* LoginView.swift in Sources */,
 				0BFCC5DA2C2E8F0200B5E0DB /* CalendarModel.swift in Sources */,
 				0B20F3E12C2C4DAA00F8D62D /* ViewController.swift in Sources */,
+				95310F922C40706600023C7B /* NicknameView.swift in Sources */,
 				0B20F3DD2C2C4DAA00F8D62D /* AppDelegate.swift in Sources */,
 				0BFCC5F32C306D3B00B5E0DB /* String.swift in Sources */,
 				95310F722C3C39FE00023C7B /* ClodyNavigationBar.swift in Sources */,

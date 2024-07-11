@@ -14,11 +14,12 @@ enum I18N {
         static let month = "월"
         static let enterNickname = "닉네임을 입력해주세요"
         static let enterEmail = "이메일을 입력해주세요"
-        static let nicknameCondition = "특수문자, 띄어쓰기 불가"
+        static let nicknameCondition = "특수문자, 띄어쓰기 없이 작성해주세요"
         static let nicknameError = "사용할 수 없는 닉네임이에요"
         static let emailError = "이메일 형식을 확인해주세요"
         static let charLimit = "/ 10"
         static let next = "다음"
+        static let complete = "완료"
     }
     
     enum Alert {
@@ -45,5 +46,6 @@ enum I18N {
         static let required = "(필수)"
         static let clodyTerms = "Clody 이용약관"
         static let privacy = "개인정보 처리방침"
+        static let nickNameIntro = "만나서 반가워요!\n어떻게 불러드릴까요?"
     }
 }

@@ -15,7 +15,7 @@ final class TermsView: BaseView {
     // MARK: - UI Components
     
     private let navigationBar = ClodyNavigationBar(type: .normal)
-    private let introLabal = UILabel()
+    private let introLabel = UILabel()
     private let allAgreeTextButton = UIButton()
     private let allAgreeIconButton = UIButton()
     private let divider = UIView()
@@ -32,7 +32,7 @@ final class TermsView: BaseView {
     override func setStyle() {
         backgroundColor = .white
         
-        introLabal.do {
+        introLabel.do {
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(text: I18N.Auth.termsIntro, style: .head1)
             $0.numberOfLines = 0
@@ -102,7 +102,7 @@ final class TermsView: BaseView {
     }
     
     override func setHierarchy() {
-        addSubviews(navigationBar, introLabal, allAgreeTextButton, allAgreeIconButton, divider, requiredTermsLabel, viewTermsDetailButton, agreeTermsIconButton, requiredPrivacyLabel, viewPrivacyDetailButton, agreePrivacyIconButton, nextButton)
+        addSubviews(navigationBar, introLabel, allAgreeTextButton, allAgreeIconButton, divider, requiredTermsLabel, viewTermsDetailButton, agreeTermsIconButton, requiredPrivacyLabel, viewPrivacyDetailButton, agreePrivacyIconButton, nextButton)
     }
     
     override func setLayout() {
@@ -112,13 +112,13 @@ final class TermsView: BaseView {
             $0.horizontalEdges.equalToSuperview()
         }
         
-        introLabal.snp.makeConstraints {
+        introLabel.snp.makeConstraints {
             $0.top.equalTo(navigationBar.snp.bottom).offset(40)
             $0.leading.equalToSuperview().inset(24)
         }
         
         allAgreeTextButton.snp.makeConstraints {
-            $0.top.equalTo(introLabal.snp.bottom).offset(49)
+            $0.top.equalTo(introLabel.snp.bottom).offset(49)
             $0.leading.equalToSuperview().inset(24)
         }
         
