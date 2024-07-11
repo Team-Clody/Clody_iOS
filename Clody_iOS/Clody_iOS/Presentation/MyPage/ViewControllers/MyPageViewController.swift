@@ -50,42 +50,19 @@ private extension MyPageViewController {
 // MARK: - UITableViewDataSource
 
 extension MyPageViewController: UITableViewDataSource {
-    func tableView(
-        _ tableView: UITableView,
-        numberOfRowsInSection section: Int
-    ) -> Int {
-        return viewModel.items.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return MyPageViewModel.Setting.allCases.count
     }
     
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: MyPageTableViewCell.identifier,
             for: indexPath
         ) as! MyPageTableViewCell
-        let item = viewModel.items[indexPath.row]
         
-        cell.textLabel?.text = item.text
-        cell.textLabel?.font = UIFont.pretendard(.body1_medium)
+        let setting = MyPageViewModel.Setting.allCases[indexPath.row]
+        cell.configure(with: setting, at: indexPath)
 
-        if item.text == "앱 버전" {
-            let latestVersionLabel = UILabel().then {
-                $0.text = item.detail
-                $0.font = UIFont.pretendard(.body3_medium)
-                $0.textColor = .grey05
-            }
-
-            cell.contentView.addSubview(latestVersionLabel)
-            latestVersionLabel.snp.makeConstraints {
-                $0.centerY.equalToSuperview()
-                $0.trailing.equalToSuperview().offset(-23)
-            }
-        } else {
-            cell.accessoryType = .disclosureIndicator
-        }
-        
         if indexPath.row == 0 || indexPath.row == 3 {
             cell.showSeparatorLine(true)
         } else {

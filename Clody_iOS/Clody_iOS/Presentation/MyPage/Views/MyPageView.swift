@@ -8,8 +8,6 @@ final class MyPageView: BaseView {
     let tableView = UITableView()
     
     override func setStyle() {
-        super.setStyle()
-        
         tableView.do {
             $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.identifier)
             $0.tableFooterView = UIView()
@@ -22,12 +20,10 @@ final class MyPageView: BaseView {
     }
     
     override func setHierarchy() {
-        super.setHierarchy()
         addSubview(tableView)
     }
     
     override func setLayout() {
-        super.setLayout()
         tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }

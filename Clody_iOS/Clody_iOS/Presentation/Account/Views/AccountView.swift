@@ -3,9 +3,10 @@ import UIKit
 import SnapKit
 import Then
 
-final class AccountView: UIView {
+final class AccountView: BaseView {
 
     // MARK: - UI Components
+    
     let profileImageView = UIImageView()
     let nicknameLabel = UILabel()
     let changeProfileButton = UIButton()
@@ -16,20 +17,9 @@ final class AccountView: UIView {
     let deleteConfirmationLabel = UILabel()
     let separatorLine = UIView()
     
-    // MARK: - Initializer
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setUI()
-        setHierarchy()
-        setConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     // MARK: - Setup
-    private func setUI() {
+    
+    override func setStyle() {
         backgroundColor = .white
         
         profileImageView.do {
@@ -56,9 +46,6 @@ final class AccountView: UIView {
         emailLabel.do {
             $0.attributedText = UIFont.pretendardString(text: "clody@icloud.com", style: .body1_semibold)
             $0.textColor = .black
-            $0.isUserInteractionEnabled = true
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(emailLabelTapped))
-            $0.addGestureRecognizer(tapGesture)
         }
         
         logoutButton.do {
@@ -81,18 +68,16 @@ final class AccountView: UIView {
         separatorLine.do {
             $0.backgroundColor = .grey07
         }
-
-        
     }
     
-    private func setHierarchy() {
+    override func setHierarchy() {
         addSubviews(profileImageView, nicknameLabel, changeProfileButton, emailImageView, emailLabel, logoutButton, deleteAccountButton, deleteConfirmationLabel, separatorLine)
     }
     
-    private func setConstraints() {
+    override func setLayout() {
         profileImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(134)
-            $0.left.equalToSuperview().offset(24)
+            $0.top.equalToSuperview().inset(134)
+            $0.left.equalToSuperview().inset(24)
             $0.width.height.equalTo(20)
         }
         
@@ -103,7 +88,7 @@ final class AccountView: UIView {
         
         changeProfileButton.snp.makeConstraints {
             $0.centerY.equalTo(profileImageView)
-            $0.right.equalToSuperview().offset(-23)
+            $0.right.equalToSuperview().inset(23)
         }
 
         emailImageView.snp.makeConstraints {
@@ -130,7 +115,7 @@ final class AccountView: UIView {
         
         deleteConfirmationLabel.snp.makeConstraints {
             $0.top.equalTo(separatorLine.snp.bottom).offset(22)
-            $0.left.equalToSuperview().offset(26)
+            $0.left.equalToSuperview().inset(26)
         }
         
         deleteAccountButton.snp.makeConstraints {
@@ -140,6 +125,8 @@ final class AccountView: UIView {
     }
     
     // MARK: - Actions
+    
     @objc private func emailLabelTapped() {
+        // 이메일 라벨 탭 동작 구현
     }
 }
