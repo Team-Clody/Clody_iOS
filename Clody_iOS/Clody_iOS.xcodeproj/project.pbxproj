@@ -7,11 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B17F8052C368465008A9998 /* DailyCalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B17F8042C368465008A9998 /* DailyCalendarCollectionViewCell.swift */; };
+		0B190F0B2C380F5300D46CFC /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B190F0A2C380F5300D46CFC /* DateFormatter+.swift */; };
+		0B190F0D2C38111500D46CFC /* CalendarDailyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B190F0C2C38111500D46CFC /* CalendarDailyModel.swift */; };
 		0B20F3DD2C2C4DAA00F8D62D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B20F3DC2C2C4DAA00F8D62D /* AppDelegate.swift */; };
 		0B20F3DF2C2C4DAA00F8D62D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B20F3DE2C2C4DAA00F8D62D /* SceneDelegate.swift */; };
 		0B20F3E12C2C4DAA00F8D62D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B20F3E02C2C4DAA00F8D62D /* ViewController.swift */; };
 		0B20F3E62C2C4DAB00F8D62D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */; };
 		0B20F3E92C2C4DAB00F8D62D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 0B20F3E82C2C4DAB00F8D62D /* Base */; };
+		0B6C07372C3B99970054A0B0 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 0B6C07362C3B99970054A0B0 /* Differentiator */; };
+		0B6C07392C3B99970054A0B0 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 0B6C07382C3B99970054A0B0 /* RxDataSources */; };
+		0B6C073B2C3CEBA30054A0B0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B6C073A2C3CEBA30054A0B0 /* GoogleService-Info.plist */; };
+		0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC373522C3FCC2600C45072 /* ViewModelType.swift */; };
 		0BCD4FA52C363C90006390D2 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 0BCD4FA42C363C90006390D2 /* FirebaseMessaging */; };
 		0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A52C2E843C00B5E0DB /* FSCalendar */; };
 		0BFCC5A92C2E847300B5E0DB /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A82C2E847300B5E0DB /* Moya */; };
@@ -26,7 +33,7 @@
 		0BFCC5DD2C2E8F1300B5E0DB /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5DC2C2E8F1300B5E0DB /* CalendarViewController.swift */; };
 		0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5DE2C2E8F1F00B5E0DB /* CalendarViewModel.swift */; };
 		0BFCC5E12C2E8F2800B5E0DB /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5E02C2E8F2800B5E0DB /* CalendarView.swift */; };
-		0BFCC5E32C2E8F5400B5E0DB /* CalenderDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5E22C2E8F5400B5E0DB /* CalenderDateCell.swift */; };
+		0BFCC5E32C2E8F5400B5E0DB /* CalendarDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5E22C2E8F5400B5E0DB /* CalendarDateCell.swift */; };
 		0BFCC5EE2C2F850400B5E0DB /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5ED2C2F850400B5E0DB /* UIView+.swift */; };
 		0BFCC5F02C2F852D00B5E0DB /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5EF2C2F852D00B5E0DB /* UIStackView+.swift */; };
 		0BFCC5F32C306D3B00B5E0DB /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFCC5F22C306D3B00B5E0DB /* String.swift */; };
@@ -44,6 +51,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B17F8042C368465008A9998 /* DailyCalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCalendarCollectionViewCell.swift; sourceTree = "<group>"; };
+		0B190F0A2C380F5300D46CFC /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
+		0B190F0C2C38111500D46CFC /* CalendarDailyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDailyModel.swift; sourceTree = "<group>"; };
 		0B20F3D92C2C4DAA00F8D62D /* Clody_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clody_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B20F3DC2C2C4DAA00F8D62D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0B20F3DE2C2C4DAA00F8D62D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,13 +61,15 @@
 		0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B20F3E82C2C4DAB00F8D62D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B20F3EA2C2C4DAB00F8D62D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B6C073A2C3CEBA30054A0B0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0BC373522C3FCC2600C45072 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		0BCD4FA22C35B59C006390D2 /* Clody_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clody_iOS.entitlements; sourceTree = "<group>"; };
 		0BFCC5CE2C2E8DAE00B5E0DB /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
 		0BFCC5D92C2E8F0100B5E0DB /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		0BFCC5DC2C2E8F1300B5E0DB /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		0BFCC5DE2C2E8F1F00B5E0DB /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		0BFCC5E02C2E8F2800B5E0DB /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
-		0BFCC5E22C2E8F5400B5E0DB /* CalenderDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderDateCell.swift; sourceTree = "<group>"; };
+		0BFCC5E22C2E8F5400B5E0DB /* CalendarDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateCell.swift; sourceTree = "<group>"; };
 		0BFCC5ED2C2F850400B5E0DB /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		0BFCC5EF2C2F852D00B5E0DB /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		0BFCC5F22C306D3B00B5E0DB /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -84,7 +96,9 @@
 				0BFCC5B92C2E892300B5E0DB /* RxBlocking in Frameworks */,
 				0BFCC5AC2C2E864C00B5E0DB /* SnapKit in Frameworks */,
 				0BFCC5BB2C2E892300B5E0DB /* RxCocoa in Frameworks */,
+				0B6C07392C3B99970054A0B0 /* RxDataSources in Frameworks */,
 				0BFCC5A92C2E847300B5E0DB /* Moya in Frameworks */,
+				0B6C07372C3B99970054A0B0 /* Differentiator in Frameworks */,
 				0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */,
 				0BFCC5BD2C2E892300B5E0DB /* RxRelay in Frameworks */,
 				0BFCC5AF2C2E865B00B5E0DB /* Then in Frameworks */,
@@ -120,6 +134,7 @@
 				0BFCC5D02C2E8E3600B5E0DB /* Presentation */,
 				0B20F3E02C2C4DAA00F8D62D /* ViewController.swift */,
 				0B20F3EA2C2C4DAB00F8D62D /* Info.plist */,
+				0B6C073A2C3CEBA30054A0B0 /* GoogleService-Info.plist */,
 			);
 			path = Clody_iOS;
 			sourceTree = "<group>";
@@ -151,6 +166,7 @@
 				0BFCC5ED2C2F850400B5E0DB /* UIView+.swift */,
 				0BFCC5EF2C2F852D00B5E0DB /* UIStackView+.swift */,
 				2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */,
+				0B190F0A2C380F5300D46CFC /* DateFormatter+.swift */,
 				95310F792C3D8C8B00023C7B /* UIViewController+.swift */,
 			);
 			path = Extensions;
@@ -159,6 +175,7 @@
 		0BFCC5C22C2E8C3C00B5E0DB /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				0BC373522C3FCC2600C45072 /* ViewModelType.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -295,6 +312,7 @@
 			isa = PBXGroup;
 			children = (
 				0BFCC5D92C2E8F0100B5E0DB /* CalendarModel.swift */,
+				0B190F0C2C38111500D46CFC /* CalendarDailyModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -302,7 +320,8 @@
 		0BFCC5D82C2E8ED600B5E0DB /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				0BFCC5E22C2E8F5400B5E0DB /* CalenderDateCell.swift */,
+				0BFCC5E22C2E8F5400B5E0DB /* CalendarDateCell.swift */,
+				0B17F8042C368465008A9998 /* DailyCalendarCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -362,6 +381,8 @@
 				0BFCC5BA2C2E892300B5E0DB /* RxCocoa */,
 				0BFCC5BC2C2E892300B5E0DB /* RxRelay */,
 				0BCD4FA42C363C90006390D2 /* FirebaseMessaging */,
+				0B6C07362C3B99970054A0B0 /* Differentiator */,
+				0B6C07382C3B99970054A0B0 /* RxDataSources */,
 			);
 			productName = Clody_iOS;
 			productReference = 0B20F3D92C2C4DAA00F8D62D /* Clody_iOS.app */;
@@ -399,6 +420,7 @@
 				0BFCC5B02C2E86EF00B5E0DB /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				0BFCC5B72C2E892300B5E0DB /* XCRemoteSwiftPackageReference "RxSwift" */,
 				0BCD4FA32C363C90006390D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				0B6C07352C3B99960054A0B0 /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = 0B20F3DA2C2C4DAA00F8D62D /* Products */;
 			projectDirPath = "";
@@ -419,6 +441,7 @@
 				2CE3AB2F2C36E9F50042085A /* Pretendard-Regular.otf in Resources */,
 				2C0B3C862C30DD55002EB1A3 /* Pretendard-Medium.otf in Resources */,
 				2C0B3C882C30DD5B002EB1A3 /* Pretendard-SemiBold.otf in Resources */,
+				0B6C073B2C3CEBA30054A0B0 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,13 +465,17 @@
 				0BFCC5F32C306D3B00B5E0DB /* String.swift in Sources */,
 				95310F722C3C39FE00023C7B /* ClodyNavigationBar.swift in Sources */,
 				0BFCC5E12C2E8F2800B5E0DB /* CalendarView.swift in Sources */,
+				0B17F8052C368465008A9998 /* DailyCalendarCollectionViewCell.swift in Sources */,
+				0B190F0D2C38111500D46CFC /* CalendarDailyModel.swift in Sources */,
 				0BFCC5F02C2F852D00B5E0DB /* UIStackView+.swift in Sources */,
+				0B190F0B2C380F5300D46CFC /* DateFormatter+.swift in Sources */,
 				0BFCC5DD2C2E8F1300B5E0DB /* CalendarViewController.swift in Sources */,
 				95310F782C3D6DF800023C7B /* ClodyAlert.swift in Sources */,
 				95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */,
+				0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */,
 				0B20F3DF2C2C4DAA00F8D62D /* SceneDelegate.swift in Sources */,
 				95310F7A2C3D8C8B00023C7B /* UIViewController+.swift in Sources */,
-				0BFCC5E32C2E8F5400B5E0DB /* CalenderDateCell.swift in Sources */,
+				0BFCC5E32C2E8F5400B5E0DB /* CalendarDateCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -667,6 +694,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0B6C07352C3B99960054A0B0 /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
 		0BCD4FA32C363C90006390D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -726,6 +761,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0B6C07362C3B99970054A0B0 /* Differentiator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0B6C07352C3B99960054A0B0 /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = Differentiator;
+		};
+		0B6C07382C3B99970054A0B0 /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0B6C07352C3B99960054A0B0 /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
+		};
 		0BCD4FA42C363C90006390D2 /* FirebaseMessaging */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0BCD4FA32C363C90006390D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
