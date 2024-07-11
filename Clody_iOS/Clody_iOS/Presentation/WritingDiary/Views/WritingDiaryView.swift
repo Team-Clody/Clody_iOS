@@ -46,7 +46,7 @@ final class WritingDiaryView: UIView {
         }
         
         writingCollectionView.do {
-            $0.backgroundColor = .grey08
+            $0.backgroundColor = .white
             $0.showsVerticalScrollIndicator = false
         }
         
@@ -69,6 +69,7 @@ final class WritingDiaryView: UIView {
     }
     
     func setLayout() {
+        self.backgroundColor = .whiteCustom
         
         navigationBarView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
@@ -90,7 +91,7 @@ final class WritingDiaryView: UIView {
         
         addButton.snp.makeConstraints {
             $0.size.equalTo(41)
-            $0.bottom.equalTo(saveButton.snp.top).offset(-28)
+            $0.bottom.equalTo(safeAreaLayoutGuide).offset(-76)
             $0.trailing.equalTo(saveButton)
         }
     }

@@ -31,6 +31,7 @@
 		0B6C075D2C3E7D660054A0B0 /* WritingDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C075C2C3E7D660054A0B0 /* WritingDiaryView.swift */; };
 		0B6C075F2C3E7D8E0054A0B0 /* WritingDiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C075E2C3E7D8E0054A0B0 /* WritingDiaryCell.swift */; };
 		0B6C07612C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C07602C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift */; };
+		0BC373562C3FCF0F00C45072 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 0BC373552C3FCF0F00C45072 /* RxKeyboard */; };
 		0BCD4FA52C363C90006390D2 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 0BCD4FA42C363C90006390D2 /* FirebaseMessaging */; };
 		0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A52C2E843C00B5E0DB /* FSCalendar */; };
 		0BFCC5A92C2E847300B5E0DB /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A82C2E847300B5E0DB /* Moya */; };
@@ -104,6 +105,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0BCD4FA52C363C90006390D2 /* FirebaseMessaging in Frameworks */,
+				0BC373562C3FCF0F00C45072 /* RxKeyboard in Frameworks */,
 				0BFCC5B22C2E86EF00B5E0DB /* Lottie in Frameworks */,
 				0BFCC5B92C2E892300B5E0DB /* RxBlocking in Frameworks */,
 				0BFCC5AC2C2E864C00B5E0DB /* SnapKit in Frameworks */,
@@ -497,6 +499,7 @@
 				0BCD4FA42C363C90006390D2 /* FirebaseMessaging */,
 				0B6C07362C3B99970054A0B0 /* Differentiator */,
 				0B6C07382C3B99970054A0B0 /* RxDataSources */,
+				0BC373552C3FCF0F00C45072 /* RxKeyboard */,
 			);
 			productName = Clody_iOS;
 			productReference = 0B20F3D92C2C4DAA00F8D62D /* Clody_iOS.app */;
@@ -535,6 +538,7 @@
 				0BFCC5B72C2E892300B5E0DB /* XCRemoteSwiftPackageReference "RxSwift" */,
 				0BCD4FA32C363C90006390D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				0B6C07352C3B99960054A0B0 /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				0BC373542C3FCF0F00C45072 /* XCRemoteSwiftPackageReference "RxKeyboard" */,
 			);
 			productRefGroup = 0B20F3DA2C2C4DAA00F8D62D /* Products */;
 			projectDirPath = "";
@@ -822,6 +826,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		0BC373542C3FCF0F00C45072 /* XCRemoteSwiftPackageReference "RxKeyboard" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxKeyboard";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
+			};
+		};
 		0BCD4FA32C363C90006390D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -890,6 +902,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0B6C07352C3B99960054A0B0 /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
+		};
+		0BC373552C3FCF0F00C45072 /* RxKeyboard */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BC373542C3FCF0F00C45072 /* XCRemoteSwiftPackageReference "RxKeyboard" */;
+			productName = RxKeyboard;
 		};
 		0BCD4FA42C363C90006390D2 /* FirebaseMessaging */ = {
 			isa = XCSwiftPackageProductDependency;

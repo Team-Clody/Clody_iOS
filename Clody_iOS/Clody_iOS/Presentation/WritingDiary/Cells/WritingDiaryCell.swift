@@ -38,8 +38,10 @@ final class WritingDiaryCell: UICollectionViewCell {
     
     func setStyle() {
         
+        self.backgroundColor = .white
+        
         writingContainer.do {
-            $0.backgroundColor = .red
+            $0.backgroundColor = .grey09
             $0.makeCornerRound(radius: 10)
         }
         
@@ -49,7 +51,11 @@ final class WritingDiaryCell: UICollectionViewCell {
         }
         
         textView.do {
-            $0.attributedText = UIFont.pretendardString(text: "작은 감사함을 적어보세요.", style: .body3_medium, lineHeightMultiple: 1.5)
+            $0.attributedText = UIFont.pretendardString(
+                text: "일상 속 작은 감사함을 적어보세요. ",
+                style: .body3_medium,
+                lineHeightMultiple: 1.5
+            )
             $0.textColor = .grey03
             $0.backgroundColor = .clear
             $0.isScrollEnabled = false
@@ -116,5 +122,12 @@ final class WritingDiaryCell: UICollectionViewCell {
             $0.trailing.equalToSuperview().inset(6)
         }
     }
+    
+    func bindData(isValid: Bool) {
+        if isValid {
+            writingContainer.makeBorder(width: 0, color: .grey09)
+        } else {
+            writingContainer.makeBorder(width: 1, color: .redCustom)
+        }
+    }
 }
-

@@ -9,6 +9,7 @@ import UIKit
 
 import RxCocoa
 import RxSwift
+import RxKeyboard
 import SnapKit
 import Then
 
@@ -22,6 +23,7 @@ final class WritingDiaryViewController: UIViewController {
     // MARK: - UI Components
     
     private let rootView = WritingDiaryView()
+    private let tapGestureRecognizer = UITapGestureRecognizer()
     
     // MARK: - Life Cycles
     
@@ -36,6 +38,8 @@ final class WritingDiaryViewController: UIViewController {
         setDelegate()
         bindViewModel()
         setStyle()
+        setupGestureRecognizer()
+        setupKeyboardHandling()
     }
 }
 
@@ -65,7 +69,10 @@ private extension WritingDiaryViewController {
         
         output.setTextViewStatus
             .drive(onNext: { [weak self] isValid in
-                // 유효성 검사에 따른 UI 업데이트 (예: 경계 색상 변경)
+                self?.rootView.writingCollectionView.visibleCells.forEach { cell in
+                    guard let cell = cell as? WritingDiaryCell else { return }
+                    cell.bindData(isValid: isValid)
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -81,6 +88,28 @@ private extension WritingDiaryViewController {
     func registerCells() {
         rootView.writingCollectionView.register(WritingDiaryCell.self, forCellWithReuseIdentifier: WritingDiaryCell.description())
         rootView.writingCollectionView.register(WritingDiaryHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: WritingDiaryHeaderView.description())
+    }
+    
+    func setupGestureRecognizer() {
+        view.addGestureRecognizer(tapGestureRecognizer)
+        tapGestureRecognizer.rx.event
+            .bind { [weak self] _ in
+                self?.view.endEditing(true)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    func setupKeyboardHandling() {
+        RxKeyboard.instance.visibleHeight
+            .drive(onNext: { [weak self] keyboardVisibleHeight in
+                guard let self = self else { return }
+                let bottomPadding = keyboardVisibleHeight > 0 ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + 20 : 76
+                self.rootView.addButton.snp.updateConstraints {
+                    $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(bottomPadding)
+                }
+                self.view.layoutIfNeeded()
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -105,6 +134,17 @@ extension WritingDiaryViewController: UICollectionViewDataSource {
         
         cell.textView.rx.text.orEmpty
             .skip(1)
+            .map { String($0.prefix(50)) } 
+            .bind(to: cell.textView.rx.text)
+            .disposed(by: cell.disposeBag)
+        
+        cell.textView.rx.text.orEmpty
+            .map { "\($0.count)" }
+            .bind(to: cell.textInputLabel.rx.text)
+            .disposed(by: cell.disposeBag)
+        
+        cell.textView.rx.text.orEmpty
+            .skip(1)
             .bind(to: viewModel.textDidEditing)
             .disposed(by: cell.disposeBag)
         
@@ -112,6 +152,26 @@ extension WritingDiaryViewController: UICollectionViewDataSource {
             .map { cell.textView.text ?? "" }
             .bind(to: viewModel.textEndEditing)
             .disposed(by: cell.disposeBag)
+        
+        cell.textView.rx.didEndEditing
+            .subscribe(onNext: { [weak cell] in
+                guard let cell = cell else { return }
+                if cell.textView.text.isEmpty {
+                    cell.writingContainer.makeBorder(width: 1, color: .red)
+                } else {
+                    cell.writingContainer.makeBorder(width: 0, color: .clear)
+                }
+            })
+            .disposed(by: cell.disposeBag)
+        
+        cell.textView.rx.didBeginEditing
+            .subscribe(onNext: { [weak cell] in
+                guard let cell = cell else { return }
+                cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
+
+            })
+            .disposed(by: cell.disposeBag)
+        
         
         return cell
     }
