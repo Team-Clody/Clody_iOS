@@ -10,14 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol CalendarViewModelType {
-    associatedtype Input
-    associatedtype Output
-    
-    func transform(from input: Input, disposeBag: RxSwift.DisposeBag) -> Output
-}
-
-final class CalendarViewModel: CalendarViewModelType {
+final class CalendarViewModel: ViewModelType {
     
     struct Input {
         let viewDidLoad: Observable<Void>
