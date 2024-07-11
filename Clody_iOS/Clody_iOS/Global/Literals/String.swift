@@ -35,4 +35,9 @@ enum I18N {
         static let save = "저장하기"
         static let delete = "삭제하기"
     }
+    
+    enum Auth {
+        static let kakaoLogin = "카카오로 로그인"
+        static let appleLogin = "Apple로 로그인"
+    }
 }
