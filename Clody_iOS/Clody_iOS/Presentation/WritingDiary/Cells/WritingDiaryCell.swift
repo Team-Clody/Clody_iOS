@@ -13,7 +13,7 @@ import RxSwift
 
 final class WritingDiaryCell: UICollectionViewCell {
     
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag() // 초기화가 가능하도록 var로 변경
     
     // MARK: - UI Components
     
@@ -34,6 +34,18 @@ final class WritingDiaryCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag() // 재사용 시 disposeBag 초기화
+        resetCellState()
+    }
+    
+    private func resetCellState() {
+        textView.text = "일상 속 작은 감사함을 적어보세요."
+        textInputLabel.text = "0"
+        writingContainer.makeBorder(width: 0, color: .clear)
     }
     
     func setStyle() {
@@ -125,7 +137,7 @@ final class WritingDiaryCell: UICollectionViewCell {
     
     func bindData(index: Int, text: String) {
         writingListNumberLabel.text = "\(index)."
-//        textView.text = text
-//        textInputLabel.text = "\(text.count)"
+        textView.text = text
+        textInputLabel.text = "\(text.count)"
     }
 }

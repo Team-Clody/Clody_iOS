@@ -69,14 +69,65 @@ private extension WritingDiaryViewController {
             .disposed(by: disposeBag)
         
         output.items
-            .drive(onNext: { [weak self] item in
-                print(item)
-            })
+            .drive(rootView.writingCollectionView.rx.items(cellIdentifier: WritingDiaryCell.description(), cellType: WritingDiaryCell.self)) { index, text, cell in
+                
+                cell.bindData(index: index + 1, text: text)
+                
+                cell.writingContainer.rx.tapGesture()
+                     .when(.recognized)
+                     .subscribe(onNext: { [weak cell] _ in
+                         cell?.textView.becomeFirstResponder()
+                     })
+                     .disposed(by: cell.disposeBag)
+                
+                cell.textView.rx.text.orEmpty
+                    .skip(1)
+                    .map { String($0.prefix(50)) }
+                    .bind(to: cell.textView.rx.text)
+                    .disposed(by: cell.disposeBag)
+                
+                cell.textView.rx.didBeginEditing
+                    .subscribe(onNext: { [weak cell] in
+                        guard let cell = cell else { return }
+                        cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
+                        if cell.textView.text == "일상 속 작은 감사함을 적어보세요." {
+                            cell.textView.text = ""
+                        }
+                        cell.textView.rx.text.orEmpty
+                            .map { "\($0.count)" }
+                            .bind(to: cell.textInputLabel.rx.text)
+                            .disposed(by: cell.disposeBag)
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                cell.textView.rx.didEndEditing
+                    .map { cell.textView.text ?? "" }
+                    .bind(to: self.viewModel.textEndEditing)
+                    .disposed(by: cell.disposeBag)
+                
+                cell.textView.rx.didEndEditing
+                    .subscribe(onNext: { [weak cell] in
+                        guard let cell = cell else { return }
+                        // itemsRelay에 추가
+                        var items = self.viewModel.itemsRelay.value
+                        items[index] = cell.textView.text
+                        self.viewModel.itemsRelay.accept(items)
+                        
+                        if cell.textView.text.isEmpty {
+                            cell.writingContainer.makeBorder(width: 1, color: .red)
+                            cell.textInputLabel.text = "0"
+                            cell.textView.text = "일상 속 작은 감사함을 적어보세요."
+                        } else {
+                            cell.writingContainer.makeBorder(width: 0, color: .clear)
+                        }
+                    })
+                    .disposed(by: cell.disposeBag)
+            }
             .disposed(by: disposeBag)
     }
     
     func setDelegate() {
-        rootView.writingCollectionView.dataSource = self
+//        rootView.writingCollectionView.dataSource = self
     }
     
     func setStyle() {
@@ -109,94 +160,5 @@ private extension WritingDiaryViewController {
                 self.view.layoutIfNeeded()
             })
             .disposed(by: disposeBag)
-    }
-}
-
-extension WritingDiaryViewController: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.itemsRelay.value.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return UICollectionViewFlowLayout.automaticSize
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WritingDiaryCell.description(), for: indexPath)
-                as? WritingDiaryCell else { return UICollectionViewCell() }
-        
-        let tapGesture = UITapGestureRecognizer()
-        cell.writingContainer.addGestureRecognizer(tapGesture)
-        
-        cell.bindData(index: indexPath.item + 1, text: viewModel.itemsRelay.value[indexPath.item])
-        
-        cell.writingContainer.rx.tapGesture()
-             .when(.recognized)
-             .subscribe(onNext: { [weak cell] _ in
-                 cell?.textView.becomeFirstResponder()
-             })
-             .disposed(by: cell.disposeBag)
-        
-        cell.textView.rx.text.orEmpty
-            .skip(1)
-            .map { String($0.prefix(50)) }
-            .bind(to: cell.textView.rx.text)
-            .disposed(by: cell.disposeBag)
-        
-        cell.textView.rx.didBeginEditing
-            .subscribe(onNext: { [weak cell] in
-                guard let cell = cell else { return }
-                cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
-                if cell.textView.text == "일상 속 작은 감사함을 적어보세요." {
-                    cell.textView.text = ""
-                }
-                cell.textView.rx.text.orEmpty
-                    .map { "\($0.count)" }
-                    .bind(to: cell.textInputLabel.rx.text)
-                    .disposed(by: cell.disposeBag)
-            })
-            .disposed(by: cell.disposeBag)
-        
-        cell.textView.rx.didEndEditing
-            .map { cell.textView.text ?? "" }
-            .bind(to: viewModel.textEndEditing)
-            .disposed(by: cell.disposeBag)
-        
-        cell.textView.rx.didEndEditing
-            .subscribe(onNext: { [weak cell] in
-                guard let cell = cell else { return }
-                // itemsRelay에 추가
-                var items = self.viewModel.itemsRelay.value
-                items.append(cell.textView.text)
-                self.viewModel.itemsRelay.accept(items)
-                
-                if cell.textView.text.isEmpty {
-                    cell.writingContainer.makeBorder(width: 1, color: .red)
-                    cell.textInputLabel.text = "0"
-                    cell.textView.text = "일상 속 작은 감사함을 적어보세요."
-                } else {
-                    cell.writingContainer.makeBorder(width: 0, color: .clear)
-                }
-            })
-            .disposed(by: cell.disposeBag)
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        switch kind {
-        case UICollectionView.elementKindSectionHeader:
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: WritingDiaryHeaderView.description(), for: indexPath) as? WritingDiaryHeaderView else { return UICollectionReusableView() }
-            
-            return header
-        default:
-            return UICollectionReusableView()
-        }
     }
 }
