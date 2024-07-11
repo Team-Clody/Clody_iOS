@@ -18,9 +18,6 @@ final class WritingDiaryViewController: UIViewController {
     
     private let viewModel = WritingDiaryViewModel()
     private let disposeBag = DisposeBag()
-    private let tapReplyRelay = PublishRelay<String>()
-    private let tapKebobRelay = PublishRelay<String>()
-    private let tabMonthRelay = PublishRelay<String>()
     
     // MARK: - UI Components
     
@@ -30,13 +27,11 @@ final class WritingDiaryViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        
         view = rootView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         registerCells()
         setDelegate()
         bindViewModel()
@@ -49,19 +44,29 @@ final class WritingDiaryViewController: UIViewController {
 private extension WritingDiaryViewController {
     
     func bindViewModel() {
-        let input = WritingDiaryViewModel.Input(
-            viewDidLoad: Observable.just(()),
-            tapReplyButton: tapReplyRelay.asSignal(),
-            tapKebabButton: tapKebobRelay.asSignal(),
-            monthTap: tabMonthRelay.asSignal()
-        )
+        let textDidEditingRelay = PublishRelay<String>()
+        let textEndEditingRelay = PublishRelay<String>()
+         
+         let input = WritingDiaryViewModel.Input(
+             viewDidLoad: Observable.just(()),
+             tapSaveButton: rootView.saveButton.rx.tap.asSignal(),
+             tapAddButton: rootView.addButton.rx.tap.asSignal(),
+             textDidEditing: textDidEditingRelay,
+             textEndEditing: textEndEditingRelay
+         )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
-        output.diaryData
-            .drive(rootView.dailyDiaryCollectionView.rx.items(cellIdentifier: WritingDiaryCell.description(), cellType: WritingDiaryCell.self)) { index, model, cell in
-//                cell.bindData(data: model, index: "\(index + 1).")
-            }
+        output.addItem
+            .drive(onNext: { [weak self] itemCount in
+                self?.rootView.writingCollectionView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
+        output.setTextViewStatus
+            .drive(onNext: { [weak self] isValid in
+                // 유효성 검사에 따른 UI 업데이트 (예: 경계 색상 변경)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -86,35 +91,35 @@ extension WritingDiaryViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return viewModel.itemsRelay.value.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return UICollectionViewFlowLayout.automaticSize
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.description(), for: indexPath)
-                as? ListCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WritingDiaryCell.description(), for: indexPath)
+                as? WritingDiaryCell else { return UICollectionViewCell() }
         
-        cell.bindData(diaryContent: viewModel.listDummyDataRelay.value.diaries[indexPath.section].diary[indexPath.item], index: indexPath.item)
+        cell.textView.rx.text.orEmpty
+            .skip(1)
+            .bind(to: viewModel.textDidEditing)
+            .disposed(by: cell.disposeBag)
+        
+        cell.textView.rx.didEndEditing
+            .map { cell.textView.text ?? "" }
+            .bind(to: viewModel.textEndEditing)
+            .disposed(by: cell.disposeBag)
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ListHeaderView.description(), for: indexPath) as? ListHeaderView else { return UICollectionReusableView() }
-            
-            let diaryDate = viewModel.listDummyDataRelay.value.diaries[indexPath.section].date
-            
-            header.bindData(diary: viewModel.listDummyDataRelay.value.diaries[indexPath.section])
-            header.replyButton.rx.tap
-                .map { diaryDate }
-                .bind(to: tapReplyRelay)
-                .disposed(by: disposeBag)
-            
-            header.kebabButton.rx.tap
-                .map { diaryDate }
-                .bind(to: tapKebobRelay)
-                .disposed(by: disposeBag)
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: WritingDiaryHeaderView.description(), for: indexPath) as? WritingDiaryHeaderView else { return UICollectionReusableView() }
             
             return header
         default:

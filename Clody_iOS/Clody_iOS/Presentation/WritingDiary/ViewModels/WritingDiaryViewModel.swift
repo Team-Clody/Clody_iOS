@@ -15,44 +15,71 @@ final class WritingDiaryViewModel: CalendarViewModelType {
     struct Input {
         let viewDidLoad: Observable<Void>
         let tapSaveButton: Signal<Void>
-        let tapAddButton: Signal<String>
+        let tapAddButton: Signal<Void>
+        let textDidEditing: PublishRelay<String>
+        let textEndEditing: PublishRelay<String>
     }
     
     struct Output {
-        let addItem: Driver<Void>
-        let fetchData: Driver<String>
-        let saveData: Driver<Void>
+        let addItem: Driver<Int>
+        let setTextViewStatus: Driver<Bool>
     }
     
     let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: []))
+    let itemsRelay = BehaviorRelay<[String]>(value: [])
+    let textViewStatusRelay = BehaviorRelay<Bool>(value: true)
+    let textDidEditing = PublishRelay<String>()
+    let textEndEditing = PublishRelay<String>()
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
-//        input.viewDidLoad
-//            .subscribe(onNext: { [weak self] in
-//                guard let self = self else { return }
-//                writingDiaryDataRelay.accept()
-//            })
-//            .disposed(by: disposeBag)
-//        
-//        let replyDate = input.tapReplyButton
-//            .asDriver(onErrorJustReturn: "")
-//        
-//        let kebabDate = input.tapKebabButton
-//            .asDriver(onErrorJustReturn: "")
-//        
-//        let listData = listDummyDataRelay
-//            .map { $0.diaries }
-//            .asDriver(onErrorJustReturn: [])
-//        
-//        return Output(replyDate: replyDate, kebabDate: kebabDate)
-//    }
-}
+        input.viewDidLoad
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                // 초기 데이터 로드 로직 추가 가능
+            })
+            .disposed(by: disposeBag)
+        
+        input.tapSaveButton
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                // 저장 버튼 클릭 로직 추가 가능
+            })
+            .disposed(by: disposeBag)
+        
+        input.tapAddButton
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                var items = self.itemsRelay.value ?? []
+                if items.count < 5 {
+                    items.append("")
+                    self.itemsRelay.accept(items)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        input.textDidEditing
+            .subscribe(onNext: { [weak self] text in
+                guard let self = self else { return }
+                self.textViewStatusRelay.accept(text.count <= 50)
+            })
+            .disposed(by: disposeBag)
+        
+        input.textEndEditing
+            .subscribe(onNext: { [weak self] text in
+                guard let self = self else { return }
+                self.textViewStatusRelay.accept(text.count <= 50)
+            })
+            .disposed(by: disposeBag)
 
-extension WritingDiaryViewModel {
-    
-    private func loadDailyDummyData() {
-        let listData = ListModel.dummy()
-//        self.listDummyDataRelay.accept(listData)
+        
+        let addItem = itemsRelay
+            .map { $0.count }
+            .asDriver(onErrorJustReturn: 0)
+        
+        let setTextViewStatus = textViewStatusRelay
+            .asDriver(onErrorJustReturn: true)
+        
+        return Output(addItem: addItem, setTextViewStatus: setTextViewStatus)
     }
 }
