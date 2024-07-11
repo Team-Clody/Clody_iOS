@@ -52,7 +52,7 @@ final class WritingDiaryCell: UICollectionViewCell {
         
         textView.do {
             $0.attributedText = UIFont.pretendardString(
-                text: "일상 속 작은 감사함을 적어보세요. ",
+                text: "일상 속 작은 감사함을 적어보세요.",
                 style: .body3_medium,
                 lineHeightMultiple: 1.5
             )
@@ -123,11 +123,9 @@ final class WritingDiaryCell: UICollectionViewCell {
         }
     }
     
-    func bindData(isValid: Bool) {
-        if isValid {
-            writingContainer.makeBorder(width: 0, color: .grey09)
-        } else {
-            writingContainer.makeBorder(width: 1, color: .redCustom)
-        }
+    func bindData(index: Int, text: String) {
+        writingListNumberLabel.text = "\(index)."
+//        textView.text = text
+//        textInputLabel.text = "\(text.count)"
     }
 }

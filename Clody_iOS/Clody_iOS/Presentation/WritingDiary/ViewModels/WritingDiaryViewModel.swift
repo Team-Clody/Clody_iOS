@@ -22,11 +22,11 @@ final class WritingDiaryViewModel: CalendarViewModelType {
     
     struct Output {
         let addItem: Driver<Int>
-        let setTextViewStatus: Driver<Bool>
+        let items: Driver<[String]>
     }
     
-    let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: []))
-    let itemsRelay = BehaviorRelay<[String]>(value: [])
+    let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: [""]))
+    let itemsRelay = BehaviorRelay<[String]>(value: [""])
     let textViewStatusRelay = BehaviorRelay<Bool>(value: true)
     let textDidEditing = PublishRelay<String>()
     let textEndEditing = PublishRelay<String>()
@@ -69,6 +69,10 @@ final class WritingDiaryViewModel: CalendarViewModelType {
             .subscribe(onNext: { [weak self] text in
                 guard let self = self else { return }
                 self.textViewStatusRelay.accept(text.count <= 50)
+                var items = self.itemsRelay.value
+                print(text)
+                
+                self.itemsRelay.accept(items)
             })
             .disposed(by: disposeBag)
 
@@ -77,9 +81,13 @@ final class WritingDiaryViewModel: CalendarViewModelType {
             .map { $0.count }
             .asDriver(onErrorJustReturn: 0)
         
-        let setTextViewStatus = textViewStatusRelay
-            .asDriver(onErrorJustReturn: true)
+        let items = itemsRelay
+            .map { data -> [String] in
+                print(data)
+                return data
+            }
+            .asDriver(onErrorJustReturn: [])
         
-        return Output(addItem: addItem, setTextViewStatus: setTextViewStatus)
+        return Output(addItem: addItem, items: items)
     }
 }

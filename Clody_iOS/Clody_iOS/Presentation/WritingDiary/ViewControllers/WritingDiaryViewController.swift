@@ -10,6 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 import RxKeyboard
+import RxGesture
 import SnapKit
 import Then
 
@@ -50,14 +51,14 @@ private extension WritingDiaryViewController {
     func bindViewModel() {
         let textDidEditingRelay = PublishRelay<String>()
         let textEndEditingRelay = PublishRelay<String>()
-         
-         let input = WritingDiaryViewModel.Input(
-             viewDidLoad: Observable.just(()),
-             tapSaveButton: rootView.saveButton.rx.tap.asSignal(),
-             tapAddButton: rootView.addButton.rx.tap.asSignal(),
-             textDidEditing: textDidEditingRelay,
-             textEndEditing: textEndEditingRelay
-         )
+        
+        let input = WritingDiaryViewModel.Input(
+            viewDidLoad: Observable.just(()),
+            tapSaveButton: rootView.saveButton.rx.tap.asSignal(),
+            tapAddButton: rootView.addButton.rx.tap.asSignal(),
+            textDidEditing: textDidEditingRelay,
+            textEndEditing: textEndEditingRelay
+        )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
@@ -67,12 +68,9 @@ private extension WritingDiaryViewController {
             })
             .disposed(by: disposeBag)
         
-        output.setTextViewStatus
-            .drive(onNext: { [weak self] isValid in
-                self?.rootView.writingCollectionView.visibleCells.forEach { cell in
-                    guard let cell = cell as? WritingDiaryCell else { return }
-                    cell.bindData(isValid: isValid)
-                }
+        output.items
+            .drive(onNext: { [weak self] item in
+                print(item)
             })
             .disposed(by: disposeBag)
     }
@@ -103,10 +101,11 @@ private extension WritingDiaryViewController {
         RxKeyboard.instance.visibleHeight
             .drive(onNext: { [weak self] keyboardVisibleHeight in
                 guard let self = self else { return }
-                let bottomPadding = keyboardVisibleHeight > 0 ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + 20 : 76
+                let addButtonPadding = keyboardVisibleHeight > 0 ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + 20 : 76
                 self.rootView.addButton.snp.updateConstraints {
-                    $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(bottomPadding)
+                    $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(addButtonPadding)
                 }
+                
                 self.view.layoutIfNeeded()
             })
             .disposed(by: disposeBag)
@@ -132,20 +131,36 @@ extension WritingDiaryViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WritingDiaryCell.description(), for: indexPath)
                 as? WritingDiaryCell else { return UICollectionViewCell() }
         
+        let tapGesture = UITapGestureRecognizer()
+        cell.writingContainer.addGestureRecognizer(tapGesture)
+        
+        cell.bindData(index: indexPath.item + 1, text: viewModel.itemsRelay.value[indexPath.item])
+        
+        cell.writingContainer.rx.tapGesture()
+             .when(.recognized)
+             .subscribe(onNext: { [weak cell] _ in
+                 cell?.textView.becomeFirstResponder()
+             })
+             .disposed(by: cell.disposeBag)
+        
         cell.textView.rx.text.orEmpty
             .skip(1)
-            .map { String($0.prefix(50)) } 
+            .map { String($0.prefix(50)) }
             .bind(to: cell.textView.rx.text)
             .disposed(by: cell.disposeBag)
         
-        cell.textView.rx.text.orEmpty
-            .map { "\($0.count)" }
-            .bind(to: cell.textInputLabel.rx.text)
-            .disposed(by: cell.disposeBag)
-        
-        cell.textView.rx.text.orEmpty
-            .skip(1)
-            .bind(to: viewModel.textDidEditing)
+        cell.textView.rx.didBeginEditing
+            .subscribe(onNext: { [weak cell] in
+                guard let cell = cell else { return }
+                cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
+                if cell.textView.text == "일상 속 작은 감사함을 적어보세요." {
+                    cell.textView.text = ""
+                }
+                cell.textView.rx.text.orEmpty
+                    .map { "\($0.count)" }
+                    .bind(to: cell.textInputLabel.rx.text)
+                    .disposed(by: cell.disposeBag)
+            })
             .disposed(by: cell.disposeBag)
         
         cell.textView.rx.didEndEditing
@@ -156,22 +171,20 @@ extension WritingDiaryViewController: UICollectionViewDataSource {
         cell.textView.rx.didEndEditing
             .subscribe(onNext: { [weak cell] in
                 guard let cell = cell else { return }
+                // itemsRelay에 추가
+                var items = self.viewModel.itemsRelay.value
+                items.append(cell.textView.text)
+                self.viewModel.itemsRelay.accept(items)
+                
                 if cell.textView.text.isEmpty {
                     cell.writingContainer.makeBorder(width: 1, color: .red)
+                    cell.textInputLabel.text = "0"
+                    cell.textView.text = "일상 속 작은 감사함을 적어보세요."
                 } else {
                     cell.writingContainer.makeBorder(width: 0, color: .clear)
                 }
             })
             .disposed(by: cell.disposeBag)
-        
-        cell.textView.rx.didBeginEditing
-            .subscribe(onNext: { [weak cell] in
-                guard let cell = cell else { return }
-                cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
-
-            })
-            .disposed(by: cell.disposeBag)
-        
         
         return cell
     }
