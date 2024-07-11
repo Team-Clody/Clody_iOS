@@ -10,33 +10,21 @@ import UIKit
 import SnapKit
 import Then
 
-final class ListView: UIView {
+final class ListView: BaseView {
     
     // MARK: - UI Components
     
     private let navigationBarView = UIView()
     lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: listCollectionViewLayout())
     
-    // MARK: - Life Cycles
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    final func setUI() {
+    final override func setUI() {
         setStyle()
         setHierarchy()
         setLayout()
     }
     
     
-    func setStyle() {
+    override func setStyle() {
         self.backgroundColor = .grey08
         
         navigationBarView.do {
@@ -49,12 +37,12 @@ final class ListView: UIView {
         }
     }
     
-    func setHierarchy() {
+    override func setHierarchy() {
         
         self.addSubviews(navigationBarView, listCollectionView)
     }
     
-    func setLayout() {
+    override func setLayout() {
         
         navigationBarView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
