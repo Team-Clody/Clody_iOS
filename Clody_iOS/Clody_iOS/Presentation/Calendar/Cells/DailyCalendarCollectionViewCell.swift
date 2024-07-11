@@ -83,6 +83,3 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
         diaryTextLabel.text = data
     }
 }
-
-
-

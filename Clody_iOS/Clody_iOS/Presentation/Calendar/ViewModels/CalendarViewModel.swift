@@ -32,6 +32,10 @@ final class CalendarViewModel: CalendarViewModelType {
         let responseButtonStatus: Driver<String>
         let diaryData: Driver<[String]>
         let calendarData: Driver<[CalendarCellModel]>
+        let selectedDateRelay: BehaviorRelay<Date>
+        let calendarDummyDataRelay: BehaviorRelay<CalendarModel>
+        let dailyDiaryDummyDataRelay: BehaviorRelay<CalendarDailyModel>
+        let responseButtonStatusRelay: BehaviorRelay<String>
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
@@ -94,7 +98,11 @@ final class CalendarViewModel: CalendarViewModelType {
             selectedDate: selectedDate,
             responseButtonStatus: responseButtonStatus,
             diaryData: diaryData,
-            calendarData: calendarData
+            calendarData: calendarData,
+            selectedDateRelay: selectedDateRelay,
+            calendarDummyDataRelay: calendarDummyDataRelay,
+            dailyDiaryDummyDataRelay: dailyDiaryDummyDataRelay,
+            responseButtonStatusRelay: responseButtonStatusRelay
         )
     }
 }
