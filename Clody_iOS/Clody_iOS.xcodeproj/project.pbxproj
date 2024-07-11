@@ -51,6 +51,8 @@
 		95310F852C3FFA0C00023C7B /* ClodyLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F842C3FFA0C00023C7B /* ClodyLoginButton.swift */; };
 		95310F882C40043800023C7B /* ScreenUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F872C40043800023C7B /* ScreenUtils.swift */; };
 		95310F8A2C401A1F00023C7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95310F892C401A1F00023C7B /* GoogleService-Info.plist */; };
+		95310F8C2C401BE200023C7B /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F8B2C401BE200023C7B /* TermsView.swift */; };
+		95310F8E2C401BED00023C7B /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F8D2C401BED00023C7B /* TermsViewController.swift */; };
 		95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A89E762C36EE4100E07ABC /* BaseView.swift */; };
 /* End PBXBuildFile section */
 
@@ -91,6 +93,8 @@
 		95310F842C3FFA0C00023C7B /* ClodyLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyLoginButton.swift; sourceTree = "<group>"; };
 		95310F872C40043800023C7B /* ScreenUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenUtils.swift; sourceTree = "<group>"; };
 		95310F892C401A1F00023C7B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		95310F8B2C401BE200023C7B /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
+		95310F8D2C401BED00023C7B /* TermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
 		95A89E762C36EE4100E07ABC /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -357,6 +361,7 @@
 			isa = PBXGroup;
 			children = (
 				95310F7E2C3FF44E00023C7B /* LoginViewController.swift */,
+				95310F8D2C401BED00023C7B /* TermsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -365,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				95310F822C3FF53400023C7B /* LoginView.swift */,
+				95310F8B2C401BE200023C7B /* TermsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -496,9 +502,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95310F8C2C401BE200023C7B /* TermsView.swift in Sources */,
 				95310F7F2C3FF44E00023C7B /* LoginViewController.swift in Sources */,
 				95310F762C3C97A800023C7B /* ClodyBottomButton.swift in Sources */,
 				2C0B3C822C30DB56002EB1A3 /* UIFont+.swift in Sources */,
+				95310F8E2C401BED00023C7B /* TermsViewController.swift in Sources */,
 				0BFCC5EE2C2F850400B5E0DB /* UIView+.swift in Sources */,
 				0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */,
 				95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */,

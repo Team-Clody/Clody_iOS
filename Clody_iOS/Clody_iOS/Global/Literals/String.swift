@@ -18,6 +18,7 @@ enum I18N {
         static let nicknameError = "사용할 수 없는 닉네임이에요"
         static let emailError = "이메일 형식을 확인해주세요"
         static let charLimit = "/ 10"
+        static let next = "다음"
     }
     
     enum Alert {
@@ -39,5 +40,10 @@ enum I18N {
     enum Auth {
         static let kakaoLogin = "카카오로 로그인"
         static let appleLogin = "Apple로 로그인"
+        static let termsIntro = "Clody 이용을 위해\n약관에 동의해 주세요"
+        static let allAgree = "전체 동의"
+        static let required = "(필수)"
+        static let clodyTerms = "Clody 이용약관"
+        static let privacy = "개인정보 처리방침"
     }
 }
