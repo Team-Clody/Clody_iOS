@@ -55,6 +55,9 @@
 		95310F8E2C401BED00023C7B /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F8D2C401BED00023C7B /* TermsViewController.swift */; };
 		95310F902C40705600023C7B /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F8F2C40705600023C7B /* NicknameViewController.swift */; };
 		95310F922C40706600023C7B /* NicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F912C40706600023C7B /* NicknameView.swift */; };
+		95310F942C40776200023C7B /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F932C40776200023C7B /* OnBoardingViewController.swift */; };
+		95310F982C40777C00023C7B /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F972C40777C00023C7B /* OnBoardingView.swift */; };
+		95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F9B2C407F3C00023C7B /* OnBoardingDetailView.swift */; };
 		95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A89E762C36EE4100E07ABC /* BaseView.swift */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +102,9 @@
 		95310F8D2C401BED00023C7B /* TermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
 		95310F8F2C40705600023C7B /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		95310F912C40706600023C7B /* NicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameView.swift; sourceTree = "<group>"; };
+		95310F932C40776200023C7B /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
+		95310F972C40777C00023C7B /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
+		95310F9B2C407F3C00023C7B /* OnBoardingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingDetailView.swift; sourceTree = "<group>"; };
 		95A89E762C36EE4100E07ABC /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -367,6 +373,7 @@
 				95310F7E2C3FF44E00023C7B /* LoginViewController.swift */,
 				95310F8D2C401BED00023C7B /* TermsViewController.swift */,
 				95310F8F2C40705600023C7B /* NicknameViewController.swift */,
+				95310F932C40776200023C7B /* OnBoardingViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -377,6 +384,8 @@
 				95310F822C3FF53400023C7B /* LoginView.swift */,
 				95310F8B2C401BE200023C7B /* TermsView.swift */,
 				95310F912C40706600023C7B /* NicknameView.swift */,
+				95310F972C40777C00023C7B /* OnBoardingView.swift */,
+				95310F9B2C407F3C00023C7B /* OnBoardingDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -517,6 +526,8 @@
 				0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */,
 				95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */,
 				95310F902C40705600023C7B /* NicknameViewController.swift in Sources */,
+				95310F982C40777C00023C7B /* OnBoardingView.swift in Sources */,
+				95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */,
 				95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */,
 				0BFCC5CF2C2E8DAE00B5E0DB /* BaseTargetType.swift in Sources */,
 				95310F832C3FF53400023C7B /* LoginView.swift in Sources */,
@@ -529,6 +540,7 @@
 				0BFCC5E12C2E8F2800B5E0DB /* CalendarView.swift in Sources */,
 				0B17F8052C368465008A9998 /* DailyCalendarCollectionViewCell.swift in Sources */,
 				0B190F0D2C38111500D46CFC /* CalendarDailyModel.swift in Sources */,
+				95310F942C40776200023C7B /* OnBoardingViewController.swift in Sources */,
 				0BFCC5F02C2F852D00B5E0DB /* UIStackView+.swift in Sources */,
 				0B190F0B2C380F5300D46CFC /* DateFormatter+.swift in Sources */,
 				0BFCC5DD2C2E8F1300B5E0DB /* CalendarViewController.swift in Sources */,
