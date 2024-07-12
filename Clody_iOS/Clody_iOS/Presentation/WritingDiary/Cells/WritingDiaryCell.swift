@@ -38,7 +38,7 @@ final class WritingDiaryCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        disposeBag = DisposeBag() // 재사용 시 disposeBag 초기화
+        disposeBag = DisposeBag() 
         resetCellState()
     }
     
@@ -135,9 +135,16 @@ final class WritingDiaryCell: UICollectionViewCell {
         }
     }
     
-    func bindData(index: Int, text: String) {
+    func bindData(index: Int, text: String, statuses: Bool) {
         writingListNumberLabel.text = "\(index)."
-        textView.text = text
         textInputLabel.text = "\(text.count)"
+        if statuses {
+            textView.text = text.isEmpty ? "일상 속 작은 감사함을 적어보세요." : text
+            writingContainer.makeBorder(width: 0, color: .clear)
+        } else {
+            writingContainer.makeBorder(width: 1, color: .red)
+            textView.text = ""
+            textInputLabel.text = "0"
+        }
     }
 }

@@ -16,18 +16,16 @@ final class WritingDiaryViewModel: CalendarViewModelType {
         let viewDidLoad: Observable<Void>
         let tapSaveButton: Signal<Void>
         let tapAddButton: Signal<Void>
-        let textDidEditing: PublishRelay<String>
-        let textEndEditing: PublishRelay<String>
     }
     
     struct Output {
-        let addItem: Driver<Int>
         let items: Driver<[String]>
+        let statuses: Driver<[Bool]>
     }
     
     let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: [""]))
     let itemsRelay = BehaviorRelay<[String]>(value: [""])
-    let textViewStatusRelay = BehaviorRelay<Bool>(value: true)
+    let textViewStatusRelay = BehaviorRelay<[Bool]>(value: [true])
     let textDidEditing = PublishRelay<String>()
     let textEndEditing = PublishRelay<String>()
     
@@ -50,36 +48,16 @@ final class WritingDiaryViewModel: CalendarViewModelType {
         input.tapAddButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                var items = self.itemsRelay.value ?? []
+                var items = self.itemsRelay.value
+                var statuses = self.textViewStatusRelay.value
                 if items.count < 5 {
                     items.append("")
+                    statuses.append(true)
                     self.itemsRelay.accept(items)
+                    self.textViewStatusRelay.accept(statuses)
                 }
             })
             .disposed(by: disposeBag)
-        
-        input.textDidEditing
-            .subscribe(onNext: { [weak self] text in
-                guard let self = self else { return }
-                self.textViewStatusRelay.accept(text.count <= 50)
-            })
-            .disposed(by: disposeBag)
-        
-        input.textEndEditing
-            .subscribe(onNext: { [weak self] text in
-                guard let self = self else { return }
-                self.textViewStatusRelay.accept(text.count <= 50)
-                var items = self.itemsRelay.value
-                print(text)
-                
-                self.itemsRelay.accept(items)
-            })
-            .disposed(by: disposeBag)
-
-        
-        let addItem = itemsRelay
-            .map { $0.count }
-            .asDriver(onErrorJustReturn: 0)
         
         let items = itemsRelay
             .map { data -> [String] in
@@ -88,6 +66,13 @@ final class WritingDiaryViewModel: CalendarViewModelType {
             }
             .asDriver(onErrorJustReturn: [])
         
-        return Output(addItem: addItem, items: items)
+        let statuses = textViewStatusRelay
+            .map { data -> [Bool] in
+                print(data)
+                return data
+            }
+            .asDriver(onErrorJustReturn: [])
+        
+        return Output(items: items, statuses: statuses)
     }
 }

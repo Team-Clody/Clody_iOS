@@ -35,6 +35,7 @@ final class WritingDiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         registerCells()
         setDelegate()
         bindViewModel()
@@ -49,29 +50,18 @@ final class WritingDiaryViewController: UIViewController {
 private extension WritingDiaryViewController {
     
     func bindViewModel() {
-        let textDidEditingRelay = PublishRelay<String>()
-        let textEndEditingRelay = PublishRelay<String>()
-        
         let input = WritingDiaryViewModel.Input(
             viewDidLoad: Observable.just(()),
             tapSaveButton: rootView.saveButton.rx.tap.asSignal(),
-            tapAddButton: rootView.addButton.rx.tap.asSignal(),
-            textDidEditing: textDidEditingRelay,
-            textEndEditing: textEndEditingRelay
+            tapAddButton: rootView.addButton.rx.tap.asSignal()
         )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
-        output.addItem
-            .drive(onNext: { [weak self] itemCount in
-                self?.rootView.writingCollectionView.reloadData()
-            })
-            .disposed(by: disposeBag)
-        
         output.items
             .drive(rootView.writingCollectionView.rx.items(cellIdentifier: WritingDiaryCell.description(), cellType: WritingDiaryCell.self)) { index, text, cell in
                 
-                cell.bindData(index: index + 1, text: text)
+                cell.bindData(index: index + 1, text: text, statuses: self.viewModel.textViewStatusRelay.value[index])
                 
                 cell.writingContainer.rx.tapGesture()
                      .when(.recognized)
@@ -87,8 +77,7 @@ private extension WritingDiaryViewController {
                     .disposed(by: cell.disposeBag)
                 
                 cell.textView.rx.didBeginEditing
-                    .subscribe(onNext: { [weak cell] in
-                        guard let cell = cell else { return }
+                    .subscribe(onNext: {
                         cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
                         if cell.textView.text == "일상 속 작은 감사함을 적어보세요." {
                             cell.textView.text = ""
@@ -101,25 +90,16 @@ private extension WritingDiaryViewController {
                     .disposed(by: cell.disposeBag)
                 
                 cell.textView.rx.didEndEditing
-                    .map { cell.textView.text ?? "" }
-                    .bind(to: self.viewModel.textEndEditing)
-                    .disposed(by: cell.disposeBag)
-                
-                cell.textView.rx.didEndEditing
                     .subscribe(onNext: { [weak cell] in
                         guard let cell = cell else { return }
                         // itemsRelay에 추가
+                        var status = self.viewModel.textViewStatusRelay.value
+                        status[index] = !cell.textView.text.isEmpty
+                        self.viewModel.textViewStatusRelay.accept(status)
+                        
                         var items = self.viewModel.itemsRelay.value
                         items[index] = cell.textView.text
                         self.viewModel.itemsRelay.accept(items)
-                        
-                        if cell.textView.text.isEmpty {
-                            cell.writingContainer.makeBorder(width: 1, color: .red)
-                            cell.textInputLabel.text = "0"
-                            cell.textView.text = "일상 속 작은 감사함을 적어보세요."
-                        } else {
-                            cell.writingContainer.makeBorder(width: 0, color: .clear)
-                        }
                     })
                     .disposed(by: cell.disposeBag)
             }
@@ -127,7 +107,7 @@ private extension WritingDiaryViewController {
     }
     
     func setDelegate() {
-//        rootView.writingCollectionView.dataSource = self
+        
     }
     
     func setStyle() {
