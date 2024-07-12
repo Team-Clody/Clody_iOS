@@ -14,14 +14,21 @@ final class OnBoardingView: BaseView {
     
     // MARK: - UI Components
     
-    private let navigationBar = ClodyNavigationBar(type: .normal)
     lazy var pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+    let pageControl = UIPageControl()
     let nextButton = UIButton()
     
     // MARK: - Methods
     
     override func setStyle() {
         backgroundColor = .white
+        
+        pageControl.do {
+            $0.currentPage = 0
+            $0.numberOfPages = OnBoardingType.allCases.count
+            $0.pageIndicatorTintColor = .grey07
+            $0.currentPageIndicatorTintColor = .grey03
+        }
         
         nextButton.do {
             $0.setTitleColor(.grey01, for: .normal)
@@ -33,20 +40,19 @@ final class OnBoardingView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(navigationBar, pageViewController.view, nextButton)
+        self.addSubviews(pageViewController.view, pageControl, nextButton)
     }
     
     override func setLayout() {
-        navigationBar.snp.makeConstraints {
-            $0.height.equalTo(44)
+        pageViewController.view.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalTo(pageControl.snp.top)
         }
         
-        pageViewController.view.snp.makeConstraints {
-            $0.height.equalTo(ScreenUtils.getHeight(575))
-            $0.top.equalTo(navigationBar.snp.bottom)
+        pageControl.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalTo(nextButton.snp.top).offset(-ScreenUtils.getHeight(48))
         }
         
         nextButton.snp.makeConstraints {

@@ -16,11 +16,7 @@ final class OnBoardingViewController: UIViewController {
     // MARK: - Properties
     
     private let disposeBag = DisposeBag()
-    private var currentPageIndex = 0 {
-        didSet {
-            setPageVC(from: oldValue, to: currentPageIndex)
-        }
-    }
+    private lazy var pageControl = rootView.pageControl
     
     // MARK: - UI Components
      
@@ -58,6 +54,7 @@ private extension OnBoardingViewController {
     }
     
     func setDelegate() {
+        pageViewController.delegate = self
         pageViewController.dataSource = self
     }
     
@@ -77,14 +74,21 @@ private extension OnBoardingViewController {
         }
     }
     
-    func setPageIndex(to newIndex: Int) {
-        self.currentPageIndex = newIndex
-    }
-    
-    func setPageVC(from currentIndex: Int, to newIndex: Int) {
+    func setPage(from currentIndex: Int, to newIndex: Int) {
         guard 0 <= newIndex && newIndex < viewControllers.count else { return }
         let direction: UIPageViewController.NavigationDirection = currentIndex < newIndex ? .forward : .reverse
         pageViewController.setViewControllers([viewControllers[newIndex]], direction: direction, animated: true)
+    }
+}
+
+extension OnBoardingViewController: UIPageViewControllerDelegate {
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if completed,
+            let viewController = pageViewController.viewControllers?.first,
+            let index = viewControllers.firstIndex(of: viewController) {
+            pageControl.currentPage = index
+        }
     }
 }
 
