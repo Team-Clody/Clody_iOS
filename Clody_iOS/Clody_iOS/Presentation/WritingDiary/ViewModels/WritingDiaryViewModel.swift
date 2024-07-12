@@ -24,7 +24,7 @@ final class WritingDiaryViewModel: CalendarViewModelType {
     }
     
     let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: [""]))
-    let itemsRelay = BehaviorRelay<[String]>(value: [""])
+    let diariesRelay = BehaviorRelay<[String]>(value: [""])
     let textViewStatusRelay = BehaviorRelay<[Bool]>(value: [true])
     let textDidEditing = PublishRelay<String>()
     let textEndEditing = PublishRelay<String>()
@@ -48,18 +48,18 @@ final class WritingDiaryViewModel: CalendarViewModelType {
         input.tapAddButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                var items = self.itemsRelay.value
+                var items = self.diariesRelay.value
                 var statuses = self.textViewStatusRelay.value
                 if items.count < 5 {
                     items.append("")
                     statuses.append(true)
-                    self.itemsRelay.accept(items)
+                    self.diariesRelay.accept(items)
                     self.textViewStatusRelay.accept(statuses)
                 }
             })
             .disposed(by: disposeBag)
         
-        let items = itemsRelay
+        let items = diariesRelay
             .map { data -> [String] in
                 print(data)
                 return data

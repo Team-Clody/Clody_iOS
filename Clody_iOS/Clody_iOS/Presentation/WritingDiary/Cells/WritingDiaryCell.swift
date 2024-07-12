@@ -38,7 +38,7 @@ final class WritingDiaryCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        disposeBag = DisposeBag() 
+        disposeBag = DisposeBag()
         resetCellState()
     }
     

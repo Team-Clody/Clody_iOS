@@ -65,29 +65,30 @@ private extension WritingDiaryViewController {
                 
                 cell.writingContainer.rx.tapGesture()
                      .when(.recognized)
-                     .subscribe(onNext: { [weak cell] _ in
-                         cell?.textView.becomeFirstResponder()
-                     })
-                     .disposed(by: cell.disposeBag)
-                
-                cell.textView.rx.text.orEmpty
-                    .skip(1)
-                    .map { String($0.prefix(50)) }
-                    .bind(to: cell.textView.rx.text)
+                 .subscribe(onNext: { [weak cell] _ in
+                    cell?.textView.becomeFirstResponder()
+                })
+                .disposed(by: cell.disposeBag)
+            
+            cell.textView.rx.text.orEmpty
+                .skip(1)
+                .map { String($0.prefix(50)) }
+                .bind(to: cell.textView.rx.text)
+                .disposed(by: cell.disposeBag)
+            
+            cell.textView.rx.didBeginEditing
+                .subscribe(onNext: {
+                    cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
+                    if cell.textView.text == "일상 속 작은 감사함을 적어보세요." {
+                        cell.textView.text = ""
+                    }
+                    cell.textView.rx.text.orEmpty
+                        .map { "\($0.count)" }
+                        .bind(to: cell.textInputLabel.rx.text)
+                        .disposed(by: cell.disposeBag)
+                })
                     .disposed(by: cell.disposeBag)
                 
-                cell.textView.rx.didBeginEditing
-                    .subscribe(onNext: {
-                        cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
-                        if cell.textView.text == "일상 속 작은 감사함을 적어보세요." {
-                            cell.textView.text = ""
-                        }
-                        cell.textView.rx.text.orEmpty
-                            .map { "\($0.count)" }
-                            .bind(to: cell.textInputLabel.rx.text)
-                            .disposed(by: cell.disposeBag)
-                    })
-                    .disposed(by: cell.disposeBag)
                 
                 cell.textView.rx.didEndEditing
                     .subscribe(onNext: { [weak cell] in
@@ -97,9 +98,9 @@ private extension WritingDiaryViewController {
                         status[index] = !cell.textView.text.isEmpty
                         self.viewModel.textViewStatusRelay.accept(status)
                         
-                        var items = self.viewModel.itemsRelay.value
+                        var items = self.viewModel.diariesRelay.value
                         items[index] = cell.textView.text
-                        self.viewModel.itemsRelay.accept(items)
+                        self.viewModel.diariesRelay.accept(items)
                     })
                     .disposed(by: cell.disposeBag)
             }
