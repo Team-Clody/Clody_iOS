@@ -70,7 +70,12 @@ final class OnBoardingDetailView: BaseView {
     init(type: OnBoardingType) {
         super.init(frame: .zero)
         
-        titleLabel.attributedText = UIFont.pretendardString(text: type.title, style: .head1)
+        titleLabel.attributedText = UIFont.pretendardString(
+            text: type.title,
+            style: .head1,
+            lineHeightMultiple: 1.5,
+            align: .center
+        )
         subTitleLabel.attributedText = UIFont.pretendardString(text: type.subTitle, style: .body1_medium)
         imageView.image = type.image
     }

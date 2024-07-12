@@ -70,4 +70,29 @@ extension UIFont {
         
         return NSAttributedString(string: text, attributes: attributes)
     }
+    
+    static func pretendardString(
+        text: String,
+        style: FontName,
+        lineHeightMultiple: CGFloat? = nil,
+        align: NSTextAlignment = .natural
+    ) -> NSAttributedString {
+        let font = UIFont.pretendard(style)
+        let letterSpacing = -0.003 * style.size
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = align
+        if let lineHeightMultiple = lineHeightMultiple {
+            paragraphStyle.minimumLineHeight = style.size * lineHeightMultiple
+            paragraphStyle.maximumLineHeight = style.size * lineHeightMultiple
+        }
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .kern: letterSpacing,
+            .paragraphStyle: paragraphStyle
+        ]
+        
+        return NSAttributedString(string: text, attributes: attributes)
+    }
 }

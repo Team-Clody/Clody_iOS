@@ -34,7 +34,11 @@ final class TermsView: BaseView {
         
         introLabel.do {
             $0.textColor = .grey01
-            $0.attributedText = UIFont.pretendardString(text: I18N.Auth.termsIntro, style: .head1)
+            $0.attributedText = UIFont.pretendardString(
+                text: I18N.Auth.termsIntro,
+                style: .head1,
+                lineHeightMultiple: 1.5
+            )
             $0.numberOfLines = 0
         }
         

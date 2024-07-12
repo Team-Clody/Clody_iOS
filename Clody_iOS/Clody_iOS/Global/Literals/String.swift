@@ -55,5 +55,7 @@ enum I18N {
         static let onboarding_3_sub = "전날이나 다음날의 일기는 작성할 수\n없으니, 잊지 말고 기록해주세요"
         static let onboarding_4_title = "이제 일기를 써볼까요?\n기다리고 있을게요!"
         static let onboarding_4_sub = "두번째 일기부터는 네잎클로버를 찾는 데\n12시간이 걸리니 조금만 기다려 주세요"
+        static let notificationIntro = "몇시에 감사일기\n작성 알림을 드릴까요?"
+        static let setNext = "다음에 설정할게요"
     }
 }
