@@ -7,15 +7,15 @@ final class AccountView: BaseView {
 
     // MARK: - UI Components
     
-    let profileImageView = UIImageView()
-    let nicknameLabel = UILabel()
+    private let profileImageView = UIImageView()
+    private let nicknameLabel = UILabel()
     let changeProfileButton = UIButton()
-    let emailImageView = UIImageView()
-    let emailLabel = UILabel()
+    private let emailImageView = UIImageView()
+    private let emailLabel = UILabel()
     let logoutButton = UIButton()
     let deleteAccountButton = UIButton()
-    let deleteConfirmationLabel = UILabel()
-    let separatorLine = UIView()
+    private let deleteConfirmationLabel = UILabel()
+    private let separatorLine = UIView()
     
     // MARK: - Setup
     
