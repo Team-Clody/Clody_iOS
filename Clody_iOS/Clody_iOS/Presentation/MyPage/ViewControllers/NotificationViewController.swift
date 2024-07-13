@@ -20,6 +20,7 @@ final class NotificationViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
+        
         view = rootView
     }
 
@@ -30,8 +31,8 @@ final class NotificationViewController: UIViewController {
         bindViewModel()
 
         let sampleData = [
-            NotificationItem(title: "일기 알림 받기", detail: nil, hasSwitch: true),
-            NotificationItem(title: "일기 알림 시간", detail: "오후 9시 30분", hasSwitch: false),
+            NotificationItem(title: "일기 작성 알림 받기", detail: nil, hasSwitch: true),
+            NotificationItem(title: "알림 시간", detail: "오후 9시 30분", hasSwitch: false),
             NotificationItem(title: "답장 도착 알림 받기", detail: nil, hasSwitch: true)
         ]
         viewModel.notificationItems.onNext(sampleData)
@@ -51,6 +52,10 @@ private extension NotificationViewController {
     }
 
     func setUI() {
+        headerView.do {
+            $0.backgroundColor = .white
+        }
+        
         headerView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
@@ -64,9 +69,6 @@ private extension NotificationViewController {
     }
 
     func setHierarchy() {
-        headerView.do {
-            $0.backgroundColor = .white
-        }
         view.addSubview(headerView)
     }
 }

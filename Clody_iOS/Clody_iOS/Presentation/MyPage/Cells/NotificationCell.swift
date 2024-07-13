@@ -1,4 +1,5 @@
 import UIKit
+
 import SnapKit
 import Then
 
@@ -40,8 +41,8 @@ final class NotificationCell: UITableViewCell {
             $0.contentMode = .scaleAspectFit
         }
 
-        switchControl.do {_ in 
-            // Add any specific styling if needed
+        switchControl.do {
+            $0.onTintColor = UIColor(named:"mainYellow")
         }
     }
 
