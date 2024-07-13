@@ -104,7 +104,6 @@ private extension WritingDiaryViewController {
                 })
                     .disposed(by: cell.disposeBag)
                 
-                
                 cell.textView.rx.didEndEditing
                     .subscribe(onNext: { [weak cell] in
                         guard let cell = cell else { return }
@@ -123,7 +122,7 @@ private extension WritingDiaryViewController {
     }
     
     func setDelegate() {
-        
+    
     }
     
     func setStyle() {

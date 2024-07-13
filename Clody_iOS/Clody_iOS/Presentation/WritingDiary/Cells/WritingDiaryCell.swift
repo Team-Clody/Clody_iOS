@@ -11,7 +11,7 @@ import SnapKit
 import Then
 import RxSwift
 
-final class WritingDiaryCell: UICollectionViewCell {
+final class WritingDiaryCell: UICollectionViewCell, UITextViewDelegate {
     
     var disposeBag = DisposeBag() // 초기화가 가능하도록 var로 변경
     
@@ -30,6 +30,7 @@ final class WritingDiaryCell: UICollectionViewCell {
         setStyle()
         setHierarchy()
         setLayout()
+        textView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -73,6 +74,7 @@ final class WritingDiaryCell: UICollectionViewCell {
             $0.isScrollEnabled = false
             $0.textContainerInset = .zero
             $0.textContainer.lineFragmentPadding = 0
+            $0.returnKeyType = .done
         }
         
         kebabButton.do {
@@ -156,5 +158,13 @@ final class WritingDiaryCell: UICollectionViewCell {
             textView.text = ""
             textInputLabel.text = "0"
         }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
     }
 }
