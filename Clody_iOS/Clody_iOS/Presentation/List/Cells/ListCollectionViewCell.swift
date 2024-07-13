@@ -34,7 +34,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     func setStyle() {
         
         listContainerView.do {
-            $0.backgroundColor = .whiteCustom
+            $0.backgroundColor = .white
         }
         
         listNumberLabel.do {

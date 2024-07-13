@@ -32,7 +32,6 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
     }
     
     func setStyle() {
-        
         listContainerView.do {
             $0.backgroundColor = .grey08
             $0.layer.cornerRadius = 10
@@ -51,14 +50,12 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
     }
     
     func setHierarchy() {
-        
         self.addSubview(listContainerView)
         
         listContainerView.addSubviews(listNumberLabel, diaryTextLabel)
     }
     
     func setLayout() {
-        
         listContainerView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(8)
             $0.horizontalEdges.equalToSuperview()

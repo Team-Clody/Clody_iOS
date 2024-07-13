@@ -38,7 +38,6 @@ final class CalendarDateCell: FSCalendarCell {
     }
     
     func setStyle() {
-        
         cloverImageView.do {
             $0.image = .clover1
             $0.contentMode = .scaleAspectFit
@@ -61,7 +60,6 @@ final class CalendarDateCell: FSCalendarCell {
     }
     
     func setHierarchy() {
-        
         contentView.addSubviews(
             cloverImageView,
             newImageView,
@@ -71,7 +69,6 @@ final class CalendarDateCell: FSCalendarCell {
     }
     
     func setLayout() {
-        
         cloverImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview()

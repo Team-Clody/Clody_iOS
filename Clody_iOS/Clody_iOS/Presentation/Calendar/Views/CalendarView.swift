@@ -11,45 +11,30 @@ import SnapKit
 import Then
 import FSCalendar
 
-final class CalendarView: UIView {
+final class CalendarView: BaseView {
     
     // MARK: - UI Components
     
     private let scrollView = UIScrollView()
-    private let calendarNavigationView = UIView()
+    private let calendarNavigationView = ClodyNavigationBar(type: .calendar, date: "2024년 7월")
     private let contentView = UIView()
     private let cloverBackgroundView = UIView()
     private let cloverLabel = UILabel()
-    let calendarView = FSCalendar()
+    let mainCalendarView = FSCalendar()
     let dateLabel = UILabel()
     private let dayLabel = UILabel()
     private lazy var kebabButton = UIButton()
-    lazy var dailyDiaryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
+    lazy var dailyDiaryCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createCollectionViewLayout()
+    )
     lazy var calendarButton = UIButton()
     
     
     // MARK: - Life Cycles
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    final func setUI() {
-        setStyle()
-        setHierarchy()
-        setLayout()
-    }
-    
-    
-    func setStyle() {
-        
-        self.backgroundColor = .whiteCustom
+    override func setStyle() {
+        self.backgroundColor = .white
         
         calendarNavigationView.do {
             $0.backgroundColor = .red
@@ -59,7 +44,7 @@ final class CalendarView: UIView {
             $0.makeCornerRound(radius: 10)
             $0.backgroundColor = .grey02
             $0.setAttributedTitle(UIFont.pretendardString(text: "답장 확인", style: .body1_semibold), for: .normal)
-            $0.setTitleColor(.whiteCustom, for: .normal)
+            $0.setTitleColor(.white, for: .normal)
         }
         
         cloverBackgroundView.do {
@@ -72,7 +57,7 @@ final class CalendarView: UIView {
             $0.textColor = .darkGreen
         }
         
-        calendarView.do {
+        mainCalendarView.do {
             $0.placeholderType = .none
             $0.appearance.selectionColor = .clear
             $0.appearance.todayColor = .none
@@ -94,7 +79,7 @@ final class CalendarView: UIView {
         
         dailyDiaryCollectionView.do {
             $0.isScrollEnabled = false
-            $0.backgroundColor = .whiteCustom
+            $0.backgroundColor = .white
         }
         
         dateLabel.do {
@@ -112,15 +97,15 @@ final class CalendarView: UIView {
         }
     }
     
-    func setHierarchy() {
-        
+    override func setHierarchy() {
         self.addSubviews(scrollView, calendarButton)
+        
         scrollView.addSubview(contentView)
         
         contentView.addSubviews(
             calendarNavigationView,
             cloverBackgroundView,
-            calendarView,
+            mainCalendarView,
             dateLabel,
             dayLabel,
             kebabButton,
@@ -130,8 +115,7 @@ final class CalendarView: UIView {
         cloverBackgroundView.addSubview(cloverLabel)
     }
     
-    func setLayout() {
-        
+    override func setLayout() {
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -159,7 +143,7 @@ final class CalendarView: UIView {
             $0.center.equalToSuperview()
         }
         
-        calendarView.snp.makeConstraints {
+        mainCalendarView.snp.makeConstraints {
             $0.top.equalTo(cloverBackgroundView.snp.bottom).offset(5)
             $0.horizontalEdges.equalToSuperview().inset(24)
             $0.height.equalTo(399)
@@ -168,13 +152,13 @@ final class CalendarView: UIView {
         calendarButton.snp.makeConstraints {
             $0.bottom.equalTo(safeAreaLayoutGuide).inset(5)
             $0.centerX.equalToSuperview()
-            $0.horizontalEdges.equalTo(calendarView)
+            $0.horizontalEdges.equalTo(mainCalendarView)
             $0.height.equalTo(48)
         }
         
         dateLabel.snp.makeConstraints {
-            $0.top.equalTo(calendarView.snp.bottom).offset(20)
-            $0.leading.equalTo(calendarView)
+            $0.top.equalTo(mainCalendarView.snp.bottom).offset(20)
+            $0.leading.equalTo(mainCalendarView)
         }
         
         dayLabel.snp.makeConstraints {
@@ -184,11 +168,11 @@ final class CalendarView: UIView {
         
         kebabButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
-            $0.trailing.equalTo(calendarView)
+            $0.trailing.equalTo(mainCalendarView)
         }
         
         dailyDiaryCollectionView.snp.makeConstraints {
-            $0.horizontalEdges.equalTo(calendarView)
+            $0.horizontalEdges.equalTo(mainCalendarView)
             $0.top.equalTo(dayLabel.snp.bottom).offset(14)
             $0.bottom.equalToSuperview()
         }

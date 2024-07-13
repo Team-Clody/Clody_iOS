@@ -14,7 +14,7 @@ final class WritingDiaryView: UIView {
     
     // MARK: - UI Components
     
-    private let navigationBarView = UIView()
+    private let navigationBarView = ClodyNavigationBar(type: .normal)
     lazy var writingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: writingCollectionViewLayout())
     lazy var saveButton = UIButton()
     lazy var addButton = UIButton()
@@ -69,7 +69,7 @@ final class WritingDiaryView: UIView {
     }
     
     func setLayout() {
-        self.backgroundColor = .whiteCustom
+        self.backgroundColor = .white
         
         navigationBarView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
