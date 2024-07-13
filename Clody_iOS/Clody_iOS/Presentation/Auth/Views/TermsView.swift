@@ -106,7 +106,20 @@ final class TermsView: BaseView {
     }
     
     override func setHierarchy() {
-        addSubviews(navigationBar, introLabel, allAgreeTextButton, allAgreeIconButton, divider, requiredTermsLabel, viewTermsDetailButton, agreeTermsIconButton, requiredPrivacyLabel, viewPrivacyDetailButton, agreePrivacyIconButton, nextButton)
+        addSubviews(
+            navigationBar,
+            introLabel,
+            allAgreeTextButton,
+            allAgreeIconButton,
+            divider,
+            requiredTermsLabel,
+            viewTermsDetailButton,
+            agreeTermsIconButton,
+            requiredPrivacyLabel,
+            viewPrivacyDetailButton,
+            agreePrivacyIconButton,
+            nextButton
+        )
     }
     
     override func setLayout() {
