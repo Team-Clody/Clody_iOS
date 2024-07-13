@@ -1,8 +1,8 @@
 //
-//  DailyCalendarCollectionViewCell.swift
+//  ListCollectionViewCell.swift
 //  Clody_iOS
 //
-//  Created by Seonwoo Kim on 7/4/24.
+//  Created by Seonwoo Kim on 7/10/24.
 //
 
 import UIKit
@@ -10,11 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
-final class DailyCalendarCollectionViewCell: UICollectionViewCell {
-
+final class ListCollectionViewCell: UICollectionViewCell {
+    
     // MARK: - UI Components
     
-    private let listContainerView = UIView()
+    let listContainerView = UIView()
     private let listNumberLabel = UILabel()
     let diaryTextLabel = UILabel()
     
@@ -32,9 +32,9 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
     }
     
     func setStyle() {
+        
         listContainerView.do {
-            $0.backgroundColor = .grey08
-            $0.layer.cornerRadius = 10
+            $0.backgroundColor = .whiteCustom
         }
         
         listNumberLabel.do {
@@ -50,16 +50,16 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
     }
     
     func setHierarchy() {
+        
         self.addSubview(listContainerView)
         
         listContainerView.addSubviews(listNumberLabel, diaryTextLabel)
     }
     
     func setLayout() {
+        
         listContainerView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
         
         listNumberLabel.snp.makeConstraints {
@@ -68,15 +68,15 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
         }
         
         diaryTextLabel.snp.makeConstraints {
-            $0.top.equalTo(listNumberLabel.snp.top)
             $0.leading.equalToSuperview().inset(35)
             $0.trailing.equalToSuperview().inset(18)
-            $0.bottom.equalToSuperview().inset(17)
+            $0.top.equalTo(listNumberLabel)
+            $0.bottom.equalToSuperview()
         }
     }
     
-    func bindData(data: String, index: String) {
-        listNumberLabel.text = index
-        diaryTextLabel.text = data
+    func bindData(diaryContent: String, index: Int) {
+        listNumberLabel.text = "\(index + 1)."
+        diaryTextLabel.text = diaryContent
     }
 }
