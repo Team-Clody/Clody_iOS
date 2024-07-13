@@ -17,13 +17,6 @@ final class ListView: BaseView {
     private let navigationBarView = UIView()
     lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: listCollectionViewLayout())
     
-    final override func setUI() {
-        setStyle()
-        setHierarchy()
-        setLayout()
-    }
-    
-    
     override func setStyle() {
         self.backgroundColor = .grey08
         

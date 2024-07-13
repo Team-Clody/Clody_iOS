@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class ListViewModel: CalendarViewModelType {
+final class ListViewModel: ViewModelType {
     
     struct Input {
         let viewDidLoad: Observable<Void>

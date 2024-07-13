@@ -248,7 +248,6 @@
 				0BFCC5ED2C2F850400B5E0DB /* UIView+.swift */,
 				0BFCC5EF2C2F852D00B5E0DB /* UIStackView+.swift */,
 				2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */,
-				95310F792C3D8C8B00023C7B /* UIViewController+.swift */,
 				0B190F0A2C380F5300D46CFC /* DateFormatter+.swift */,
 				95310F792C3D8C8B00023C7B /* UIViewController+.swift */,
 			);
@@ -341,7 +340,6 @@
 		0BFCC5D02C2E8E3600B5E0DB /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				2CE637822C3D537600B6EC6D /* Account */,
 				2CC0CE6A2C3C0E17001F3E6B /* MyPage */,
 				0B6C073C2C3DC29B0054A0B0 /* List */,
 				95A89E752C36EE2700E07ABC /* Common */,
@@ -435,6 +433,7 @@
 			isa = PBXGroup;
 			children = (
 				2CC0CE762C3C0FAD001F3E6B /* MyPageViewController.swift */,
+				2CE6378A2C3D546200B6EC6D /* AccountViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -443,6 +442,7 @@
 			isa = PBXGroup;
 			children = (
 				2CC0CE742C3C0EE7001F3E6B /* MyPageView.swift */,
+				2CE6378C2C3D56A700B6EC6D /* AccountView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -459,42 +459,9 @@
 			isa = PBXGroup;
 			children = (
 				2CC0CE702C3C0ECD001F3E6B /* MyPageViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		2CE637822C3D537600B6EC6D /* Account */ = {
-			isa = PBXGroup;
-			children = (
-				2CE637862C3D53AA00B6EC6D /* ViewControllers */,
-				2CE637852C3D53A300B6EC6D /* Views */,
-				2CE637832C3D538A00B6EC6D /* ViewModels */,
-			);
-			path = Account;
-			sourceTree = "<group>";
-		};
-		2CE637832C3D538A00B6EC6D /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
 				2CE637902C3D56C300B6EC6D /* AccountViewModel.swift */,
 			);
 			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		2CE637852C3D53A300B6EC6D /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				2CE6378C2C3D56A700B6EC6D /* AccountView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		2CE637862C3D53AA00B6EC6D /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				2CE6378A2C3D546200B6EC6D /* AccountViewController.swift */,
-			);
-			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		95A89E752C36EE2700E07ABC /* Common */ = {
@@ -634,7 +601,7 @@
 				0BFCC5F32C306D3B00B5E0DB /* String.swift in Sources */,
 				2CC0CE752C3C0EE7001F3E6B /* MyPageView.swift in Sources */,
 				95310F722C3C39FE00023C7B /* ClodyNavigationBar.swift in Sources */,
-				0B6C07452C3DC2E90054A0B0 /* ListViewController.swift in Sources */, 
+				0B6C07452C3DC2E90054A0B0 /* ListViewController.swift in Sources */,
 				0BFCC5E12C2E8F2800B5E0DB /* CalendarView.swift in Sources */,
 				0B6C07472C3DC2F40054A0B0 /* ListViewModel.swift in Sources */,
 				0B6C07432C3DC2DE0054A0B0 /* ListModel.swift in Sources */,
@@ -652,7 +619,7 @@
 				2CE6378D2C3D56A700B6EC6D /* AccountView.swift in Sources */,
 				2CC0CE732C3C0ED9001F3E6B /* MyPageTableViewCell.swift in Sources */,
 				95310F7A2C3D8C8B00023C7B /* UIViewController+.swift in Sources */,
-				0BFCC5E32C2E8F5400B5E0DB /* CalenderDateCell.swift in Sources */,
+				0BFCC5E32C2E8F5400B5E0DB /* CalendarDateCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
