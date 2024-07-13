@@ -34,7 +34,7 @@ final class CalendarView: BaseView {
     // MARK: - Life Cycles
     
     override func setStyle() {
-        self.backgroundColor = .whiteCustom
+        self.backgroundColor = .white
         
         calendarNavigationView.do {
             $0.backgroundColor = .red
@@ -44,7 +44,7 @@ final class CalendarView: BaseView {
             $0.makeCornerRound(radius: 10)
             $0.backgroundColor = .grey02
             $0.setAttributedTitle(UIFont.pretendardString(text: "답장 확인", style: .body1_semibold), for: .normal)
-            $0.setTitleColor(.whiteCustom, for: .normal)
+            $0.setTitleColor(.white, for: .normal)
         }
         
         cloverBackgroundView.do {
@@ -79,7 +79,7 @@ final class CalendarView: BaseView {
         
         dailyDiaryCollectionView.do {
             $0.isScrollEnabled = false
-            $0.backgroundColor = .whiteCustom
+            $0.backgroundColor = .white
         }
         
         dateLabel.do {

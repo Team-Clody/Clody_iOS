@@ -23,7 +23,7 @@ class ListBackgroundView: UICollectionReusableView {
     }
     
     private func setStyle() {
-        backgroundColor = .whiteCustom
+        backgroundColor = .white
         makeCornerRound(radius: 10)
     }
     
