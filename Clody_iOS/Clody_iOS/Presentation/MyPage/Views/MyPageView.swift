@@ -6,6 +6,7 @@ import Then
 final class MyPageView: BaseView {
     
     let tableView = UITableView()
+    let navigationBar = ClodyNavigationBar(type: .setting, title: "설정")
     
     override func setStyle() {
         tableView.do {
@@ -20,12 +21,19 @@ final class MyPageView: BaseView {
     }
     
     override func setHierarchy() {
-        addSubview(tableView)
+        addSubviews(navigationBar, tableView)
     }
     
     override func setLayout() {
+        navigationBar.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide.snp.top)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(52)
+        }
+        
         tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(navigationBar.snp.bottom)
+            $0.horizontalEdges.bottom.equalToSuperview()
         }
     }
 }
