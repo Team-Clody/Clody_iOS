@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "img_reply_arrived.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

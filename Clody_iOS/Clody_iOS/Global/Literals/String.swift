@@ -58,4 +58,8 @@ enum I18N {
         static let notificationIntro = "몇시에 감사일기\n작성 알림을 드릴까요?"
         static let setNext = "다음에 설정할게요"
     }
+    
+    enum Reply {
+        static let luckyReplyForYou = "님을 위한 행운의 답장"
+    }
 }
