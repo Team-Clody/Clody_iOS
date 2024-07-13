@@ -1,5 +1,4 @@
 import UIKit
-
 import RxCocoa
 import RxSwift
 import Then
@@ -14,7 +13,6 @@ final class NotificationViewController: UIViewController {
     // MARK: - UI Components
 
     private let rootView = NotificationView()
-    private let headerView = UIView()
 
     // MARK: - Life Cycles
 
@@ -26,8 +24,6 @@ final class NotificationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setHierarchy()
-        setUI()
         bindViewModel()
 
         let sampleData = [
@@ -49,27 +45,6 @@ private extension NotificationViewController {
                 cell.configure(with: element)
             }
             .disposed(by: disposeBag)
-    }
-
-    func setUI() {
-        headerView.do {
-            $0.backgroundColor = .white
-        }
-        
-        headerView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(ScreenUtils.getHeight(60))
-        }
-
-        rootView.tableView.snp.remakeConstraints {
-            $0.top.equalTo(headerView.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
-    }
-
-    func setHierarchy() {
-        view.addSubview(headerView)
     }
 }
 
