@@ -59,9 +59,17 @@ private extension WritingDiaryViewController {
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
         output.items
-            .drive(rootView.writingCollectionView.rx.items(cellIdentifier: WritingDiaryCell.description(), cellType: WritingDiaryCell.self)) { index, text, cell in
+            .drive(rootView.writingCollectionView.rx.items(cellIdentifier: WritingDiaryCell.description(), cellType: WritingDiaryCell.self)) {
+                index,
+                text,
+                cell in
                 
-                cell.bindData(index: index + 1, text: text, statuses: self.viewModel.textViewStatusRelay.value[index])
+                cell.bindData(
+                    index: index + 1,
+                    text: text,
+                    statuses: self.viewModel.textViewStatusRelay.value[index],
+                    isFirst: self.viewModel.isFirstRelay.value[index]
+                )
                 
                 cell.writingContainer.rx.tapGesture()
                      .when(.recognized)
@@ -82,6 +90,13 @@ private extension WritingDiaryViewController {
                     if cell.textView.text == "일상 속 작은 감사함을 적어보세요." {
                         cell.textView.text = ""
                     }
+                    
+                    var isFirst = self.viewModel.isFirstRelay.value
+                    isFirst[index] = false
+                    self.viewModel.isFirstRelay.accept(isFirst)
+                    cell.writingListNumberLabel.textColor = .grey02
+                    cell.textView.textColor = .grey03
+                    
                     cell.textView.rx.text.orEmpty
                         .map { "\($0.count)" }
                         .bind(to: cell.textInputLabel.rx.text)

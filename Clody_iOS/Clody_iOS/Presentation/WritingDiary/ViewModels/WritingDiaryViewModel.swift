@@ -21,11 +21,13 @@ final class WritingDiaryViewModel: CalendarViewModelType {
     struct Output {
         let items: Driver<[String]>
         let statuses: Driver<[Bool]>
+        let isFirst: Driver<[Bool]>
     }
     
     let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: [""]))
     let diariesRelay = BehaviorRelay<[String]>(value: [""])
     let textViewStatusRelay = BehaviorRelay<[Bool]>(value: [true])
+    let isFirstRelay = BehaviorRelay<[Bool]>(value: [true])
     let textDidEditing = PublishRelay<String>()
     let textEndEditing = PublishRelay<String>()
     
@@ -50,11 +52,14 @@ final class WritingDiaryViewModel: CalendarViewModelType {
                 guard let self = self else { return }
                 var items = self.diariesRelay.value
                 var statuses = self.textViewStatusRelay.value
+                var isFirst = self.textViewStatusRelay.value
                 if items.count < 5 {
                     items.append("")
                     statuses.append(true)
+                    isFirst.append(true)
                     self.diariesRelay.accept(items)
                     self.textViewStatusRelay.accept(statuses)
+                    self.isFirstRelay.accept(isFirst)
                 }
             })
             .disposed(by: disposeBag)
@@ -73,6 +78,13 @@ final class WritingDiaryViewModel: CalendarViewModelType {
             }
             .asDriver(onErrorJustReturn: [])
         
-        return Output(items: items, statuses: statuses)
+        let isFirst = isFirstRelay
+            .map { data -> [Bool] in
+                print(data)
+                return data
+            }
+            .asDriver(onErrorJustReturn: [])
+        
+        return Output(items: items, statuses: statuses, isFirst: isFirst)
     }
 }

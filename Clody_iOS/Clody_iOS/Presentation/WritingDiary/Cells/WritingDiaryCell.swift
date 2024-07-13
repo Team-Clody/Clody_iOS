@@ -18,7 +18,7 @@ final class WritingDiaryCell: UICollectionViewCell {
     // MARK: - UI Components
     
     let writingContainer = UIView()
-    private let writingListNumberLabel = UILabel()
+    let writingListNumberLabel = UILabel()
     let textView = UITextView()
     lazy var kebabButton = UIButton()
     let textInputLabel = UILabel()
@@ -59,7 +59,7 @@ final class WritingDiaryCell: UICollectionViewCell {
         
         writingListNumberLabel.do {
             $0.attributedText = UIFont.pretendardString(text: "1.", style: .body3_semibold, lineHeightMultiple: 1.5)
-            $0.textColor = .grey02
+            $0.textColor = .grey06
         }
         
         textView.do {
@@ -68,7 +68,7 @@ final class WritingDiaryCell: UICollectionViewCell {
                 style: .body3_medium,
                 lineHeightMultiple: 1.5
             )
-            $0.textColor = .grey03
+            $0.textColor = .grey06
             $0.backgroundColor = .clear
             $0.isScrollEnabled = false
             $0.textContainerInset = .zero
@@ -135,9 +135,19 @@ final class WritingDiaryCell: UICollectionViewCell {
         }
     }
     
-    func bindData(index: Int, text: String, statuses: Bool) {
+    func bindData(
+        index: Int,
+        text: String,
+        statuses: Bool,
+        isFirst: Bool
+    ) {
         writingListNumberLabel.text = "\(index)."
         textInputLabel.text = "\(text.count)"
+        if !isFirst {
+            writingListNumberLabel.textColor = .grey02
+            textView.textColor = .grey03
+        }
+        
         if statuses {
             textView.text = text.isEmpty ? "일상 속 작은 감사함을 적어보세요." : text
             writingContainer.makeBorder(width: 0, color: .clear)
