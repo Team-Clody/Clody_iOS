@@ -7,7 +7,7 @@ final class NotificationCell: UITableViewCell {
 
     private let titleLabel: UILabel = UILabel()
     private let detailLabel: UILabel = UILabel()
-    private let arrowImageView: UIImageView = UIImageView()
+    let arrowImageView: UIImageView = UIImageView()
     private let switchControl: UISwitch = UISwitch()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

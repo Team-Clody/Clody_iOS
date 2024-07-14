@@ -54,6 +54,7 @@
 		2CC0CE732C3C0ED9001F3E6B /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC0CE722C3C0ED9001F3E6B /* MyPageTableViewCell.swift */; };
 		2CC0CE752C3C0EE7001F3E6B /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC0CE742C3C0EE7001F3E6B /* MyPageView.swift */; };
 		2CC0CE772C3C0FAD001F3E6B /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC0CE762C3C0FAD001F3E6B /* MyPageViewController.swift */; };
+		2CE3A3A82C43CF06007A421C /* NotificationBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE3A3A72C43CF06007A421C /* NotificationBottomSheetView.swift */; };
 		2CE3AB2F2C36E9F50042085A /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */; };
 		2CE6378B2C3D546200B6EC6D /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE6378A2C3D546200B6EC6D /* AccountViewController.swift */; };
 		2CE6378D2C3D56A700B6EC6D /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE6378C2C3D56A700B6EC6D /* AccountView.swift */; };
@@ -122,6 +123,7 @@
 		2CC0CE722C3C0ED9001F3E6B /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
 		2CC0CE742C3C0EE7001F3E6B /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		2CC0CE762C3C0FAD001F3E6B /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		2CE3A3A72C43CF06007A421C /* NotificationBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBottomSheetView.swift; sourceTree = "<group>"; };
 		2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		2CE6378A2C3D546200B6EC6D /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		2CE6378C2C3D56A700B6EC6D /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
@@ -483,6 +485,7 @@
 				2CC0CE742C3C0EE7001F3E6B /* MyPageView.swift */,
 				2CE6378C2C3D56A700B6EC6D /* AccountView.swift */,
 				2C7FCF722C42DD4900F4E089 /* NotificationView.swift */,
+				2CE3A3A72C43CF06007A421C /* NotificationBottomSheetView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -694,6 +697,7 @@
 				0B20F3E12C2C4DAA00F8D62D /* ViewController.swift in Sources */,
 				95310F922C40706600023C7B /* NicknameView.swift in Sources */,
 				2CE637912C3D56C300B6EC6D /* AccountViewModel.swift in Sources */,
+				2CE3A3A82C43CF06007A421C /* NotificationBottomSheetView.swift in Sources */,
 				0B20F3DD2C2C4DAA00F8D62D /* AppDelegate.swift in Sources */,
 				0BFCC5F32C306D3B00B5E0DB /* String.swift in Sources */,
 				2CC0CE752C3C0EE7001F3E6B /* MyPageView.swift in Sources */,
