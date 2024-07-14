@@ -53,10 +53,18 @@ private extension WritingDiaryViewController {
         let input = WritingDiaryViewModel.Input(
             viewDidLoad: Observable.just(()),
             tapSaveButton: rootView.saveButton.rx.tap.asSignal(),
-            tapAddButton: rootView.addButton.rx.tap.asSignal()
+            tapAddButton: rootView.addButton.rx.tap.asSignal(), 
+            tapBackButton: rootView.navigationBarView.backButton.rx.tap.asSignal()
         )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
+        
+        output.popToCalendar
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
         
         output.items
             .drive(rootView.writingCollectionView.rx.items(cellIdentifier: WritingDiaryCell.description(), cellType: WritingDiaryCell.self)) {

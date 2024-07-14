@@ -14,7 +14,7 @@ final class WritingDiaryView: UIView {
     
     // MARK: - UI Components
     
-    private let navigationBarView = ClodyNavigationBar(type: .normal)
+    let navigationBarView = ClodyNavigationBar(type: .normal)
     lazy var writingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: writingCollectionViewLayout())
     lazy var saveButton = UIButton()
     lazy var addButton = UIButton()
@@ -40,10 +40,6 @@ final class WritingDiaryView: UIView {
     
     func setStyle() {
         self.backgroundColor = .grey08
-        
-        navigationBarView.do {
-            $0.backgroundColor = .red
-        }
         
         writingCollectionView.do {
             $0.backgroundColor = .white

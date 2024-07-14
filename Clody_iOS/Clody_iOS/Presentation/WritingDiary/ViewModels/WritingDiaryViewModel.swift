@@ -9,6 +9,21 @@ import UIKit
 
 import RxSwift
 import RxCocoa
+import RxDataSources
+
+struct WritingDiarySection {
+    var header: String
+    var items: [Item]
+}
+
+extension WritingDiarySection: SectionModelType {
+    typealias Item = String
+
+    init(original: WritingDiarySection, items: [Item]) {
+        self = original
+        self.items = items
+    }
+}
 
 final class WritingDiaryViewModel: ViewModelType {
     
@@ -16,12 +31,14 @@ final class WritingDiaryViewModel: ViewModelType {
         let viewDidLoad: Observable<Void>
         let tapSaveButton: Signal<Void>
         let tapAddButton: Signal<Void>
+        let tapBackButton: Signal<Void>
     }
     
     struct Output {
         let items: Driver<[String]>
         let statuses: Driver<[Bool]>
         let isFirst: Driver<[Bool]>
+        let popToCalendar: Signal<Void>
     }
     
     let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: [""]))
@@ -85,6 +102,8 @@ final class WritingDiaryViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: [])
         
-        return Output(items: items, statuses: statuses, isFirst: isFirst)
+        let popToCalendar = input.tapBackButton.asSignal()
+        
+        return Output(items: items, statuses: statuses, isFirst: isFirst, popToCalendar: popToCalendar)
     }
 }

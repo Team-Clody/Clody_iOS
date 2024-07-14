@@ -36,10 +36,6 @@ final class CalendarView: BaseView {
     override func setStyle() {
         self.backgroundColor = .white
         
-        calendarNavigationView.do {
-            $0.backgroundColor = .red
-        }
-        
         calendarButton.do {
             $0.makeCornerRound(radius: 10)
             $0.backgroundColor = .grey02
