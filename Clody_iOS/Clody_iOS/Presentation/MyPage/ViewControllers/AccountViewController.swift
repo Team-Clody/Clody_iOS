@@ -188,9 +188,8 @@ final class AccountViewController: UIViewController {
     }
 
     @objc private func handleChangeNickname() {
-        let newNickname = nicknameTextField.textField.text
-        // 닉네임 변경 로직 추가
-        // 예: viewModel.updateNickname(newNickname)
+        guard let newNickname = nicknameTextField.textField.text, !newNickname.isEmpty else { return }
+        rootView.nicknameLabel.text = newNickname
         view.subviews.last?.removeFromSuperview()
         view.subviews.last?.removeFromSuperview()
     }
