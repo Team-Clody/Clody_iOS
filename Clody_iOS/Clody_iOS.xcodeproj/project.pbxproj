@@ -78,6 +78,9 @@
 		95310FAB2C42D9EC00023C7B /* ReplyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FAA2C42D9EC00023C7B /* ReplyDetailViewController.swift */; };
 		95310FAD2C42D9FB00023C7B /* ReplyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FAC2C42D9FB00023C7B /* ReplyDetailView.swift */; };
 		95310FB02C42E0CB00023C7B /* ReplyDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FAF2C42E0CB00023C7B /* ReplyDetailModel.swift */; };
+		95310FB22C434E0B00023C7B /* ReplyWaitingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FB12C434E0B00023C7B /* ReplyWaitingView.swift */; };
+		95310FB42C434E1E00023C7B /* ReplyWaitingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FB32C434E1E00023C7B /* ReplyWaitingViewController.swift */; };
+		95310FB72C43B07100023C7B /* ReplyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FB62C43B07100023C7B /* ReplyViewModel.swift */; };
 		95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A89E762C36EE4100E07ABC /* BaseView.swift */; };
 /* End PBXBuildFile section */
 
@@ -145,6 +148,9 @@
 		95310FAA2C42D9EC00023C7B /* ReplyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyDetailViewController.swift; sourceTree = "<group>"; };
 		95310FAC2C42D9FB00023C7B /* ReplyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyDetailView.swift; sourceTree = "<group>"; };
 		95310FAF2C42E0CB00023C7B /* ReplyDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyDetailModel.swift; sourceTree = "<group>"; };
+		95310FB12C434E0B00023C7B /* ReplyWaitingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyWaitingView.swift; sourceTree = "<group>"; };
+		95310FB32C434E1E00023C7B /* ReplyWaitingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyWaitingViewController.swift; sourceTree = "<group>"; };
+		95310FB62C43B07100023C7B /* ReplyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyViewModel.swift; sourceTree = "<group>"; };
 		95A89E762C36EE4100E07ABC /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -547,6 +553,7 @@
 		95310FA72C42D97000023C7B /* Reply */ = {
 			isa = PBXGroup;
 			children = (
+				95310FB52C43B06600023C7B /* ViewModels */,
 				95310FAE2C42E0BD00023C7B /* Models */,
 				95310FA92C42D98900023C7B /* ViewControllers */,
 				95310FA82C42D98400023C7B /* Views */,
@@ -558,6 +565,7 @@
 			isa = PBXGroup;
 			children = (
 				95310FAC2C42D9FB00023C7B /* ReplyDetailView.swift */,
+				95310FB12C434E0B00023C7B /* ReplyWaitingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -566,6 +574,7 @@
 			isa = PBXGroup;
 			children = (
 				95310FAA2C42D9EC00023C7B /* ReplyDetailViewController.swift */,
+				95310FB32C434E1E00023C7B /* ReplyWaitingViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -576,6 +585,14 @@
 				95310FAF2C42E0CB00023C7B /* ReplyDetailModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		95310FB52C43B06600023C7B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				95310FB62C43B07100023C7B /* ReplyViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		95A89E752C36EE2700E07ABC /* Common */ = {
@@ -708,9 +725,11 @@
 				0B6C074F2C3DD3DF0054A0B0 /* ListBackgroundView.swift in Sources */,
 				0BFCC5EE2C2F850400B5E0DB /* UIView+.swift in Sources */,
 				2CC0CE712C3C0ECD001F3E6B /* MyPageViewModel.swift in Sources */,
+				95310FB22C434E0B00023C7B /* ReplyWaitingView.swift in Sources */,
 				0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */,
 				2CE6378B2C3D546200B6EC6D /* AccountViewController.swift in Sources */,
 				95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */,
+				95310FB72C43B07100023C7B /* ReplyViewModel.swift in Sources */,
 				95310F902C40705600023C7B /* NicknameViewController.swift in Sources */,
 				95310F982C40777C00023C7B /* OnBoardingView.swift in Sources */,
 				95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */,
@@ -731,6 +750,7 @@
 				0B6C07452C3DC2E90054A0B0 /* ListViewController.swift in Sources */,
 				0BFCC5E12C2E8F2800B5E0DB /* CalendarView.swift in Sources */,
 				0B6C07472C3DC2F40054A0B0 /* ListViewModel.swift in Sources */,
+				95310FB42C434E1E00023C7B /* ReplyWaitingViewController.swift in Sources */,
 				0B6C07432C3DC2DE0054A0B0 /* ListModel.swift in Sources */,
 				0B17F8052C368465008A9998 /* DailyCalendarCollectionViewCell.swift in Sources */,
 				0B190F0D2C38111500D46CFC /* CalendarDailyModel.swift in Sources */,
