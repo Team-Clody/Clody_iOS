@@ -29,9 +29,6 @@ final class NotificationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
-        setUI()
-        setDelegate()
-        setAddTarget()
         
         let sampleData = [
             NotificationItem(title: "일기 작성 알림 받기", detail: nil, hasSwitch: true),
@@ -120,18 +117,6 @@ private extension NotificationViewController {
                 self?.navigationController?.popViewController(animated: false)
             })
             .disposed(by: disposeBag)
-    }
-
-    func setUI() {
-        view.backgroundColor = .white
-    }
-
-    func setDelegate() {
-        // Set any delegates here
-    }
-
-    func setAddTarget() {
-        // Add any targets for UI components here
     }
 
     // MARK: - Actions

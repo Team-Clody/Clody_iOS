@@ -1,4 +1,5 @@
 import UIKit
+
 import SnapKit
 import Then
 
@@ -6,26 +7,10 @@ final class NotificationBottomSheetView: UIView {
 
     // MARK: - UI Components
 
-    let titleLabel = UILabel().then {
-        $0.textAlignment = .center
-        $0.attributedText = UIFont.pretendardString(text: "다른 시간 보기", style: .body2_semibold)
-        $0.textColor = .grey01
-    }
-    
-    let closeButton = UIButton().then {
-        let attributedTitle = UIFont.pretendardString(text: "x", style: .body1_medium)
-        $0.setAttributedTitle(attributedTitle, for: .normal)
-        $0.setTitleColor(.grey01, for: .normal)
-    }
-
+    let titleLabel = UILabel()
+    let closeButton = UIButton()
     var pickerView = ClodyPickerView(type: .notification)
-    
-    let doneButton = UIButton().then {
-        $0.setTitle("완료", for: .normal)
-        $0.backgroundColor = .mainYellow
-        $0.setTitleColor(.grey01, for: .normal)
-        $0.layer.cornerRadius = 10
-    }
+    let doneButton = UIButton()
 
     // MARK: - Initializers
 
@@ -44,6 +29,25 @@ final class NotificationBottomSheetView: UIView {
         backgroundColor = .white
         layer.cornerRadius = 10
 
+        titleLabel.do {
+            $0.textAlignment = .center
+            $0.attributedText = UIFont.pretendardString(text: "다른 시간 보기", style: .body2_semibold)
+            $0.textColor = .grey01
+        }
+        
+        closeButton.do {
+            let attributedTitle = UIFont.pretendardString(text: "x", style: .body1_medium)
+            $0.setAttributedTitle(attributedTitle, for: .normal)
+            $0.setTitleColor(.grey01, for: .normal)
+        }
+
+        doneButton.do {
+            $0.setTitle("완료", for: .normal)
+            $0.backgroundColor = .mainYellow
+            $0.setTitleColor(.grey01, for: .normal)
+            $0.layer.cornerRadius = 10
+        }
+
         addSubviews(titleLabel, closeButton, pickerView, doneButton)
 
         titleLabel.snp.makeConstraints {
@@ -52,7 +56,7 @@ final class NotificationBottomSheetView: UIView {
         }
 
         closeButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(14)
+            $0.top.equalToSuperview().inset(14)
             $0.right.equalToSuperview().inset(18)
             $0.width.height.equalTo(24)
         }
