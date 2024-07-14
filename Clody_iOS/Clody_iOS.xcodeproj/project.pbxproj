@@ -27,6 +27,8 @@
 		0BAAC64C2C43BFB800174A9D /* DeleteBottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC64B2C43BFB800174A9D /* DeleteBottomSheetController.swift */; };
 		0BAAC64E2C43BFD900174A9D /* DeleteBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */; };
 		0BAAC6512C43D3C200174A9D /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 0BAAC6502C43D3C200174A9D /* RxGesture */; };
+		0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6522C43D74D00174A9D /* ClodyToast.swift */; };
+		0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */; };
 		0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC373522C3FCC2600C45072 /* ViewModelType.swift */; };
 		0BCD4FA52C363C90006390D2 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 0BCD4FA42C363C90006390D2 /* FirebaseMessaging */; };
 		0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A52C2E843C00B5E0DB /* FSCalendar */; };
@@ -101,6 +103,8 @@
 		0B6C074E2C3DD3DF0054A0B0 /* ListBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListBackgroundView.swift; sourceTree = "<group>"; };
 		0BAAC64B2C43BFB800174A9D /* DeleteBottomSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBottomSheetController.swift; sourceTree = "<group>"; };
 		0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBottomSheetView.swift; sourceTree = "<group>"; };
+		0BAAC6522C43D74D00174A9D /* ClodyToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToast.swift; sourceTree = "<group>"; };
+		0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToastView.swift; sourceTree = "<group>"; };
 		0BC373522C3FCC2600C45072 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		0BCD4FA22C35B59C006390D2 /* Clody_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clody_iOS.entitlements; sourceTree = "<group>"; };
 		0BFCC5CE2C2E8DAE00B5E0DB /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
@@ -563,6 +567,8 @@
 				95310F772C3D6DF800023C7B /* ClodyAlert.swift */,
 				95310F7B2C3DD36100023C7B /* ClodyPickerView.swift */,
 				95310F842C3FFA0C00023C7B /* ClodyLoginButton.swift */,
+				0BAAC6522C43D74D00174A9D /* ClodyToast.swift */,
+				0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -677,10 +683,12 @@
 				0BFCC5EE2C2F850400B5E0DB /* UIView+.swift in Sources */,
 				2CC0CE712C3C0ECD001F3E6B /* MyPageViewModel.swift in Sources */,
 				0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */,
+				0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */,
 				2CE6378B2C3D546200B6EC6D /* AccountViewController.swift in Sources */,
 				95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */,
 				95310F902C40705600023C7B /* NicknameViewController.swift in Sources */,
 				0BAAC64E2C43BFD900174A9D /* DeleteBottomSheetView.swift in Sources */,
+				0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */,
 				95310F982C40777C00023C7B /* OnBoardingView.swift in Sources */,
 				95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */,
 				95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */,
