@@ -16,12 +16,14 @@ final class ListViewModel: ViewModelType {
         let viewDidLoad: Observable<Void>
         let tapReplyButton: Signal<String>
         let tapKebabButton: Signal<String>
+        let tapCalendarButton: Signal<Void>
         let monthTap: Signal<String>
     }
     
     struct Output {
         let replyDate: Driver<String>
         let kebabDate: Driver<String>
+        let changeToCalendar: Signal<Void>
     }
     
     let listDummyDataRelay = BehaviorRelay<ListModel>(value: ListModel(totalMonthlyCount: 0, diaries: []))
@@ -45,7 +47,9 @@ final class ListViewModel: ViewModelType {
             .map { $0.diaries }
             .asDriver(onErrorJustReturn: [])
         
-        return Output(replyDate: replyDate, kebabDate: kebabDate)
+        let changeToCalendar = input.tapCalendarButton.asSignal()
+        
+        return Output(replyDate: replyDate, kebabDate: kebabDate, changeToCalendar: changeToCalendar)
     }
 }
 

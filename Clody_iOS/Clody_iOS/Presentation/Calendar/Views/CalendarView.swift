@@ -16,7 +16,7 @@ final class CalendarView: BaseView {
     // MARK: - UI Components
     
     private let scrollView = UIScrollView()
-    private let calendarNavigationView = UIView()
+    let calendarNavigationView = ClodyNavigationBar(type: .calendar, date: "2024년 7월")
     private let contentView = UIView()
     private let cloverBackgroundView = UIView()
     private let cloverLabel = UILabel()
@@ -35,10 +35,6 @@ final class CalendarView: BaseView {
     
     override func setStyle() {
         self.backgroundColor = .white
-        
-        calendarNavigationView.do {
-            $0.backgroundColor = .red
-        }
         
         calendarButton.do {
             $0.makeCornerRound(radius: 10)
