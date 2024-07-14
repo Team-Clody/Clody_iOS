@@ -1,5 +1,4 @@
 import UIKit
-
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -38,55 +37,55 @@ final class AccountViewController: UIViewController {
             .disposed(by: disposeBag)
         
         rootView.logoutButton.rx.tap
-                .subscribe(onNext: { [weak self] in
-                    guard let self = self else { return }
-            let alertVC = ClodyAlertViewController(
-                type: .logout,
-                title: "로그아웃 하시겠어요?",
-                message: "기다릴게요, 다음에 다시 만나요!",
-                rightButtonText: "로그아웃"
-            )
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                let alertVC = ClodyAlertViewController(
+                    type: .logout,
+                    title: "로그아웃 하시겠어요?",
+                    message: "기다릴게요, 다음에 다시 만나요!",
+                    rightButtonText: "로그아웃"
+                )
                     
-            alertVC.alertView.leftButton.rx.tap
-                .subscribe(onNext: { [weak alertVC] in
-                    alertVC?.dismiss(animated: true, completion: nil)
-                })
-                .disposed(by: self.disposeBag)
-            
-            alertVC.alertView.rightButton.rx.tap
-                .subscribe(onNext: { [weak alertVC] in
-                    alertVC?.dismiss(animated: true, completion: nil)
-                })
-                .disposed(by: self.disposeBag)
+                alertVC.alertView.leftButton.rx.tap
+                    .subscribe(onNext: { [weak alertVC] in
+                        alertVC?.dismiss(animated: true, completion: nil)
+                    })
+                    .disposed(by: self.disposeBag)
+                
+                alertVC.alertView.rightButton.rx.tap
+                    .subscribe(onNext: { [weak alertVC] in
+                        alertVC?.dismiss(animated: true, completion: nil)
+                    })
+                    .disposed(by: self.disposeBag)
                                 
-            self.present(alertVC, animated: true, completion: nil)
-        })
-        .disposed(by: disposeBag)
+                self.present(alertVC, animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
     
-    rootView.deleteAccountButton.rx.tap
-        .subscribe(onNext: { [weak self] in
-            guard let self = self else { return }
-            let alertVC = ClodyAlertViewController(
-                type: .withdraw,
-                title: "서비스를 탈퇴하시겠어요?",
-                message: "작성하신 일기와 받은 답장 및 클로버가 모두 삭제되며 복구할 수 없어요.",
-                rightButtonText: "탈퇴할래요"
-            )
-            
-            alertVC.alertView.leftButton.rx.tap
-                .subscribe(onNext: { [weak alertVC] in
-                    alertVC?.dismiss(animated: true, completion: nil)
-                })
-                .disposed(by: self.disposeBag)
-            
-            alertVC.alertView.rightButton.rx.tap
-                .subscribe(onNext: { [weak alertVC] in
-                    alertVC?.dismiss(animated: true, completion: nil)
-                })
-            
-            self.present(alertVC, animated: true, completion: nil)
-        })
-        .disposed(by: disposeBag)
+        rootView.deleteAccountButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                let alertVC = ClodyAlertViewController(
+                    type: .withdraw,
+                    title: "서비스를 탈퇴하시겠어요?",
+                    message: "작성하신 일기와 받은 답장 및 클로버가 모두 삭제되며 복구할 수 없어요.",
+                    rightButtonText: "탈퇴할래요"
+                )
+                
+                alertVC.alertView.leftButton.rx.tap
+                    .subscribe(onNext: { [weak alertVC] in
+                        alertVC?.dismiss(animated: true, completion: nil)
+                    })
+                    .disposed(by: self.disposeBag)
+                
+                alertVC.alertView.rightButton.rx.tap
+                    .subscribe(onNext: { [weak alertVC] in
+                        alertVC?.dismiss(animated: true, completion: nil)
+                    })
+                
+                self.present(alertVC, animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setActions() {
@@ -98,68 +97,75 @@ final class AccountViewController: UIViewController {
     }
     
     private func showNicknameChangeAlert() {
-        let dimmingView = UIView()
-        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.55)
+        let dimmingView = UIView().then {
+            $0.backgroundColor = UIColor.black.withAlphaComponent(0.55)
+        }
         view.addSubview(dimmingView)
         dimmingView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
-        let nicknameChangeView = UIView()
-        nicknameChangeView.backgroundColor = .white
-        nicknameChangeView.layer.cornerRadius = 10
-        nicknameChangeView.layer.masksToBounds = true
-
-        let titleLabel = UILabel()
-        titleLabel.text = "닉네임 변경"
-        titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        let nicknameChangeView = UIView().then {
+            $0.backgroundColor = .white
+            $0.layer.cornerRadius = 10
+            $0.layer.masksToBounds = true
+        }
+        
+        let titleLabel = UILabel().then {
+            $0.textAlignment = .center
+            $0.attributedText = UIFont.pretendardString(text: "닉네임 변경", style: .body2_semibold)
+            $0.textColor = .grey01
+        }
         
         nicknameTextField.textField.text = ""
         
-        let changeButton = UIButton()
-        changeButton.setTitle("변경하기", for: .normal)
-        changeButton.setTitleColor(.white, for: .normal)
-        changeButton.backgroundColor = .systemYellow
-        changeButton.layer.cornerRadius = 5
-        changeButton.addTarget(self, action: #selector(handleChangeNickname), for: .touchUpInside)
+        let changeButton = UIButton().then {
+            let attributedTitle = UIFont.pretendardString(text: "변경하기", style: .body2_semibold)
+            $0.setAttributedTitle(attributedTitle, for: .normal)
+            $0.setTitleColor(.grey06, for: .normal)
+            $0.backgroundColor = .lightYellow
+            $0.layer.cornerRadius = 5
+            $0.addTarget(self, action: #selector(handleChangeNickname), for: .touchUpInside)
+        }
         
-        let closeButton = UIButton()
-            closeButton.setTitle("✕", for: .normal)
-            closeButton.setTitleColor(.black, for: .normal)
-            closeButton.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
+        let closeButton = UIButton().then {
+            let attributedTitle = UIFont.pretendardString(text: "x", style: .body1_medium)
+            $0.setAttributedTitle(attributedTitle, for: .normal)
+            $0.setTitleColor(.grey01, for: .normal)
+            $0.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
+        }
         
         nicknameChangeView.addSubviews(titleLabel, nicknameTextField, changeButton, closeButton)
         
         view.addSubview(nicknameChangeView)
         
-        nicknameChangeView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.height.equalTo(283)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        nicknameChangeView.snp.makeConstraints {
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(283)
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(19)
-            make.centerX.equalToSuperview()
+        titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(19)
+            $0.centerX.equalToSuperview()
         }
         
-        nicknameTextField.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(81)
-            make.horizontalEdges.equalToSuperview().inset(24)
-            make.height.equalTo(40)
+        nicknameTextField.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(81)
+            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.height.equalTo(40)
         }
         
-        changeButton.snp.makeConstraints { make in
-            make.top.equalTo(nicknameTextField.snp.bottom).offset(73)
-            make.horizontalEdges.equalToSuperview().inset(24)
-            make.height.equalTo(48)
+        changeButton.snp.makeConstraints {
+            $0.top.equalTo(nicknameTextField.snp.bottom).offset(73)
+            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.height.equalTo(48)
         }
         
-        closeButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(18)
-            make.right.equalToSuperview().inset(22)
-            make.width.height.equalTo(20)
+        closeButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(18)
+            $0.right.equalToSuperview().inset(22)
+            $0.width.height.equalTo(20)
         }
     }
 
@@ -177,20 +183,15 @@ final class AccountViewController: UIViewController {
     }
 }
 
-
 import SwiftUI
 
 struct AccountViewControllerPreview: UIViewControllerRepresentable {
 
-func makeUIViewController(context: Context) -> AccountViewController {
+    func makeUIViewController(context: Context) -> AccountViewController {
+        return AccountViewController()
+    }
 
-return AccountViewController()
-
-}
-
-func updateUIViewController(_ uiViewController: AccountViewController, context: Context) {
-
-}
+    func updateUIViewController(_ uiViewController: AccountViewController, context: Context) { }
 
 }
 
@@ -198,13 +199,10 @@ func updateUIViewController(_ uiViewController: AccountViewController, context: 
 
 struct AccountViewControllerPreview_Previews: PreviewProvider {
 
-static var previews: some View {
-
-AccountViewControllerPreview()
-
-.previewDevice("iPhone 12")
-
-}
+    static var previews: some View {
+        AccountViewControllerPreview()
+            .previewDevice("iPhone 12")
+    }
 
 }
 
