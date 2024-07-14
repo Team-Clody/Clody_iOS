@@ -50,5 +50,9 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
             $0.top.equalToSuperview()
         }
     }
+    
+    func bindData(date: String) {
+        dateLabel.text = date
+    }
 }
 

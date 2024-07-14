@@ -11,6 +11,7 @@ import RxCocoa
 import RxSwift
 import RxKeyboard
 import RxGesture
+import RxDataSources
 import SnapKit
 import Then
 
@@ -53,7 +54,7 @@ private extension WritingDiaryViewController {
         let input = WritingDiaryViewModel.Input(
             viewDidLoad: Observable.just(()),
             tapSaveButton: rootView.saveButton.rx.tap.asSignal(),
-            tapAddButton: rootView.addButton.rx.tap.asSignal(), 
+            tapAddButton: rootView.addButton.rx.tap.asSignal(),
             tapBackButton: rootView.navigationBarView.backButton.rx.tap.asSignal()
         )
         
@@ -61,76 +62,84 @@ private extension WritingDiaryViewController {
         
         output.popToCalendar
             .emit(onNext: { [weak self] in
-                guard let self = self else { return }
-                self.navigationController?.popViewController(animated: true)
+                self?.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
         
-        output.items
-            .drive(rootView.writingCollectionView.rx.items(cellIdentifier: WritingDiaryCell.description(), cellType: WritingDiaryCell.self)) {
-                index,
-                text,
-                cell in
+        let dataSource = RxCollectionViewSectionedReloadDataSource<WritingDiarySection>(
+            configureCell: { [weak self] dataSource, collectionView, indexPath, text in
+                guard let self = self else { return UICollectionViewCell() }
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WritingDiaryCell.description(), for: indexPath) as! WritingDiaryCell
                 
                 cell.bindData(
-                    index: index + 1,
+                    index: indexPath.item + 1,
                     text: text,
-                    statuses: self.viewModel.textViewStatusRelay.value[index],
-                    isFirst: self.viewModel.isFirstRelay.value[index]
+                    statuses: self.viewModel.textViewStatusRelay.value[indexPath.item],
+                    isFirst: self.viewModel.isFirstRelay.value[indexPath.item]
                 )
                 
                 cell.writingContainer.rx.tapGesture()
-                     .when(.recognized)
-                 .subscribe(onNext: { [weak cell] _ in
-                    cell?.textView.becomeFirstResponder()
-                })
-                .disposed(by: cell.disposeBag)
-            
-            cell.textView.rx.text.orEmpty
-                .skip(1)
-                .map { String($0.prefix(50)) }
-                .bind(to: cell.textView.rx.text)
-                .disposed(by: cell.disposeBag)
-            
-            cell.textView.rx.didBeginEditing
-                .subscribe(onNext: {
-                    cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
-                    if cell.textView.text == "일상 속 작은 감사함을 적어보세요." {
-                        cell.textView.text = ""
-                    }
-                    
-                    var isFirst = self.viewModel.isFirstRelay.value
-                    isFirst[index] = false
-                    self.viewModel.isFirstRelay.accept(isFirst)
-                    cell.writingListNumberLabel.textColor = .grey02
-                    cell.textView.textColor = .grey03
-                    
-                    cell.textView.rx.text.orEmpty
-                        .map { "\($0.count)" }
-                        .bind(to: cell.textInputLabel.rx.text)
-                        .disposed(by: cell.disposeBag)
-                })
+                    .when(.recognized)
+                    .subscribe(onNext: { [weak cell] _ in
+                        cell?.textView.becomeFirstResponder()
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                cell.textView.rx.text.orEmpty
+                    .skip(1)
+                    .map { String($0.prefix(50)) }
+                    .bind(to: cell.textView.rx.text)
+                    .disposed(by: cell.disposeBag)
+                
+                cell.textView.rx.didBeginEditing
+                    .subscribe(onNext: {
+                        cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
+                        if cell.textView.text == "일상 속 작은 감사함을 적어보세요." {
+                            cell.textView.text = ""
+                        }
+                        
+                        var isFirst = self.viewModel.isFirstRelay.value
+                        isFirst[indexPath.item] = false
+                        self.viewModel.isFirstRelay.accept(isFirst)
+                        cell.writingListNumberLabel.textColor = .grey02
+                        cell.textView.textColor = .grey03
+                        
+                        cell.textView.rx.text.orEmpty
+                            .map { "\($0.count)" }
+                            .bind(to: cell.textInputLabel.rx.text)
+                            .disposed(by: cell.disposeBag)
+                    })
                     .disposed(by: cell.disposeBag)
                 
                 cell.textView.rx.didEndEditing
                     .subscribe(onNext: { [weak cell] in
                         guard let cell = cell else { return }
-                        // itemsRelay에 추가
                         var status = self.viewModel.textViewStatusRelay.value
-                        status[index] = !cell.textView.text.isEmpty
+                        status[indexPath.item] = !cell.textView.text.isEmpty
                         self.viewModel.textViewStatusRelay.accept(status)
                         
                         var items = self.viewModel.diariesRelay.value
-                        items[index] = cell.textView.text
+                        items[indexPath.item] = cell.textView.text
                         self.viewModel.diariesRelay.accept(items)
                     })
                     .disposed(by: cell.disposeBag)
+                
+                return cell
+            },
+            configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
+                let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: WritingDiaryHeaderView.description(), for: indexPath) as! WritingDiaryHeaderView
+                header.bindData(date: "6월 26일 목요일")
+                return header
             }
+        )
+        
+        output.items
+            .drive(rootView.writingCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
     }
     
     func setDelegate() {
-    
+        
     }
     
     func setStyle() {
