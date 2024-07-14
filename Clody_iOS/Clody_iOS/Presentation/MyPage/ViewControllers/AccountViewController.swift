@@ -1,5 +1,4 @@
 import UIKit
-
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -46,7 +45,7 @@ final class AccountViewController: UIViewController {
                     message: "기다릴게요, 다음에 다시 만나요!",
                     rightButtonText: "로그아웃"
                 )
-                
+
                 alertVC.alertView.leftButton.rx.tap
                     .subscribe(onNext: { [weak alertVC] in
                         alertVC?.dismiss(animated: true, completion: nil)
@@ -84,7 +83,7 @@ final class AccountViewController: UIViewController {
                         alertVC?.dismiss(animated: true, completion: nil)
                     })
                     .disposed(by: self.disposeBag)
-                
+
                 self.present(alertVC, animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
@@ -131,8 +130,10 @@ final class AccountViewController: UIViewController {
         }
         
         let closeButton = UIButton().then {
-            $0.setTitle("✕", for: .normal)
-            $0.setTitleColor(.black, for: .normal)
+
+            let attributedTitle = UIFont.pretendardString(text: "x", style: .body1_medium)
+            $0.setAttributedTitle(attributedTitle, for: .normal)
+            $0.setTitleColor(.grey01, for: .normal)
             $0.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
         }
         
@@ -145,9 +146,9 @@ final class AccountViewController: UIViewController {
             $0.height.equalTo(294)
             $0.bottom.equalTo(view.snp.bottom)
         }
-        
+
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(19)
+            $0.top.equalToSuperview().inset(19)
             $0.centerX.equalToSuperview()
         }
         
@@ -195,14 +196,15 @@ struct AccountViewControllerPreview: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: AccountViewController, context: Context) {}
-
 }
 
 #if DEBUG
 struct AccountViewControllerPreview_Previews: PreviewProvider {
+
     static var previews: some View {
         AccountViewControllerPreview()
             .previewDevice("iPhone 12")
     }
 }
+
 #endif
