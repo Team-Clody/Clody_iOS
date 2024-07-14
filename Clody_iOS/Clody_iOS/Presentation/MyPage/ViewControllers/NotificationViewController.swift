@@ -1,4 +1,5 @@
 import UIKit
+
 import RxCocoa
 import RxSwift
 import Then
@@ -28,9 +29,10 @@ final class NotificationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
+        setUI()
+        setDelegate()
+        setAddTarget()
         
-        view.backgroundColor = .white
-
         let sampleData = [
             NotificationItem(title: "일기 작성 알림 받기", detail: nil, hasSwitch: true),
             NotificationItem(title: "알림 시간", detail: selectedTime, hasSwitch: false),
@@ -54,8 +56,7 @@ final class NotificationViewController: UIViewController {
 
         guard let dimmingView = dimmingView, let notificationBottomSheetView = notificationBottomSheetView else { return }
 
-        view.addSubview(dimmingView)
-        view.addSubview(notificationBottomSheetView)
+        view.addSubviews(dimmingView, notificationBottomSheetView)
 
         dimmingView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -98,25 +99,42 @@ private extension NotificationViewController {
 
     func bindViewModel() {
         let output = viewModel.transform(from: NotificationViewModel.Input(), disposeBag: disposeBag)
+        bindOutput(output)
+    }
 
+    func bindOutput(_ output: NotificationViewModel.Output) {
         output.notificationItems
-            .drive(rootView.tableView.rx.items(cellIdentifier: "NotificationCell", cellType: NotificationCell.self)) { (row, element, cell) in
+            .drive(rootView.tableView.rx.items(cellIdentifier: "NotificationCell", cellType: NotificationCell.self)) { [weak self] (row, element, cell) in
                 cell.configure(with: element)
                 
                 if element.title == "알림 시간" {
                     cell.arrowImageView.isUserInteractionEnabled = true
-                    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.arrowImageViewTapped))
+                    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self?.arrowImageViewTapped))
                     cell.arrowImageView.addGestureRecognizer(tapGesture)
                 }
             }
             .disposed(by: disposeBag)
         
         closeButton.rx.tap
-            .subscribe(onNext: {
-                self.navigationController?.popViewController(animated: false)
+            .subscribe(onNext: { [weak self] in
+                self?.navigationController?.popViewController(animated: false)
             })
             .disposed(by: disposeBag)
     }
+
+    func setUI() {
+        view.backgroundColor = .white
+    }
+
+    func setDelegate() {
+        // Set any delegates here
+    }
+
+    func setAddTarget() {
+        // Add any targets for UI components here
+    }
+
+    // MARK: - Actions
 
     @objc func arrowImageViewTapped() {
         showPickerView()
