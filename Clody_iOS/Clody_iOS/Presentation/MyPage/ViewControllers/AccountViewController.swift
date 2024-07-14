@@ -176,6 +176,15 @@ final class AccountViewController: UIViewController {
         }
         
         nicknameTextField.textField.becomeFirstResponder()
+        
+        nicknameTextField.textField.rx.text.orEmpty
+            .map { !$0.isEmpty }
+            .subscribe(onNext: { isValid in
+                changeButton.isEnabled = isValid
+                changeButton.backgroundColor = isValid ? .mainYellow : .lightYellow
+                changeButton.setTitleColor(isValid ? .grey01 : .grey06, for: .normal)
+            })
+            .disposed(by: disposeBag)
     }
 
     @objc private func handleChangeNickname() {
