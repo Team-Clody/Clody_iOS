@@ -123,7 +123,7 @@ final class AccountViewController: UIViewController {
             $0.textColor = .grey01
         }
         
-        nicknameTextField.textField.text = ""
+        nicknameTextField.textField.placeholder = rootView.nicknameLabel.text
         
         let changeButton = UIButton().then {
             let attributedTitle = UIFont.pretendardString(text: "변경하기", style: .body2_semibold)
