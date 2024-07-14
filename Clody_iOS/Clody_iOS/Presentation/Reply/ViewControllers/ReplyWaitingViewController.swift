@@ -17,12 +17,13 @@ final class ReplyWaitingViewController: UIViewController {
     
     private let viewModel = ReplyWaitingViewModel()
     private let disposeBag = DisposeBag()
-    private var totalSeconds = 10 - 1
+    private var totalSeconds = 5
     
     // MARK: - UI Components
      
     private let rootView = ReplyWaitingView()
     private lazy var timeLabel = rootView.timeLabel
+    private lazy var openButton = rootView.openButton
     
     // MARK: - Life Cycles
     
@@ -50,7 +51,10 @@ private extension ReplyWaitingViewController {
             .map { self.totalSeconds - $0 }
             .take(until: { $0 < 0 })
         
-        let input = ReplyWaitingViewModel.Input(timer: timer)
+        let input = ReplyWaitingViewModel.Input(
+            timer: timer,
+            openButtonTapEvent: openButton.rx.tap.asSignal()
+        )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
         output.timeLabelDidChange
@@ -66,6 +70,13 @@ private extension ReplyWaitingViewController {
             .drive(onNext: { [weak self] in
                 self?.rootView.setReplyArrivedView()
                 self?.rootView.openButton.setEnabledState(to: true)
+            })
+            .disposed(by: disposeBag)
+        
+        output.pushReplyDetailViewController
+            .drive(onNext: { [weak self] in
+                let replyDetailViewController = ReplyDetailViewController()
+                self?.navigationController?.pushViewController(replyDetailViewController, animated: false)
             })
             .disposed(by: disposeBag)
     }

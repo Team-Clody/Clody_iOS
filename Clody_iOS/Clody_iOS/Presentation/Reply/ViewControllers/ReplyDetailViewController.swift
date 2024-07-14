@@ -42,6 +42,11 @@ final class ReplyDetailViewController: UIViewController {
         setStyle()
         setHierarchy()
         setLayout()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         showAlert()
     }
 }
@@ -71,6 +76,10 @@ private extension ReplyDetailViewController {
         dimmingView.do {
             $0.backgroundColor = .black.withAlphaComponent(0.2)
         }
+        
+        getClodyAlertView.do {
+            $0.alpha = 0
+        }
     }
     
     func setHierarchy() {
@@ -78,18 +87,21 @@ private extension ReplyDetailViewController {
     }
     
     func setLayout() {
+        dimmingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         getClodyAlertView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(56))
             $0.center.equalToSuperview()
         }
-        
-        dimmingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
     }
     
     func showAlert() {
-        UIView.animate(withDuration: 1.0, animations: {
+        UIView.animate(withDuration: 1.0,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
             self.getClodyAlertView.alpha = 1
         })
     }

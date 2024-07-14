@@ -14,11 +14,13 @@ final class ReplyWaitingViewModel: ViewModelType {
     
     struct Input {
         let timer: Observable<Int>
+        let openButtonTapEvent: Signal<Void>
     }
         
     struct Output {
         let timeLabelDidChange: Driver<String>
         let replyArrivalEvent: Driver<Void>
+        let pushReplyDetailViewController: Driver<Void>
     }
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
@@ -47,9 +49,13 @@ final class ReplyWaitingViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: Void())
         
+        let pushReplyDetailViewController = input.openButtonTapEvent
+            .asDriver(onErrorJustReturn: Void())
+        
         return Output(
             timeLabelDidChange: timeLabelDidChange,
-            replyArrivalEvent: replyArrivalEvent
+            replyArrivalEvent: replyArrivalEvent,
+            pushReplyDetailViewController: pushReplyDetailViewController
         )
     }
 }
