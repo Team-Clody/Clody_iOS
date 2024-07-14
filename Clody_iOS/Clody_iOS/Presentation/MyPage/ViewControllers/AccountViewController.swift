@@ -20,6 +20,7 @@ final class AccountViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
+        
         view = rootView
     }
     

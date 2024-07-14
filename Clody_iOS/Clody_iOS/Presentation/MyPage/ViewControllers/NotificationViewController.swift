@@ -1,5 +1,4 @@
 import UIKit
-
 import RxCocoa
 import RxSwift
 import Then
@@ -23,13 +22,11 @@ final class NotificationViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
-        
         view = rootView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         bindViewModel()
         view.backgroundColor = .white
         
@@ -98,7 +95,11 @@ final class NotificationViewController: UIViewController {
 private extension NotificationViewController {
 
     func bindViewModel() {
-        let output = viewModel.transform(from: NotificationViewModel.Input(), disposeBag: disposeBag)
+        let input = NotificationViewModel.Input(
+            backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
+        )
+        
+        let output = viewModel.transform(from: input, disposeBag: disposeBag)
         bindOutput(output)
     }
 
@@ -115,9 +116,9 @@ private extension NotificationViewController {
             }
             .disposed(by: disposeBag)
         
-        closeButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.navigationController?.popViewController(animated: false)
+        output.popViewController
+            .drive(onNext: { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
     }
