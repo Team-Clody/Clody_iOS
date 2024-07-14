@@ -62,6 +62,7 @@ private extension CalendarViewController {
             tapDateCell: tapDateRelay.asSignal(),
             tapResponseButton: rootView.calendarButton.rx.tap.asSignal(),
             tapListButton: rootView.calendarNavigationView.listButton.rx.tap.asSignal(),
+            tapSettingButton: rootView.calendarNavigationView.settingButton.rx.tap.asSignal(),
             currentPageChanged: currentPageRelay.asSignal()
         )
         
@@ -104,6 +105,14 @@ private extension CalendarViewController {
                 guard let self = self else { return }
                 let listViewController = ListViewController()
                 self.navigationController?.pushViewController(listViewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        output.changeToSetting
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                let myPageViewController = MyPageViewController()
+                self.navigationController?.pushViewController(myPageViewController, animated: true)
             })
             .disposed(by: disposeBag)
         

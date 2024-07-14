@@ -14,7 +14,7 @@ final class ListView: BaseView {
     
     // MARK: - UI Components
     
-    let navigationBarView = ClodyNavigationBar(type: .list, title: "2024년 7월")
+    let navigationBarView = ClodyNavigationBar(type: .list, date: "2024년 7월")
     lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: listCollectionViewLayout())
     
     override func setStyle() {

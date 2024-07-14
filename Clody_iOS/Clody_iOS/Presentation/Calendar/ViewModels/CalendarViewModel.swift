@@ -17,6 +17,7 @@ final class CalendarViewModel: ViewModelType {
         let tapDateCell: Signal<Date>
         let tapResponseButton: Signal<Void>
         let tapListButton: Signal<Void>
+        let tapSettingButton: Signal<Void>
         let currentPageChanged: Signal<Date>
     }
     
@@ -31,6 +32,7 @@ final class CalendarViewModel: ViewModelType {
         let dailyDiaryDummyDataRelay: BehaviorRelay<CalendarDailyModel>
         let responseButtonStatusRelay: BehaviorRelay<String>
         let changeToList: Signal<Void>
+        let changeToSetting: Signal<Void>
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
@@ -90,6 +92,8 @@ final class CalendarViewModel: ViewModelType {
         
         let changeToList = input.tapListButton.asSignal()
         
+        let changeToSetting = input.tapSettingButton.asSignal()
+        
         return Output(
             dateLabel: dateLabel,
             selectedDate: selectedDate,
@@ -100,7 +104,8 @@ final class CalendarViewModel: ViewModelType {
             calendarDummyDataRelay: calendarDummyDataRelay,
             dailyDiaryDummyDataRelay: dailyDiaryDummyDataRelay,
             responseButtonStatusRelay: responseButtonStatusRelay,
-            changeToList: changeToList
+            changeToList: changeToList, 
+            changeToSetting: changeToSetting
         )
     }
 }
