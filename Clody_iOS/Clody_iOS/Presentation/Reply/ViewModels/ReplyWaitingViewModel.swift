@@ -10,7 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-final class ReplyViewModel: ViewModelType {
+final class ReplyWaitingViewModel: ViewModelType {
     
     struct Input {
         let timer: Observable<Int>

@@ -15,7 +15,7 @@ final class ReplyWaitingViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let viewModel = ReplyViewModel()
+    private let viewModel = ReplyWaitingViewModel()
     private let disposeBag = DisposeBag()
     private var totalSeconds = 10 - 1
     
@@ -50,7 +50,7 @@ private extension ReplyWaitingViewController {
             .map { self.totalSeconds - $0 }
             .take(until: { $0 < 0 })
         
-        let input = ReplyViewModel.Input(timer: timer)
+        let input = ReplyWaitingViewModel.Input(timer: timer)
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
         output.timeLabelDidChange
