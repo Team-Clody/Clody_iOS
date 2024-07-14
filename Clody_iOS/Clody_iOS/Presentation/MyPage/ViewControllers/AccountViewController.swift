@@ -36,3 +36,37 @@ final class AccountViewController: UIViewController {
             .disposed(by: disposeBag)
     }
 }
+
+
+
+import SwiftUI
+
+struct AccountViewControllerPreview: UIViewControllerRepresentable {
+
+func makeUIViewController(context: Context) -> AccountViewController {
+
+return AccountViewController()
+
+}
+
+func updateUIViewController(_ uiViewController: AccountViewController, context: Context) {
+
+}
+
+}
+
+#if DEBUG
+
+struct AccountViewControllerPreview_Previews: PreviewProvider {
+
+static var previews: some View {
+
+AccountViewControllerPreview()
+
+.previewDevice("iPhone 12")
+
+}
+
+}
+
+#endif

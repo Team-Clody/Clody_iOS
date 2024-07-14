@@ -7,6 +7,7 @@ final class AccountView: BaseView {
 
     // MARK: - UI Components
     
+    let navigationBar = ClodyNavigationBar(type: .setting, title: "프로필 및 계정 관리")
     private let profileImageView = UIImageView()
     private let nicknameLabel = UILabel()
     let changeProfileButton = UIButton()
@@ -71,12 +72,19 @@ final class AccountView: BaseView {
     }
     
     override func setHierarchy() {
-        addSubviews(profileImageView, nicknameLabel, changeProfileButton, emailImageView, emailLabel, logoutButton, deleteAccountButton, deleteConfirmationLabel, separatorLine)
+        addSubviews(navigationBar, profileImageView, nicknameLabel, changeProfileButton, emailImageView, emailLabel, logoutButton, deleteAccountButton, deleteConfirmationLabel, separatorLine)
     }
     
     override func setLayout() {
+        
+        navigationBar.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide.snp.top)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(52)
+        }
+        
         profileImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(134)
+            $0.top.equalTo(navigationBar.snp.bottom)
             $0.left.equalToSuperview().inset(24)
             $0.width.height.equalTo(20)
         }
