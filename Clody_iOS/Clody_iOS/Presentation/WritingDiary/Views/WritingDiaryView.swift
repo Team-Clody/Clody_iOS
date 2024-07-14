@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class WritingDiaryView: UIView {
+final class WritingDiaryView: BaseView {
     
     // MARK: - UI Components
     
@@ -21,25 +21,8 @@ final class WritingDiaryView: UIView {
     
     // MARK: - Life Cycles
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    final func setUI() {
-        setStyle()
-        setHierarchy()
-        setLayout()
-    }
-    
-    
-    func setStyle() {
-        self.backgroundColor = .grey08
+    override func setStyle() {
+        self.backgroundColor = .white
         
         writingCollectionView.do {
             $0.backgroundColor = .white
@@ -59,13 +42,11 @@ final class WritingDiaryView: UIView {
         }
     }
     
-    func setHierarchy() {
-        
+    override func setHierarchy() {
         self.addSubviews(navigationBarView, writingCollectionView, saveButton, addButton)
     }
     
-    func setLayout() {
-        self.backgroundColor = .white
+    override func setLayout() {
         
         navigationBarView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
@@ -74,13 +55,13 @@ final class WritingDiaryView: UIView {
         }
         
         writingCollectionView.snp.makeConstraints {
-            $0.horizontalEdges.equalTo(saveButton)
+            $0.horizontalEdges.equalToSuperview().inset(24)
             $0.bottom.equalToSuperview()
             $0.top.equalTo(navigationBarView.snp.bottom)
         }
         
         saveButton.snp.makeConstraints{
-            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.horizontalEdges.equalTo(writingCollectionView)
             $0.height.equalTo(48)
             $0.bottom.equalTo(safeAreaLayoutGuide).inset(5)
         }

@@ -18,7 +18,7 @@ struct WritingDiarySection {
 
 extension WritingDiarySection: SectionModelType {
     typealias Item = String
-
+    
     init(original: WritingDiarySection, items: [Item]) {
         self = original
         self.items = items
@@ -39,6 +39,7 @@ final class WritingDiaryViewModel: ViewModelType {
         let statuses: Driver<[Bool]>
         let isFirst: Driver<[Bool]>
         let popToCalendar: Signal<Void>
+        let isAddButtonEnabled: Driver<Bool>
     }
     
     let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: [""]))
@@ -97,7 +98,17 @@ final class WritingDiaryViewModel: ViewModelType {
         
         let popToCalendar = input.tapBackButton.asSignal()
         
-        return Output(items: items, statuses: statuses, isFirst: isFirst, popToCalendar: popToCalendar)
+        let isAddButtonEnabled = diariesRelay
+            .map { $0.count < 5 }
+            .asDriver(onErrorJustReturn: true)
+        
+        return Output(
+            items: items,
+            statuses: statuses,
+            isFirst: isFirst,
+            popToCalendar: popToCalendar,
+            isAddButtonEnabled: isAddButtonEnabled
+        )
     }
     
     private func loadInitialData() {

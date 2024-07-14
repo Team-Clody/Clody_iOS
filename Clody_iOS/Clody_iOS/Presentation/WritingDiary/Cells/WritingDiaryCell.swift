@@ -148,6 +148,9 @@ final class WritingDiaryCell: UICollectionViewCell, UITextViewDelegate {
         if !isFirst {
             writingListNumberLabel.textColor = .grey02
             textView.textColor = .grey03
+        } else {
+            writingListNumberLabel.textColor = .grey06
+            textView.textColor = .grey06
         }
         
         if statuses {

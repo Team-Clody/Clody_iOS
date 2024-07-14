@@ -38,7 +38,6 @@ final class WritingDiaryViewController: UIViewController {
         super.viewDidLoad()
         
         registerCells()
-        setDelegate()
         bindViewModel()
         setStyle()
         setupGestureRecognizer()
@@ -74,8 +73,8 @@ private extension WritingDiaryViewController {
                 cell.bindData(
                     index: indexPath.item + 1,
                     text: text,
-                    statuses: self.viewModel.textViewStatusRelay.value[indexPath.item],
-                    isFirst: self.viewModel.isFirstRelay.value[indexPath.item]
+                    statuses: self.viewModel.textViewStatusRelay.value[indexPath.row],
+                    isFirst: self.viewModel.isFirstRelay.value[indexPath.row]
                 )
                 
                 cell.writingContainer.rx.tapGesture()
@@ -136,10 +135,13 @@ private extension WritingDiaryViewController {
         output.items
             .drive(rootView.writingCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
-    }
-    
-    func setDelegate() {
         
+        output.isAddButtonEnabled
+            .drive(onNext: { [weak self] isEnabled in
+                let image = isEnabled ? "addButton" : "addButtonOff"
+                self?.rootView.addButton.setImage(UIImage(named: image), for: .normal)
+            })
+            .disposed(by: disposeBag)
     }
     
     func setStyle() {
