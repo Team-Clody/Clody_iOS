@@ -62,13 +62,37 @@ private extension WritingDiaryViewController {
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
+        let dataSource = configureCollectionView()
+        
         output.popToCalendar
             .emit(onNext: { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
         
-        let dataSource = RxCollectionViewSectionedReloadDataSource<WritingDiarySection>(
+        output.items
+            .drive(rootView.writingCollectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        output.isAddButtonEnabled
+            .drive(onNext: { [weak self] isEnabled in
+                let image = isEnabled ? "addButton" : "addButtonOff"
+                self?.rootView.addButton.setImage(UIImage(named: image), for: .normal)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func setStyle() {
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    func registerCells() {
+        rootView.writingCollectionView.register(WritingDiaryCell.self, forCellWithReuseIdentifier: WritingDiaryCell.description())
+        rootView.writingCollectionView.register(WritingDiaryHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: WritingDiaryHeaderView.description())
+    }
+    
+    func configureCollectionView() -> RxCollectionViewSectionedReloadDataSource<WritingDiarySection> {
+        return RxCollectionViewSectionedReloadDataSource<WritingDiarySection>(
             configureCell: { [weak self] dataSource, collectionView, indexPath, text in
                 guard let self = self else { return UICollectionViewCell() }
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WritingDiaryCell.description(), for: indexPath) as! WritingDiaryCell
@@ -76,7 +100,7 @@ private extension WritingDiaryViewController {
                 cell.bindData(
                     index: indexPath.item + 1,
                     text: text,
-                    statuses: self.viewModel.textViewStatusRelay.value[indexPath.row],
+                    statuses: self.viewModel.textViewIsEmptyRelay.value[indexPath.row],
                     isFirst: self.viewModel.isFirstRelay.value[indexPath.row]
                 )
                 
@@ -121,9 +145,9 @@ private extension WritingDiaryViewController {
                 cell.textView.rx.didEndEditing
                     .subscribe(onNext: { [weak cell] in
                         guard let cell = cell else { return }
-                        var status = self.viewModel.textViewStatusRelay.value
+                        var status = self.viewModel.textViewIsEmptyRelay.value
                         status[indexPath.item] = !cell.textView.text.isEmpty
-                        self.viewModel.textViewStatusRelay.accept(status)
+                        self.viewModel.textViewIsEmptyRelay.accept(status)
                         
                         var items = self.viewModel.diariesRelay.value
                         items[indexPath.item] = cell.textView.text
@@ -139,26 +163,6 @@ private extension WritingDiaryViewController {
                 return header
             }
         )
-        
-        output.items
-            .drive(rootView.writingCollectionView.rx.items(dataSource: dataSource))
-            .disposed(by: disposeBag)
-        
-        output.isAddButtonEnabled
-            .drive(onNext: { [weak self] isEnabled in
-                let image = isEnabled ? "addButton" : "addButtonOff"
-                self?.rootView.addButton.setImage(UIImage(named: image), for: .normal)
-            })
-            .disposed(by: disposeBag)
-    }
-    
-    func setStyle() {
-        self.navigationController?.isNavigationBarHidden = true
-    }
-    
-    func registerCells() {
-        rootView.writingCollectionView.register(WritingDiaryCell.self, forCellWithReuseIdentifier: WritingDiaryCell.description())
-        rootView.writingCollectionView.register(WritingDiaryHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: WritingDiaryHeaderView.description())
     }
     
     func setupGestureRecognizer() {

@@ -45,7 +45,7 @@ final class WritingDiaryViewModel: ViewModelType {
     
     let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: [""]))
     let diariesRelay = BehaviorRelay<[String]>(value: [""])
-    let textViewStatusRelay = BehaviorRelay<[Bool]>(value: [true])
+    let textViewIsEmptyRelay = BehaviorRelay<[Bool]>(value: [true])
     let isFirstRelay = BehaviorRelay<[Bool]>(value: [true])
     let textDidEditing = PublishRelay<String>()
     let textEndEditing = PublishRelay<String>()
@@ -72,14 +72,14 @@ final class WritingDiaryViewModel: ViewModelType {
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 var items = self.diariesRelay.value
-                var statuses = self.textViewStatusRelay.value
+                var isEmpty = self.textViewIsEmptyRelay.value
                 var isFirst = self.isFirstRelay.value
                 if items.count < 5 {
                     items.append("")
-                    statuses.append(true)
+                    isEmpty.append(true)
                     isFirst.append(true)
                     self.diariesRelay.accept(items)
-                    self.textViewStatusRelay.accept(statuses)
+                    self.textViewIsEmptyRelay.accept(isEmpty)
                     self.isFirstRelay.accept(isFirst)
                 }
             })
@@ -89,13 +89,13 @@ final class WritingDiaryViewModel: ViewModelType {
             .subscribe(onNext: { [weak self] index in
                 guard let self = self else { return }
                 var items = self.diariesRelay.value
-                var statuses = self.textViewStatusRelay.value
+                var statuses = self.textViewIsEmptyRelay.value
                 var isFirst = self.isFirstRelay.value
                 items.remove(at: index)
                 statuses.remove(at: index)
                 isFirst.remove(at: index)
                 self.diariesRelay.accept(items)
-                self.textViewStatusRelay.accept(statuses)
+                self.textViewIsEmptyRelay.accept(statuses)
                 self.isFirstRelay.accept(isFirst)
             })
             .disposed(by: disposeBag)
@@ -106,7 +106,7 @@ final class WritingDiaryViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: [])
         
-        let statuses = textViewStatusRelay
+        let statuses = textViewIsEmptyRelay
             .asDriver(onErrorJustReturn: [])
         
         let isFirst = isFirstRelay
@@ -133,7 +133,7 @@ final class WritingDiaryViewModel: ViewModelType {
         let initialIsFirst = [true]
         
         diariesRelay.accept(initialDiaries)
-        textViewStatusRelay.accept(initialStatuses)
+        textViewIsEmptyRelay.accept(initialStatuses)
         isFirstRelay.accept(initialIsFirst)
     }
     

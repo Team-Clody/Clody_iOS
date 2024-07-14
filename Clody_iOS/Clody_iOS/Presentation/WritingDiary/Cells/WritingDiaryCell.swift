@@ -11,7 +11,7 @@ import SnapKit
 import Then
 import RxSwift
 
-final class WritingDiaryCell: UICollectionViewCell, UITextViewDelegate {
+final class WritingDiaryCell: UICollectionViewCell {
     
     var disposeBag = DisposeBag()
     
@@ -30,7 +30,7 @@ final class WritingDiaryCell: UICollectionViewCell, UITextViewDelegate {
         setStyle()
         setHierarchy()
         setLayout()
-        textView.delegate = self
+        setDelegate()
     }
     
     required init?(coder: NSCoder) {
@@ -50,7 +50,7 @@ final class WritingDiaryCell: UICollectionViewCell, UITextViewDelegate {
         writingContainer.makeBorder(width: 0, color: .clear)
     }
     
-    func setStyle() {
+    private func setStyle() {
         self.backgroundColor = .white
         
         writingContainer.do {
@@ -59,7 +59,11 @@ final class WritingDiaryCell: UICollectionViewCell, UITextViewDelegate {
         }
         
         writingListNumberLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "1.", style: .body3_semibold, lineHeightMultiple: 1.5)
+            $0.attributedText = UIFont.pretendardString(
+                text: "1.",
+                style: .body3_semibold,
+                lineHeightMultiple: 1.5
+            )
             $0.textColor = .grey06
         }
         
@@ -82,17 +86,25 @@ final class WritingDiaryCell: UICollectionViewCell, UITextViewDelegate {
         }
         
         textInputLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "0", style: .detail1_medium, lineHeightMultiple: 1.5)
+            $0.attributedText = UIFont.pretendardString(
+                text: "0",
+                style: .detail1_medium,
+                lineHeightMultiple: 1.5
+            )
             $0.textColor = .grey04
         }
         
         limitTextLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "/ 50", style: .detail1_medium, lineHeightMultiple: 1.5)
+            $0.attributedText = UIFont.pretendardString(
+                text: "/ 50",
+                style: .detail1_medium,
+                lineHeightMultiple: 1.5
+            )
             $0.textColor = .grey06
         }
     }
     
-    func setHierarchy() {
+    private func setHierarchy() {
         self.addSubviews(
             writingContainer,
             textView,
@@ -103,7 +115,7 @@ final class WritingDiaryCell: UICollectionViewCell, UITextViewDelegate {
         )
     }
     
-    func setLayout() {
+    private func setLayout() {
         
         textView.snp.makeConstraints {
             $0.top.equalTo(writingListNumberLabel)
@@ -137,6 +149,10 @@ final class WritingDiaryCell: UICollectionViewCell, UITextViewDelegate {
         }
     }
     
+    private func setDelegate() {
+        textView.delegate = self
+    }
+    
     func bindData(
         index: Int,
         text: String,
@@ -162,8 +178,16 @@ final class WritingDiaryCell: UICollectionViewCell, UITextViewDelegate {
             textInputLabel.text = "0"
         }
     }
+}
+
+
+extension WritingDiaryCell: UITextViewDelegate {
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    func textView(
+        _ textView: UITextView,
+        shouldChangeTextIn range: NSRange,
+        replacementText text: String
+    ) -> Bool {
         if text == "\n" {
             textView.resignFirstResponder()
             return false
