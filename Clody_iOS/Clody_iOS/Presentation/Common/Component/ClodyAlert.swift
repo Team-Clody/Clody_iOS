@@ -21,7 +21,7 @@ final class ClodyAlertViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let alertView: ClodyAlert
+    let alertView: ClodyAlert
     
     // MARK: - Properties
     
