@@ -142,9 +142,4 @@ final class AccountView: BaseView {
         }
     }
     
-//    // MARK: - Actions
-//    
-//    @objc private func emailLabelTapped() {
-//        // 이메일 라벨 탭 동작 구현
-//    }
 }

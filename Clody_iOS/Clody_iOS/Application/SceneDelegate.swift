@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let rootViewController = UINavigationController(rootViewController: LoginViewController())
+        let rootViewController = UINavigationController(rootViewController: AccountViewController()) // LoginVC가 원래
 
         window.rootViewController = rootViewController
         window.makeKeyAndVisible()
