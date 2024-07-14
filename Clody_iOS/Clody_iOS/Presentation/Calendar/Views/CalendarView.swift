@@ -118,14 +118,20 @@ final class CalendarView: BaseView {
         
         cloverBackgroundView.addSubview(cloverLabel)
     }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
+
         adjustScrollViewContentSize()
+        print(self.dailyDiaryCollectionView.contentSize.height)
     }
     
     private func adjustScrollViewContentSize() {
-        let contentHeight = mainCalendarView.frame.height + dateLabel.frame.height + dayLabel.frame.height + kebabButton.frame.height + dailyDiaryCollectionView.collectionViewLayout.collectionViewContentSize.height + calendarButton.frame.height + 50 // 기타 여백 추가
-    print(dailyDiaryCollectionView.collectionViewLayout.collectionViewContentSize.height, "!!")
+        dailyDiaryCollectionView.collectionViewLayout.invalidateLayout()
+        dailyDiaryCollectionView.layoutIfNeeded()
+        
+        let contentHeight = dailyDiaryCollectionView.contentSize.height + 612
+        print(dailyDiaryCollectionView.collectionViewLayout.collectionViewContentSize.height, "!!")
         scrollView.contentSize = CGSize(width: scrollView.frame.width, height: contentHeight)
     }
     
@@ -136,6 +142,7 @@ final class CalendarView: BaseView {
         
         contentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+            $0.height.equalTo(1400)
         }
         
         calendarNavigationView.snp.makeConstraints {
@@ -187,7 +194,6 @@ final class CalendarView: BaseView {
             $0.horizontalEdges.equalTo(mainCalendarView)
             $0.top.equalTo(dayLabel.snp.bottom).offset(14)
             $0.bottom.equalToSuperview()
-            $0.height.equalTo(1200)
         }
         
         emptyDiaryView.snp.makeConstraints {
