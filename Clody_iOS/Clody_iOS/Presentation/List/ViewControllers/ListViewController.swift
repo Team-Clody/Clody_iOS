@@ -54,6 +54,7 @@ private extension ListViewController {
             viewDidLoad: Observable.just(()),
             tapReplyButton: tapReplyRelay.asSignal(),
             tapKebabButton: tapKebobRelay.asSignal(),
+            tapCalendarButton: rootView.navigationBarView.calendarButton.rx.tap.asSignal(),
             monthTap: tabMonthRelay.asSignal()
         )
         
@@ -72,6 +73,13 @@ private extension ListViewController {
                 guard let self = self else { return }
                 // 필요한 동작 수행
                 print("Kebab Date: \(date)")
+            })
+            .disposed(by: disposeBag)
+        
+        output.changeToCalendar
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
     }
