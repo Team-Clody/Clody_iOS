@@ -7,7 +7,7 @@ final class AccountView: BaseView {
 
     // MARK: - UI Components
     
-    private let navigationBar = ClodyNavigationBar(type: .setting, title: "프로필 및 계정 관리")
+    let navigationBar = ClodyNavigationBar(type: .setting, title: "프로필 및 계정 관리")
     private let profileImageView = UIImageView()
     let nicknameLabel = UILabel()
     let changeProfileButton = UIButton()

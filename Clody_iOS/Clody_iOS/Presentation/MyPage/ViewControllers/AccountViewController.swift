@@ -28,8 +28,6 @@ final class AccountViewController: UIViewController {
         bindViewModel()
         setActions()
         setKeyboardNotifications()
-        
-        self.navigationItem.hidesBackButton = true
     }
     
     deinit {
@@ -39,6 +37,16 @@ final class AccountViewController: UIViewController {
     // MARK: - Extensions
     
     private func bindViewModel() {
+        let input = AccountViewModel.Input(backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal())
+        
+        let output = viewModel.transform(from: input, disposeBag: disposeBag)
+        
+        output.popViewController
+            .drive(onNext: {
+            self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
         viewModel.isLogoutButtonEnabled
             .bind(to: rootView.logoutButton.rx.isEnabled)
             .disposed(by: disposeBag)

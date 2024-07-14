@@ -52,10 +52,10 @@ final class MyPageTableViewCell: UITableViewCell {
         separatorLine.isHidden = !show
     }
     
-    func configure(with setting: MyPageViewModel.Setting, at indexPath: IndexPath) {
+    func configure(with setting: Setting, at indexPath: IndexPath) {
         textLabel?.attributedText = UIFont.pretendardString(text: setting.rawValue, style: .body1_medium)
         
-        let versionIndex = MyPageViewModel.Setting.allCases.firstIndex(of: .version)
+        let versionIndex = Setting.allCases.firstIndex(of: .version)
         if indexPath.row == versionIndex {
             configureVersionLabel(with: "최신 버전")
         } else {
