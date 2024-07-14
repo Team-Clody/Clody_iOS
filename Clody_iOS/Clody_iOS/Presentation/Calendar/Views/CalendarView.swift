@@ -28,6 +28,8 @@ final class CalendarView: BaseView {
         frame: .zero,
         collectionViewLayout: createCollectionViewLayout()
     )
+    let emptyDiaryView = UIView()
+    let emptyDiaryLabel = UILabel()
     lazy var calendarButton = UIButton()
     
     
@@ -91,13 +93,16 @@ final class CalendarView: BaseView {
         kebabButton.do {
             $0.setImage(.kebob, for: .normal)
         }
+        
+        emptyDiaryLabel.do {
+            $0.attributedText = UIFont.pretendardString(text: "아직 감사 일기가 없어요!", style: .body3_regular)
+            $0.textColor = .grey05
+        }
     }
     
     override func setHierarchy() {
         self.addSubviews(scrollView, calendarButton)
-        
         scrollView.addSubview(contentView)
-        
         contentView.addSubviews(
             calendarNavigationView,
             cloverBackgroundView,
@@ -105,21 +110,32 @@ final class CalendarView: BaseView {
             dateLabel,
             dayLabel,
             kebabButton,
-            dailyDiaryCollectionView
+            dailyDiaryCollectionView,
+            emptyDiaryView
         )
         
+        emptyDiaryView.addSubview(emptyDiaryLabel)
+        
         cloverBackgroundView.addSubview(cloverLabel)
+    }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        adjustScrollViewContentSize()
+    }
+    
+    private func adjustScrollViewContentSize() {
+        let contentHeight = mainCalendarView.frame.height + dateLabel.frame.height + dayLabel.frame.height + kebabButton.frame.height + dailyDiaryCollectionView.collectionViewLayout.collectionViewContentSize.height + calendarButton.frame.height + 50 // 기타 여백 추가
+    print(dailyDiaryCollectionView.collectionViewLayout.collectionViewContentSize.height, "!!")
+        scrollView.contentSize = CGSize(width: scrollView.frame.width, height: contentHeight)
     }
     
     override func setLayout() {
         scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.edges.equalTo(self.safeAreaLayoutGuide)
         }
         
         contentView.snp.makeConstraints {
-            $0.width.equalToSuperview()
-            $0.centerX.top.bottom.equalToSuperview()
-            $0.height.equalTo(999)
+            $0.edges.equalToSuperview()
         }
         
         calendarNavigationView.snp.makeConstraints {
@@ -171,6 +187,18 @@ final class CalendarView: BaseView {
             $0.horizontalEdges.equalTo(mainCalendarView)
             $0.top.equalTo(dayLabel.snp.bottom).offset(14)
             $0.bottom.equalToSuperview()
+            $0.height.equalTo(1200)
+        }
+        
+        emptyDiaryView.snp.makeConstraints {
+            $0.horizontalEdges.equalTo(mainCalendarView)
+            $0.top.equalTo(dayLabel.snp.bottom).offset(14)
+            $0.bottom.equalToSuperview()
+        }
+        
+        emptyDiaryLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(59)
         }
     }
     
