@@ -88,7 +88,7 @@ final class AccountViewController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
-    
+     
     private func setActions() {
         rootView.changeProfileButton.rx.tap
             .subscribe(onNext: { [weak self] in
@@ -208,3 +208,5 @@ struct AccountViewControllerPreview_Previews: PreviewProvider {
 }
 
 #endif
+
+print("test")
