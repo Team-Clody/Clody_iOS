@@ -23,7 +23,7 @@ final class CalendarView: BaseView {
     let mainCalendarView = FSCalendar()
     let dateLabel = UILabel()
     private let dayLabel = UILabel()
-    private lazy var kebabButton = UIButton()
+    lazy var kebabButton = UIButton()
     lazy var dailyDiaryCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createCollectionViewLayout()

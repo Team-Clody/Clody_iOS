@@ -17,7 +17,6 @@
 		0B20F3E92C2C4DAB00F8D62D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 0B20F3E82C2C4DAB00F8D62D /* Base */; };
 		0B6C07372C3B99970054A0B0 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 0B6C07362C3B99970054A0B0 /* Differentiator */; };
 		0B6C07392C3B99970054A0B0 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 0B6C07382C3B99970054A0B0 /* RxDataSources */; };
-		0B6C073B2C3CEBA30054A0B0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B6C073A2C3CEBA30054A0B0 /* GoogleService-Info.plist */; };
 		0B6C07432C3DC2DE0054A0B0 /* ListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C07422C3DC2DE0054A0B0 /* ListModel.swift */; };
 		0B6C07452C3DC2E90054A0B0 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C07442C3DC2E90054A0B0 /* ListViewController.swift */; };
 		0B6C07472C3DC2F40054A0B0 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C07462C3DC2F40054A0B0 /* ListViewModel.swift */; };
@@ -25,6 +24,9 @@
 		0B6C074B2C3DC3070054A0B0 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C074A2C3DC3070054A0B0 /* ListCollectionViewCell.swift */; };
 		0B6C074D2C3DC6C70054A0B0 /* ListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C074C2C3DC6C70054A0B0 /* ListHeaderView.swift */; };
 		0B6C074F2C3DD3DF0054A0B0 /* ListBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C074E2C3DD3DF0054A0B0 /* ListBackgroundView.swift */; };
+		0BAAC64C2C43BFB800174A9D /* DeleteBottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC64B2C43BFB800174A9D /* DeleteBottomSheetController.swift */; };
+		0BAAC64E2C43BFD900174A9D /* DeleteBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */; };
+		0BAAC6512C43D3C200174A9D /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 0BAAC6502C43D3C200174A9D /* RxGesture */; };
 		0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC373522C3FCC2600C45072 /* ViewModelType.swift */; };
 		0BCD4FA52C363C90006390D2 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 0BCD4FA42C363C90006390D2 /* FirebaseMessaging */; };
 		0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A52C2E843C00B5E0DB /* FSCalendar */; };
@@ -90,7 +92,6 @@
 		0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B20F3E82C2C4DAB00F8D62D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B20F3EA2C2C4DAB00F8D62D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0B6C073A2C3CEBA30054A0B0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0B6C07422C3DC2DE0054A0B0 /* ListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListModel.swift; sourceTree = "<group>"; };
 		0B6C07442C3DC2E90054A0B0 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0B6C07462C3DC2F40054A0B0 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
@@ -98,6 +99,8 @@
 		0B6C074A2C3DC3070054A0B0 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		0B6C074C2C3DC6C70054A0B0 /* ListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderView.swift; sourceTree = "<group>"; };
 		0B6C074E2C3DD3DF0054A0B0 /* ListBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListBackgroundView.swift; sourceTree = "<group>"; };
+		0BAAC64B2C43BFB800174A9D /* DeleteBottomSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBottomSheetController.swift; sourceTree = "<group>"; };
+		0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBottomSheetView.swift; sourceTree = "<group>"; };
 		0BC373522C3FCC2600C45072 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		0BCD4FA22C35B59C006390D2 /* Clody_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clody_iOS.entitlements; sourceTree = "<group>"; };
 		0BFCC5CE2C2E8DAE00B5E0DB /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
@@ -159,6 +162,7 @@
 				0B6C07372C3B99970054A0B0 /* Differentiator in Frameworks */,
 				0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */,
 				0BFCC5BD2C2E892300B5E0DB /* RxRelay in Frameworks */,
+				0BAAC6512C43D3C200174A9D /* RxGesture in Frameworks */,
 				0BFCC5AF2C2E865B00B5E0DB /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -404,6 +408,7 @@
 			isa = PBXGroup;
 			children = (
 				0BFCC5E02C2E8F2800B5E0DB /* CalendarView.swift */,
+				0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -412,6 +417,7 @@
 			isa = PBXGroup;
 			children = (
 				0BFCC5DC2C2E8F1300B5E0DB /* CalendarViewController.swift */,
+				0BAAC64B2C43BFB800174A9D /* DeleteBottomSheetController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -450,28 +456,6 @@
 			path = Literals;
 			sourceTree = "<group>";
 		};
-		95310F7D2C3FF37500023C7B /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				95310F812C3FF51600023C7B /* Views */,
-				95310F802C3FF50D00023C7B /* ViewControllers */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
-		95310F802C3FF50D00023C7B /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				95310F7E2C3FF44E00023C7B /* LoginViewController.swift */,
-				95310F8D2C401BED00023C7B /* TermsViewController.swift */,
-				95310F8F2C40705600023C7B /* NicknameViewController.swift */,
-				95310F932C40776200023C7B /* OnBoardingViewController.swift */,
-				95310F9D2C410DCB00023C7B /* DiaryNotificationViewController.swift */,
-				95310FA52C41D97E00023C7B /* SplashViewController.swift */,
-        );
-			path = ViewControllers;
-			sourceTree = "<group>";
-		};
 		2CC0CE6A2C3C0E17001F3E6B /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -492,19 +476,6 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		95310F812C3FF51600023C7B /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				95310F822C3FF53400023C7B /* LoginView.swift */,
-				95310F8B2C401BE200023C7B /* TermsView.swift */,
-				95310F912C40706600023C7B /* NicknameView.swift */,
-				95310F972C40777C00023C7B /* OnBoardingView.swift */,
-				95310F9B2C407F3C00023C7B /* OnBoardingDetailView.swift */,
-				95310F9F2C410DE200023C7B /* DiaryNotificationView.swift */,
-        );
-			path = Views;
-			sourceTree = "<group>";
-		};
 		2CC0CE6D2C3C0E90001F3E6B /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -513,14 +484,6 @@
 			);
 			path = Views;
 			sourceTree = "<group>";
-		};
-		95310F862C40042600023C7B /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				95310F872C40043800023C7B /* ScreenUtils.swift */,
-			);
-			path = Utils;
-      sourceTree = "<group>";
 		};
 		2CC0CE6E2C3C0E95001F3E6B /* Cells */ = {
 			isa = PBXGroup;
@@ -537,6 +500,49 @@
 				2CE637902C3D56C300B6EC6D /* AccountViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		95310F7D2C3FF37500023C7B /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				95310F812C3FF51600023C7B /* Views */,
+				95310F802C3FF50D00023C7B /* ViewControllers */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		95310F802C3FF50D00023C7B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				95310F7E2C3FF44E00023C7B /* LoginViewController.swift */,
+				95310F8D2C401BED00023C7B /* TermsViewController.swift */,
+				95310F8F2C40705600023C7B /* NicknameViewController.swift */,
+				95310F932C40776200023C7B /* OnBoardingViewController.swift */,
+				95310F9D2C410DCB00023C7B /* DiaryNotificationViewController.swift */,
+				95310FA52C41D97E00023C7B /* SplashViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		95310F812C3FF51600023C7B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				95310F822C3FF53400023C7B /* LoginView.swift */,
+				95310F8B2C401BE200023C7B /* TermsView.swift */,
+				95310F912C40706600023C7B /* NicknameView.swift */,
+				95310F972C40777C00023C7B /* OnBoardingView.swift */,
+				95310F9B2C407F3C00023C7B /* OnBoardingDetailView.swift */,
+				95310F9F2C410DE200023C7B /* DiaryNotificationView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		95310F862C40042600023C7B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				95310F872C40043800023C7B /* ScreenUtils.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		95A89E752C36EE2700E07ABC /* Common */ = {
@@ -589,6 +595,7 @@
 				0BCD4FA42C363C90006390D2 /* FirebaseMessaging */,
 				0B6C07362C3B99970054A0B0 /* Differentiator */,
 				0B6C07382C3B99970054A0B0 /* RxDataSources */,
+				0BAAC6502C43D3C200174A9D /* RxGesture */,
 			);
 			productName = Clody_iOS;
 			productReference = 0B20F3D92C2C4DAA00F8D62D /* Clody_iOS.app */;
@@ -627,6 +634,7 @@
 				0BFCC5B72C2E892300B5E0DB /* XCRemoteSwiftPackageReference "RxSwift" */,
 				0BCD4FA32C363C90006390D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				0B6C07352C3B99960054A0B0 /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				0BAAC64F2C43D3C200174A9D /* XCRemoteSwiftPackageReference "RxGesture" */,
 			);
 			productRefGroup = 0B20F3DA2C2C4DAA00F8D62D /* Products */;
 			projectDirPath = "";
@@ -672,6 +680,7 @@
 				2CE6378B2C3D546200B6EC6D /* AccountViewController.swift in Sources */,
 				95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */,
 				95310F902C40705600023C7B /* NicknameViewController.swift in Sources */,
+				0BAAC64E2C43BFD900174A9D /* DeleteBottomSheetView.swift in Sources */,
 				95310F982C40777C00023C7B /* OnBoardingView.swift in Sources */,
 				95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */,
 				95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */,
@@ -691,6 +700,7 @@
 				0B6C07472C3DC2F40054A0B0 /* ListViewModel.swift in Sources */,
 				0B6C07432C3DC2DE0054A0B0 /* ListModel.swift in Sources */,
 				0B17F8052C368465008A9998 /* DailyCalendarCollectionViewCell.swift in Sources */,
+				0BAAC64C2C43BFB800174A9D /* DeleteBottomSheetController.swift in Sources */,
 				0B190F0D2C38111500D46CFC /* CalendarDailyModel.swift in Sources */,
 				95310F942C40776200023C7B /* OnBoardingViewController.swift in Sources */,
 				0B6C074D2C3DC6C70054A0B0 /* ListHeaderView.swift in Sources */,
@@ -936,6 +946,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		0BAAC64F2C43D3C200174A9D /* XCRemoteSwiftPackageReference "RxGesture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.4;
+			};
+		};
 		0BCD4FA32C363C90006390D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -1004,6 +1022,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0B6C07352C3B99960054A0B0 /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
+		};
+		0BAAC6502C43D3C200174A9D /* RxGesture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BAAC64F2C43D3C200174A9D /* XCRemoteSwiftPackageReference "RxGesture" */;
+			productName = RxGesture;
 		};
 		0BCD4FA42C363C90006390D2 /* FirebaseMessaging */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -103,6 +103,15 @@ private extension CalendarViewController {
                 self?.viewModel.responseButtonStatusRelay.accept(self?.viewModel.dailyDiaryDummyDataRelay.value.status ?? "")
             }
             .disposed(by: disposeBag)
+        
+        rootView.kebabButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                let bottomSheetController = DeleteBottomSheetController()
+                bottomSheetController.presentBottomSheet(on: self)
+            }
+            .disposed(by: disposeBag)
+            
     }
     
     func setDelegate() {
