@@ -32,6 +32,7 @@ final class WritingDiaryViewModel: ViewModelType {
         let tapSaveButton: Signal<Void>
         let tapAddButton: Signal<Void>
         let tapBackButton: Signal<Void>
+        let kebabButtonTap: PublishRelay<Int>
     }
     
     struct Output {
@@ -81,6 +82,21 @@ final class WritingDiaryViewModel: ViewModelType {
                     self.textViewStatusRelay.accept(statuses)
                     self.isFirstRelay.accept(isFirst)
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        input.kebabButtonTap
+            .subscribe(onNext: { [weak self] index in
+                guard let self = self else { return }
+                var items = self.diariesRelay.value
+                var statuses = self.textViewStatusRelay.value
+                var isFirst = self.isFirstRelay.value
+                items.remove(at: index)
+                statuses.remove(at: index)
+                isFirst.remove(at: index)
+                self.diariesRelay.accept(items)
+                self.textViewStatusRelay.accept(statuses)
+                self.isFirstRelay.accept(isFirst)
             })
             .disposed(by: disposeBag)
         

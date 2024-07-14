@@ -21,6 +21,7 @@ final class WritingDiaryViewController: UIViewController {
     
     private let viewModel = WritingDiaryViewModel()
     private let disposeBag = DisposeBag()
+    private let kebabButtonTap = PublishRelay<Int>()
     
     // MARK: - UI Components
     
@@ -54,7 +55,8 @@ private extension WritingDiaryViewController {
             viewDidLoad: Observable.just(()),
             tapSaveButton: rootView.saveButton.rx.tap.asSignal(),
             tapAddButton: rootView.addButton.rx.tap.asSignal(),
-            tapBackButton: rootView.navigationBarView.backButton.rx.tap.asSignal()
+            tapBackButton: rootView.navigationBarView.backButton.rx.tap.asSignal(),
+            kebabButtonTap: kebabButtonTap
         )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
@@ -76,6 +78,11 @@ private extension WritingDiaryViewController {
                     statuses: self.viewModel.textViewStatusRelay.value[indexPath.row],
                     isFirst: self.viewModel.isFirstRelay.value[indexPath.row]
                 )
+                
+                cell.kebabButton.rx.tap
+                    .map { indexPath.row }
+                    .bind(to: self.kebabButtonTap)
+                    .disposed(by: cell.disposeBag)
                 
                 cell.writingContainer.rx.tapGesture()
                     .when(.recognized)
