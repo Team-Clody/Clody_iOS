@@ -11,6 +11,7 @@ final class AccountViewController: UIViewController {
     
     private let viewModel = AccountViewModel()
     private let disposeBag = DisposeBag()
+    private let nicknameTextField = ClodyTextField(type: .nickname)
     
     // MARK: - UI Components
     
@@ -26,6 +27,7 @@ final class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
+        setActions()
     }
     
     // MARK: - Extensions
@@ -86,9 +88,94 @@ final class AccountViewController: UIViewController {
         })
         .disposed(by: disposeBag)
     }
+    
+    private func setActions() {
+        rootView.changeProfileButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.showNicknameChangeAlert()
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func showNicknameChangeAlert() {
+        let dimmingView = UIView()
+        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.55)
+        view.addSubview(dimmingView)
+        dimmingView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        let nicknameChangeView = UIView()
+        nicknameChangeView.backgroundColor = .white
+        nicknameChangeView.layer.cornerRadius = 10
+        nicknameChangeView.layer.masksToBounds = true
+
+        let titleLabel = UILabel()
+        titleLabel.text = "닉네임 변경"
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        
+        nicknameTextField.textField.text = ""
+        
+        let changeButton = UIButton()
+        changeButton.setTitle("변경하기", for: .normal)
+        changeButton.setTitleColor(.white, for: .normal)
+        changeButton.backgroundColor = .systemYellow
+        changeButton.layer.cornerRadius = 5
+        changeButton.addTarget(self, action: #selector(handleChangeNickname), for: .touchUpInside)
+        
+        let closeButton = UIButton()
+            closeButton.setTitle("✕", for: .normal)
+            closeButton.setTitleColor(.black, for: .normal)
+            closeButton.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
+        
+        nicknameChangeView.addSubviews(titleLabel, nicknameTextField, changeButton, closeButton)
+        
+        view.addSubview(nicknameChangeView)
+        
+        nicknameChangeView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.height.equalTo(283)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(19)
+            make.centerX.equalToSuperview()
+        }
+        
+        nicknameTextField.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(81)
+            make.horizontalEdges.equalToSuperview().inset(24)
+            make.height.equalTo(40)
+        }
+        
+        changeButton.snp.makeConstraints { make in
+            make.top.equalTo(nicknameTextField.snp.bottom).offset(73)
+            make.horizontalEdges.equalToSuperview().inset(24)
+            make.height.equalTo(48)
+        }
+        
+        closeButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(18)
+            make.right.equalToSuperview().inset(22)
+            make.width.height.equalTo(20)
+        }
+    }
+
+    @objc private func handleChangeNickname() {
+        let newNickname = nicknameTextField.textField.text
+        // 닉네임 변경 로직 추가
+        // 예: viewModel.updateNickname(newNickname)
+        view.subviews.last?.removeFromSuperview()
+        view.subviews.last?.removeFromSuperview()
+    }
+    
+    @objc private func handleCloseButton() {
+        view.subviews.last?.removeFromSuperview()
+        view.subviews.last?.removeFromSuperview()
+    }
 }
-
-
 
 
 import SwiftUI

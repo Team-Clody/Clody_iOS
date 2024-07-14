@@ -7,7 +7,7 @@ final class AccountView: BaseView {
 
     // MARK: - UI Components
     
-    let navigationBar = ClodyNavigationBar(type: .setting, title: "프로필 및 계정 관리")
+    private let navigationBar = ClodyNavigationBar(type: .setting, title: "프로필 및 계정 관리")
     private let profileImageView = UIImageView()
     private let nicknameLabel = UILabel()
     let changeProfileButton = UIButton()
@@ -17,6 +17,7 @@ final class AccountView: BaseView {
     let deleteAccountButton = UIButton()
     private let deleteConfirmationLabel = UILabel()
     private let separatorLine = UIView()
+    let nicknameTextField = ClodyTextField(type: .nickname)
     
     // MARK: - Setup
     
@@ -69,10 +70,14 @@ final class AccountView: BaseView {
         separatorLine.do {
             $0.backgroundColor = .grey07
         }
+        
+        nicknameTextField.do {
+            $0.isHidden = true
+        }
     }
     
     override func setHierarchy() {
-        addSubviews(navigationBar, profileImageView, nicknameLabel, changeProfileButton, emailImageView, emailLabel, logoutButton, deleteAccountButton, deleteConfirmationLabel, separatorLine)
+        addSubviews(navigationBar, profileImageView, nicknameLabel, changeProfileButton, emailImageView, emailLabel, logoutButton, deleteAccountButton, deleteConfirmationLabel, separatorLine, nicknameTextField)
     }
     
     override func setLayout() {
@@ -130,11 +135,16 @@ final class AccountView: BaseView {
             $0.centerY.equalTo(deleteConfirmationLabel)
             $0.right.equalTo(logoutButton)
         }
+        
+        nicknameTextField.snp.makeConstraints {
+            $0.top.equalTo(changeProfileButton.snp.bottom).offset(20)
+            $0.left.right.equalToSuperview()
+        }
     }
     
-    // MARK: - Actions
-    
-    @objc private func emailLabelTapped() {
-        // 이메일 라벨 탭 동작 구현
-    }
+//    // MARK: - Actions
+//    
+//    @objc private func emailLabelTapped() {
+//        // 이메일 라벨 탭 동작 구현
+//    }
 }

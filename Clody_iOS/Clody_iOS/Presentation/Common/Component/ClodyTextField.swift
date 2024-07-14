@@ -19,7 +19,7 @@ final class ClodyTextField: UIView {
     
     // MARK: - UI Components
     
-    private let textField = UITextField()
+    let textField = UITextField()
     private let underline = UIView()
     
     private lazy var messageLabel = UILabel()
