@@ -14,15 +14,11 @@ final class ListView: BaseView {
     
     // MARK: - UI Components
     
-    private let navigationBarView = UIView()
+    let navigationBarView = ClodyNavigationBar(type: .list, title: "2024년 7월")
     lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: listCollectionViewLayout())
     
     override func setStyle() {
         self.backgroundColor = .grey08
-        
-        navigationBarView.do {
-            $0.backgroundColor = .red
-        }
         
         listCollectionView.do {
             $0.backgroundColor = .grey08
