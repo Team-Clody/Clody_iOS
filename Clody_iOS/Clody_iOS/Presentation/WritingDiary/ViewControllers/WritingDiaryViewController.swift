@@ -32,6 +32,7 @@ final class WritingDiaryViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
+        
         view = rootView
     }
     

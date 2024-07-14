@@ -13,7 +13,7 @@ import RxSwift
 
 final class WritingDiaryCell: UICollectionViewCell, UITextViewDelegate {
     
-    var disposeBag = DisposeBag() // 초기화가 가능하도록 var로 변경
+    var disposeBag = DisposeBag()
     
     // MARK: - UI Components
     
@@ -39,6 +39,7 @@ final class WritingDiaryCell: UICollectionViewCell, UITextViewDelegate {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
         disposeBag = DisposeBag()
         resetCellState()
     }
@@ -50,7 +51,6 @@ final class WritingDiaryCell: UICollectionViewCell, UITextViewDelegate {
     }
     
     func setStyle() {
-        
         self.backgroundColor = .white
         
         writingContainer.do {

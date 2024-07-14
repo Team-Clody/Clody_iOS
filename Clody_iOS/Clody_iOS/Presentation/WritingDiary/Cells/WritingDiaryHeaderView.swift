@@ -13,7 +13,7 @@ import Then
 final class WritingDiaryHeaderView: UICollectionReusableView {
     
     // MARK: - UI Components
-
+    
     private let dateLabel = UILabel()
     
     override init(frame: CGRect) {
@@ -23,7 +23,7 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
         setHierarchy()
         setLayout()
     }
-
+    
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -55,4 +55,3 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
         dateLabel.text = date
     }
 }
-
