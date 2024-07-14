@@ -89,7 +89,7 @@ final class AccountView: BaseView {
         }
         
         profileImageView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(30)
             $0.left.equalToSuperview().inset(24)
             $0.width.height.equalTo(20)
         }

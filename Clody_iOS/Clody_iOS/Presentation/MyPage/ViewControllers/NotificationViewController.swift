@@ -1,4 +1,5 @@
 import UIKit
+
 import RxCocoa
 import RxSwift
 import Then
@@ -129,35 +130,3 @@ private extension NotificationViewController {
         showPickerView()
     }
 }
-
-// MARK: - Previews
-
-#if DEBUG
-import SwiftUI
-
-@available(iOS 13.0, *)
-struct NotificationViewController_Preview: PreviewProvider {
-    static var previews: some View {
-        UIViewControllerPreview {
-            NotificationViewController()
-        }
-        .previewDevice("iPhone 14 Pro")
-    }
-}
-
-struct UIViewControllerPreview<ViewController: UIViewController>: UIViewControllerRepresentable {
-    let viewController: ViewController
-
-    init(_ builder: @escaping () -> ViewController) {
-        viewController = builder()
-    }
-
-    // MARK: - UIViewControllerRepresentable
-
-    func makeUIViewController(context: Context) -> ViewController {
-        return viewController
-    }
-
-    func updateUIViewController(_ uiViewController: ViewController, context: Context) {}
-}
-#endif

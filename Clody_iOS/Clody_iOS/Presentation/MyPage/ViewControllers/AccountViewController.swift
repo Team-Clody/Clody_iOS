@@ -29,6 +29,14 @@ final class AccountViewController: UIViewController {
         bindViewModel()
         setActions()
         setKeyboardNotifications()
+        setDelegate()
+        
+        nicknameTextField.textField.rx.text.orEmpty
+            .map { $0.count }
+            .subscribe(onNext: { [weak self] count in
+                self?.nicknameTextField.countLabel.text = "\(count)"
+            })
+            .disposed(by: disposeBag)
     }
     
     deinit {
@@ -146,9 +154,7 @@ final class AccountViewController: UIViewController {
         }
         
         let closeButton = UIButton().then {
-
-            let attributedTitle = UIFont.pretendardString(text: "x", style: .body1_medium)
-            $0.setAttributedTitle(attributedTitle, for: .normal)
+            $0.setTitle("x", for: .normal)
             $0.setTitleColor(.grey01, for: .normal)
             $0.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
         }
@@ -183,7 +189,7 @@ final class AccountViewController: UIViewController {
         closeButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(18)
             $0.right.equalToSuperview().inset(22)
-            $0.width.height.equalTo(20)
+            $0.width.height.equalTo(24)
         }
         
         nicknameTextField.textField.becomeFirstResponder()
@@ -225,26 +231,18 @@ final class AccountViewController: UIViewController {
     @objc private func keyboardWillHide(_ notification: Notification) {
         view.frame.origin.y = 0
     }
-}
-
-import SwiftUI
-
-struct AccountViewControllerPreview: UIViewControllerRepresentable {
-
-    func makeUIViewController(context: Context) -> AccountViewController {
-        return AccountViewController()
-    }
-
-    func updateUIViewController(_ uiViewController: AccountViewController, context: Context) {}
-}
-
-#if DEBUG
-struct AccountViewControllerPreview_Previews: PreviewProvider {
-
-    static var previews: some View {
-        AccountViewControllerPreview()
-            .previewDevice("iPhone 12")
+    
+    private func setDelegate() {
+        
+        nicknameTextField.textField.delegate = self
     }
 }
 
-#endif
+extension AccountViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        return updatedText.count <= 10
+    }
+}
