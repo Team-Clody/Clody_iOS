@@ -1,13 +1,6 @@
-import RxCocoa
-import RxSwift
+import Foundation
 
-final class MyPageViewModel: ViewModelType {
-
-    struct Input {
-    }
-    
-    struct Output {
-    }
+final class MyPageViewModel {
     
     enum Setting: String, CaseIterable {
         case profile = "프로필 및 계정 관리"
@@ -17,9 +10,5 @@ final class MyPageViewModel: ViewModelType {
         case terms = "서비스 이용 약관"
         case privacy = "개인정보 처리방침"
         case version = "앱 버전"
-    }
-    
-    func transform(from input: Input, disposeBag: DisposeBag) -> Output {
-        return Output()
     }
 }

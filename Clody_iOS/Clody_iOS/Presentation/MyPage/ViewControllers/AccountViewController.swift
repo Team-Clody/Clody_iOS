@@ -28,6 +28,8 @@ final class AccountViewController: UIViewController {
         bindViewModel()
         setActions()
         setKeyboardNotifications()
+        
+        self.navigationItem.hidesBackButton = true
     }
     
     deinit {

@@ -1,7 +1,4 @@
 import UIKit
-
-import RxCocoa
-import RxSwift
 import SnapKit
 import Then
 
@@ -10,7 +7,6 @@ final class MyPageViewController: UIViewController {
     // MARK: - Properties
     
     private let viewModel = MyPageViewModel()
-    private let disposeBag = DisposeBag()
     
     // MARK: - UI Components
      
@@ -27,7 +23,7 @@ final class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        bindViewModel()
+        setStyle()
         setDelegate()
     }
 }
@@ -35,10 +31,9 @@ final class MyPageViewController: UIViewController {
 // MARK: - Private Extension
 
 private extension MyPageViewController {
-
-    func bindViewModel() {
-        let input = MyPageViewModel.Input()
-        _ = viewModel.transform(from: input, disposeBag: disposeBag)
+    
+    func setStyle() {
+        view.backgroundColor = .white
     }
 
     func setDelegate() {
@@ -82,7 +77,17 @@ extension MyPageViewController: UITableViewDelegate {
     ) -> CGFloat {
         return 62
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let setting = MyPageViewModel.Setting.allCases[indexPath.row]
+        if setting == .profile {
+            let accountViewController = AccountViewController()
+            self.navigationController?.pushViewController(accountViewController, animated: true)
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
+
 
 
 

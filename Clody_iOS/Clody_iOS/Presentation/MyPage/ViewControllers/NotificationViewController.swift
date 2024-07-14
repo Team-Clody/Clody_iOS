@@ -23,12 +23,15 @@ final class NotificationViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
+        
         view = rootView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         bindViewModel()
+        view.backgroundColor = .white
         
         let sampleData = [
             NotificationItem(title: "일기 작성 알림 받기", detail: nil, hasSwitch: true),
@@ -62,7 +65,7 @@ final class NotificationViewController: UIViewController {
         notificationBottomSheetView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            $0.height.equalTo(360)
+            $0.height.equalTo(ScreenUtils.getHeight(360))
         }
     }
 
