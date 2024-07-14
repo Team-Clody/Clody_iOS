@@ -18,8 +18,9 @@ final class ReplyDetailViewController: UIViewController {
     private let disposeBag = DisposeBag()
     
     // MARK: - UI Components
-     
+    
     private let rootView = ReplyDetailView()
+    private let getClodyAlertView = GetCloverAlertView()
     
     // MARK: - Life Cycles
     
@@ -34,6 +35,7 @@ final class ReplyDetailViewController: UIViewController {
         
         bindViewModel()
         setUI()
+        showAlert()
     }
 }
 

@@ -64,10 +64,8 @@ private extension ReplyWaitingViewController {
         
         output.replyArrivalEvent
             .drive(onNext: { [weak self] in
-                // TODO: 타이머 종료(스트림 종료)
                 self?.rootView.setReplyArrivedView()
                 self?.rootView.openButton.setEnabledState(to: true)
-                print("🍀")
             })
             .disposed(by: disposeBag)
     }

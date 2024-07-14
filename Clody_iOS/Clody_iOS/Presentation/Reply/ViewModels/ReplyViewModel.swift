@@ -39,6 +39,7 @@ final class ReplyViewModel: ViewModelType {
         
         let replyArrivalEvent = input.timer
             .filter { totalSeconds in
+                /// 남은 시간이 0일 때만 이벤트 발생하도록 필터 적용
                 totalSeconds == 0
             }
             .map { _ in
