@@ -95,6 +95,7 @@
 		95310FC02C44431800023C7B /* TermsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FBF2C44431800023C7B /* TermsViewModel.swift */; };
 		95310FC22C45453F00023C7B /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC12C45453F00023C7B /* NicknameViewModel.swift */; };
 		95310FC42C45A31700023C7B /* DiaryNotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */; };
+		95310FC62C45ACD000023C7B /* OnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */; };
 		95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A89E762C36EE4100E07ABC /* BaseView.swift */; };
 /* End PBXBuildFile section */
 
@@ -177,6 +178,7 @@
 		95310FBF2C44431800023C7B /* TermsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewModel.swift; sourceTree = "<group>"; };
 		95310FC12C45453F00023C7B /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryNotificationViewModel.swift; sourceTree = "<group>"; };
+		95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewModel.swift; sourceTree = "<group>"; };
 		95A89E762C36EE4100E07ABC /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -686,6 +688,7 @@
 				95310FBF2C44431800023C7B /* TermsViewModel.swift */,
 				95310FC12C45453F00023C7B /* NicknameViewModel.swift */,
 				95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */,
+				95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -835,6 +838,7 @@
 				95310FB72C43B07100023C7B /* ReplyWaitingViewModel.swift in Sources */,
 				95310F902C40705600023C7B /* NicknameViewController.swift in Sources */,
 				95310FC22C45453F00023C7B /* NicknameViewModel.swift in Sources */,
+				95310FC62C45ACD000023C7B /* OnBoardingViewModel.swift in Sources */,
 				95310F982C40777C00023C7B /* OnBoardingView.swift in Sources */,
 				95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */,
 				95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */,
