@@ -1,0 +1,41 @@
+<svg width="375" height="150" viewBox="0 0 375 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_2398_42678)">
+<circle cx="170.355" cy="77.0248" r="18.0248" fill="#282A31"/>
+<circle cx="166.408" cy="111.231" r="21.9718" fill="#282A31"/>
+<circle cx="199.036" cy="77.0248" r="18.0248" fill="#282A31"/>
+<circle cx="202.983" cy="111.231" r="21.9718" fill="#282A31"/>
+<ellipse cx="184.563" cy="115.441" rx="39.0757" ry="22.235" fill="#282A31"/>
+<path d="M185.464 110.661C185.018 111.271 184.108 111.271 183.662 110.661L182.105 108.537C181.565 107.799 182.092 106.76 183.007 106.76L186.119 106.76C187.034 106.76 187.561 107.799 187.021 108.537L185.464 110.661Z" fill="#FAE100"/>
+<circle cx="194.432" cy="102.68" r="2.63136" fill="white"/>
+<circle cx="174.961" cy="102.68" r="2.63136" fill="white"/>
+<circle cx="184.697" cy="93.4715" r="6.5784" fill="#282A31"/>
+<rect x="206.603" y="108.46" width="9.15556" height="36.289" transform="rotate(25.4182 206.603 108.46)" fill="#FFF5D0"/>
+<rect x="205.606" y="110.551" width="2.49697" height="33.9727" transform="rotate(25.4182 205.606 110.551)" fill="#FFC700"/>
+<rect x="208.615" y="111.98" width="2.49697" height="33.9727" transform="rotate(25.4182 208.615 111.98)" fill="#FFC700"/>
+<rect x="211.623" y="113.408" width="2.49697" height="33.9727" transform="rotate(25.4182 211.623 113.408)" fill="#FFC700"/>
+<rect x="206.605" y="108.453" width="9.15556" height="2.32289" transform="rotate(25.4182 206.605 108.453)" fill="#FF5247"/>
+<path d="M207.213 107.173C207.607 106.343 208.6 105.99 209.431 106.384L214.693 108.885C215.523 109.28 215.877 110.273 215.482 111.103L214.871 112.389L206.602 108.459L207.213 107.173Z" fill="#FFCBC8"/>
+<path d="M192.177 149.476L199.391 145.211L190.928 141.189L192.177 149.476Z" fill="#F2F3F6"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M192.18 149.476L192.18 149.476L194.585 148.054L191.763 146.713L192.18 149.476Z" fill="#3C3E48"/>
+<ellipse cx="120.485" cy="30.4191" rx="33.9979" ry="30.4191" fill="#E8F3FF"/>
+<path d="M149.637 59.8939C150.308 62.1076 147.81 63.9259 145.91 62.6073L134.645 54.7914C133.265 53.834 133.241 51.8012 134.599 50.8126L141.888 45.5067C143.246 44.5182 145.173 45.1647 145.66 46.7721L149.637 59.8939Z" fill="#E8F3FF"/>
+<circle cx="109.487" cy="30" r="2" fill="#5277FC"/>
+<circle cx="120.202" cy="30" r="2" fill="#5277FC"/>
+<circle cx="130.917" cy="30" r="2" fill="#5277FC"/>
+<ellipse cx="154.585" cy="133.635" rx="14" ry="11.5" fill="url(#paint0_linear_2398_42678)"/>
+<ellipse cx="14" cy="11.5" rx="14" ry="11.5" transform="matrix(-1 0 0 1 228.513 122.135)" fill="url(#paint1_linear_2398_42678)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_2398_42678" x1="157.477" y1="131.21" x2="165.667" y2="114.897" gradientUnits="userSpaceOnUse">
+<stop offset="0.184" stop-color="#32343E"/>
+<stop offset="1" stop-color="#8A8D98"/>
+</linearGradient>
+<linearGradient id="paint1_linear_2398_42678" x1="16.8923" y1="9.07477" x2="25.0818" y2="-7.23813" gradientUnits="userSpaceOnUse">
+<stop offset="0.184" stop-color="#32343E"/>
+<stop offset="1" stop-color="#8A8D98"/>
+</linearGradient>
+<clipPath id="clip0_2398_42678">
+<rect width="375" height="150" fill="white"/>
+</clipPath>
+</defs>
+</svg>

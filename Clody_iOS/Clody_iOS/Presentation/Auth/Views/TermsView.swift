@@ -97,11 +97,7 @@ final class TermsView: BaseView {
         
         nextButton.do {
             $0.isEnabled = false
-            $0.setTitleColor(.grey01, for: .normal)
-            $0.setTitleColor(.grey06, for: .disabled)
-            $0.setAttributedTitle(UIFont.pretendardString(text: I18N.Common.next, style: .body2_semibold), for: .normal)
             $0.backgroundColor = .lightYellow
-            $0.makeCornerRound(radius: 10)
         }
     }
     

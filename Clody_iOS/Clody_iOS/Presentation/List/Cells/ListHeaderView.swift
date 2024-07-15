@@ -47,15 +47,15 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         dayLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "/목요일", style: .body2_semibold)
-            $0.textColor = .grey02
+            $0.attributedText = UIFont.pretendardString(text: "/목요일", style: .body4_medium)
+            $0.textColor = .grey04
         }
         
         replyButton.do {
              $0.backgroundColor = .lightBlue
              $0.makeCornerRound(radius: 10)
              $0.setTitleColor(.blueCustom, for: .normal)
-             let attributedTitle = UIFont.pretendardString(text: "답장 확인", style: .body2_semibold)
+             let attributedTitle = UIFont.pretendardString(text: "답장 확인", style: .detail1_semibold)
              $0.setAttributedTitle(attributedTitle, for: .normal)
          }
         
