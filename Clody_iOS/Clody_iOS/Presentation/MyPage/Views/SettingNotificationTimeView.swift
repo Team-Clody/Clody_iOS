@@ -56,7 +56,7 @@ final class SettingNotificationTimeView: BaseView {
 
         notificationBottomSheetView?.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            $0.bottom.equalToSuperview()
             $0.height.equalTo(ScreenUtils.getHeight(360))
         }
     }
