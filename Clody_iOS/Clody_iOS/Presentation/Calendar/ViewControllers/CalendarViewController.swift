@@ -33,6 +33,7 @@ final class CalendarViewController: UIViewController {
     // MARK: - UI Components
     
     private let rootView = CalendarView()
+    private let deleteBottomSheetView = DeleteBottomSheetView()
     
     // MARK: - Life Cycles
     
@@ -49,6 +50,7 @@ final class CalendarViewController: UIViewController {
         setDelegate()
         bindViewModel()
         setStyle()
+        setupDeleteBottomSheet()
     }
 }
 
@@ -131,12 +133,9 @@ private extension CalendarViewController {
         
         rootView.kebabButton.rx.tap
             .bind { [weak self] in
-                guard let self = self else { return }
-                let bottomSheetController = DeleteBottomSheetController()
-                bottomSheetController.presentBottomSheet(on: self)
+                self?.presentBottomSheet()
             }
             .disposed(by: disposeBag)
-            
     }
     
     func setDelegate() {
@@ -151,6 +150,45 @@ private extension CalendarViewController {
     func registerCells() {
         rootView.mainCalendarView.register(CalendarDateCell.self, forCellReuseIdentifier: CalendarDateCell.description())
         rootView.dailyDiaryCollectionView.register(DailyCalendarCollectionViewCell.self, forCellWithReuseIdentifier: DailyCalendarCollectionViewCell.description())
+    }
+    
+    private func setupDeleteBottomSheet() {
+        view.addSubview(deleteBottomSheetView)
+        
+        deleteBottomSheetView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        deleteBottomSheetView.isHidden = true
+        
+        deleteBottomSheetView.deleteContainer.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissBottomSheet(animated: true, completion: {
+                    print("tap delete")
+                })
+            })
+            .disposed(by: disposeBag)
+        
+        deleteBottomSheetView.dimmedView.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissBottomSheet(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func presentBottomSheet() {
+        deleteBottomSheetView.isHidden = false
+        deleteBottomSheetView.dimmedView.alpha = 0.0
+        deleteBottomSheetView.animateShow()
+    }
+    
+    private func dismissBottomSheet(animated: Bool, completion: (() -> Void)?) {
+        deleteBottomSheetView.animateHide {
+            self.deleteBottomSheetView.isHidden = true
+            completion?()
+        }
     }
 }
 
