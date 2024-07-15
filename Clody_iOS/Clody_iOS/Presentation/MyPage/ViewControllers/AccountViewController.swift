@@ -1,4 +1,5 @@
 import UIKit
+
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -7,17 +8,14 @@ import Then
 final class AccountViewController: UIViewController {
     
     // MARK: - Properties
-    
     private let viewModel = AccountViewModel()
     private let disposeBag = DisposeBag()
     private let nicknameTextField = ClodyTextField(type: .nickname)
     
     // MARK: - UI Components
-    
     private let rootView = AccountView()
     
     // MARK: - Life Cycles
-    
     override func loadView() {
         super.loadView()
         
@@ -44,7 +42,6 @@ final class AccountViewController: UIViewController {
     }
     
     // MARK: - Extensions
-    
     private func bindViewModel() {
         let input = AccountViewModel.Input(backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal())
         
@@ -52,7 +49,7 @@ final class AccountViewController: UIViewController {
         
         output.popViewController
             .drive(onNext: {
-            self.navigationController?.popViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -85,7 +82,7 @@ final class AccountViewController: UIViewController {
                 self.present(alertVC, animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
-    
+        
         rootView.deleteAccountButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
@@ -112,7 +109,7 @@ final class AccountViewController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
-     
+    
     private func setActions() {
         rootView.changeProfileButton.rx.tap
             .subscribe(onNext: { [weak self] in
@@ -122,91 +119,34 @@ final class AccountViewController: UIViewController {
     }
     
     private func showNicknameChangeAlert() {
-        let dimmingView = UIView().then {
-            $0.backgroundColor = UIColor.black.withAlphaComponent(0.55)
-        }
-        view.addSubview(dimmingView)
-        dimmingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        let nicknameChangeView = UIView().then {
-            $0.backgroundColor = .white
-            $0.layer.cornerRadius = 10
-            $0.layer.masksToBounds = true
-        }
-
-        let titleLabel = UILabel().then {
-            $0.textAlignment = .center
-            $0.attributedText = UIFont.pretendardString(text: "닉네임 변경", style: .body2_semibold)
-            $0.textColor = .grey01
-        }
-        
-        nicknameTextField.textField.placeholder = rootView.nicknameLabel.text
-        
-        let changeButton = UIButton().then {
-            let attributedTitle = UIFont.pretendardString(text: "변경하기", style: .body2_semibold)
-            $0.setAttributedTitle(attributedTitle, for: .normal)
-            $0.setTitleColor(.grey06, for: .normal)
-            $0.backgroundColor = .lightYellow
-            $0.layer.cornerRadius = 5
-            $0.addTarget(self, action: #selector(handleChangeNickname), for: .touchUpInside)
-        }
-        
-        let closeButton = UIButton().then {
-            $0.setTitle("x", for: .normal)
-            $0.setTitleColor(.grey01, for: .normal)
-            $0.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
-        }
-        
-        nicknameChangeView.addSubviews(titleLabel, nicknameTextField, changeButton, closeButton)
+        let nicknameChangeView = SettingNicknameChangeView()
+        nicknameChangeView.nicknameTextField.textField.placeholder = rootView.nicknameLabel.text
+        nicknameChangeView.bindActions()
         
         view.addSubview(nicknameChangeView)
         
         nicknameChangeView.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.height.equalTo(294)
-            $0.bottom.equalTo(view.snp.bottom)
-        }
-
-        titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(19)
-            $0.centerX.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
         
-        nicknameTextField.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(81)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.height.equalTo(40)
-        }
+        nicknameChangeView.changeButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let newNickname = nicknameChangeView.nicknameTextField.textField.text, !newNickname.isEmpty else { return }
+                self?.rootView.nicknameLabel.text = newNickname
+                nicknameChangeView.removeFromSuperview()
+            })
+            .disposed(by: disposeBag)
         
-        changeButton.snp.makeConstraints {
-            $0.top.equalTo(nicknameTextField.snp.bottom).offset(73)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.height.equalTo(48)
-        }
-        
-        closeButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(18)
-            $0.right.equalToSuperview().inset(22)
-            $0.width.height.equalTo(24)
-        }
-        
-        nicknameTextField.textField.becomeFirstResponder()
-        
-        nicknameTextField.textField.rx.text.orEmpty
-            .map { !$0.isEmpty }
-            .subscribe(onNext: { isValid in
-                changeButton.isEnabled = isValid
-                changeButton.backgroundColor = isValid ? .mainYellow : .lightYellow
-                changeButton.setTitleColor(isValid ? .grey01 : .grey06, for: .normal)
+        nicknameChangeView.closeButton.rx.tap
+            .subscribe(onNext: {
+                nicknameChangeView.removeFromSuperview()
             })
             .disposed(by: disposeBag)
     }
-
+    
     @objc private func handleChangeNickname() {
         guard let newNickname = nicknameTextField.textField.text, !newNickname.isEmpty else { return }
-            rootView.nicknameLabel.text = newNickname
+        rootView.nicknameLabel.text = newNickname
         view.subviews.last?.removeFromSuperview()
         view.subviews.last?.removeFromSuperview()
     }
@@ -220,20 +160,19 @@ final class AccountViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
+    
     @objc private func keyboardWillShow(_ notification: Notification) {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
             let keyboardHeight = keyboardFrame.height
             view.frame.origin.y = -keyboardHeight
         }
     }
-
+    
     @objc private func keyboardWillHide(_ notification: Notification) {
         view.frame.origin.y = 0
     }
     
     private func setDelegate() {
-        
         nicknameTextField.textField.delegate = self
     }
 }
