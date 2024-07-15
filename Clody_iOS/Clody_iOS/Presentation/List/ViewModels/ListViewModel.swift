@@ -17,6 +17,7 @@ final class ListViewModel: ViewModelType {
         let tapReplyButton: Signal<String>
         let tapKebabButton: Signal<String>
         let tapCalendarButton: Signal<Void>
+        let tapDateButton: Signal<Void>
         let monthTap: Signal<String>
     }
     
@@ -24,9 +25,12 @@ final class ListViewModel: ViewModelType {
         let replyDate: Driver<String>
         let kebabDate: Driver<String>
         let changeToCalendar: Signal<Void>
+        let showPickerView: Signal<Void>
+        let changeNavigationDate: Driver<String>
     }
     
     let listDummyDataRelay = BehaviorRelay<ListModel>(value: ListModel(totalMonthlyCount: 0, diaries: []))
+    let selectedMonthRelay = BehaviorRelay<[String]>(value: ["2024", "7"])
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
@@ -49,7 +53,24 @@ final class ListViewModel: ViewModelType {
         
         let changeToCalendar = input.tapCalendarButton.asSignal()
         
-        return Output(replyDate: replyDate, kebabDate: kebabDate, changeToCalendar: changeToCalendar)
+        let showDeleteBottomSheet = input.tapKebabButton.asSignal()
+        
+        let showPickerView = input.tapDateButton.asSignal()
+        
+        let changeNavigationDate = selectedMonthRelay
+            .map { date -> String in
+                let dateSelected = "\(date[0])년 \(date[1])월"
+                return dateSelected
+            }
+            .asDriver(onErrorJustReturn: "Error")
+        
+        return Output(
+            replyDate: replyDate,
+            kebabDate: kebabDate,
+            changeToCalendar: changeToCalendar,
+            showPickerView: showPickerView,
+            changeNavigationDate: changeNavigationDate
+        )
     }
 }
 
