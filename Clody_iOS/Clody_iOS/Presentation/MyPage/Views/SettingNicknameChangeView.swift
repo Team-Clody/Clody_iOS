@@ -15,9 +15,11 @@ import Then
 final class SettingNicknameChangeView: BaseView {
     
     // MARK: - Properties
+    
     private let disposeBag = DisposeBag()
     
     // MARK: - UI Components
+    
     private let dimmingView = UIView().then {
         $0.backgroundColor = UIColor.black.withAlphaComponent(0.55)
     }
@@ -50,6 +52,7 @@ final class SettingNicknameChangeView: BaseView {
     }
     
     // MARK: - Initializers
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -59,6 +62,7 @@ final class SettingNicknameChangeView: BaseView {
     }
     
     // MARK: - Override Methods
+    
     override func setStyle() {
         nicknameTextField.textField.becomeFirstResponder()
     }
@@ -106,6 +110,7 @@ final class SettingNicknameChangeView: BaseView {
     }
     
     // MARK: - Bind Actions
+    
     func bindActions() {
         nicknameTextField.textField.rx.text.orEmpty
             .map { !$0.isEmpty }

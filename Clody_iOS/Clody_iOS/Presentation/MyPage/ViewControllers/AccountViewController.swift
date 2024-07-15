@@ -8,14 +8,17 @@ import Then
 final class AccountViewController: UIViewController {
     
     // MARK: - Properties
+    
     private let viewModel = AccountViewModel()
     private let disposeBag = DisposeBag()
     private let nicknameTextField = ClodyTextField(type: .nickname)
     
     // MARK: - UI Components
+    
     private let rootView = AccountView()
     
     // MARK: - Life Cycles
+    
     override func loadView() {
         super.loadView()
         
@@ -42,6 +45,7 @@ final class AccountViewController: UIViewController {
     }
     
     // MARK: - Extensions
+    
     private func bindViewModel() {
         let input = AccountViewModel.Input(backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal())
         

@@ -27,7 +27,6 @@ final class NotificationCell: UITableViewCell {
 
     private func setStyle() {
         titleLabel.do {
-            $0.font = UIFont.pretendard(.body1_medium)
             $0.textColor = .black
         }
 
@@ -74,9 +73,11 @@ final class NotificationCell: UITableViewCell {
     }
 
     func configure(with item: NotificationItem) {
-        titleLabel.text = item.title
+        
+        titleLabel.attributedText = UIFont.pretendardString(text: item.title, style: .body1_medium)
+        
         if let detail = item.detail {
-            detailLabel.text = detail
+            detailLabel.attributedText = UIFont.pretendardString(text: detail, style: .body3_medium)
             detailLabel.isHidden = false
             arrowImageView.isHidden = false
             switchControl.isHidden = true
