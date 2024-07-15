@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "img_four_leaf_clover.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

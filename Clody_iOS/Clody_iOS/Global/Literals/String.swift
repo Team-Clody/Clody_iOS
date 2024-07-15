@@ -20,6 +20,7 @@ enum I18N {
         static let charLimit = "/ 10"
         static let next = "다음"
         static let complete = "완료"
+        static let ok = "확인"
     }
     
     enum Alert {
@@ -57,5 +58,14 @@ enum I18N {
         static let onboarding_4_sub = "두번째 일기부터는 네잎클로버를 찾는 데\n12시간이 걸리니 조금만 기다려 주세요"
         static let notificationIntro = "몇시에 감사일기\n작성 알림을 드릴까요?"
         static let setNext = "다음에 설정할게요"
+    }
+    
+    enum Reply {
+        static let luckyReplyForYou = "님을 위한 행운의 답장"
+        static let writingDiary = "로디가 열심히 답장을 쓰고 있어요!"
+        static let replyArrived = "로디가 쓴 행운의 답장이 도착했어요!"
+        static let open = "열어보기"
+        static let goodLuckToYou = "님을 위한 행운 도착"
+        static let getClover = "1개의 네잎클로버 획득"
     }
 }

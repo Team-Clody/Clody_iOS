@@ -20,7 +20,7 @@ final class DiaryNotificationView: BaseView {
     private let timeLabel = UILabel()
     private let downButton = UIButton()
     private let divider = UIView()
-    let completeButton = UIButton()
+    let completeButton = ClodyBottomButton(title: I18N.Common.complete)
     let setNextButton = UIButton()
     
     // MARK: - Methods
@@ -52,11 +52,7 @@ final class DiaryNotificationView: BaseView {
         }
         
         completeButton.do {
-            $0.setTitleColor(.grey01, for: .normal)
-            $0.setTitleColor(.grey06, for: .disabled)
-            $0.setAttributedTitle(UIFont.pretendardString(text: I18N.Common.complete, style: .body2_semibold), for: .normal)
             $0.backgroundColor = .mainYellow
-            $0.makeCornerRound(radius: 10)
         }
         
         setNextButton.do {

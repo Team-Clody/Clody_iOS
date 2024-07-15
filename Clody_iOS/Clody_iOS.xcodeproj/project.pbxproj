@@ -88,6 +88,14 @@
 		95310F9E2C410DCB00023C7B /* DiaryNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F9D2C410DCB00023C7B /* DiaryNotificationViewController.swift */; };
 		95310FA02C410DE200023C7B /* DiaryNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F9F2C410DE200023C7B /* DiaryNotificationView.swift */; };
 		95310FA62C41D97E00023C7B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FA52C41D97E00023C7B /* SplashViewController.swift */; };
+		95310FAB2C42D9EC00023C7B /* ReplyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FAA2C42D9EC00023C7B /* ReplyDetailViewController.swift */; };
+		95310FAD2C42D9FB00023C7B /* ReplyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FAC2C42D9FB00023C7B /* ReplyDetailView.swift */; };
+		95310FB02C42E0CB00023C7B /* ReplyDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FAF2C42E0CB00023C7B /* ReplyDetailModel.swift */; };
+		95310FB22C434E0B00023C7B /* ReplyWaitingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FB12C434E0B00023C7B /* ReplyWaitingView.swift */; };
+		95310FB42C434E1E00023C7B /* ReplyWaitingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FB32C434E1E00023C7B /* ReplyWaitingViewController.swift */; };
+		95310FB72C43B07100023C7B /* ReplyWaitingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FB62C43B07100023C7B /* ReplyWaitingViewModel.swift */; };
+		95310FB92C43DFF300023C7B /* GetCloverAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FB82C43DFF300023C7B /* GetCloverAlertView.swift */; };
+		95310FBB2C44162F00023C7B /* ReplyDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FBA2C44162F00023C7B /* ReplyDetailViewModel.swift */; };
 		95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A89E762C36EE4100E07ABC /* BaseView.swift */; };
 /* End PBXBuildFile section */
 
@@ -162,6 +170,14 @@
 		95310F9D2C410DCB00023C7B /* DiaryNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryNotificationViewController.swift; sourceTree = "<group>"; };
 		95310F9F2C410DE200023C7B /* DiaryNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryNotificationView.swift; sourceTree = "<group>"; };
 		95310FA52C41D97E00023C7B /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		95310FAA2C42D9EC00023C7B /* ReplyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyDetailViewController.swift; sourceTree = "<group>"; };
+		95310FAC2C42D9FB00023C7B /* ReplyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyDetailView.swift; sourceTree = "<group>"; };
+		95310FAF2C42E0CB00023C7B /* ReplyDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyDetailModel.swift; sourceTree = "<group>"; };
+		95310FB12C434E0B00023C7B /* ReplyWaitingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyWaitingView.swift; sourceTree = "<group>"; };
+		95310FB32C434E1E00023C7B /* ReplyWaitingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyWaitingViewController.swift; sourceTree = "<group>"; };
+		95310FB62C43B07100023C7B /* ReplyWaitingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyWaitingViewModel.swift; sourceTree = "<group>"; };
+		95310FB82C43DFF300023C7B /* GetCloverAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCloverAlertView.swift; sourceTree = "<group>"; };
+		95310FBA2C44162F00023C7B /* ReplyDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyDetailViewModel.swift; sourceTree = "<group>"; };
 		95A89E762C36EE4100E07ABC /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -448,6 +464,7 @@
 		0BFCC5D02C2E8E3600B5E0DB /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				95310FA72C42D97000023C7B /* Reply */,
 				95310F7D2C3FF37500023C7B /* Auth */,
 				2CC0CE6A2C3C0E17001F3E6B /* MyPage */,
 				0B6C07502C3E7CD70054A0B0 /* WritingDiary */,
@@ -619,6 +636,52 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		95310FA72C42D97000023C7B /* Reply */ = {
+			isa = PBXGroup;
+			children = (
+				95310FB52C43B06600023C7B /* ViewModels */,
+				95310FAE2C42E0BD00023C7B /* Models */,
+				95310FA92C42D98900023C7B /* ViewControllers */,
+				95310FA82C42D98400023C7B /* Views */,
+			);
+			path = Reply;
+			sourceTree = "<group>";
+		};
+		95310FA82C42D98400023C7B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				95310FAC2C42D9FB00023C7B /* ReplyDetailView.swift */,
+				95310FB12C434E0B00023C7B /* ReplyWaitingView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		95310FA92C42D98900023C7B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				95310FAA2C42D9EC00023C7B /* ReplyDetailViewController.swift */,
+				95310FB32C434E1E00023C7B /* ReplyWaitingViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		95310FAE2C42E0BD00023C7B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				95310FAF2C42E0CB00023C7B /* ReplyDetailModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		95310FB52C43B06600023C7B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				95310FBA2C44162F00023C7B /* ReplyDetailViewModel.swift */,
+				95310FB62C43B07100023C7B /* ReplyWaitingViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		95A89E752C36EE2700E07ABC /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -639,6 +702,7 @@
 				95310F842C3FFA0C00023C7B /* ClodyLoginButton.swift */,
 				0BAAC6522C43D74D00174A9D /* ClodyToast.swift */,
 				0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */,
+				95310FB82C43DFF300023C7B /* GetCloverAlertView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -748,6 +812,7 @@
 				95310F7F2C3FF44E00023C7B /* LoginViewController.swift in Sources */,
 				95310F762C3C97A800023C7B /* ClodyBottomButton.swift in Sources */,
 				0B6C074B2C3DC3070054A0B0 /* ListCollectionViewCell.swift in Sources */,
+				95310FAB2C42D9EC00023C7B /* ReplyDetailViewController.swift in Sources */,
 				0B6C075D2C3E7D660054A0B0 /* WritingDiaryView.swift in Sources */,
 				2C0B3C822C30DB56002EB1A3 /* UIFont+.swift in Sources */,
 				95310F8E2C401BED00023C7B /* TermsViewController.swift in Sources */,
@@ -755,12 +820,14 @@
 				0B6C074F2C3DD3DF0054A0B0 /* ListBackgroundView.swift in Sources */,
 				0BFCC5EE2C2F850400B5E0DB /* UIView+.swift in Sources */,
 				2CC0CE712C3C0ECD001F3E6B /* MyPageViewModel.swift in Sources */,
+				95310FB22C434E0B00023C7B /* ReplyWaitingView.swift in Sources */,
 				0B6C07592C3E7D480054A0B0 /* WritingDiaryViewModel.swift in Sources */,
 				0B6C07572C3E7D340054A0B0 /* WritingDiaryModel.swift in Sources */,
 				0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */,
 				0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */,
 				2CE6378B2C3D546200B6EC6D /* AccountViewController.swift in Sources */,
 				95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */,
+				95310FB72C43B07100023C7B /* ReplyWaitingViewModel.swift in Sources */,
 				95310F902C40705600023C7B /* NicknameViewController.swift in Sources */,
 				0BAAC64E2C43BFD900174A9D /* DeleteBottomSheetView.swift in Sources */,
 				0B4A1BB92C44E59B00E31EC4 /* DatePickeView.swift in Sources */,
@@ -772,6 +839,8 @@
 				95310F832C3FF53400023C7B /* LoginView.swift in Sources */,
 				0BFCC5DA2C2E8F0200B5E0DB /* CalendarModel.swift in Sources */,
 				0B20F3E12C2C4DAA00F8D62D /* ViewController.swift in Sources */,
+				95310FB02C42E0CB00023C7B /* ReplyDetailModel.swift in Sources */,
+				95310FAD2C42D9FB00023C7B /* ReplyDetailView.swift in Sources */,
 				95310F922C40706600023C7B /* NicknameView.swift in Sources */,
 				2CE637912C3D56C300B6EC6D /* AccountViewModel.swift in Sources */,
 				0B20F3DD2C2C4DAA00F8D62D /* AppDelegate.swift in Sources */,
@@ -783,6 +852,7 @@
 				0B6C07452C3DC2E90054A0B0 /* ListViewController.swift in Sources */,
 				0BFCC5E12C2E8F2800B5E0DB /* CalendarView.swift in Sources */,
 				0B6C07472C3DC2F40054A0B0 /* ListViewModel.swift in Sources */,
+				95310FB42C434E1E00023C7B /* ReplyWaitingViewController.swift in Sources */,
 				0B6C075B2C3E7D570054A0B0 /* WritingDiaryViewController.swift in Sources */,
 				0B6C07432C3DC2DE0054A0B0 /* ListModel.swift in Sources */,
 				0B17F8052C368465008A9998 /* DailyCalendarCollectionViewCell.swift in Sources */,
@@ -791,6 +861,7 @@
 				0B6C074D2C3DC6C70054A0B0 /* ListHeaderView.swift in Sources */,
 				0BFCC5F02C2F852D00B5E0DB /* UIStackView+.swift in Sources */,
 				0B190F0B2C380F5300D46CFC /* DateFormatter+.swift in Sources */,
+				95310FBB2C44162F00023C7B /* ReplyDetailViewModel.swift in Sources */,
 				0BFCC5DD2C2E8F1300B5E0DB /* CalendarViewController.swift in Sources */,
 				95310F782C3D6DF800023C7B /* ClodyAlert.swift in Sources */,
 				0B6C07492C3DC2FC0054A0B0 /* ListView.swift in Sources */,
@@ -804,6 +875,7 @@
 				95310FA62C41D97E00023C7B /* SplashViewController.swift in Sources */,
 				95310F882C40043800023C7B /* ScreenUtils.swift in Sources */,
 				95310FA02C410DE200023C7B /* DiaryNotificationView.swift in Sources */,
+				95310FB92C43DFF300023C7B /* GetCloverAlertView.swift in Sources */,
 				95310F852C3FFA0C00023C7B /* ClodyLoginButton.swift in Sources */,
 				0BFCC5E32C2E8F5400B5E0DB /* CalendarDateCell.swift in Sources */,
 			);
