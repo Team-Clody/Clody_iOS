@@ -19,7 +19,7 @@ final class ClodyTextField: UIView {
     
     // MARK: - UI Components
     
-    private let textField = UITextField()
+    let textField = UITextField()
     private let underline = UIView()
     
     private lazy var messageLabel = UILabel()
@@ -74,7 +74,11 @@ final class ClodyTextField: UIView {
             messageLabel.textColor = .red
         }
     }
-    private var count: Int = 0
+    var count: Int = 0 {
+        didSet {
+            countLabel.attributedText = UIFont.pretendardString(text: "\(count)", style: .detail1_medium)
+        }
+    }
     
     // MARK: - Life Cycles
     
@@ -145,5 +149,9 @@ extension ClodyTextField {
         }
         
         self.errorMessage = message
+    }
+    
+    func setFocusState(to isFocused: Bool) {
+        underline.backgroundColor = isFocused ? .mainYellow : .grey07
     }
 }

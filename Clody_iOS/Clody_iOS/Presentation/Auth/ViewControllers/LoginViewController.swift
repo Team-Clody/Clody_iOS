@@ -15,6 +15,7 @@ final class LoginViewController: UIViewController {
     
     // MARK: - Properties
     
+    private let viewModel = LoginViewModel()
     private let disposeBag = DisposeBag()
     
     // MARK: - UI Components
@@ -42,6 +43,14 @@ final class LoginViewController: UIViewController {
 private extension LoginViewController {
 
     func bindViewModel() {
+        let input = LoginViewModel.Input(kakaoLoginButtonTapEvent: rootView.kakaoLoginButton.rx.tap.asSignal())
+        let output = viewModel.transform(from: input, disposeBag: disposeBag)
+        
+        output.loginWithKakao
+            .drive(onNext: {
+                self.navigationController?.pushViewController(TermsViewController(), animated: true)
+            })
+            .disposed(by: disposeBag)
     }
 
     func setUI() {
