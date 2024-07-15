@@ -16,9 +16,9 @@ final class ClodyBottomButton: UIButton {
     
     // MARK: - Life Cycles
     
-    init(title: String, isBlackButton: Bool = false) {
+    init(title: String, isGreyButton: Bool = false) {
         self.title = title
-        self.isGreyButton = isBlackButton
+        self.isGreyButton = isGreyButton
         super.init(frame: .zero)
         
         setStyle()
@@ -38,9 +38,24 @@ extension ClodyBottomButton {
     private func setStyle() {
         backgroundColor = isGreyButton ? .grey02 : .mainYellow
         makeCornerRound(radius: 10)
-        setTitleColor(isGreyButton ? .white : .grey01, for: .normal)
-        setTitleColor(isGreyButton ? nil : .grey06, for: .disabled)
-        setAttributedTitle(UIFont.pretendardString(text: "난 바보다", style: .body1_semibold), for: .normal)
+        setAttributedTitle(
+            UIFont.pretendardString(
+                text: title,
+                style: .body2_semibold,
+                color: isGreyButton ? .white : .grey01
+            ),
+            for: .normal
+        )
+        if !isGreyButton {
+            setAttributedTitle(
+                UIFont.pretendardString(
+                    text: title,
+                    style: .body2_semibold,
+                    color: .grey06
+                ),
+                for: .disabled
+            )
+        }
     }
     
     /// Bool값에 따른 버튼 활성화, 비활성화 상태 지정 함수입니다.

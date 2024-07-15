@@ -16,7 +16,7 @@ final class OnBoardingView: BaseView {
     
     lazy var pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     let pageControl = UIPageControl()
-    let nextButton = UIButton()
+    let nextButton = ClodyBottomButton(title: I18N.Common.next)
     
     // MARK: - Methods
     
@@ -31,11 +31,7 @@ final class OnBoardingView: BaseView {
         }
         
         nextButton.do {
-            $0.setTitleColor(.grey01, for: .normal)
-            $0.setTitleColor(.grey06, for: .disabled)
-            $0.setAttributedTitle(UIFont.pretendardString(text: I18N.Common.next, style: .body2_semibold), for: .normal)
             $0.backgroundColor = .mainYellow
-            $0.makeCornerRound(radius: 10)
         }
     }
     
