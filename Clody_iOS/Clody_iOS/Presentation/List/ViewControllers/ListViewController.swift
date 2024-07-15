@@ -116,95 +116,95 @@ private extension ListViewController {
         rootView.listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.description())
         rootView.listCollectionView.register(ListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ListHeaderView.description())
     }
-                      
     
-                      private func setupDeleteBottomSheet() {
-                          self.view.addSubview(deleteBottomSheetView)
-                          deleteBottomSheetView.snp.makeConstraints {
-                              $0.edges.equalToSuperview()
-                          }
-                          deleteBottomSheetView.isHidden = true
-                          
-                          deleteBottomSheetView.deleteContainer.rx.tapGesture()
-                              .when(.recognized)
-                              .subscribe(onNext: { [weak self] _ in
-                                  self?.dismissBottomSheet(animated: true, completion: {
-                                      self?.showClodyAlert(type: .deleteDiary, title: "정말 일기를 삭제할까요?", message: "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요.", rightButtonText: "삭제")
-                                  })
-                              })
-                              .disposed(by: disposeBag)
-                          
-                          deleteBottomSheetView.dimmedView.rx.tapGesture()
-                              .when(.recognized)
-                              .subscribe(onNext: { [weak self] _ in
-                                  self?.dismissBottomSheet(animated: true, completion: nil)
-                              })
-                              .disposed(by: disposeBag)
-                      }
-                      
-                      private func setupPickerView() {
-                          self.view.addSubview(datePickerView)
-                          datePickerView.snp.makeConstraints {
-                              $0.edges.equalToSuperview()
-                          }
-                          datePickerView.isHidden = true
-                          
-                          datePickerView.completeButton.rx.tapGesture()
-                              .when(.recognized)
-                              .subscribe(onNext: {
-                                  [weak self] _ in
-                                  self?.dismissPickerView(animated: true,
-                                                          completion: {
-                                      // 로직
-                                      let selectedYearIndex = self?.datePickerView.pickerView.selectedRow(inComponent: 0) ?? 0
-                                      let selectedMonthIndex = self?.datePickerView.pickerView.selectedRow(inComponent: 1) ?? 0
-                                      
-                                      guard let selectedYear = self?.datePickerView.pickerView.years[selectedYearIndex] else {
-                                          return
-                                      }
-                                      guard let selectedMonth = self?.datePickerView.pickerView.months[selectedMonthIndex] else {
-                                          return
-                                      }
-                                      
-                                      let selectedMonthYear = ["\(selectedYear)", "\(selectedMonth)"]
-                                      self?.viewModel.selectedMonthRelay.accept(selectedMonthYear)
-                                  })
-                              })
-                              .disposed(by: disposeBag)
-                          
-                          datePickerView.dimmedView.rx.tapGesture()
-                              .when(.recognized)
-                              .subscribe(onNext: { [weak self] _ in
-                                  self?.dismissPickerView(animated: true, completion: nil)
-                              })
-                              .disposed(by: disposeBag)
-                      }
-                      
-                      private func presentBottomSheet() {
-                          deleteBottomSheetView.isHidden = false
-                          deleteBottomSheetView.dimmedView.alpha = 0.0
-                          deleteBottomSheetView.animateShow()
-                      }
-                      
-                      private func presentPickerView() {
-                          datePickerView.isHidden = false
-                          datePickerView.dimmedView.alpha = 0.0
-                          datePickerView.animateShow()
-                      }
-                      
-                      private func dismissBottomSheet(animated: Bool, completion: (() -> Void)?) {
-                          deleteBottomSheetView.animateHide {
-                              self.deleteBottomSheetView.isHidden = true
-                              completion?()
-                          }
-                      }
-                      
-                      private func dismissPickerView(animated: Bool, completion: (() -> Void)?) {
-                          datePickerView.animateHide {
-                              self.datePickerView.isHidden = true
-                              completion?()
-                          }
-                      }
+    
+    private func setupDeleteBottomSheet() {
+        self.view.addSubview(deleteBottomSheetView)
+        deleteBottomSheetView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        deleteBottomSheetView.isHidden = true
+        
+        deleteBottomSheetView.deleteContainer.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissBottomSheet(animated: true, completion: {
+                    self?.showClodyAlert(type: .deleteDiary, title: "정말 일기를 삭제할까요?", message: "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요.", rightButtonText: "삭제")
+                })
+            })
+            .disposed(by: disposeBag)
+        
+        deleteBottomSheetView.dimmedView.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissBottomSheet(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupPickerView() {
+        self.view.addSubview(datePickerView)
+        datePickerView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        datePickerView.isHidden = true
+        
+        datePickerView.completeButton.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: {
+                [weak self] _ in
+                self?.dismissPickerView(animated: true,
+                                        completion: {
+                    // 로직
+                    let selectedYearIndex = self?.datePickerView.pickerView.selectedRow(inComponent: 0) ?? 0
+                    let selectedMonthIndex = self?.datePickerView.pickerView.selectedRow(inComponent: 1) ?? 0
+                    
+                    guard let selectedYear = self?.datePickerView.pickerView.years[selectedYearIndex] else {
+                        return
+                    }
+                    guard let selectedMonth = self?.datePickerView.pickerView.months[selectedMonthIndex] else {
+                        return
+                    }
+                    
+                    let selectedMonthYear = ["\(selectedYear)", "\(selectedMonth)"]
+                    self?.viewModel.selectedMonthRelay.accept(selectedMonthYear)
+                })
+            })
+            .disposed(by: disposeBag)
+        
+        datePickerView.dimmedView.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissPickerView(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func presentBottomSheet() {
+        deleteBottomSheetView.isHidden = false
+        deleteBottomSheetView.dimmedView.alpha = 0.0
+        deleteBottomSheetView.animateShow()
+    }
+    
+    private func presentPickerView() {
+        datePickerView.isHidden = false
+        datePickerView.dimmedView.alpha = 0.0
+        datePickerView.animateShow()
+    }
+    
+    private func dismissBottomSheet(animated: Bool, completion: (() -> Void)?) {
+        deleteBottomSheetView.animateHide {
+            self.deleteBottomSheetView.isHidden = true
+            completion?()
+        }
+    }
+    
+    private func dismissPickerView(animated: Bool, completion: (() -> Void)?) {
+        datePickerView.animateHide {
+            self.datePickerView.isHidden = true
+            completion?()
+        }
+    }
 }
 
 extension ListViewController: UICollectionViewDataSource {

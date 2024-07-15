@@ -26,6 +26,7 @@ final class WritingDiaryViewController: UIViewController {
     // MARK: - UI Components
     
     private let rootView = WritingDiaryView()
+    private let deleteBottomSheetView = DeleteBottomSheetView()
     private let tapGestureRecognizer = UITapGestureRecognizer()
     
     // MARK: - Life Cycles
@@ -44,6 +45,7 @@ final class WritingDiaryViewController: UIViewController {
         setStyle()
         setupGestureRecognizer()
         setupKeyboardHandling()
+        setupDeleteBottomSheet()
     }
 }
 
@@ -95,6 +97,13 @@ private extension WritingDiaryViewController {
                 self.showClodyAlert(type: .saveDiary, title: "일기를 저장할까요?", message: "저장한 일기는 수정이 어려워요.", rightButtonText: "저장하기")
             })
             .disposed(by: disposeBag)
+        
+        output.showDelete
+            .emit(onNext: { [weak self] index in
+                self?.presentBottomSheet()
+            })
+            .disposed(by: disposeBag)
+
     }
     
     func setStyle() {
@@ -180,6 +189,43 @@ private extension WritingDiaryViewController {
         )
     }
     
+    private func setupDeleteBottomSheet() {
+        self.view.addSubview(deleteBottomSheetView)
+        deleteBottomSheetView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        deleteBottomSheetView.isHidden = true
+        
+        deleteBottomSheetView.deleteContainer.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissBottomSheet(animated: true, completion: {
+                    self?.showClodyAlert(type: .deleteDiary, title: "정말 일기를 삭제할까요?", message: "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요.", rightButtonText: "삭제")
+                })
+            })
+            .disposed(by: disposeBag)
+        
+        deleteBottomSheetView.dimmedView.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissBottomSheet(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func presentBottomSheet() {
+        deleteBottomSheetView.isHidden = false
+        deleteBottomSheetView.dimmedView.alpha = 0.0
+        deleteBottomSheetView.animateShow()
+    }
+    
+    private func dismissBottomSheet(animated: Bool, completion: (() -> Void)?) {
+        deleteBottomSheetView.animateHide {
+            self.deleteBottomSheetView.isHidden = true
+            completion?()
+        }
+    }
+
     func setupGestureRecognizer() {
         view.addGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer.rx.event
