@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct SignUpRequestDTO: Codable {
+    let plaform: String
+    let email: String
+    let nickname: String
+    let id_token: String
+}

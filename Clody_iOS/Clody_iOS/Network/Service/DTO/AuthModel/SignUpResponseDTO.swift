@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct SignUpResponseDTO: Codable {
+    let accessToken: String
+    let refreshToken: String
+}

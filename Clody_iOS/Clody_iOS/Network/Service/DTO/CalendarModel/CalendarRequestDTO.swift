@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SocialLogineResponseDTO: Codable {
+struct CalendarRequestDTO: Codable {
     let userId: Int
     let token: Token
 }

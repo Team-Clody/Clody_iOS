@@ -10,6 +10,7 @@ import Moya
 
 struct Providers {
     static let challengeProvider = NetworkProvider<ChallengeRouter>(withAuth: true)
+    static let authProvider = NetworkProvider<AuthRouter>(withAuth: true)
 }
 
 extension MoyaProvider {
