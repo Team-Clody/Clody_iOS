@@ -26,6 +26,7 @@ final class WritingDiaryViewController: UIViewController {
     // MARK: - UI Components
     
     private let rootView = WritingDiaryView()
+    private let deleteBottomSheetView = DeleteBottomSheetView()
     private let tapGestureRecognizer = UITapGestureRecognizer()
     
     // MARK: - Life Cycles
@@ -44,6 +45,7 @@ final class WritingDiaryViewController: UIViewController {
         setStyle()
         setupGestureRecognizer()
         setupKeyboardHandling()
+        setupDeleteBottomSheet()
     }
 }
 
@@ -76,10 +78,32 @@ private extension WritingDiaryViewController {
         
         output.isAddButtonEnabled
             .drive(onNext: { [weak self] isEnabled in
+                if !isEnabled {
+                    ClodyToast.show(message: "일기는 5개 까지만 작성할 수 있어요.")
+                }
                 let image = isEnabled ? "addButton" : "addButtonOff"
                 self?.rootView.addButton.setImage(UIImage(named: image), for: .normal)
             })
             .disposed(by: disposeBag)
+        
+        output.showSaveErrorToast
+            .emit(onNext: {
+                ClodyToast.show(message: "모든 감사 일기 작성이 필요해요.")
+            })
+            .disposed(by: disposeBag)
+        
+        output.showSaveAlert
+            .emit(onNext: {
+                self.showClodyAlert(type: .saveDiary, title: "일기를 저장할까요?", message: "저장한 일기는 수정이 어려워요.", rightButtonText: "저장하기")
+            })
+            .disposed(by: disposeBag)
+        
+        output.showDelete
+            .emit(onNext: { [weak self] index in
+                self?.presentBottomSheet()
+            })
+            .disposed(by: disposeBag)
+
     }
     
     func setStyle() {
@@ -165,6 +189,43 @@ private extension WritingDiaryViewController {
         )
     }
     
+    private func setupDeleteBottomSheet() {
+        self.view.addSubview(deleteBottomSheetView)
+        deleteBottomSheetView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        deleteBottomSheetView.isHidden = true
+        
+        deleteBottomSheetView.deleteContainer.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissBottomSheet(animated: true, completion: {
+                    self?.showClodyAlert(type: .deleteDiary, title: "정말 일기를 삭제할까요?", message: "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요.", rightButtonText: "삭제")
+                })
+            })
+            .disposed(by: disposeBag)
+        
+        deleteBottomSheetView.dimmedView.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissBottomSheet(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func presentBottomSheet() {
+        deleteBottomSheetView.isHidden = false
+        deleteBottomSheetView.dimmedView.alpha = 0.0
+        deleteBottomSheetView.animateShow()
+    }
+    
+    private func dismissBottomSheet(animated: Bool, completion: (() -> Void)?) {
+        deleteBottomSheetView.animateHide {
+            self.deleteBottomSheetView.isHidden = true
+            completion?()
+        }
+    }
+
     func setupGestureRecognizer() {
         view.addGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer.rx.event
