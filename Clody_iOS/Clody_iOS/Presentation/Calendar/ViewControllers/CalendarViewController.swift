@@ -65,7 +65,8 @@ private extension CalendarViewController {
             tapResponseButton: rootView.calendarButton.rx.tap.asSignal(),
             tapListButton: rootView.calendarNavigationView.listButton.rx.tap.asSignal(),
             tapSettingButton: rootView.calendarNavigationView.settingButton.rx.tap.asSignal(),
-            currentPageChanged: currentPageRelay.asSignal()
+            currentPageChanged: currentPageRelay.asSignal(),
+            tapKebabButton:  rootView.kebabButton.rx.tap.asSignal()
         )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
@@ -80,7 +81,7 @@ private extension CalendarViewController {
                 self.rootView.emptyDiaryView.isHidden = data.count != 0
             })
             .disposed(by: disposeBag)
-
+        
         output.diaryData
             .drive(rootView.dailyDiaryCollectionView.rx.items(cellIdentifier: DailyCalendarCollectionViewCell.description(), cellType: DailyCalendarCollectionViewCell.self)) { index, model, cell in
                 cell.bindData(data: model, index: "\(index + 1).")
@@ -125,15 +126,16 @@ private extension CalendarViewController {
             })
             .disposed(by: disposeBag)
         
+        output.showDeleteBottomSheet
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.presentBottomSheet()
+            })
+            .disposed(by: disposeBag)
+        
         rootView.calendarButton.rx.tap
             .bind { [weak self] in
                 self?.viewModel.responseButtonStatusRelay.accept(self?.viewModel.dailyDiaryDummyDataRelay.value.status ?? "")
-            }
-            .disposed(by: disposeBag)
-        
-        rootView.kebabButton.rx.tap
-            .bind { [weak self] in
-                self?.presentBottomSheet()
             }
             .disposed(by: disposeBag)
     }
@@ -153,19 +155,17 @@ private extension CalendarViewController {
     }
     
     private func setupDeleteBottomSheet() {
-        view.addSubview(deleteBottomSheetView)
-        
-        deleteBottomSheetView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        self.view.addSubview(deleteBottomSheetView)
+        deleteBottomSheetView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
-        
         deleteBottomSheetView.isHidden = true
         
         deleteBottomSheetView.deleteContainer.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissBottomSheet(animated: true, completion: {
-                    print("tap delete")
+                    self?.showClodyAlert(type: .deleteDiary, title: "정말 일기를 삭제할까요?", message: "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요.", rightButtonText: "삭제")
                 })
             })
             .disposed(by: disposeBag)
