@@ -9,7 +9,7 @@ import Foundation
 import Moya
 
 struct Providers {
-    static let challengeProvider = NetworkProvider<ChallengeRouter>(withAuth: true)
+    static let calendarProvider = NetworkProvider<CalendarRouter>(withAuth: true)
     static let authProvider = NetworkProvider<AuthRouter>(withAuth: true)
 }
 

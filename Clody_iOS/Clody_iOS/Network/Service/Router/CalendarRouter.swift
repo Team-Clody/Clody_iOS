@@ -9,11 +9,11 @@ import Foundation
 
 import Moya
 
-enum ChallengeRouter {
+enum CalendarRouter {
     case getDummyData
 }
 
-extension ChallengeRouter: BaseTargetType {
+extension CalendarRouter: BaseTargetType {
     var headers: [String : String]? {
         switch self {
         case .getDummyData:
