@@ -15,8 +15,7 @@ final class NotificationViewController: UIViewController {
     // MARK: - UI Components
 
     private let rootView = NotificationView()
-    private var notificationBottomSheetView: NotificationBottomSheetView?
-    private var dimmingView: UIView?
+    private var settingNotificationTimeView: SettingNotificationTimeView?
     let closeButton = UIButton()
 
     // MARK: - Life Cycles
@@ -40,54 +39,34 @@ final class NotificationViewController: UIViewController {
     }
 
     private func showPickerView() {
-        dimmingView = UIView().then {
-            $0.backgroundColor = UIColor.black.withAlphaComponent(0.55)
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleCloseButton))
-            $0.addGestureRecognizer(tapGesture)
+        settingNotificationTimeView = SettingNotificationTimeView().then {
+            $0.closeHandler = { [weak self] in
+                self?.settingNotificationTimeView?.removeFromSuperview()
+                self?.settingNotificationTimeView = nil
+            }
+            $0.doneHandler = { [weak self] newTime in
+                self?.selectedTime = newTime
+                self?.viewModel.updateNotificationTime(newTime)
+                self?.settingNotificationTimeView?.removeFromSuperview()
+                self?.settingNotificationTimeView = nil
+            }
         }
 
-        notificationBottomSheetView = NotificationBottomSheetView().then {
-            $0.titleLabel.text = "다른 시간 보기"
-            $0.closeButton.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
-            $0.doneButton.addTarget(self, action: #selector(handleDoneButton), for: .touchUpInside)
-        }
+        guard let settingNotificationTimeView = settingNotificationTimeView else { return }
+        view.addSubview(settingNotificationTimeView)
 
-        guard let dimmingView = dimmingView, let notificationBottomSheetView = notificationBottomSheetView else { return }
-
-        view.addSubviews(dimmingView, notificationBottomSheetView)
-
-        dimmingView.snp.makeConstraints {
+        settingNotificationTimeView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-        }
-
-        notificationBottomSheetView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            $0.height.equalTo(ScreenUtils.getHeight(360))
         }
     }
 
     @objc private func handleCloseButton() {
-        notificationBottomSheetView?.removeFromSuperview()
-        dimmingView?.removeFromSuperview()
-        notificationBottomSheetView = nil
-        dimmingView = nil
+        settingNotificationTimeView?.removeFromSuperview()
+        settingNotificationTimeView = nil
     }
 
     @objc private func handleDoneButton() {
-        if let pickerView = notificationBottomSheetView?.pickerView {
-            let selectedPeriodIndex = pickerView.selectedRow(inComponent: 0)
-            let selectedHourIndex = pickerView.selectedRow(inComponent: 1)
-            let selectedMinuteIndex = pickerView.selectedRow(inComponent: 2)
-            
-            let period = selectedPeriodIndex == 0 ? "오전" : "오후"
-            let selectedHour = selectedHourIndex + 1
-            let selectedMinute = selectedMinuteIndex * 10
-            
-            selectedTime = String(format: "%@ %d시 %02d분", period, selectedHour, selectedMinute)
-            viewModel.updateNotificationTime(selectedTime)
-        }
-        handleCloseButton()
+        
     }
 }
 
