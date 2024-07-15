@@ -28,16 +28,6 @@ final class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
-        setActions()
-        setKeyboardNotifications()
-        setDelegate()
-        
-        nicknameTextField.textField.rx.text.orEmpty
-            .map { $0.count }
-            .subscribe(onNext: { [weak self] count in
-                self?.nicknameTextField.countLabel.text = "\(count)"
-            })
-            .disposed(by: disposeBag)
     }
     
     deinit {
@@ -110,6 +100,17 @@ final class AccountViewController: UIViewController {
                     .disposed(by: self.disposeBag)
 
                 self.present(alertVC, animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+        
+        setActions()
+        setKeyboardNotifications()
+        setDelegate()
+        
+        nicknameTextField.textField.rx.text.orEmpty
+            .map { $0.count }
+            .subscribe(onNext: { [weak self] count in
+                self?.nicknameTextField.countLabel.text = "\(count)"
             })
             .disposed(by: disposeBag)
     }
