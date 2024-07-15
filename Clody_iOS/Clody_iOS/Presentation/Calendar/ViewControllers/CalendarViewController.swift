@@ -34,6 +34,7 @@ final class CalendarViewController: UIViewController {
     
     private let rootView = CalendarView()
     private let deleteBottomSheetView = DeleteBottomSheetView()
+    private let datePickerView = DatePickeView()
     
     // MARK: - Life Cycles
     
@@ -51,6 +52,7 @@ final class CalendarViewController: UIViewController {
         bindViewModel()
         setStyle()
         setupDeleteBottomSheet()
+        setupPickerView()
     }
 }
 
@@ -66,9 +68,10 @@ private extension CalendarViewController {
             tapListButton: rootView.calendarNavigationView.listButton.rx.tap.asSignal(),
             tapSettingButton: rootView.calendarNavigationView.settingButton.rx.tap.asSignal(),
             currentPageChanged: currentPageRelay.asSignal(),
-            tapKebabButton:  rootView.kebabButton.rx.tap.asSignal()
+            tapKebabButton:  rootView.kebabButton.rx.tap.asSignal(),
+            tapDateButton: rootView.calendarNavigationView.dateButton.rx.tap.asSignal()
         )
-        
+
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
         output.dateLabel
@@ -133,6 +136,20 @@ private extension CalendarViewController {
             })
             .disposed(by: disposeBag)
         
+        output.showPickerView
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.presentPickerView()
+            })
+            .disposed(by: disposeBag)
+        
+        output.changeNavigationDate
+            .drive(onNext: { [weak self] data in
+                guard let self = self else { return }
+                rootView.calendarNavigationView.dateButton.titleLabel?.text = data
+            })
+            .disposed(by: disposeBag)
+        
         rootView.calendarButton.rx.tap
             .bind { [weak self] in
                 self?.viewModel.responseButtonStatusRelay.accept(self?.viewModel.dailyDiaryDummyDataRelay.value.status ?? "")
@@ -178,15 +195,66 @@ private extension CalendarViewController {
             .disposed(by: disposeBag)
     }
     
+    private func setupPickerView() {
+        self.view.addSubview(datePickerView)
+        datePickerView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        datePickerView.isHidden = true
+        
+        datePickerView.completeButton.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: {
+                [weak self] _ in
+                self?.dismissPickerView(animated: true,
+                                        completion: {
+                    // 로직
+                    let selectedYearIndex = self?.datePickerView.pickerView.selectedRow(inComponent: 0) ?? 0
+                    let selectedMonthIndex = self?.datePickerView.pickerView.selectedRow(inComponent: 1) ?? 0
+                    
+                    guard let selectedYear = self?.datePickerView.pickerView.years[selectedYearIndex] else {
+                        return
+                    }
+                    guard let selectedMonth = self?.datePickerView.pickerView.months[selectedMonthIndex] else {
+                        return
+                    }
+                    
+                    let selectedMonthYear = ["\(selectedYear)", "\(selectedMonth)"]
+                    self?.viewModel.selectedMonthRelay.accept(selectedMonthYear)
+                })
+            })
+            .disposed(by: disposeBag)
+        
+        datePickerView.dimmedView.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissPickerView(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+    }
+    
     private func presentBottomSheet() {
         deleteBottomSheetView.isHidden = false
         deleteBottomSheetView.dimmedView.alpha = 0.0
         deleteBottomSheetView.animateShow()
     }
     
+    private func presentPickerView() {
+        datePickerView.isHidden = false
+        datePickerView.dimmedView.alpha = 0.0
+        datePickerView.animateShow()
+    }
+    
     private func dismissBottomSheet(animated: Bool, completion: (() -> Void)?) {
         deleteBottomSheetView.animateHide {
             self.deleteBottomSheetView.isHidden = true
+            completion?()
+        }
+    }
+    
+    private func dismissPickerView(animated: Bool, completion: (() -> Void)?) {
+        datePickerView.animateHide {
+            self.datePickerView.isHidden = true
             completion?()
         }
     }
