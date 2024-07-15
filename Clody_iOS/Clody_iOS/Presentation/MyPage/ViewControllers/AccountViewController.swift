@@ -153,11 +153,9 @@ final class AccountViewController: UIViewController {
         guard let newNickname = nicknameTextField.textField.text, !newNickname.isEmpty else { return }
         rootView.nicknameLabel.text = newNickname
         view.subviews.last?.removeFromSuperview()
-        view.subviews.last?.removeFromSuperview()
     }
     
     @objc private func handleCloseButton() {
-        view.subviews.last?.removeFromSuperview()
         view.subviews.last?.removeFromSuperview()
     }
     
