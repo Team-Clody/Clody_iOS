@@ -14,7 +14,7 @@ final class TermsViewModel: ViewModelType {
     
     struct Input {
         let allAgreeTextButtonTapEvent: Signal<Bool>
-        var allAgreeIconButtonTapEvent: Signal<Bool>
+        let allAgreeIconButtonTapEvent: Signal<Bool>
         let agreeTermsButtonTapEvent = BehaviorRelay<Bool>(value: false)
         let agreePrivacyButtonTapEvent = BehaviorRelay<Bool>(value: false)
         let nextButtonTapEvent: Signal<Void>
@@ -34,7 +34,6 @@ final class TermsViewModel: ViewModelType {
                 input.agreePrivacyButtonTapEvent
             )
             .map { values in
-                print(values)
                 return values.0 && values.1
             }
             .asDriver(onErrorJustReturn: false)

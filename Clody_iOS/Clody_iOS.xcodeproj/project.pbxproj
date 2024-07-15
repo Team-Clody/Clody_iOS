@@ -93,6 +93,7 @@
 		95310FBB2C44162F00023C7B /* ReplyDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FBA2C44162F00023C7B /* ReplyDetailViewModel.swift */; };
 		95310FBE2C4434B500023C7B /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FBD2C4434B500023C7B /* LoginViewModel.swift */; };
 		95310FC02C44431800023C7B /* TermsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FBF2C44431800023C7B /* TermsViewModel.swift */; };
+		95310FC22C45453F00023C7B /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC12C45453F00023C7B /* NicknameViewModel.swift */; };
 		95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A89E762C36EE4100E07ABC /* BaseView.swift */; };
 /* End PBXBuildFile section */
 
@@ -173,6 +174,7 @@
 		95310FBA2C44162F00023C7B /* ReplyDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyDetailViewModel.swift; sourceTree = "<group>"; };
 		95310FBD2C4434B500023C7B /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		95310FBF2C44431800023C7B /* TermsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewModel.swift; sourceTree = "<group>"; };
+		95310FC12C45453F00023C7B /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		95A89E762C36EE4100E07ABC /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -680,6 +682,7 @@
 			children = (
 				95310FBD2C4434B500023C7B /* LoginViewModel.swift */,
 				95310FBF2C44431800023C7B /* TermsViewModel.swift */,
+				95310FC12C45453F00023C7B /* NicknameViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -828,6 +831,7 @@
 				95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */,
 				95310FB72C43B07100023C7B /* ReplyWaitingViewModel.swift in Sources */,
 				95310F902C40705600023C7B /* NicknameViewController.swift in Sources */,
+				95310FC22C45453F00023C7B /* NicknameViewModel.swift in Sources */,
 				95310F982C40777C00023C7B /* OnBoardingView.swift in Sources */,
 				95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */,
 				95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */,
