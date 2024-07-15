@@ -92,6 +92,7 @@
 		95310FB92C43DFF300023C7B /* GetCloverAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FB82C43DFF300023C7B /* GetCloverAlertView.swift */; };
 		95310FBB2C44162F00023C7B /* ReplyDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FBA2C44162F00023C7B /* ReplyDetailViewModel.swift */; };
 		95310FBE2C4434B500023C7B /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FBD2C4434B500023C7B /* LoginViewModel.swift */; };
+		95310FC02C44431800023C7B /* TermsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FBF2C44431800023C7B /* TermsViewModel.swift */; };
 		95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A89E762C36EE4100E07ABC /* BaseView.swift */; };
 /* End PBXBuildFile section */
 
@@ -171,6 +172,7 @@
 		95310FB82C43DFF300023C7B /* GetCloverAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCloverAlertView.swift; sourceTree = "<group>"; };
 		95310FBA2C44162F00023C7B /* ReplyDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyDetailViewModel.swift; sourceTree = "<group>"; };
 		95310FBD2C4434B500023C7B /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		95310FBF2C44431800023C7B /* TermsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewModel.swift; sourceTree = "<group>"; };
 		95A89E762C36EE4100E07ABC /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -677,6 +679,7 @@
 			isa = PBXGroup;
 			children = (
 				95310FBD2C4434B500023C7B /* LoginViewModel.swift */,
+				95310FBF2C44431800023C7B /* TermsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -851,6 +854,7 @@
 				0B6C07432C3DC2DE0054A0B0 /* ListModel.swift in Sources */,
 				0B17F8052C368465008A9998 /* DailyCalendarCollectionViewCell.swift in Sources */,
 				0B190F0D2C38111500D46CFC /* CalendarDailyModel.swift in Sources */,
+				95310FC02C44431800023C7B /* TermsViewModel.swift in Sources */,
 				95310F942C40776200023C7B /* OnBoardingViewController.swift in Sources */,
 				0B6C074D2C3DC6C70054A0B0 /* ListHeaderView.swift in Sources */,
 				0BFCC5F02C2F852D00B5E0DB /* UIStackView+.swift in Sources */,
