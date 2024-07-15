@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import KakaoSDKAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -16,11 +17,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let rootViewController = UINavigationController(rootViewController: CalendarViewController())
-
+        let rootViewController = SplashViewController()
+        
         window.rootViewController = rootViewController
         window.makeKeyAndVisible()
         self.window = window
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            let navigationController = UINavigationController(rootViewController: LoginViewController())
+            self.window?.rootViewController = navigationController
+        }
+    }
+    
+    func changeRootViewController(_ viewController: UIViewController, animated: Bool) {
+        guard let window = self.window else { return }
+        let rootViewController = UINavigationController(rootViewController: viewController)
+        window.rootViewController = rootViewController
+        UIView.transition(with: window, duration: 0.2, options: [.transitionCrossDissolve], animations: nil, completion: nil)
+    }
+
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let url = URLContexts.first?.url {
+            if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                _ = AuthController.handleOpenUrl(url: url)
+            }
+        }
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
