@@ -94,6 +94,10 @@ final class CalendarView: BaseView {
             $0.setImage(.kebob, for: .normal)
         }
         
+        emptyDiaryView.do {
+            $0.isHidden = true
+        }
+        
         emptyDiaryLabel.do {
             $0.attributedText = UIFont.pretendardString(text: "아직 감사 일기가 없어요!", style: .body3_regular)
             $0.textColor = .grey05
@@ -123,7 +127,6 @@ final class CalendarView: BaseView {
         super.layoutSubviews()
 
         adjustScrollViewContentSize()
-        print(self.dailyDiaryCollectionView.contentSize.height)
     }
     
     private func adjustScrollViewContentSize() {
@@ -131,7 +134,6 @@ final class CalendarView: BaseView {
         dailyDiaryCollectionView.layoutIfNeeded()
         
         let contentHeight = dailyDiaryCollectionView.contentSize.height + 612
-        print(dailyDiaryCollectionView.collectionViewLayout.collectionViewContentSize.height, "!!")
         scrollView.contentSize = CGSize(width: scrollView.frame.width, height: contentHeight)
     }
     

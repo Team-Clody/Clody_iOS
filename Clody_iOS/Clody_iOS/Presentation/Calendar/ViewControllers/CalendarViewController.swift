@@ -73,6 +73,13 @@ private extension CalendarViewController {
             .disposed(by: disposeBag)
         
         output.diaryData
+            .drive(onNext: { [weak self] data in
+                guard let self = self else { return }
+                self.rootView.emptyDiaryView.isHidden = data.count != 0
+            })
+            .disposed(by: disposeBag)
+
+        output.diaryData
             .drive(rootView.dailyDiaryCollectionView.rx.items(cellIdentifier: DailyCalendarCollectionViewCell.description(), cellType: DailyCalendarCollectionViewCell.self)) { index, model, cell in
                 cell.bindData(data: model, index: "\(index + 1).")
             }
