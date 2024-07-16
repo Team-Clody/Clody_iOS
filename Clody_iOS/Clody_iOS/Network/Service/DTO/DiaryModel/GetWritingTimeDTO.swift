@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct GetWritingTimeDTO: Codable {
+    let HH: String
+    let MM: String
+    let SS: String
+}

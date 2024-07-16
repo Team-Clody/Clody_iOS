@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct GetReplyResponseDTO: Codable {
+    let Content: String
+}

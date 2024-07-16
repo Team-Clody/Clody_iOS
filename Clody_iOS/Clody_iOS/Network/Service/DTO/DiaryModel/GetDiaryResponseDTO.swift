@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CalendarDiaryResponseDTO: Codable {
+struct GetDiaryResponseDTO: Codable {
     let diaries: [DailyDiary]
 }
 
