@@ -52,11 +52,11 @@ private extension LoginViewController {
             .drive(onNext: {
                 if UserApi.isKakaoTalkLoginAvailable() {
                     UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-                        self.loginWithKakao(error, oauthToken)
+                        self.signInWithKakao(error, oauthToken)
                     }
                 } else {
                     UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
-                        self.loginWithKakao(error, oauthToken)
+                        self.signInWithKakao(error, oauthToken)
                     }
                 }
             })
@@ -70,7 +70,7 @@ private extension LoginViewController {
 
 private extension LoginViewController {
     
-    func loginWithKakao(_ error: Error?, _ oauthToken: OAuthToken?) {
+    func signInWithKakao(_ error: Error?, _ oauthToken: OAuthToken?) {
         if let error = error {
             print("❗️카카오 로그인 실패 - \(error)")
         } else {
@@ -79,15 +79,8 @@ private extension LoginViewController {
                 if let error = error {
                     print("❗️유저 정보 가져오기 실패 - \(error)")
                 } else {
-                    if let user = user {
-                        let provider = Providers.authProvider
-                        //                        provider.request(target: .login(data: LoginRequestDTO(platform: "kakao")),
-                        //                                         instance: BaseResponse<LoginResponseDTO>.self,
-                        //                                         completion: {
-                        //                            data in
-                        //                                print(data)
-                        //                            })
-                        self.viewModel.loginWithKakao { response in
+                    if let oauthToken = oauthToken {
+                        self.viewModel.signInWithKakao(oauthToken: oauthToken) {
                             self.navigationController?.pushViewController(TermsViewController(), animated: true)
                         }
                     }

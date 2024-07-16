@@ -7,6 +7,7 @@
 
 import UIKit
 
+import KakaoSDKAuth
 import RxCocoa
 import RxSwift
 
@@ -29,9 +30,16 @@ final class LoginViewModel: ViewModelType {
 
 extension LoginViewModel {
     
-    func loginWithKakao(completion: @escaping (Any) -> ()) {
-//        AuthAPI.shared.loginWithKakao() { response in
-//            completion(response as Any)
-//        }
+    func signInWithKakao(oauthToken: OAuthToken, completion: @escaping () -> ()) {
+        // TODO: 성공/실패는 response로 나중에 바꾸기 - completion
+        print("💛\(oauthToken.accessToken)")
+        APIConstants.authCode = oauthToken.accessToken
+        Providers.authProvider.request(
+            target: .signIn(data: LoginRequestDTO(platform: "kakao")),
+            instance: BaseResponse<LoginResponseDTO>.self
+        ) { data in
+            print(data)
+        }
+        completion()
     }
 }

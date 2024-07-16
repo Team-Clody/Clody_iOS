@@ -25,10 +25,7 @@ final class UserManager {
         set { keychain["refreshToken"] = newValue }
     }
     
-    var authCode: String? {
-        get { return keychain["authCode"] }
-        set { keychain["authCode"] = newValue }
-    }
+    var authCode: String?
     
     var idToken: String? {
         get { return keychain["idToken"] }

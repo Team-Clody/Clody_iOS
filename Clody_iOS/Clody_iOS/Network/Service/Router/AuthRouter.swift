@@ -11,7 +11,7 @@ import Moya
 
 enum AuthRouter {
     case signUp(data: SignUpRequestDTO)
-    case login(data: LoginRequestDTO)
+    case signIn(data: LoginRequestDTO)
     case tokenRefresh
     case logout
     case revoke
@@ -22,7 +22,7 @@ extension AuthRouter: BaseTargetType {
         switch self {
         case .signUp:
             return APIConstants.authCodeHeader
-        case .login:
+        case .signIn:
             return APIConstants.authCodeHeader
         case .tokenRefresh:
             return APIConstants.hasRefreshTokenHeader
@@ -37,7 +37,7 @@ extension AuthRouter: BaseTargetType {
         switch self {
         case .signUp:
             return "auth/signup"
-        case .login:
+        case .signIn:
             return "auth/signin"
         case .tokenRefresh:
             return "auth/reissue"
@@ -50,7 +50,7 @@ extension AuthRouter: BaseTargetType {
     
     var method: Moya.Method {
         switch self {
-        case .signUp, .login:
+        case .signUp, .signIn:
             return .post
         case .tokenRefresh, .logout:
             return .get
@@ -63,7 +63,7 @@ extension AuthRouter: BaseTargetType {
         switch self {
         case .signUp(let data):
             return .requestJSONEncodable(data)
-        case .login(let data):
+        case .signIn(let data):
             return .requestJSONEncodable(data)
         case .tokenRefresh:
             return .requestPlain
