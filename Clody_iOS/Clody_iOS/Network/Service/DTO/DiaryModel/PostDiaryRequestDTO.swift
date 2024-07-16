@@ -9,5 +9,5 @@ import Foundation
 
 struct PostDiaryRequestDTO: Codable {
     let date: String
-    let cotent: [String]
+    let content: [String]
 }

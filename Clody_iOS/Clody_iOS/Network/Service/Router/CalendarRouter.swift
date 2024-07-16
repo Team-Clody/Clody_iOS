@@ -27,9 +27,9 @@ extension CalendarRouter: BaseTargetType {
     var path: String {
         switch self {
         case .getMonthlyCalendar:
-            return "calender"
+            return "calendar"
         case .getListCalendar:
-            return "calender/list"
+            return "calendar/list"
         }
     }
     

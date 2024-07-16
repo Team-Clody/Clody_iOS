@@ -36,11 +36,11 @@ extension MyPageRouter: BaseTargetType {
     var path: String {
         switch self {
         case .postSignUpAlarm:
-            return "alarm/diary"
+            return "alarm"
         case .getAlarmSet:
-            return "alarm/diary"
+            return "alarm"
         case .postAlarmSet:
-            return "alarm/diary"
+            return "alarm"
         case .getAccount:
             return "user/info"
         case .patchNickname:

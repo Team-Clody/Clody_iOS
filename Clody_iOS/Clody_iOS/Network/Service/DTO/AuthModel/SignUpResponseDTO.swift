@@ -8,6 +8,7 @@
 import Foundation
 
 struct SignUpResponseDTO: Codable {
+    let userId: Int
     let accessToken: String
     let refreshToken: String
 }

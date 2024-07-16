@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct PatchNicknameRsponseDTO: Codable {
+struct PatchNicknameResponseDTO: Codable {
     let name: String
 }

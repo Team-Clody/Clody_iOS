@@ -35,10 +35,10 @@ extension DiaryRouter: BaseTargetType {
     
     var path: String {
         switch self {
-        case .getDailyDiary, .deleteDiary, .postDiary:
+        case .getDailyDiary, .postDiary, .deleteDiary:
             return "diary"
         case .getWritingTime(year: let year, month: let month, date: let date):
-            return "reply/time"
+            return "diary/time"
         case .getReply(year: let year, month: let month, date: let date):
             return "reply"
         }
