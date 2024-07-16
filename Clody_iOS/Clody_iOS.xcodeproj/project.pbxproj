@@ -54,7 +54,6 @@
 		2CC0CE732C3C0ED9001F3E6B /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC0CE722C3C0ED9001F3E6B /* MyPageTableViewCell.swift */; };
 		2CC0CE752C3C0EE7001F3E6B /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC0CE742C3C0EE7001F3E6B /* MyPageView.swift */; };
 		2CC0CE772C3C0FAD001F3E6B /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC0CE762C3C0FAD001F3E6B /* MyPageViewController.swift */; };
-		2CCB04922C4561A800F7ED4F /* SettingNicknameChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCB04912C4561A800F7ED4F /* SettingNicknameChangeView.swift */; };
 		2CCB04962C457BD700F7ED4F /* SettingNotificationTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCB04952C457BD700F7ED4F /* SettingNotificationTimeView.swift */; };
 		2CE3A3A82C43CF06007A421C /* NotificationBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE3A3A72C43CF06007A421C /* NotificationBottomSheetView.swift */; };
 		2CE3AB2F2C36E9F50042085A /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */; };
@@ -125,7 +124,6 @@
 		2CC0CE722C3C0ED9001F3E6B /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
 		2CC0CE742C3C0EE7001F3E6B /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		2CC0CE762C3C0FAD001F3E6B /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
-		2CCB04912C4561A800F7ED4F /* SettingNicknameChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingNicknameChangeView.swift; sourceTree = "<group>"; };
 		2CCB04952C457BD700F7ED4F /* SettingNotificationTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingNotificationTimeView.swift; sourceTree = "<group>"; };
 		2CE3A3A72C43CF06007A421C /* NotificationBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBottomSheetView.swift; sourceTree = "<group>"; };
 		2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
@@ -490,7 +488,6 @@
 				2CE6378C2C3D56A700B6EC6D /* AccountView.swift */,
 				2C7FCF722C42DD4900F4E089 /* NotificationView.swift */,
 				2CE3A3A72C43CF06007A421C /* NotificationBottomSheetView.swift */,
-				2CCB04912C4561A800F7ED4F /* SettingNicknameChangeView.swift */,
 				2CCB04952C457BD700F7ED4F /* SettingNotificationTimeView.swift */,
 			);
 			path = Views;
@@ -731,7 +728,6 @@
 				2CC0CE732C3C0ED9001F3E6B /* MyPageTableViewCell.swift in Sources */,
 				95310F7A2C3D8C8B00023C7B /* UIViewController+.swift in Sources */,
 				95310FA62C41D97E00023C7B /* SplashViewController.swift in Sources */,
-				2CCB04922C4561A800F7ED4F /* SettingNicknameChangeView.swift in Sources */,
 				95310F882C40043800023C7B /* ScreenUtils.swift in Sources */,
 				95310FA02C410DE200023C7B /* DiaryNotificationView.swift in Sources */,
 				95310F852C3FFA0C00023C7B /* ClodyLoginButton.swift in Sources */,
