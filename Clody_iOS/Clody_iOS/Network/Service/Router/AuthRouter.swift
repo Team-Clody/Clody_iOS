@@ -40,7 +40,7 @@ extension AuthRouter: BaseTargetType {
         case .login:
             return "auth/signin"
         case .tokenRefresh:
-            return "reissue"
+            return "auth/reissue"
         case .logout:
             return "logout"
         case .revoke:
