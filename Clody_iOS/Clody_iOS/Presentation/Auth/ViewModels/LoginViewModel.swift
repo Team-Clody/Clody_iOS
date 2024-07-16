@@ -45,7 +45,7 @@ extension LoginViewModel {
                 data.accessToken,
                 data.refreshToken
             )
-            completion()
         }
+        completion()
     }
 }
