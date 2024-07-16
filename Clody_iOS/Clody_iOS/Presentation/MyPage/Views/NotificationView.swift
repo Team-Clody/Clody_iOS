@@ -3,27 +3,23 @@ import UIKit
 import SnapKit
 import Then
 
-final class MyPageView: BaseView {
-    
-    let tableView = UITableView()
-    let navigationBar = ClodyNavigationBar(type: .setting, title: "설정")
-    
+final class NotificationView: BaseView {
+
+    let tableView: UITableView = UITableView()
+    public let navigationBar = ClodyNavigationBar(type: .setting, title: "알림 설정")
+
     override func setStyle() {
         tableView.do {
-            $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.identifier)
+            $0.register(NotificationCell.self, forCellReuseIdentifier: "NotificationCell")
             $0.tableFooterView = UIView()
-            $0.rowHeight = UITableView.automaticDimension
-            $0.estimatedRowHeight = 100
             $0.separatorStyle = .none
         }
-        
-        backgroundColor = UIColor(named: "whiteCustom")
     }
-    
+
     override func setHierarchy() {
         addSubviews(navigationBar, tableView)
     }
-    
+
     override func setLayout() {
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide.snp.top)
@@ -33,7 +29,7 @@ final class MyPageView: BaseView {
         
         tableView.snp.makeConstraints {
             $0.top.equalTo(navigationBar.snp.bottom)
-            $0.horizontalEdges.bottom.equalToSuperview()
+            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
 }
