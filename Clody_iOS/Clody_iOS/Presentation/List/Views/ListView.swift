@@ -14,28 +14,35 @@ final class ListView: BaseView {
     
     // MARK: - UI Components
     
-    private let navigationBarView = UIView()
+    let navigationBarView = ClodyNavigationBar(type: .list, date: "2024년 00월")
+    private let topBackgroundView = UIView()
     lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: listCollectionViewLayout())
     
     override func setStyle() {
         self.backgroundColor = .grey08
         
-        navigationBarView.do {
-            $0.backgroundColor = .red
-        }
-        
         listCollectionView.do {
             $0.backgroundColor = .grey08
             $0.showsVerticalScrollIndicator = false
+        }
+        
+        topBackgroundView.do {
+            $0.backgroundColor = .white
         }
     }
     
     override func setHierarchy() {
         
-        self.addSubviews(navigationBarView, listCollectionView)
+        self.addSubviews(navigationBarView, listCollectionView, topBackgroundView)
     }
     
     override func setLayout() {
+        
+        topBackgroundView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalTo(navigationBarView.snp.top)
+        }
         
         navigationBarView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)

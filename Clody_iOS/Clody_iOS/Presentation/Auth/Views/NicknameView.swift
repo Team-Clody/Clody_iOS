@@ -17,7 +17,7 @@ final class NicknameView: BaseView {
     private let navigationBar = ClodyNavigationBar(type: .normal)
     private let introLabel = UILabel()
     let textField = ClodyTextField(type: .nickname)
-    let completeButton = ClodyBottomButton(title: I18N.Common.complete)
+    let nextButton = ClodyBottomButton(title: I18N.Common.next)
     
     // MARK: - Methods
     
@@ -34,18 +34,14 @@ final class NicknameView: BaseView {
             $0.numberOfLines = 0
         }
         
-        completeButton.do {
+        nextButton.do {
             $0.isEnabled = false
-            $0.setTitleColor(.grey01, for: .normal)
-            $0.setTitleColor(.grey06, for: .disabled)
-            $0.setAttributedTitle(UIFont.pretendardString(text: I18N.Common.complete, style: .body2_semibold), for: .normal)
             $0.backgroundColor = .lightYellow
-            $0.makeCornerRound(radius: 10)
         }
     }
     
     override func setHierarchy() {
-        self.addSubviews(navigationBar, introLabel, textField, completeButton)
+        self.addSubviews(navigationBar, introLabel, textField, nextButton)
     }
     
     override func setLayout() {
@@ -66,7 +62,7 @@ final class NicknameView: BaseView {
             $0.horizontalEdges.equalToSuperview().inset(24)
         }
         
-        completeButton.snp.makeConstraints {
+        nextButton.snp.makeConstraints {
             $0.height.equalTo(48)
             $0.horizontalEdges.equalToSuperview().inset(24)
             $0.bottom.equalTo(safeAreaLayoutGuide).inset(5)

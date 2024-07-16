@@ -1,3 +1,10 @@
+//
+//  NotificationViewModel.swift
+//  Clody_iOS
+//
+//  Created by Seonwoo Kim on 7/16/24.
+//
+
 import UIKit
 
 import RxCocoa
@@ -41,3 +48,4 @@ struct NotificationItem {
     var detail: String?
     let hasSwitch: Bool
 }
+
