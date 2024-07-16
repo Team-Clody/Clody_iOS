@@ -29,7 +29,7 @@ final class ListViewModel: ViewModelType {
         let changeNavigationDate: Driver<String>
     }
     
-    let listDummyDataRelay = BehaviorRelay<ListModel>(value: ListModel(totalMonthlyCount: 0, diaries: []))
+    let listDataRelay = BehaviorRelay<CalendarListResponseDTO>(value: CalendarListResponseDTO(totalMonthlyCount: 0, diaries: []))
     let selectedMonthRelay = BehaviorRelay<[String]>(value: ["2024", "7"])
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
@@ -37,7 +37,7 @@ final class ListViewModel: ViewModelType {
         input.viewDidLoad
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.loadDailyDummyData()
+                self.getListData(year: 2024, month: 7)
             })
             .disposed(by: disposeBag)
         
@@ -47,7 +47,7 @@ final class ListViewModel: ViewModelType {
         let kebabDate = input.tapKebabButton
             .asDriver(onErrorJustReturn: "")
         
-        let listData = listDummyDataRelay
+        let listData = listDataRelay
             .map { $0.diaries }
             .asDriver(onErrorJustReturn: [])
         
@@ -76,8 +76,22 @@ final class ListViewModel: ViewModelType {
 
 extension ListViewModel {
     
-    private func loadDailyDummyData() {
-        let listData = ListModel.dummy()
-        self.listDummyDataRelay.accept(listData)
+//    private func loadDailyDummyData() {
+//        let listData = ListModel.dummy()
+//        self.listDummyDataRelay.accept(listData)
+//    }
+    
+    private func getListData() {
+        
+    }
+    
+    func getListData(year: Int, month: Int) {
+        let provider = Providers.calendarProvider
+
+        provider.request(target: .getListCalendar(year: year, month: month), instance: BaseResponse<CalendarListResponseDTO>.self, completion: { data in
+            guard let data = data.data else { return }
+            
+            self.listDataRelay.accept(data)
+        })
     }
 }

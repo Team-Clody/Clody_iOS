@@ -117,8 +117,8 @@ final class ListHeaderView: UICollectionReusableView {
         }
     }
     
-    func bindData(diary: Diaries) {
-        cloverImageView.image = UIImage(named: diary.diaryCount == 0 ? "cloverNone" : "clover\(diary.diaryCount)")
+    func bindData(diary: ListDiary) {
+        cloverImageView.image = UIImage(named: diary.diaryCount == 0 ? "clover0" : "clover\(diary.diaryCount)")
         newImageView.isHidden = diary.replyStatus != "not_read"
         
         let dateFormatter = DateFormatter()

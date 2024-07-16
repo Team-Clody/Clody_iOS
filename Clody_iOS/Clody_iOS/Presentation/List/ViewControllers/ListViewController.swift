@@ -210,11 +210,11 @@ private extension ListViewController {
 extension ListViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return viewModel.listDummyDataRelay.value.diaries.count
+        return viewModel.listDataRelay.value.diaries.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.listDummyDataRelay.value.diaries[section].diary.count
+        return viewModel.listDataRelay.value.diaries[section].diary.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -222,7 +222,7 @@ extension ListViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.description(), for: indexPath)
                 as? ListCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.bindData(diaryContent: viewModel.listDummyDataRelay.value.diaries[indexPath.section].diary[indexPath.item], index: indexPath.item)
+        cell.bindData(diaryContent: viewModel.listDataRelay.value.diaries[indexPath.section].diary[indexPath.item].contnet, index: indexPath.item)
         return cell
     }
     
@@ -231,9 +231,9 @@ extension ListViewController: UICollectionViewDataSource {
         case UICollectionView.elementKindSectionHeader:
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ListHeaderView.description(), for: indexPath) as? ListHeaderView else { return UICollectionReusableView() }
             
-            let diaryDate = viewModel.listDummyDataRelay.value.diaries[indexPath.section].date
+            let diaryDate = viewModel.listDataRelay.value.diaries[indexPath.section].date
             
-            header.bindData(diary: viewModel.listDummyDataRelay.value.diaries[indexPath.section])
+            header.bindData(diary: viewModel.listDataRelay.value.diaries[indexPath.section])
             header.replyButton.rx.tap
                 .map { diaryDate }
                 .bind(to: tapReplyRelay)
