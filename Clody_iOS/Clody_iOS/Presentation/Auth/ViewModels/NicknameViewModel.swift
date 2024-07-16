@@ -54,3 +54,23 @@ final class NicknameViewModel: ViewModelType {
         )
     }
 }
+
+extension NicknameViewModel {
+    
+    func signUpWithKakao(nickname: String, completion: @escaping () -> ()) {
+        Providers.authProvider.request(
+            target: .signUp(
+                data: SignUpRequestDTO(platform: UserManager.shared.platFormValue, name: nickname)
+            ),
+            instance: BaseResponse<SignUpResponseDTO>.self
+        ) { response in
+            print(response)
+            guard let data = response.data else { return }
+            UserManager.shared.updateToken(
+                data.accessToken,
+                data.refreshToken
+            )
+        }
+        completion()
+    }
+}

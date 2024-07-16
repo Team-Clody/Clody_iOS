@@ -79,12 +79,22 @@ private extension NicknameViewController {
         
         output.pushViewController
             .drive(onNext: {
-                self.navigationController?.pushViewController(DiaryNotificationViewController(), animated: true)
+                guard let nickname = self.clodyTextField.textField.text else { return }
+                self.signUpWithKakao(nickname: nickname)
             })
             .disposed(by: disposeBag)
     }
 
     func setUI() {
         self.navigationController?.isNavigationBarHidden = true
+    }
+}
+
+extension NicknameViewController {
+    
+    func signUpWithKakao(nickname: String) {
+        viewModel.signUpWithKakao(nickname: nickname) {
+            self.navigationController?.pushViewController(DiaryNotificationViewController(), animated: true)
+        }
     }
 }
