@@ -17,7 +17,7 @@ final class DiaryNotificationView: BaseView {
     private let navigationBar = ClodyNavigationBar(type: .normal)
     private let introLabel = UILabel()
     let timeSettingView = UIView()
-    private let timeLabel = UILabel()
+    let timeLabel = UILabel()
     private let downButton = UIButton()
     private let divider = UIView()
     let completeButton = ClodyBottomButton(title: I18N.Common.complete)

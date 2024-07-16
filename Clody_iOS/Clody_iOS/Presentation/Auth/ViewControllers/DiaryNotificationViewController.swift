@@ -59,6 +59,32 @@ private extension DiaryNotificationViewController {
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
+        timePickerView.completeButton.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.dismissPickerView(animated: true) {
+                    let selectedTimePeriodsIndex = self.timePickerView.pickerView.selectedRow(inComponent: 0)
+                    let selectedHourIndex = self.timePickerView.pickerView.selectedRow(inComponent: 1)
+                    let selectedMinuteIndex = self.timePickerView.pickerView.selectedRow(inComponent: 2)
+                    
+                    let selectedTimePeriods = self.timePickerView.pickerView.timePeriods[selectedTimePeriodsIndex]
+                    let selectedHour = self.timePickerView.pickerView.hours[selectedHourIndex]
+                    let selectedMinute = self.timePickerView.pickerView.minutes[selectedMinuteIndex]
+                    
+                    let selectedTime = ["\(selectedTimePeriods)", "\(selectedHour)", "\(selectedMinute)"]
+                    output.selectedTimeRelay.accept(selectedTime)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        timePickerView.dimmedView.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissPickerView(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+        
         output.showBottomSheet
             .drive(onNext: {
                 self.presentBottomSheet()
@@ -68,6 +94,13 @@ private extension DiaryNotificationViewController {
         output.pushViewController
             .drive(onNext: {
                 self.navigationController?.pushViewController(OnBoardingViewController(), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        output.selectedTimeRelay
+            .bind(onNext: { values in
+                let timeText = "\(values[0]) \(values[1])시 \(values[2])분"
+                self.rootView.timeLabel.attributedText = UIFont.pretendardString(text: timeText, style: .body1_semibold)
             })
             .disposed(by: disposeBag)
     }
@@ -83,45 +116,11 @@ private extension DiaryNotificationViewController {
     }
     
     private func setupPickerView() {
+        timePickerView.isHidden = true
         self.view.addSubview(timePickerView)
         timePickerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        timePickerView.isHidden = true
-        
-        timePickerView.completeButton.rx.tapGesture()
-            .when(.recognized)
-            .subscribe(onNext: {
-                [weak self] _ in
-                self?.dismissPickerView(animated: true,
-                                        completion: {
-                    // 로직
-                    let selectedAMPMIndex = self?.timePickerView.pickerView.selectedRow(inComponent: 0) ?? 0
-                    let selectedHourIndex = self?.timePickerView.pickerView.selectedRow(inComponent: 0) ?? 0
-                    let selectedMinuteIndex = self?.timePickerView.pickerView.selectedRow(inComponent: 1) ?? 0
-                    
-                    guard let selectedAMPM = self?.timePickerView.pickerView.years[selectedAMPMIndex] else {
-                        return
-                    }
-                    guard let selectedHour = self?.timePickerView.pickerView.years[selectedHourIndex] else {
-                        return
-                    }
-                    guard let selectedMinute = self?.timePickerView.pickerView.months[selectedMinuteIndex] else {
-                        return
-                    }
-                    
-                    let selectedMonthYear = ["\(selectedAMPM)", "\(selectedHour)", "\(selectedMinute)"]
-                    self?.viewModel.selectedTimeRelay.accept(selectedMonthYear)
-                })
-            })
-            .disposed(by: disposeBag)
-        
-        timePickerView.dimmedView.rx.tapGesture()
-            .when(.recognized)
-            .subscribe(onNext: { [weak self] _ in
-                self?.dismissPickerView(animated: true, completion: nil)
-            })
-            .disposed(by: disposeBag)
     }
     
     private func dismissPickerView(animated: Bool, completion: (() -> Void)?) {

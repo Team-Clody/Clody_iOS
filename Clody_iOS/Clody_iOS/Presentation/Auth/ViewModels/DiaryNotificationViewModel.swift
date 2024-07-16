@@ -21,9 +21,8 @@ final class DiaryNotificationViewModel: ViewModelType {
     struct Output {
         let showBottomSheet: Driver<Void>
         let pushViewController: Driver<Void>
+        let selectedTimeRelay = BehaviorRelay<[String]>(value: ["오후", "9", "30"])
     }
-    
-    let selectedTimeRelay = BehaviorRelay<[String]>(value: ["오후", "9", "30"])
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         let showBottomSheet = input.timeSettingViewTapEvent
@@ -40,5 +39,12 @@ final class DiaryNotificationViewModel: ViewModelType {
             showBottomSheet: showBottomSheet,
             pushViewController: pushViewController
         )
+    }
+}
+
+extension DiaryNotificationViewModel {
+    
+    func setNotificationTime() {
+        
     }
 }
