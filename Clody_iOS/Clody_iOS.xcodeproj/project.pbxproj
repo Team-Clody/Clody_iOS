@@ -62,7 +62,15 @@
 		0BE7E9ED2C45B3EC000C5358 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 0BE7E9EC2C45B3EC000C5358 /* KeychainAccess */; };
 		0BE7E9EF2C461D0F000C5358 /* NotificationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9EE2C461D0F000C5358 /* NotificationPickerView.swift */; };
 		0BE7E9F12C4636DE000C5358 /* CalendarMonthlyResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9F02C4636DE000C5358 /* CalendarMonthlyResponseDTO.swift */; };
-		0BE7E9F32C464444000C5358 /* CalendarDiaryResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9F22C464444000C5358 /* CalendarDiaryResponseDTO.swift */; };
+		0BE7E9F32C464444000C5358 /* GetDiaryResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9F22C464444000C5358 /* GetDiaryResponseDTO.swift */; };
+		0BE7E9F52C4656EB000C5358 /* PostDiaryRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9F42C4656EB000C5358 /* PostDiaryRequestDTO.swift */; };
+		0BE7E9F72C46578F000C5358 /* PostDiaryResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9F62C46578F000C5358 /* PostDiaryResponseDTO.swift */; };
+		0BE7E9F92C4659F9000C5358 /* DiaryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9F82C4659F9000C5358 /* DiaryRouter.swift */; };
+		0BE7E9FC2C4660AC000C5358 /* GetWritingTimeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9FB2C4660AC000C5358 /* GetWritingTimeDTO.swift */; };
+		0BE7E9FE2C4660E7000C5358 /* GetReplyResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9FD2C4660E7000C5358 /* GetReplyResponseDTO.swift */; };
+		0BE7EA002C4664EC000C5358 /* LoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9FF2C4664EC000C5358 /* LoginRequestDTO.swift */; };
+		0BE7EA022C466524000C5358 /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA012C466524000C5358 /* LoginResponseDTO.swift */; };
+		0BE7EA042C4665FC000C5358 /* TokenRefreshResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA032C4665FC000C5358 /* TokenRefreshResponseDTO.swift */; };
 		0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A52C2E843C00B5E0DB /* FSCalendar */; };
 		0BFCC5A92C2E847300B5E0DB /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A82C2E847300B5E0DB /* Moya */; };
 		0BFCC5AC2C2E864C00B5E0DB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5AB2C2E864C00B5E0DB /* SnapKit */; };
@@ -178,7 +186,15 @@
 		0BE7E9E92C45B0B8000C5358 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		0BE7E9EE2C461D0F000C5358 /* NotificationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPickerView.swift; sourceTree = "<group>"; };
 		0BE7E9F02C4636DE000C5358 /* CalendarMonthlyResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMonthlyResponseDTO.swift; sourceTree = "<group>"; };
-		0BE7E9F22C464444000C5358 /* CalendarDiaryResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDiaryResponseDTO.swift; sourceTree = "<group>"; };
+		0BE7E9F22C464444000C5358 /* GetDiaryResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDiaryResponseDTO.swift; sourceTree = "<group>"; };
+		0BE7E9F42C4656EB000C5358 /* PostDiaryRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDiaryRequestDTO.swift; sourceTree = "<group>"; };
+		0BE7E9F62C46578F000C5358 /* PostDiaryResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDiaryResponseDTO.swift; sourceTree = "<group>"; };
+		0BE7E9F82C4659F9000C5358 /* DiaryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryRouter.swift; sourceTree = "<group>"; };
+		0BE7E9FB2C4660AC000C5358 /* GetWritingTimeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetWritingTimeDTO.swift; sourceTree = "<group>"; };
+		0BE7E9FD2C4660E7000C5358 /* GetReplyResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReplyResponseDTO.swift; sourceTree = "<group>"; };
+		0BE7E9FF2C4664EC000C5358 /* LoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDTO.swift; sourceTree = "<group>"; };
+		0BE7EA012C466524000C5358 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
+		0BE7EA032C4665FC000C5358 /* TokenRefreshResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshResponseDTO.swift; sourceTree = "<group>"; };
 		0BFCC5CE2C2E8DAE00B5E0DB /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
 		0BFCC5D92C2E8F0100B5E0DB /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		0BFCC5DC2C2E8F1300B5E0DB /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -302,6 +318,7 @@
 			children = (
 				0B4A1BCE2C4540C600E31EC4 /* CalendarRouter.swift */,
 				0B4A1BD62C4548E200E31EC4 /* AuthRouter.swift */,
+				0BE7E9F82C4659F9000C5358 /* DiaryRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -309,6 +326,7 @@
 		0B4A1BD02C4540F300E31EC4 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				0BE7E9FA2C465FB5000C5358 /* DiaryModel */,
 				0B4A1BD82C45635A00E31EC4 /* AuthModel */,
 				0B4A1BD32C45410800E31EC4 /* CalendarModel */,
 			);
@@ -320,7 +338,6 @@
 			children = (
 				0B4A1BD12C45410000E31EC4 /* CalendarListResponseDTO.swift */,
 				0BE7E9F02C4636DE000C5358 /* CalendarMonthlyResponseDTO.swift */,
-				0BE7E9F22C464444000C5358 /* CalendarDiaryResponseDTO.swift */,
 			);
 			path = CalendarModel;
 			sourceTree = "<group>";
@@ -330,6 +347,9 @@
 			children = (
 				0B4A1BD92C45636300E31EC4 /* SignUpRequestDTO.swift */,
 				0B4A1BDB2C4564E500E31EC4 /* SignUpResponseDTO.swift */,
+				0BE7E9FF2C4664EC000C5358 /* LoginRequestDTO.swift */,
+				0BE7EA012C466524000C5358 /* LoginResponseDTO.swift */,
+				0BE7EA032C4665FC000C5358 /* TokenRefreshResponseDTO.swift */,
 			);
 			path = AuthModel;
 			sourceTree = "<group>";
@@ -447,6 +467,18 @@
 				0BE7E9E92C45B0B8000C5358 /* UserManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		0BE7E9FA2C465FB5000C5358 /* DiaryModel */ = {
+			isa = PBXGroup;
+			children = (
+				0BE7E9F42C4656EB000C5358 /* PostDiaryRequestDTO.swift */,
+				0BE7E9F62C46578F000C5358 /* PostDiaryResponseDTO.swift */,
+				0BE7E9F22C464444000C5358 /* GetDiaryResponseDTO.swift */,
+				0BE7E9FB2C4660AC000C5358 /* GetWritingTimeDTO.swift */,
+				0BE7E9FD2C4660E7000C5358 /* GetReplyResponseDTO.swift */,
+			);
+			path = DiaryModel;
 			sourceTree = "<group>";
 		};
 		0BFCC5BE2C2E8BE900B5E0DB /* Application */ = {
@@ -966,6 +998,7 @@
 				2CC0CE712C3C0ECD001F3E6B /* MyPageViewModel.swift in Sources */,
 				95310FB22C434E0B00023C7B /* ReplyWaitingView.swift in Sources */,
 				0B6C07592C3E7D480054A0B0 /* WritingDiaryViewModel.swift in Sources */,
+				0BE7E9F72C46578F000C5358 /* PostDiaryResponseDTO.swift in Sources */,
 				0B6C07572C3E7D340054A0B0 /* WritingDiaryModel.swift in Sources */,
 				0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */,
 				0B4A1BD22C45410000E31EC4 /* CalendarListResponseDTO.swift in Sources */,
@@ -980,9 +1013,12 @@
 				0BAAC64E2C43BFD900174A9D /* DeleteBottomSheetView.swift in Sources */,
 				0B4A1BB92C44E59B00E31EC4 /* DatePickeView.swift in Sources */,
 				0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */,
+				0BE7E9FC2C4660AC000C5358 /* GetWritingTimeDTO.swift in Sources */,
 				95310F982C40777C00023C7B /* OnBoardingView.swift in Sources */,
 				0B4A1BDA2C45636300E31EC4 /* SignUpRequestDTO.swift in Sources */,
 				95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */,
+				0BE7E9F92C4659F9000C5358 /* DiaryRouter.swift in Sources */,
+				0BE7E9F52C4656EB000C5358 /* PostDiaryRequestDTO.swift in Sources */,
 				95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */,
 				0BFCC5CF2C2E8DAE00B5E0DB /* BaseTargetType.swift in Sources */,
 				95310F832C3FF53400023C7B /* LoginView.swift in Sources */,
@@ -994,6 +1030,7 @@
 				95310FAD2C42D9FB00023C7B /* ReplyDetailView.swift in Sources */,
 				95310F922C40706600023C7B /* NicknameView.swift in Sources */,
 				2CE637912C3D56C300B6EC6D /* AccountViewModel.swift in Sources */,
+				0BE7EA022C466524000C5358 /* LoginResponseDTO.swift in Sources */,
 				0B4A1BDE2C45686300E31EC4 /* EmptyResponseDTO.swift in Sources */,
 				0B4A1BC02C453FB800E31EC4 /* BaseModel.swift in Sources */,
 				0B4A1BC42C45400100E31EC4 /* NetworkHelper.swift in Sources */,
@@ -1002,6 +1039,7 @@
 				95310FC42C45A31700023C7B /* DiaryNotificationViewModel.swift in Sources */,
 				2CC0CE752C3C0EE7001F3E6B /* MyPageView.swift in Sources */,
 				0B4A1BBE2C453F9600E31EC4 /* NetworkProvider.swift in Sources */,
+				0BE7EA042C4665FC000C5358 /* TokenRefreshResponseDTO.swift in Sources */,
 				95310F722C3C39FE00023C7B /* ClodyNavigationBar.swift in Sources */,
 				95310FBE2C4434B500023C7B /* LoginViewModel.swift in Sources */,
 				95310F9E2C410DCB00023C7B /* DiaryNotificationViewController.swift in Sources */,
@@ -1011,7 +1049,9 @@
 				0BFCC5E12C2E8F2800B5E0DB /* CalendarView.swift in Sources */,
 				0B6C07472C3DC2F40054A0B0 /* ListViewModel.swift in Sources */,
 				95310FB42C434E1E00023C7B /* ReplyWaitingViewController.swift in Sources */,
+				0BE7E9FE2C4660E7000C5358 /* GetReplyResponseDTO.swift in Sources */,
 				0B6C075B2C3E7D570054A0B0 /* WritingDiaryViewController.swift in Sources */,
+				0BE7EA002C4664EC000C5358 /* LoginRequestDTO.swift in Sources */,
 				0B6C07432C3DC2DE0054A0B0 /* ListModel.swift in Sources */,
 				0B17F8052C368465008A9998 /* DailyCalendarCollectionViewCell.swift in Sources */,
 				0B190F0D2C38111500D46CFC /* CalendarDailyModel.swift in Sources */,
@@ -1026,7 +1066,7 @@
 				95310FBB2C44162F00023C7B /* ReplyDetailViewModel.swift in Sources */,
 				0BFCC5DD2C2E8F1300B5E0DB /* CalendarViewController.swift in Sources */,
 				0B4A1BCC2C45409600E31EC4 /* Providers.swift in Sources */,
-				0BE7E9F32C464444000C5358 /* CalendarDiaryResponseDTO.swift in Sources */,
+				0BE7E9F32C464444000C5358 /* GetDiaryResponseDTO.swift in Sources */,
 				95310F782C3D6DF800023C7B /* ClodyAlert.swift in Sources */,
 				0B4A1BCA2C45403A00E31EC4 /* NetworkRequest.swift in Sources */,
 				0B6C07492C3DC2FC0054A0B0 /* ListView.swift in Sources */,
