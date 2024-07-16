@@ -17,6 +17,7 @@ struct APIConstants{
     static let accessToken = "Bearer " + ""
     static let refreshToken = "Bearer " + ""
     static var authCode = ""
+    static let Bearer = "Bearer "
 }
 
 extension APIConstants{

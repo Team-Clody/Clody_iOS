@@ -82,9 +82,9 @@ final class AccountViewController: UIViewController {
                 
                 alert?.rightButton.rx.tap
                     .subscribe(onNext: {
-                        // TODO: 로그아웃 API 연결
-                        
-                        self.hideAlert()
+                        self.viewModel.logout() {
+                            self.hideAlert()
+                        }
                     })
                     .disposed(by: self.disposeBag)
             })
@@ -108,8 +108,9 @@ final class AccountViewController: UIViewController {
                 
                 alert?.rightButton.rx.tap
                     .subscribe(onNext: {
-                        // TODO: 회원탈퇴 API 연결
-                        
+                        self.viewModel.withdraw() {
+                            self.hideAlert()
+                        }
                         self.hideAlert()
                     })
                     .disposed(by: self.disposeBag)
