@@ -37,7 +37,7 @@ final class ClodyTextField: UIView {
             }
         }
     
-    private lazy var countLabel = UILabel()
+    public lazy var countLabel = UILabel()
         .then {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(text: "\(count)", style: .detail1_medium)

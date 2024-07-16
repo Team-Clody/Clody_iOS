@@ -10,35 +10,48 @@ import Foundation
 import Moya
 
 enum CalendarRouter {
-    case getDummyData
+    case getMonthlyCalendar(year: Int, month: Int)
+    case getListCalendar(year: Int, month: Int)
 }
 
 extension CalendarRouter: BaseTargetType {
     var headers: [String : String]? {
         switch self {
-        case .getDummyData:
+        case .getMonthlyCalendar:
+            return APIConstants.hasTokenHeader
+        case .getListCalendar:
             return APIConstants.hasTokenHeader
         }
     }
     
     var path: String {
         switch self {
-        case .getDummyData:
-            return "dummy/app"
+        case .getMonthlyCalendar:
+            return "calendar"
+        case .getListCalendar:
+            return "calendar/list"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .getDummyData:
+        case .getMonthlyCalendar, .getListCalendar:
             return .get
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case .getDummyData:
-            return .requestPlain
+        case .getMonthlyCalendar(let year, let month):
+            return .requestParameters(
+                parameters: ["year": year, "month": month],
+                encoding: URLEncoding.queryString
+            )
+        case .getListCalendar(year: let year, month: let month):
+            return .requestParameters(
+                parameters: ["year": year, "month": month],
+                encoding: URLEncoding.queryString
+            )
         }
     }
 }
