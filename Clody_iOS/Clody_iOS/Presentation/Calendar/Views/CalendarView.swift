@@ -47,7 +47,7 @@ final class CalendarView: BaseView {
         
         cloverBackgroundView.do {
             $0.layer.cornerRadius = 9
-            $0.backgroundColor = .lightGreen
+            $0.backgroundColor = .lightGreenBack
         }
         
         cloverLabel.do {

@@ -34,12 +34,14 @@ final class CalendarViewModel: ViewModelType {
         let showPickerView: Signal<Void>
         let changeNavigationDate: Driver<String>
         let cloverCount: Driver<Int>
+        let currentPage: Driver<Date>
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
     let monthlyCalendarDataRelay = BehaviorRelay<CalendarMonthlyResponseDTO>(value: CalendarMonthlyResponseDTO(totalMonthlyCount: 0, diaries: [MonthlyDiary(diaryCount: 0, replyStatus: "")]))
     let dailyDiaryDataRelay = BehaviorRelay<GetDiaryResponseDTO>(value: GetDiaryResponseDTO(diaries: []))
     let selectedMonthRelay = BehaviorRelay<[String]>(value: ["2024", "7"])
+    let currentPageRelay = BehaviorRelay<Date>(value: Date())
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
@@ -56,11 +58,21 @@ final class CalendarViewModel: ViewModelType {
             .emit(onNext: { [weak self] date in
                 guard let self = self else { return }
                 let year = DateFormatter.string(from: date, format: "yyyy")
-                let month = DateFormatter.string(from: date, format: "m")
+                let month = DateFormatter.string(from: date, format: "MM")
                 let day = DateFormatter.string(from: date, format: "d")
                 
                 self.selectedDateRelay.accept(date)
                 self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
+            })
+            .disposed(by: disposeBag)
+        
+        input.currentPageChanged
+            .emit(onNext: { [weak self] date in
+                guard let self = self else { return }
+                self.currentPageRelay.accept(date)
+                let year = Calendar.current.component(.year, from: date)
+                let month = Calendar.current.component(.month, from: date)
+                self.selectedMonthRelay.accept(["\(year)", "\(month)"])
             })
             .disposed(by: disposeBag)
         
@@ -111,8 +123,9 @@ final class CalendarViewModel: ViewModelType {
                 return dateSelected
             }
             .asDriver(onErrorJustReturn: "Error")
-
         
+        let currentPage = currentPageRelay.asDriver(onErrorJustReturn: Date())
+
         return Output(
             dateLabel: dateLabel,
             selectedDate: selectedDate,
@@ -123,7 +136,8 @@ final class CalendarViewModel: ViewModelType {
             showDeleteBottomSheet: showDeleteBottomSheet, 
             showPickerView: showPickerView, 
             changeNavigationDate: changeNavigationDate,
-            cloverCount: cloverCount
+            cloverCount: cloverCount,
+            currentPage: currentPage
         )
     }
 }

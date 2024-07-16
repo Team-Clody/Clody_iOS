@@ -81,7 +81,14 @@ private extension CalendarViewController {
         output.diaryData
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
-                self.rootView.emptyDiaryView.isHidden = data.count != 0
+                let isNotEmpty = data.count != 0
+                self.rootView.emptyDiaryView.isHidden = isNotEmpty
+                let buttonTitle = isNotEmpty ? "답장 확인" : "일기 쓰기"
+                let buttonColor = isNotEmpty ? UIColor(named: "grey01") : UIColor(named: "mainYellow")
+                let textColor = isNotEmpty ? "white" : "grey02"
+                self.rootView.calendarButton.setAttributedTitle(UIFont.pretendardString(text: buttonTitle, style: .body1_semibold), for: .normal)
+                self.rootView.calendarButton.backgroundColor = buttonColor
+                self.rootView.calendarButton.setTitleColor(UIColor(named: textColor), for: .normal)
             })
             .disposed(by: disposeBag)
         
@@ -101,8 +108,6 @@ private extension CalendarViewController {
         output.selectedDate
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
-                self.rootView.mainCalendarView.reloadData()
-                
             })
             .disposed(by: disposeBag)
         
@@ -218,6 +223,15 @@ private extension CalendarViewController {
                     }
                     guard let selectedMonth = self?.datePickerView.pickerView.months[selectedMonthIndex] else {
                         return
+                    }
+                    
+                    var dateComponents = DateComponents()
+                    dateComponents.year = selectedYear
+                    dateComponents.month = selectedMonth
+                    dateComponents.day = 1 // 해당 월의 첫 번째 날로 설정
+
+                    if let date = Calendar.current.date(from: dateComponents) {
+                        self?.rootView.mainCalendarView.currentPage = date
                     }
                     
                     let selectedMonthYear = ["\(selectedYear)", "\(selectedMonth)"]
