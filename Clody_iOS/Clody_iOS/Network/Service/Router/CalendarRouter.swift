@@ -12,8 +12,6 @@ import Moya
 enum CalendarRouter {
     case getMonthlyCalendar(year: Int, month: Int)
     case getListCalendar(year: Int, month: Int)
-    case getDailyDiary(year: Int, month: Int, dat: Int)
-    case deleteDiary(year: Int, month: Int, dat: Int)
 }
 
 extension CalendarRouter: BaseTargetType {
@@ -22,10 +20,6 @@ extension CalendarRouter: BaseTargetType {
         case .getMonthlyCalendar:
             return APIConstants.hasTokenHeader
         case .getListCalendar:
-            return APIConstants.hasTokenHeader
-        case .getDailyDiary:
-            return APIConstants.hasTokenHeader
-        case .deleteDiary:
             return APIConstants.hasTokenHeader
         }
     }
@@ -36,19 +30,13 @@ extension CalendarRouter: BaseTargetType {
             return "calender"
         case .getListCalendar:
             return "calender/list"
-        case .getDailyDiary:
-            return "diary"
-        case .deleteDiary:
-            return "diary"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .getMonthlyCalendar, .getListCalendar, .getDailyDiary:
+        case .getMonthlyCalendar, .getListCalendar:
             return .get
-        case .deleteDiary:
-            return .delete
         }
     }
     
@@ -62,16 +50,6 @@ extension CalendarRouter: BaseTargetType {
         case .getListCalendar(year: let year, month: let month):
             return .requestParameters(
                 parameters: ["year": year, "month": month],
-                encoding: URLEncoding.queryString
-            )
-        case .getDailyDiary(year: let year, month: let month, dat: let date):
-            return .requestParameters(
-                parameters: ["year": year, "month": month, "date": date],
-                encoding: URLEncoding.queryString
-            )
-        case .deleteDiary(year: let year, month: let month, dat: let date):
-            return .requestParameters(
-                parameters: ["year": year, "month": month, "day": date],
                 encoding: URLEncoding.queryString
             )
         }
