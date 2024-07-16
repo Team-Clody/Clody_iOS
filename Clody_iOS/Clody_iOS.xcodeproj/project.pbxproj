@@ -79,6 +79,8 @@
 		0BE7EA112C466BB4000C5358 /* GetAccountResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA102C466BB4000C5358 /* GetAccountResponseDTO.swift */; };
 		0BE7EA132C466C91000C5358 /* PatchNicknameRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA122C466C91000C5358 /* PatchNicknameRequestDTO.swift */; };
 		0BE7EA152C466CC2000C5358 /* PatchNicknameResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA142C466CC2000C5358 /* PatchNicknameResponseDTO.swift */; };
+		0BE7EA172C46A71E000C5358 /* waitingLody.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BE7EA162C46A71E000C5358 /* waitingLody.json */; };
+		0BE7EA192C46AE25000C5358 /* replyLody.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BE7EA182C46AE25000C5358 /* replyLody.json */; };
 		0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A52C2E843C00B5E0DB /* FSCalendar */; };
 		0BFCC5A92C2E847300B5E0DB /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A82C2E847300B5E0DB /* Moya */; };
 		0BFCC5AC2C2E864C00B5E0DB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5AB2C2E864C00B5E0DB /* SnapKit */; };
@@ -211,6 +213,8 @@
 		0BE7EA102C466BB4000C5358 /* GetAccountResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAccountResponseDTO.swift; sourceTree = "<group>"; };
 		0BE7EA122C466C91000C5358 /* PatchNicknameRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchNicknameRequestDTO.swift; sourceTree = "<group>"; };
 		0BE7EA142C466CC2000C5358 /* PatchNicknameResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchNicknameResponseDTO.swift; sourceTree = "<group>"; };
+		0BE7EA162C46A71E000C5358 /* waitingLody.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = waitingLody.json; sourceTree = "<group>"; };
+		0BE7EA182C46AE25000C5358 /* replyLody.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = replyLody.json; sourceTree = "<group>"; };
 		0BFCC5CE2C2E8DAE00B5E0DB /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
 		0BFCC5D92C2E8F0100B5E0DB /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		0BFCC5DC2C2E8F1300B5E0DB /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -559,6 +563,8 @@
 		0BFCC5C32C2E8C4600B5E0DB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0BE7EA162C46A71E000C5358 /* waitingLody.json */,
+				0BE7EA182C46AE25000C5358 /* replyLody.json */,
 				0BFCC5C62C2E8C9C00B5E0DB /* Font */,
 				0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */,
 			);
@@ -996,6 +1002,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BE7EA192C46AE25000C5358 /* replyLody.json in Resources */,
+				0BE7EA172C46A71E000C5358 /* waitingLody.json in Resources */,
 				0B20F3E62C2C4DAB00F8D62D /* Assets.xcassets in Resources */,
 				0B20F3E92C2C4DAB00F8D62D /* Base in Resources */,
 				2CE3AB2F2C36E9F50042085A /* Pretendard-Regular.otf in Resources */,

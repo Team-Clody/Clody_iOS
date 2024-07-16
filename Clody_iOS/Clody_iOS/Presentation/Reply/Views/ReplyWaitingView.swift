@@ -9,10 +9,11 @@ import UIKit
 
 import SnapKit
 import Then
+import Lottie
 
 final class ReplyWaitingView: BaseView {
     
-    private let imageView = UIImageView()
+    let imageView = LottieAnimationView(name: "replyLody")
     let timeLabel = UILabel()
     private let introLabel = UILabel()
     let openButton = ClodyBottomButton(title: I18N.Reply.open)
@@ -21,8 +22,8 @@ final class ReplyWaitingView: BaseView {
         backgroundColor = .white
         
         imageView.do {
-            $0.image = .imgWritingReply
-            $0.contentMode = .scaleAspectFit
+            $0.play()
+            $0.loopMode = .loop
         }
         
         timeLabel.do {
@@ -71,7 +72,7 @@ final class ReplyWaitingView: BaseView {
 extension ReplyWaitingView {
     
     func setReplyArrivedView() {
-        imageView.image = .imgReplyArrived
+//        imageView.image = .imgReplyArrived
         introLabel.attributedText = UIFont.pretendardString(text: I18N.Reply.replyArrived, style: .body3_medium)
     }
 }
