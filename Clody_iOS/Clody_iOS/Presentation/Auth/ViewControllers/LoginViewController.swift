@@ -21,7 +21,7 @@ final class LoginViewController: UIViewController {
     private let disposeBag = DisposeBag()
     
     // MARK: - UI Components
-     
+    
     private let rootView = LoginView()
     
     // MARK: - Life Cycles
@@ -39,11 +39,11 @@ final class LoginViewController: UIViewController {
         setUI()
     }
 }
-
+    
 // MARK: - Extensions
 
 private extension LoginViewController {
-
+    
     func bindViewModel() {
         let input = LoginViewModel.Input(kakaoLoginButtonTapEvent: rootView.kakaoLoginButton.rx.tap.asSignal())
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
@@ -62,7 +62,7 @@ private extension LoginViewController {
             })
             .disposed(by: disposeBag)
     }
-
+    
     func setUI() {
         self.navigationController?.isNavigationBarHidden = true
     }
@@ -81,12 +81,12 @@ private extension LoginViewController {
                 } else {
                     if let user = user {
                         let provider = Providers.authProvider
-//                        provider.request(target: .login(data: LoginRequestDTO(platform: "kakao")),
-//                                         instance: BaseResponse<LoginResponseDTO>.self,
-//                                         completion: {
-//                            data in
-//                                print(data)
-//                            })
+                        //                        provider.request(target: .login(data: LoginRequestDTO(platform: "kakao")),
+                        //                                         instance: BaseResponse<LoginResponseDTO>.self,
+                        //                                         completion: {
+                        //                            data in
+                        //                                print(data)
+                        //                            })
                         self.viewModel.loginWithKakao { response in
                             self.navigationController?.pushViewController(TermsViewController(), animated: true)
                         }

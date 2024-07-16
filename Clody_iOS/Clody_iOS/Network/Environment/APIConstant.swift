@@ -14,16 +14,20 @@ struct APIConstants{
     static let auth = "Authorization"
     static let access = "accessToken"
     static let refresh = "refreshToken"
-    static let accessToken = "Bearer " + UserManager.shared.accessTokenValue
-    static let refreshToken = "Bearer " + UserManager.shared.refreshTokenValue
-    static let authCode = "Bearer " + ""
+//    static let accessToken = "Bearer " + UserManager.shared.accessTokenValue
+//    static let refreshToken = "Bearer " + UserManager.shared.refreshTokenValue
+//    static let authCode = "Bearer " + ""
+    static let accessToken = "Bearer " + ""
+    static let refreshToken = "Bearer " + ""
+    static let authCode = ""
+    // authcode = kakao.accessToken
 }
 
 extension APIConstants{
     static let authCodeHeader = [contentType: applicationJSON,
                                        auth : authCode]
     static let hasTokenHeader = [contentType: applicationJSON,
-                                     access : accessToken]
+                                       auth : accessToken]
     static let hasRefreshTokenHeader = [contentType: applicationJSON]
 }
 

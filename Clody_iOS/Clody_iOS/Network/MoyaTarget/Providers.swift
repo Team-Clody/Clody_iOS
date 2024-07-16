@@ -11,6 +11,8 @@ import Moya
 struct Providers {
     static let calendarProvider = NetworkProvider<CalendarRouter>(withAuth: true)
     static let authProvider = NetworkProvider<AuthRouter>(withAuth: true)
+    static let myPageProvider = NetworkProvider<MyPageRouter>(withAuth: true)
+    static let diaryRouter = NetworkProvider<DiaryRouter>(withAuth: true)
 }
 
 extension MoyaProvider {
