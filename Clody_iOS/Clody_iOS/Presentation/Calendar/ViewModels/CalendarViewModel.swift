@@ -26,13 +26,8 @@ final class CalendarViewModel: ViewModelType {
     struct Output {
         let dateLabel: Driver<String>
         let selectedDate: Driver<String>
-        let responseButtonStatus: Driver<String>
         let diaryData: Driver<[DailyDiary]>
         let calendarData: Driver<[MonthlyDiary]>
-        let selectedDateRelay: BehaviorRelay<Date>
-        let calendarDummyDataRelay: BehaviorRelay<CalendarMonthlyResponseDTO>
-        let dailyDiaryDummyDataRelay: BehaviorRelay<GetDiaryResponseDTO>
-        let responseButtonStatusRelay: BehaviorRelay<String>
         let changeToList: Signal<Void>
         let changeToSetting: Signal<Void>
         let showDeleteBottomSheet: Signal<Void>
@@ -44,7 +39,6 @@ final class CalendarViewModel: ViewModelType {
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
     let monthlyCalendarDataRelay = BehaviorRelay<CalendarMonthlyResponseDTO>(value: CalendarMonthlyResponseDTO(totalMonthlyCount: 0, diaries: [MonthlyDiary(diaryCount: 0, replyStatus: "")]))
     let dailyDiaryDataRelay = BehaviorRelay<GetDiaryResponseDTO>(value: GetDiaryResponseDTO(diaries: []))
-    let responseButtonStatusRelay = BehaviorRelay<String>(value: "")
     let selectedMonthRelay = BehaviorRelay<[String]>(value: ["2024", "7"])
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
@@ -61,15 +55,12 @@ final class CalendarViewModel: ViewModelType {
         input.tapDateCell
             .emit(onNext: { [weak self] date in
                 guard let self = self else { return }
+                let year = DateFormatter.string(from: date, format: "yyyy")
+                let month = DateFormatter.string(from: date, format: "m")
+                let day = DateFormatter.string(from: date, format: "d")
+                
                 self.selectedDateRelay.accept(date)
-//                self.loadDailyDummyData(for: date)
-            })
-            .disposed(by: disposeBag)
-        
-        input.tapResponseButton
-            .emit(onNext: { [weak self] in
-                guard let self = self else { return }
-//                self.responseButtonStatusRelay.accept(self)
+                self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
             })
             .disposed(by: disposeBag)
         
@@ -86,8 +77,6 @@ final class CalendarViewModel: ViewModelType {
                 return dateSelected
             }
             .asDriver(onErrorJustReturn: "Error")
-        
-        let responseButtonStatus = responseButtonStatusRelay.asDriver(onErrorJustReturn: "")
         
         let diaryData = dailyDiaryDataRelay
             .map { $0.diaries }
@@ -115,18 +104,20 @@ final class CalendarViewModel: ViewModelType {
                 return dateSelected
             }
             .asDriver(onErrorJustReturn: "Error")
+        
+        let status = input.tapResponseButton.asSignal()
+            .map { date -> String in
+                let dateSelected = ""
+                return dateSelected
+            }
+            .asDriver(onErrorJustReturn: "Error")
 
         
         return Output(
             dateLabel: dateLabel,
             selectedDate: selectedDate,
-            responseButtonStatus: responseButtonStatus,
             diaryData: diaryData,
             calendarData: calendarData,
-            selectedDateRelay: selectedDateRelay,
-            calendarDummyDataRelay: monthlyCalendarDataRelay,
-            dailyDiaryDummyDataRelay: dailyDiaryDataRelay,
-            responseButtonStatusRelay: responseButtonStatusRelay,
             changeToList: changeToList, 
             changeToSetting: changeToSetting, 
             showDeleteBottomSheet: showDeleteBottomSheet, 

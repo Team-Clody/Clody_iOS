@@ -51,6 +51,7 @@ final class CalendarDateCell: FSCalendarCell {
         newImageView.do {
             $0.image = .new
             $0.contentMode = .scaleAspectFit
+            $0.isHidden = true
         }
         
         backgroundSelectView.do {
@@ -98,6 +99,10 @@ final class CalendarDateCell: FSCalendarCell {
 extension CalendarDateCell {
     
     func configure(data: MonthlyDiary, dataStatus: CalendarCellState, date: String) {
+        if data.replyStatus == "READY_NOT_READ" {
+            newImageView.isHidden = false
+        }
+        
         switch dataStatus {
         case .today:
             clendarDateLabel.textColor = .black
@@ -113,6 +118,5 @@ extension CalendarDateCell {
             self.cloverImageView.image = UIImage(named: "clover\(data.diaryCount)")
         }
         self.clendarDateLabel.text = date
-//        self.clendarDateLabel.text = DateFormatter.string(from: label ?? Date(), format: "d")
     }
 }

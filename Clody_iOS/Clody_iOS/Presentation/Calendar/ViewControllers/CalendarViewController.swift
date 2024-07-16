@@ -89,14 +89,7 @@ private extension CalendarViewController {
             .drive(rootView.dailyDiaryCollectionView.rx.items(cellIdentifier: DailyCalendarCollectionViewCell.description(), cellType: DailyCalendarCollectionViewCell.self)) { index, model, cell in
                 cell.bindData(data: model.content, index: "\(index + 1).")
             }
-            .disposed(by: disposeBag)
-        
-        output.responseButtonStatus
-            .drive(onNext: { status in
-                print("Status: \(status)")
-                // 이후 status에 따른 분기 처리
-            })
-            .disposed(by: disposeBag)
+            .disposed(by: disposeBag)   
         
         output.calendarData
             .drive(onNext: { [weak self] data in
@@ -190,6 +183,7 @@ private extension CalendarViewController {
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissBottomSheet(animated: true, completion: {
                     self?.showClodyAlert(type: .deleteDiary, title: "정말 일기를 삭제할까요?", message: "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요.", rightButtonText: "삭제")
+                    // 삭제 API 구현
                 })
             })
             .disposed(by: disposeBag)
