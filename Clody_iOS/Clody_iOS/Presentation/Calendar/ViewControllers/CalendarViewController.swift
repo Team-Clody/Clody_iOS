@@ -69,7 +69,11 @@ private extension CalendarViewController {
             tapSettingButton: rootView.calendarNavigationView.settingButton.rx.tap.asSignal(),
             currentPageChanged: currentPageRelay.asSignal(),
             tapKebabButton:  rootView.kebabButton.rx.tap.asSignal(),
-            tapDateButton: rootView.calendarNavigationView.dateButton.rx.tap.asSignal()
+            tapDateButton: rootView.calendarNavigationView.dateButton.rx.tap.asSignal(),
+            tapDeleteButton: deleteBottomSheetView.deleteContainer.rx.tapGesture()
+                .when(.recognized)
+                .map { _ in }
+                .asSignal(onErrorJustReturn: ())
         )
 
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
@@ -108,6 +112,7 @@ private extension CalendarViewController {
         output.selectedDate
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
+                rootView.mainCalendarView.reloadData()
             })
             .disposed(by: disposeBag)
         
@@ -160,6 +165,13 @@ private extension CalendarViewController {
 //                self?.viewModel.responseButtonStatusRelay.accept(self?.viewModel.dailyDiaryDummyDataRelay.value.status ?? "")
             }
             .disposed(by: disposeBag)
+        
+        output.diaryDeleted
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                // 필요한 후처리
+            })
+            .disposed(by: disposeBag)
     }
     
     func setDelegate() {
@@ -188,7 +200,7 @@ private extension CalendarViewController {
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissBottomSheet(animated: true, completion: {
                     self?.showClodyAlert(type: .deleteDiary, title: "정말 일기를 삭제할까요?", message: "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요.", rightButtonText: "삭제")
-                    // 삭제 API 구현
+                    
                 })
             })
             .disposed(by: disposeBag)

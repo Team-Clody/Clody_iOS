@@ -21,6 +21,7 @@ final class CalendarViewModel: ViewModelType {
         let currentPageChanged: Signal<Date>
         let tapKebabButton: Signal<Void>
         let tapDateButton: Signal<Void>
+        let tapDeleteButton: Signal<Void>
     }
     
     struct Output {
@@ -35,6 +36,7 @@ final class CalendarViewModel: ViewModelType {
         let changeNavigationDate: Driver<String>
         let cloverCount: Driver<Int>
         let currentPage: Driver<Date>
+        let diaryDeleted: Signal<Void>
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
@@ -73,6 +75,13 @@ final class CalendarViewModel: ViewModelType {
                 let year = Calendar.current.component(.year, from: date)
                 let month = Calendar.current.component(.month, from: date)
                 self.selectedMonthRelay.accept(["\(year)", "\(month)"])
+            })
+            .disposed(by: disposeBag)
+        
+        input.tapDeleteButton
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.deleteDiary()
             })
             .disposed(by: disposeBag)
         
@@ -125,6 +134,8 @@ final class CalendarViewModel: ViewModelType {
             .asDriver(onErrorJustReturn: "Error")
         
         let currentPage = currentPageRelay.asDriver(onErrorJustReturn: Date())
+        
+        let diaryDeleted = input.tapDeleteButton.asSignal()
 
         return Output(
             dateLabel: dateLabel,
@@ -137,7 +148,8 @@ final class CalendarViewModel: ViewModelType {
             showPickerView: showPickerView, 
             changeNavigationDate: changeNavigationDate,
             cloverCount: cloverCount,
-            currentPage: currentPage
+            currentPage: currentPage,
+            diaryDeleted: diaryDeleted
         )
     }
 }
@@ -179,6 +191,15 @@ extension CalendarViewModel {
             guard let data = data.data else { return }
             
             self.dailyDiaryDataRelay.accept(data)
+        })
+    }
+    
+    func deleteDiary() {
+        let provider = Providers.diaryRouter
+
+        provider.request(target: .deleteDiary(year: 2024, month: 7, date: 16), instance: BaseResponse<EmptyResponseDTO>.self, completion: { data in
+            guard let data = data.data else { return }
+            
         })
     }
 }

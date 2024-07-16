@@ -39,7 +39,7 @@ final class CalendarDateCell: FSCalendarCell {
     
     func setStyle() {
         cloverImageView.do {
-            $0.image = .clover1
+            $0.image = .clover0
             $0.contentMode = .scaleAspectFit
         }
         
