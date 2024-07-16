@@ -28,7 +28,7 @@ final class CalendarViewController: UIViewController {
     
     private let tapDateRelay = PublishRelay<Date>()
     private let currentPageRelay = PublishRelay<Date>()
-    private var calendarData: [CalendarCellModel] = []
+    private var calendarData: [MonthlyDiary] = [MonthlyDiary(diaryCount: 0, replyStatus: "")]
     
     // MARK: - UI Components
     
@@ -87,7 +87,7 @@ private extension CalendarViewController {
         
         output.diaryData
             .drive(rootView.dailyDiaryCollectionView.rx.items(cellIdentifier: DailyCalendarCollectionViewCell.description(), cellType: DailyCalendarCollectionViewCell.self)) { index, model, cell in
-                cell.bindData(data: model, index: "\(index + 1).")
+                cell.bindData(data: model.content, index: "\(index + 1).")
             }
             .disposed(by: disposeBag)
         
@@ -150,9 +150,16 @@ private extension CalendarViewController {
             })
             .disposed(by: disposeBag)
         
+        output.cloverCount
+            .drive(onNext: { [weak self] data in
+                guard let self = self else { return }
+                rootView.cloverLabel.text = "클로버 \(data)개"
+            })
+            .disposed(by: disposeBag)
+        
         rootView.calendarButton.rx.tap
             .bind { [weak self] in
-                self?.viewModel.responseButtonStatusRelay.accept(self?.viewModel.dailyDiaryDummyDataRelay.value.status ?? "")
+//                self?.viewModel.responseButtonStatusRelay.accept(self?.viewModel.dailyDiaryDummyDataRelay.value.status ?? "")
             }
             .disposed(by: disposeBag)
     }
@@ -264,22 +271,26 @@ private extension CalendarViewController {
 extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
-        guard let cell = calendar.dequeueReusableCell(withIdentifier: CalendarDateCell.description(), for: date, at: position) as? CalendarDateCell else { return FSCalendarCell() }
-        
-        let data = calendarData.first { DateFormatter.string(from: date, format: "yyyy-MM-dd") == $0.date }
-        let dateStatus: CalendarCellState = {
-            if Calendar.current.isDateInToday(date) {
-                return .today
-            } else if Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value) {
-                return .selected
-            } else {
-                return .normal
-            }
-        }()
-        
-        cell.configure(data: data ?? CalendarCellModel(date: "", cloverStatus: ""), dataStatus: dateStatus)
-        return cell
-    }
+            guard let cell = calendar.dequeueReusableCell(withIdentifier: CalendarDateCell.description(), for: date, at: position) as? CalendarDateCell else { return FSCalendarCell() }
+            
+            let day = Calendar.current.component(.day, from: date) - 1
+            let data: MonthlyDiary? = day >= 0 && day < calendarData.count ? calendarData[day] : nil
+            
+            let dateStatus: CalendarCellState = {
+                if Calendar.current.isDateInToday(date) {
+                    return .today
+                } else if Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value) {
+                    return .selected
+                } else {
+                    return .normal
+                }
+            }()
+            
+            let dayString = String(day + 1)
+            
+            cell.configure(data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: ""), dataStatus: dateStatus, date: dayString)
+            return cell
+        }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         tapDateRelay.accept(date)

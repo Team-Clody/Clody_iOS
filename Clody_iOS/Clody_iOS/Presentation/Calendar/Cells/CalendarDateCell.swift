@@ -97,20 +97,22 @@ final class CalendarDateCell: FSCalendarCell {
 
 extension CalendarDateCell {
     
-    func configure(data: CalendarCellModel, dataStatus: CalendarCellState) {
+    func configure(data: MonthlyDiary, dataStatus: CalendarCellState, date: String) {
         switch dataStatus {
         case .today:
             clendarDateLabel.textColor = .black
             backgroundSelectView.isHidden = true
+            self.cloverImageView.image = .cloverToday
         case .selected:
             clendarDateLabel.textColor = .white
             backgroundSelectView.isHidden = false
+            self.cloverImageView.image = UIImage(named: "clover\(data.diaryCount)")
         case .normal:
             clendarDateLabel.textColor = .grey05
             backgroundSelectView.isHidden = true
+            self.cloverImageView.image = UIImage(named: "clover\(data.diaryCount)")
         }
-        self.cloverImageView.image = UIImage(named: "clover\(data.cloverStatus)")
-        let label = DateFormatter.date(from: data.date)
-        self.clendarDateLabel.text = DateFormatter.string(from: label ?? Date(), format: "d")
+        self.clendarDateLabel.text = date
+//        self.clendarDateLabel.text = DateFormatter.string(from: label ?? Date(), format: "d")
     }
 }

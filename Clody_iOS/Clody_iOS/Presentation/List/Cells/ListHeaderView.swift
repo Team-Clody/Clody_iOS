@@ -38,7 +38,7 @@ final class ListHeaderView: UICollectionReusableView {
         self.backgroundColor = .clear
         
         cloverImageView.do {
-            $0.image = .cloverNone
+            $0.image = .clover0
         }
         
         dateLabel.do {

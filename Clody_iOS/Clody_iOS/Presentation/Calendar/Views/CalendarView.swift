@@ -19,7 +19,7 @@ final class CalendarView: BaseView {
     let calendarNavigationView = ClodyNavigationBar(type: .calendar, date: "2024년 00월")
     private let contentView = UIView()
     private let cloverBackgroundView = UIView()
-    private let cloverLabel = UILabel()
+    let cloverLabel = UILabel()
     let mainCalendarView = FSCalendar()
     let dateLabel = UILabel()
     private let dayLabel = UILabel()
