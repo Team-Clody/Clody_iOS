@@ -15,11 +15,13 @@ final class NicknameViewController: UIViewController {
     
     // MARK: - Properties
     
+    private let viewModel = NicknameViewModel()
     private let disposeBag = DisposeBag()
     
     // MARK: - UI Components
      
     private let rootView = NicknameView()
+    private lazy var clodyTextField = rootView.textField
     
     // MARK: - Life Cycles
     
@@ -42,6 +44,44 @@ final class NicknameViewController: UIViewController {
 private extension NicknameViewController {
 
     func bindViewModel() {
+        let textFieldDidEndEditing = clodyTextField.textField.rx.controlEvent(.editingDidEnd)
+            .map {
+                guard let text = self.clodyTextField.textField.text else { return false }
+                return !text.isEmpty
+            }
+            .asSignal(onErrorJustReturn: false)
+        
+        let input = NicknameViewModel.Input(
+            textFieldInputEvent: clodyTextField.textField.rx.text.orEmpty.asSignal(onErrorJustReturn: ""),
+            textFieldDidBeginEditing: clodyTextField.textField.rx.controlEvent(.editingDidBegin).asSignal(),
+            textFieldDidEndEditing: textFieldDidEndEditing,
+            nextButtonTapEvent: rootView.nextButton.rx.tap.asSignal()
+        )
+        let output = viewModel.transform(from: input, disposeBag: disposeBag)
+        
+        output.charCountDidChange
+            .drive(onNext: { text in
+                self.clodyTextField.count = text.count
+            })
+            .disposed(by: disposeBag)
+        
+        output.isTextFieldFocused
+            .drive(onNext: { isFocused in
+                self.clodyTextField.setFocusState(to: isFocused)
+            })
+            .disposed(by: disposeBag)
+        
+        output.nextButtonIsEnabled
+            .drive(onNext: { isEnabled in
+                self.rootView.nextButton.setEnabledState(to: isEnabled)
+            })
+            .disposed(by: disposeBag)
+        
+        output.pushViewController
+            .drive(onNext: {
+                self.navigationController?.pushViewController(DiaryNotificationViewController(), animated: true)
+            })
+            .disposed(by: disposeBag)
     }
 
     func setUI() {

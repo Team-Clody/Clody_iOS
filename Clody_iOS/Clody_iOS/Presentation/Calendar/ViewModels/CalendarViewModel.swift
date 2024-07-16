@@ -16,7 +16,11 @@ final class CalendarViewModel: ViewModelType {
         let viewDidLoad: Observable<Void>
         let tapDateCell: Signal<Date>
         let tapResponseButton: Signal<Void>
+        let tapListButton: Signal<Void>
+        let tapSettingButton: Signal<Void>
         let currentPageChanged: Signal<Date>
+        let tapKebabButton: Signal<Void>
+        let tapDateButton: Signal<Void>
     }
     
     struct Output {
@@ -29,12 +33,18 @@ final class CalendarViewModel: ViewModelType {
         let calendarDummyDataRelay: BehaviorRelay<CalendarModel>
         let dailyDiaryDummyDataRelay: BehaviorRelay<CalendarDailyModel>
         let responseButtonStatusRelay: BehaviorRelay<String>
+        let changeToList: Signal<Void>
+        let changeToSetting: Signal<Void>
+        let showDeleteBottomSheet: Signal<Void>
+        let showPickerView: Signal<Void>
+        let changeNavigationDate: Driver<String>
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
     let calendarDummyDataRelay = BehaviorRelay<CalendarModel>(value: CalendarModel(month: "", cellData: [CalendarCellModel(date: "", cloverStatus: "")]))
     let dailyDiaryDummyDataRelay = BehaviorRelay<CalendarDailyModel>(value: CalendarDailyModel(date: "", status: "", diary: []))
     let responseButtonStatusRelay = BehaviorRelay<String>(value: "")
+    let selectedMonthRelay = BehaviorRelay<[String]>(value: ["2024", "7"])
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
@@ -86,6 +96,22 @@ final class CalendarViewModel: ViewModelType {
             .map { $0.cellData }
             .asDriver(onErrorJustReturn: [])
         
+        let changeToList = input.tapListButton.asSignal()
+        
+        let changeToSetting = input.tapSettingButton.asSignal()
+        
+        let showDeleteBottomSheet = input.tapKebabButton.asSignal()
+        
+        let showPickerView = input.tapDateButton.asSignal()
+        
+        let changeNavigationDate = selectedMonthRelay
+            .map { date -> String in
+                let dateSelected = "\(date[0])년 \(date[1])월"
+                return dateSelected
+            }
+            .asDriver(onErrorJustReturn: "Error")
+
+        
         return Output(
             dateLabel: dateLabel,
             selectedDate: selectedDate,
@@ -95,7 +121,12 @@ final class CalendarViewModel: ViewModelType {
             selectedDateRelay: selectedDateRelay,
             calendarDummyDataRelay: calendarDummyDataRelay,
             dailyDiaryDummyDataRelay: dailyDiaryDummyDataRelay,
-            responseButtonStatusRelay: responseButtonStatusRelay
+            responseButtonStatusRelay: responseButtonStatusRelay,
+            changeToList: changeToList, 
+            changeToSetting: changeToSetting, 
+            showDeleteBottomSheet: showDeleteBottomSheet, 
+            showPickerView: showPickerView, 
+            changeNavigationDate: changeNavigationDate
         )
     }
 }
@@ -115,6 +146,8 @@ extension CalendarViewModel {
     private func loadDailyDummyData(for date: Date) {
         let dateString = DateFormatter.string(from: date, format: "yyyy-MM-dd")
         let dailyData = CalendarDailyModel.dummy(dateString: dateString)
+        // 데이터를 받아온 시점 칸의 개수 * 최대 높이 + 캘린더 높이 막 이런 식으로 remake를 해주기
+        // 뷰컨으로 값 넘겨서 remake
         self.dailyDiaryDummyDataRelay.accept(dailyData)
     }
 }

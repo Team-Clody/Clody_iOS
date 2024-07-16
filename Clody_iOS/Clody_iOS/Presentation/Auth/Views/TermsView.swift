@@ -16,15 +16,15 @@ final class TermsView: BaseView {
     
     private let navigationBar = ClodyNavigationBar(type: .normal)
     private let introLabel = UILabel()
-    private let allAgreeTextButton = UIButton()
-    private let allAgreeIconButton = UIButton()
+    let allAgreeTextButton = UIButton()
+    let allAgreeIconButton = UIButton()
     private let divider = UIView()
     private let requiredTermsLabel = UILabel()
-    private let viewTermsDetailButton = UIButton()
-    private let agreeTermsIconButton = UIButton()
+    let viewTermsDetailButton = UIButton()
+    let agreeTermsIconButton = UIButton()
     private let requiredPrivacyLabel = UILabel()
-    private let viewPrivacyDetailButton = UIButton()
-    private let agreePrivacyIconButton = UIButton()
+    let viewPrivacyDetailButton = UIButton()
+    let agreePrivacyIconButton = UIButton()
     let nextButton = ClodyBottomButton(title: I18N.Common.next)
     
     // MARK: - Methods
@@ -49,6 +49,7 @@ final class TermsView: BaseView {
         
         allAgreeIconButton.do {
             $0.setImage(.icBigCheckWhite, for: .normal)
+            $0.setImage(.icBigCheckYellow, for: .selected)
         }
         
         divider.do {
@@ -89,19 +90,17 @@ final class TermsView: BaseView {
         
         agreeTermsIconButton.do {
             $0.setImage(.icSmallCheckWhite, for: .normal)
+            $0.setImage(.icSmallCheckYellow, for: .selected)
         }
         
         agreePrivacyIconButton.do {
             $0.setImage(.icSmallCheckWhite, for: .normal)
+            $0.setImage(.icSmallCheckYellow, for: .selected)
         }
         
         nextButton.do {
             $0.isEnabled = false
-            $0.setTitleColor(.grey01, for: .normal)
-            $0.setTitleColor(.grey06, for: .disabled)
-            $0.setAttributedTitle(UIFont.pretendardString(text: I18N.Common.next, style: .body2_semibold), for: .normal)
             $0.backgroundColor = .lightYellow
-            $0.makeCornerRound(radius: 10)
         }
     }
     

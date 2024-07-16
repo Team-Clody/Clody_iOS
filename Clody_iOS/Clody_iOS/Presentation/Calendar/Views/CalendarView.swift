@@ -16,18 +16,20 @@ final class CalendarView: BaseView {
     // MARK: - UI Components
     
     private let scrollView = UIScrollView()
-    private let calendarNavigationView = UIView()
+    let calendarNavigationView = ClodyNavigationBar(type: .calendar, date: "2024년 00월")
     private let contentView = UIView()
     private let cloverBackgroundView = UIView()
     private let cloverLabel = UILabel()
     let mainCalendarView = FSCalendar()
     let dateLabel = UILabel()
     private let dayLabel = UILabel()
-    private lazy var kebabButton = UIButton()
+    lazy var kebabButton = UIButton()
     lazy var dailyDiaryCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createCollectionViewLayout()
     )
+    let emptyDiaryView = UIView()
+    let emptyDiaryLabel = UILabel()
     lazy var calendarButton = UIButton()
     
     
@@ -35,10 +37,6 @@ final class CalendarView: BaseView {
     
     override func setStyle() {
         self.backgroundColor = .white
-        
-        calendarNavigationView.do {
-            $0.backgroundColor = .red
-        }
         
         calendarButton.do {
             $0.makeCornerRound(radius: 10)
@@ -95,13 +93,20 @@ final class CalendarView: BaseView {
         kebabButton.do {
             $0.setImage(.kebob, for: .normal)
         }
+        
+        emptyDiaryView.do {
+            $0.isHidden = true
+        }
+        
+        emptyDiaryLabel.do {
+            $0.attributedText = UIFont.pretendardString(text: "아직 감사 일기가 없어요!", style: .body3_regular)
+            $0.textColor = .grey05
+        }
     }
     
     override func setHierarchy() {
         self.addSubviews(scrollView, calendarButton)
-        
         scrollView.addSubview(contentView)
-        
         contentView.addSubviews(
             calendarNavigationView,
             cloverBackgroundView,
@@ -109,21 +114,37 @@ final class CalendarView: BaseView {
             dateLabel,
             dayLabel,
             kebabButton,
-            dailyDiaryCollectionView
+            dailyDiaryCollectionView,
+            emptyDiaryView
         )
+        
+        emptyDiaryView.addSubview(emptyDiaryLabel)
         
         cloverBackgroundView.addSubview(cloverLabel)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        adjustScrollViewContentSize()
+    }
+    
+    private func adjustScrollViewContentSize() {
+        dailyDiaryCollectionView.collectionViewLayout.invalidateLayout()
+        dailyDiaryCollectionView.layoutIfNeeded()
+        
+        let contentHeight = dailyDiaryCollectionView.contentSize.height + 612
+        scrollView.contentSize = CGSize(width: scrollView.frame.width, height: contentHeight)
+    }
+    
     override func setLayout() {
         scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.edges.equalTo(self.safeAreaLayoutGuide)
         }
         
         contentView.snp.makeConstraints {
-            $0.width.equalToSuperview()
-            $0.centerX.top.bottom.equalToSuperview()
-            $0.height.equalTo(999)
+            $0.edges.equalToSuperview()
+            $0.height.equalTo(1400)
         }
         
         calendarNavigationView.snp.makeConstraints {
@@ -175,6 +196,17 @@ final class CalendarView: BaseView {
             $0.horizontalEdges.equalTo(mainCalendarView)
             $0.top.equalTo(dayLabel.snp.bottom).offset(14)
             $0.bottom.equalToSuperview()
+        }
+        
+        emptyDiaryView.snp.makeConstraints {
+            $0.horizontalEdges.equalTo(mainCalendarView)
+            $0.top.equalTo(dayLabel.snp.bottom).offset(14)
+            $0.bottom.equalToSuperview()
+        }
+        
+        emptyDiaryLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(59)
         }
     }
     

@@ -33,6 +33,8 @@ final class CalendarViewController: UIViewController {
     // MARK: - UI Components
     
     private let rootView = CalendarView()
+    private let deleteBottomSheetView = DeleteBottomSheetView()
+    private let datePickerView = DatePickeView()
     
     // MARK: - Life Cycles
     
@@ -49,6 +51,8 @@ final class CalendarViewController: UIViewController {
         setDelegate()
         bindViewModel()
         setStyle()
+        setupDeleteBottomSheet()
+        setupPickerView()
     }
 }
 
@@ -61,13 +65,24 @@ private extension CalendarViewController {
             viewDidLoad: Observable.just(()),
             tapDateCell: tapDateRelay.asSignal(),
             tapResponseButton: rootView.calendarButton.rx.tap.asSignal(),
-            currentPageChanged: currentPageRelay.asSignal()
+            tapListButton: rootView.calendarNavigationView.listButton.rx.tap.asSignal(),
+            tapSettingButton: rootView.calendarNavigationView.settingButton.rx.tap.asSignal(),
+            currentPageChanged: currentPageRelay.asSignal(),
+            tapKebabButton:  rootView.kebabButton.rx.tap.asSignal(),
+            tapDateButton: rootView.calendarNavigationView.dateButton.rx.tap.asSignal()
         )
-        
+
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
         output.dateLabel
             .drive(rootView.dateLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        output.diaryData
+            .drive(onNext: { [weak self] data in
+                guard let self = self else { return }
+                self.rootView.emptyDiaryView.isHidden = data.count != 0
+            })
             .disposed(by: disposeBag)
         
         output.diaryData
@@ -98,6 +113,43 @@ private extension CalendarViewController {
             })
             .disposed(by: disposeBag)
         
+        output.changeToList
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                let listViewController = ListViewController()
+                self.navigationController?.pushViewController(listViewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        output.changeToSetting
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                let myPageViewController = MyPageViewController()
+                self.navigationController?.pushViewController(myPageViewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        output.showDeleteBottomSheet
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.presentBottomSheet()
+            })
+            .disposed(by: disposeBag)
+        
+        output.showPickerView
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.presentPickerView()
+            })
+            .disposed(by: disposeBag)
+        
+        output.changeNavigationDate
+            .drive(onNext: { [weak self] data in
+                guard let self = self else { return }
+                rootView.calendarNavigationView.dateButton.titleLabel?.text = data
+            })
+            .disposed(by: disposeBag)
+        
         rootView.calendarButton.rx.tap
             .bind { [weak self] in
                 self?.viewModel.responseButtonStatusRelay.accept(self?.viewModel.dailyDiaryDummyDataRelay.value.status ?? "")
@@ -117,6 +169,94 @@ private extension CalendarViewController {
     func registerCells() {
         rootView.mainCalendarView.register(CalendarDateCell.self, forCellReuseIdentifier: CalendarDateCell.description())
         rootView.dailyDiaryCollectionView.register(DailyCalendarCollectionViewCell.self, forCellWithReuseIdentifier: DailyCalendarCollectionViewCell.description())
+    }
+    
+    private func setupDeleteBottomSheet() {
+        self.view.addSubview(deleteBottomSheetView)
+        deleteBottomSheetView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        deleteBottomSheetView.isHidden = true
+        
+        deleteBottomSheetView.deleteContainer.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissBottomSheet(animated: true, completion: {
+                    self?.showClodyAlert(type: .deleteDiary, title: "정말 일기를 삭제할까요?", message: "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요.", rightButtonText: "삭제")
+                })
+            })
+            .disposed(by: disposeBag)
+        
+        deleteBottomSheetView.dimmedView.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissBottomSheet(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupPickerView() {
+        self.view.addSubview(datePickerView)
+        datePickerView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        datePickerView.isHidden = true
+        
+        datePickerView.completeButton.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: {
+                [weak self] _ in
+                self?.dismissPickerView(animated: true,
+                                        completion: {
+                    // 로직
+                    let selectedYearIndex = self?.datePickerView.pickerView.selectedRow(inComponent: 0) ?? 0
+                    let selectedMonthIndex = self?.datePickerView.pickerView.selectedRow(inComponent: 1) ?? 0
+                    
+                    guard let selectedYear = self?.datePickerView.pickerView.years[selectedYearIndex] else {
+                        return
+                    }
+                    guard let selectedMonth = self?.datePickerView.pickerView.months[selectedMonthIndex] else {
+                        return
+                    }
+                    
+                    let selectedMonthYear = ["\(selectedYear)", "\(selectedMonth)"]
+                    self?.viewModel.selectedMonthRelay.accept(selectedMonthYear)
+                })
+            })
+            .disposed(by: disposeBag)
+        
+        datePickerView.dimmedView.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissPickerView(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func presentBottomSheet() {
+        deleteBottomSheetView.isHidden = false
+        deleteBottomSheetView.dimmedView.alpha = 0.0
+        deleteBottomSheetView.animateShow()
+    }
+    
+    private func presentPickerView() {
+        datePickerView.isHidden = false
+        datePickerView.dimmedView.alpha = 0.0
+        datePickerView.animateShow()
+    }
+    
+    private func dismissBottomSheet(animated: Bool, completion: (() -> Void)?) {
+        deleteBottomSheetView.animateHide {
+            self.deleteBottomSheetView.isHidden = true
+            completion?()
+        }
+    }
+    
+    private func dismissPickerView(animated: Bool, completion: (() -> Void)?) {
+        datePickerView.animateHide {
+            self.datePickerView.isHidden = true
+            completion?()
+        }
     }
 }
 

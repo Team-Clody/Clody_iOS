@@ -15,8 +15,15 @@ final class OnBoardingViewController: UIViewController {
     
     // MARK: - Properties
     
+    private let viewModel = OnBoardingViewModel()
     private let disposeBag = DisposeBag()
     private lazy var pageControl = rootView.pageControl
+    private var currentPageIndex = 0 {
+        didSet {
+            setPage(from: oldValue, to: currentPageIndex)
+            setButtonTitle()
+        }
+    }
     
     // MARK: - UI Components
      
@@ -47,6 +54,28 @@ final class OnBoardingViewController: UIViewController {
 private extension OnBoardingViewController {
 
     func bindViewModel() {
+        let input = OnBoardingViewModel.Input(
+            nextButtonTapEvent: rootView.nextButton.rx.tap.asSignal()
+        )
+        let output = viewModel.transform(from: input, disposeBag: disposeBag)
+        
+        output.changePageIndex
+            .drive(onNext: {
+                if self.currentPageIndex == 3 {
+                    output.pushViewController.accept(())
+                } else {
+                    self.currentPageIndex = self.currentPageIndex + 1
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        output.pushViewController
+            .subscribe(onNext: {
+                if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                    sceneDelegate.changeRootViewController(CalendarViewController(), animated: true)
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
     func setUI() {
@@ -78,6 +107,30 @@ private extension OnBoardingViewController {
         guard 0 <= newIndex && newIndex < viewControllers.count else { return }
         let direction: UIPageViewController.NavigationDirection = currentIndex < newIndex ? .forward : .reverse
         pageViewController.setViewControllers([viewControllers[newIndex]], direction: direction, animated: true)
+        rootView.pageControl.currentPage = newIndex
+        
+    }
+    
+    private func setButtonTitle() {
+        if currentPageIndex == 3 {
+            rootView.nextButton.setAttributedTitle(
+                UIFont.pretendardString(
+                    text: I18N.Auth.start,
+                    style: .body2_semibold,
+                    color: .grey01
+                ),
+                for: .normal
+            )
+        } else {
+            rootView.nextButton.setAttributedTitle(
+                UIFont.pretendardString(
+                    text: I18N.Common.next,
+                    style: .body2_semibold,
+                    color: .grey01
+                ),
+                for: .normal
+            )
+        }
     }
 }
 
@@ -88,6 +141,7 @@ extension OnBoardingViewController: UIPageViewControllerDelegate {
             let viewController = pageViewController.viewControllers?.first,
             let index = viewControllers.firstIndex(of: viewController) {
             pageControl.currentPage = index
+            currentPageIndex = index
         }
     }
 }
