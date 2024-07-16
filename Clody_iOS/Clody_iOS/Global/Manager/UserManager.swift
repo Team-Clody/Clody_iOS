@@ -51,14 +51,9 @@ extension UserManager {
         self.refreshToken = refreshToken
     }
     
-    func updateAuthCode(_ authCode: String) {
-        self.authCode = authCode
-    }
-    
     func clearAll() {
         self.accessToken = nil
         self.refreshToken = nil
-        self.authCode = nil
         self.idToken = nil
         self.platForm = nil
     }

@@ -28,8 +28,13 @@ final class AuthInterceptor: RequestInterceptor {
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
         print("-------🔧retry 시작🔧-------")
         
-        guard let response = request.response, response.statusCode == 401, request.retryCount < retryLimit else {
+        if request.retryCount < retryLimit {
             print("🚨재시도 횟수가 너무 많습니다🚨")
+            completion(.doNotRetryWithError(error))
+            return
+        }
+        
+        guard let response = request.response, response.statusCode == 401 else {
             completion(.doNotRetryWithError(error))
             return
         }
@@ -38,10 +43,9 @@ final class AuthInterceptor: RequestInterceptor {
         provider.request(.tokenRefresh) { result in
             switch result {
             case .success(let response):
-                if response.statusCode == 200, let data = try? response.map(BaseResponse<EmptyResponseDTO>.self), data.status == 200 {
-                    // 갱신된 토큰을 저장하는 로직 추가
+                if response.statusCode == 200, let data = try? response.map(BaseResponse<TokenRefreshResponseDTO>.self), data.status == 200 {
                     if let tokenData = data.data {
-                        // UserManager.shared.updateToken(tokenData.token.accessToken, tokenData.token.refreshToken)
+                         UserManager.shared.updateToken(tokenData.accessToken, tokenData.refreshToken)
                         print("🪄토큰 재발급에 성공했습니다🪄")
                         completion(.retry)
                     } else {
