@@ -38,7 +38,7 @@ final class LoginViewController: UIViewController {
         setUI()
         
         rootView.kakaoLoginButton.rx.tap
-            .bind(onNext: testAPI)
+            .bind(onNext: handleKakaoLogin)
             .disposed(by: disposeBag)
     }
 }
@@ -67,11 +67,11 @@ private extension LoginViewController {
 func testAPI() {
     let provider = Providers.calendarProvider
     
-    provider.request(target: .getDailyDiary(year: 2023, month: 1, dat: 22), instance: BaseResponse<CalendarDiaryResponseDTO>.self) { data in
-            print(data)
-        
-        print(data.message)
-    }
+//    provider.request(target: .postDiary(data: PostDiaryRequestDTO(date: "2024-03-01", cotent: ["혁진이형 파이팅"])), instance: BaseResponse<PostDiaryResponseDTO>.self) { data in
+//            print(data)
+//        
+//        print(data.message)
+//    }
 }
 
 
