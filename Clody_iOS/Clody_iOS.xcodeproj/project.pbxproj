@@ -119,7 +119,6 @@
 		95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F732C3C765C00023C7B /* ClodyTextField.swift */; };
 		95310F762C3C97A800023C7B /* ClodyBottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F752C3C97A800023C7B /* ClodyBottomButton.swift */; };
 		95310F782C3D6DF800023C7B /* ClodyAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F772C3D6DF800023C7B /* ClodyAlert.swift */; };
-		95310F7A2C3D8C8B00023C7B /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F792C3D8C8B00023C7B /* UIViewController+.swift */; };
 		95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F7B2C3DD36100023C7B /* ClodyPickerView.swift */; };
 		95310F7F2C3FF44E00023C7B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F7E2C3FF44E00023C7B /* LoginViewController.swift */; };
 		95310F832C3FF53400023C7B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F822C3FF53400023C7B /* LoginView.swift */; };
@@ -251,7 +250,6 @@
 		95310F732C3C765C00023C7B /* ClodyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyTextField.swift; sourceTree = "<group>"; };
 		95310F752C3C97A800023C7B /* ClodyBottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyBottomButton.swift; sourceTree = "<group>"; };
 		95310F772C3D6DF800023C7B /* ClodyAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyAlert.swift; sourceTree = "<group>"; };
-		95310F792C3D8C8B00023C7B /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		95310F7B2C3DD36100023C7B /* ClodyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyPickerView.swift; sourceTree = "<group>"; };
 		95310F7E2C3FF44E00023C7B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		95310F822C3FF53400023C7B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -559,7 +557,6 @@
 				0BFCC5EF2C2F852D00B5E0DB /* UIStackView+.swift */,
 				2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */,
 				0B190F0A2C380F5300D46CFC /* DateFormatter+.swift */,
-				95310F792C3D8C8B00023C7B /* UIViewController+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1148,7 +1145,6 @@
 				2CE6378D2C3D56A700B6EC6D /* AccountView.swift in Sources */,
 				2CC0CE732C3C0ED9001F3E6B /* MyPageTableViewCell.swift in Sources */,
 				0B72DA342C46C18F00292173 /* NotificationCell.swift in Sources */,
-				95310F7A2C3D8C8B00023C7B /* UIViewController+.swift in Sources */,
 				95310FA62C41D97E00023C7B /* SplashViewController.swift in Sources */,
 				95310F882C40043800023C7B /* ScreenUtils.swift in Sources */,
 				95310FA02C410DE200023C7B /* DiaryNotificationView.swift in Sources */,
