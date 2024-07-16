@@ -26,3 +26,12 @@ final class LoginViewModel: ViewModelType {
         return Output(loginWithKakao: loginWithKakao)
     }
 }
+
+extension LoginViewModel {
+    
+    func loginWithKakao(completion: @escaping (Any) -> ()) {
+//        AuthAPI.shared.loginWithKakao() { response in
+//            completion(response as Any)
+//        }
+    }
+}

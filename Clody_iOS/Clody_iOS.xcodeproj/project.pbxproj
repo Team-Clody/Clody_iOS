@@ -15,6 +15,7 @@
 		0B20F3E12C2C4DAA00F8D62D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B20F3E02C2C4DAA00F8D62D /* ViewController.swift */; };
 		0B20F3E62C2C4DAB00F8D62D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */; };
 		0B20F3E92C2C4DAB00F8D62D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 0B20F3E82C2C4DAB00F8D62D /* Base */; };
+		0B4A1BB92C44E59B00E31EC4 /* DatePickeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BB82C44E59B00E31EC4 /* DatePickeView.swift */; };
 		0B4A1BBC2C453F8400E31EC4 /* AuthIntercepter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BBB2C453F8400E31EC4 /* AuthIntercepter.swift */; };
 		0B4A1BBE2C453F9600E31EC4 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BBD2C453F9600E31EC4 /* NetworkProvider.swift */; };
 		0B4A1BC02C453FB800E31EC4 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BBF2C453FB800E31EC4 /* BaseModel.swift */; };
@@ -35,7 +36,6 @@
 		0B4A1BE42C456CD100E31EC4 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 0B4A1BE32C456CD100E31EC4 /* KakaoSDKAuth */; };
 		0B4A1BE62C456CD100E31EC4 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 0B4A1BE52C456CD100E31EC4 /* KakaoSDKCommon */; };
 		0B4A1BE82C456CD100E31EC4 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 0B4A1BE72C456CD100E31EC4 /* KakaoSDKUser */; };
-		0B4A1BB92C44E59B00E31EC4 /* DatePickeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BB82C44E59B00E31EC4 /* DatePickeView.swift */; };
 		0B6C07372C3B99970054A0B0 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 0B6C07362C3B99970054A0B0 /* Differentiator */; };
 		0B6C07392C3B99970054A0B0 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 0B6C07382C3B99970054A0B0 /* RxDataSources */; };
 		0B6C07432C3DC2DE0054A0B0 /* ListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C07422C3DC2DE0054A0B0 /* ListModel.swift */; };
@@ -136,6 +136,7 @@
 		0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B20F3E82C2C4DAB00F8D62D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B20F3EA2C2C4DAB00F8D62D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B4A1BB82C44E59B00E31EC4 /* DatePickeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickeView.swift; sourceTree = "<group>"; };
 		0B4A1BBA2C453DC700E31EC4 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		0B4A1BBB2C453F8400E31EC4 /* AuthIntercepter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthIntercepter.swift; sourceTree = "<group>"; };
 		0B4A1BBD2C453F9600E31EC4 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
@@ -153,7 +154,6 @@
 		0B4A1BD92C45636300E31EC4 /* SignUpRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequestDTO.swift; sourceTree = "<group>"; };
 		0B4A1BDB2C4564E500E31EC4 /* SignUpResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponseDTO.swift; sourceTree = "<group>"; };
 		0B4A1BDD2C45686300E31EC4 /* EmptyResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponseDTO.swift; sourceTree = "<group>"; };
-		0B4A1BB82C44E59B00E31EC4 /* DatePickeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickeView.swift; sourceTree = "<group>"; };
 		0B6C07422C3DC2DE0054A0B0 /* ListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListModel.swift; sourceTree = "<group>"; };
 		0B6C07442C3DC2E90054A0B0 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0B6C07462C3DC2F40054A0B0 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
@@ -249,7 +249,6 @@
 				0B6C07372C3B99970054A0B0 /* Differentiator in Frameworks */,
 				0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */,
 				0BFCC5BD2C2E892300B5E0DB /* RxRelay in Frameworks */,
-				0BAAC6512C43D3C200174A9D /* (null) in Frameworks */,
 				0BFCC5AF2C2E865B00B5E0DB /* Then in Frameworks */,
 				0B4A1BE22C456CD100E31EC4 /* KakaoSDK in Frameworks */,
 				0B4A1BE42C456CD100E31EC4 /* KakaoSDKAuth in Frameworks */,
@@ -708,7 +707,7 @@
 		95310F7D2C3FF37500023C7B /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				95310FBC2C44346500023C7B /* ViewModel */,
+				95310FBC2C44346500023C7B /* ViewModels */,
 				95310F812C3FF51600023C7B /* Views */,
 				95310F802C3FF50D00023C7B /* ViewControllers */,
 			);
@@ -795,7 +794,7 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		95310FBC2C44346500023C7B /* ViewModel */ = {
+		95310FBC2C44346500023C7B /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				95310FBD2C4434B500023C7B /* LoginViewModel.swift */,
@@ -804,7 +803,7 @@
 				95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */,
 				95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */,
 			);
-			path = ViewModel;
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		95A89E752C36EE2700E07ABC /* Common */ = {
