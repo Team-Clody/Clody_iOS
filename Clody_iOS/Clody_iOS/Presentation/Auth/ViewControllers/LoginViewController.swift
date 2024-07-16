@@ -10,6 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 import Then
+import KakaoSDKUser
 
 final class LoginViewController: UIViewController {
     
@@ -35,6 +36,10 @@ final class LoginViewController: UIViewController {
         
         bindViewModel()
         setUI()
+        
+        rootView.kakaoLoginButton.rx.tap
+            .bind(onNext: testAPI)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -55,5 +60,41 @@ private extension LoginViewController {
 
     func setUI() {
         self.navigationController?.isNavigationBarHidden = true
+    }
+}
+
+
+func testAPI() {
+    let provider = Providers.calendarProvider
+    
+    provider.request(target: .getDailyDiary(year: 2023, month: 1, dat: 22), instance: BaseResponse<CalendarDiaryResponseDTO>.self) { data in
+            print(data)
+        
+        print(data.message)
+    }
+}
+
+
+func handleKakaoLogin() {
+    if (UserApi.isKakaoTalkLoginAvailable()) {
+        UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+            if let error = error {
+                print(error)
+            }
+            if let oauthToken = oauthToken{
+                print(oauthToken)
+                let idToken = oauthToken.accessToken
+                print("🍀",idToken)
+            }
+        }
+    } else {
+        UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
+            if let error = error {
+                print("🍀",error)
+            }
+            if let oauthToken = oauthToken{
+                print("kakao success")
+            }
+        }
     }
 }

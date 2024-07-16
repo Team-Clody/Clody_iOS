@@ -23,7 +23,7 @@ extension APIConstants{
     static let authCodeHeader = [contentType: applicationJSON,
                                        auth : authCode]
     static let hasTokenHeader = [contentType: applicationJSON,
-                                     access : accessToken]
+                                       auth : accessToken]
     static let hasRefreshTokenHeader = [contentType: applicationJSON]
 }
 

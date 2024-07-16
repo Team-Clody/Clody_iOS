@@ -26,7 +26,7 @@
 		0B4A1BCA2C45403A00E31EC4 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BC92C45403A00E31EC4 /* NetworkRequest.swift */; };
 		0B4A1BCC2C45409600E31EC4 /* Providers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BCB2C45409600E31EC4 /* Providers.swift */; };
 		0B4A1BCF2C4540C600E31EC4 /* CalendarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BCE2C4540C600E31EC4 /* CalendarRouter.swift */; };
-		0B4A1BD22C45410000E31EC4 /* CalendarRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BD12C45410000E31EC4 /* CalendarRequestDTO.swift */; };
+		0B4A1BD22C45410000E31EC4 /* CalendarListResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BD12C45410000E31EC4 /* CalendarListResponseDTO.swift */; };
 		0B4A1BD52C4546F800E31EC4 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BD42C4546F800E31EC4 /* Config.swift */; };
 		0B4A1BD72C4548E200E31EC4 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BD62C4548E200E31EC4 /* AuthRouter.swift */; };
 		0B4A1BDA2C45636300E31EC4 /* SignUpRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BD92C45636300E31EC4 /* SignUpRequestDTO.swift */; };
@@ -61,6 +61,8 @@
 		0BE7E9EA2C45B0B8000C5358 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9E92C45B0B8000C5358 /* UserManager.swift */; };
 		0BE7E9ED2C45B3EC000C5358 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 0BE7E9EC2C45B3EC000C5358 /* KeychainAccess */; };
 		0BE7E9EF2C461D0F000C5358 /* NotificationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9EE2C461D0F000C5358 /* NotificationPickerView.swift */; };
+		0BE7E9F12C4636DE000C5358 /* CalendarMonthlyResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9F02C4636DE000C5358 /* CalendarMonthlyResponseDTO.swift */; };
+		0BE7E9F32C464444000C5358 /* CalendarDiaryResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9F22C464444000C5358 /* CalendarDiaryResponseDTO.swift */; };
 		0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A52C2E843C00B5E0DB /* FSCalendar */; };
 		0BFCC5A92C2E847300B5E0DB /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A82C2E847300B5E0DB /* Moya */; };
 		0BFCC5AC2C2E864C00B5E0DB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5AB2C2E864C00B5E0DB /* SnapKit */; };
@@ -149,7 +151,7 @@
 		0B4A1BC92C45403A00E31EC4 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		0B4A1BCB2C45409600E31EC4 /* Providers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Providers.swift; sourceTree = "<group>"; };
 		0B4A1BCE2C4540C600E31EC4 /* CalendarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRouter.swift; sourceTree = "<group>"; };
-		0B4A1BD12C45410000E31EC4 /* CalendarRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRequestDTO.swift; sourceTree = "<group>"; };
+		0B4A1BD12C45410000E31EC4 /* CalendarListResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarListResponseDTO.swift; sourceTree = "<group>"; };
 		0B4A1BD42C4546F800E31EC4 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		0B4A1BD62C4548E200E31EC4 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		0B4A1BD92C45636300E31EC4 /* SignUpRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequestDTO.swift; sourceTree = "<group>"; };
@@ -175,6 +177,8 @@
 		0BCD4FA22C35B59C006390D2 /* Clody_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clody_iOS.entitlements; sourceTree = "<group>"; };
 		0BE7E9E92C45B0B8000C5358 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		0BE7E9EE2C461D0F000C5358 /* NotificationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPickerView.swift; sourceTree = "<group>"; };
+		0BE7E9F02C4636DE000C5358 /* CalendarMonthlyResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMonthlyResponseDTO.swift; sourceTree = "<group>"; };
+		0BE7E9F22C464444000C5358 /* CalendarDiaryResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDiaryResponseDTO.swift; sourceTree = "<group>"; };
 		0BFCC5CE2C2E8DAE00B5E0DB /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
 		0BFCC5D92C2E8F0100B5E0DB /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		0BFCC5DC2C2E8F1300B5E0DB /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -314,7 +318,9 @@
 		0B4A1BD32C45410800E31EC4 /* CalendarModel */ = {
 			isa = PBXGroup;
 			children = (
-				0B4A1BD12C45410000E31EC4 /* CalendarRequestDTO.swift */,
+				0B4A1BD12C45410000E31EC4 /* CalendarListResponseDTO.swift */,
+				0BE7E9F02C4636DE000C5358 /* CalendarMonthlyResponseDTO.swift */,
+				0BE7E9F22C464444000C5358 /* CalendarDiaryResponseDTO.swift */,
 			);
 			path = CalendarModel;
 			sourceTree = "<group>";
@@ -962,7 +968,7 @@
 				0B6C07592C3E7D480054A0B0 /* WritingDiaryViewModel.swift in Sources */,
 				0B6C07572C3E7D340054A0B0 /* WritingDiaryModel.swift in Sources */,
 				0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */,
-				0B4A1BD22C45410000E31EC4 /* CalendarRequestDTO.swift in Sources */,
+				0B4A1BD22C45410000E31EC4 /* CalendarListResponseDTO.swift in Sources */,
 				0B4A1BD52C4546F800E31EC4 /* Config.swift in Sources */,
 				0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */,
 				2CE6378B2C3D546200B6EC6D /* AccountViewController.swift in Sources */,
@@ -980,6 +986,7 @@
 				95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */,
 				0BFCC5CF2C2E8DAE00B5E0DB /* BaseTargetType.swift in Sources */,
 				95310F832C3FF53400023C7B /* LoginView.swift in Sources */,
+				0BE7E9F12C4636DE000C5358 /* CalendarMonthlyResponseDTO.swift in Sources */,
 				0BFCC5DA2C2E8F0200B5E0DB /* CalendarModel.swift in Sources */,
 				0B4A1BC62C45401500E31EC4 /* MoyaPluggin.swift in Sources */,
 				0B20F3E12C2C4DAA00F8D62D /* ViewController.swift in Sources */,
@@ -1019,6 +1026,7 @@
 				95310FBB2C44162F00023C7B /* ReplyDetailViewModel.swift in Sources */,
 				0BFCC5DD2C2E8F1300B5E0DB /* CalendarViewController.swift in Sources */,
 				0B4A1BCC2C45409600E31EC4 /* Providers.swift in Sources */,
+				0BE7E9F32C464444000C5358 /* CalendarDiaryResponseDTO.swift in Sources */,
 				95310F782C3D6DF800023C7B /* ClodyAlert.swift in Sources */,
 				0B4A1BCA2C45403A00E31EC4 /* NetworkRequest.swift in Sources */,
 				0B6C07492C3DC2FC0054A0B0 /* ListView.swift in Sources */,
