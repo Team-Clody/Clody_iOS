@@ -24,13 +24,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            DispatchQueue.main.async {
-                if UserManager.shared.hasAccessToken {
-                    self.window?.rootViewController = UINavigationController(rootViewController: CalendarViewController())
-                } else {
+//            DispatchQueue.main.async {
+//                if UserManager.shared.hasAccessToken {
+//                    self.window?.rootViewController = UINavigationController(rootViewController: CalendarViewController())
+//                } else {
                     self.window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
-                }
-            }
+//                }
+//            }
         }
     }
     
