@@ -139,6 +139,17 @@ extension NotificationViewController: UITableViewDataSource {
             cell.arrowImageView.addGestureRecognizer(tapGesture)
         }
         cell.configure(with: alarmData, indexPath: indexPath.row)
+        
+        cell.switchValueChanged = { [weak self] isOn in
+            guard let self = self else { return }
+            if indexPath.row == 0 {
+                self.alarmData.isDiaryAlarm = isOn
+            } else if indexPath.row == 2 {
+                self.alarmData.isReplyAlarm = isOn
+            }
+            self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: self.alarmData.time, fcmToken: "")
+        }
+
         return cell
     }
 }
