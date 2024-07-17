@@ -59,6 +59,7 @@ final class ReplyDetailView: BaseView {
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(text: title, style: .body2_semibold)
             $0.numberOfLines = 0
+            $0.textAlignment = .center
         }
         
         replyTextView.do {
