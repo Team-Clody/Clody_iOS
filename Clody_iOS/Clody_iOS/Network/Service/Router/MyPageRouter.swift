@@ -10,7 +10,6 @@ import Foundation
 import Moya
 
 enum MyPageRouter {
-    case postSignUpAlarm(data: PostSignUpAlarmRequestDTO)
     case getAlarmSet
     case postAlarmSet(data: PostAlarmSetRequestDTO)
     case getAccount
@@ -20,12 +19,13 @@ enum MyPageRouter {
 extension MyPageRouter: BaseTargetType {
     var headers: [String : String]? {
         switch self {
-        case .postSignUpAlarm:
-            return APIConstants.hasTokenHeader
         case .getAlarmSet:
             return APIConstants.hasTokenHeader
         case .postAlarmSet:
-            return APIConstants.hasTokenHeader
+            return [
+                APIConstants.contentType: APIConstants.applicationJSON,
+                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
+            ]
         case .getAccount:
             return APIConstants.hasTokenHeader
         case .patchNickname:
@@ -35,8 +35,6 @@ extension MyPageRouter: BaseTargetType {
     
     var path: String {
         switch self {
-        case .postSignUpAlarm:
-            return "alarm"
         case .getAlarmSet:
             return "alarm"
         case .postAlarmSet:
@@ -50,7 +48,7 @@ extension MyPageRouter: BaseTargetType {
     
     var method: Moya.Method {
         switch self {
-        case .postSignUpAlarm, .postAlarmSet:
+        case .postAlarmSet:
             return .post
         case .getAlarmSet, .getAccount:
             return .get
@@ -61,8 +59,6 @@ extension MyPageRouter: BaseTargetType {
     
     var task: Moya.Task {
         switch self {
-        case .postSignUpAlarm(let data):
-            return .requestJSONEncodable(data)
         case .getAlarmSet:
             return .requestPlain
         case .postAlarmSet(let data):

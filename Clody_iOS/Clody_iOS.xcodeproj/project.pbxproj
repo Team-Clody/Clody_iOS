@@ -77,7 +77,6 @@
 		0BE7EA022C466524000C5358 /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA012C466524000C5358 /* LoginResponseDTO.swift */; };
 		0BE7EA042C4665FC000C5358 /* TokenRefreshResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA032C4665FC000C5358 /* TokenRefreshResponseDTO.swift */; };
 		0BE7EA072C466793000C5358 /* MyPageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA062C466793000C5358 /* MyPageRouter.swift */; };
-		0BE7EA092C466844000C5358 /* PostSignUpAlarmRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA082C466844000C5358 /* PostSignUpAlarmRequestDTO.swift */; };
 		0BE7EA0B2C46699F000C5358 /* GetAlarmResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA0A2C46699F000C5358 /* GetAlarmResponseDTO.swift */; };
 		0BE7EA0D2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA0C2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift */; };
 		0BE7EA0F2C466AEE000C5358 /* PostAlarmSetResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA0E2C466AEE000C5358 /* PostAlarmSetResponseDTO.swift */; };
@@ -216,7 +215,6 @@
 		0BE7EA012C466524000C5358 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
 		0BE7EA032C4665FC000C5358 /* TokenRefreshResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshResponseDTO.swift; sourceTree = "<group>"; };
 		0BE7EA062C466793000C5358 /* MyPageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageRouter.swift; sourceTree = "<group>"; };
-		0BE7EA082C466844000C5358 /* PostSignUpAlarmRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSignUpAlarmRequestDTO.swift; sourceTree = "<group>"; };
 		0BE7EA0A2C46699F000C5358 /* GetAlarmResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAlarmResponseDTO.swift; sourceTree = "<group>"; };
 		0BE7EA0C2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAlarmSetRequestDTO.swift; sourceTree = "<group>"; };
 		0BE7EA0E2C466AEE000C5358 /* PostAlarmSetResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAlarmSetResponseDTO.swift; sourceTree = "<group>"; };
@@ -516,7 +514,6 @@
 		0BE7EA052C466782000C5358 /* MyPageModel */ = {
 			isa = PBXGroup;
 			children = (
-				0BE7EA082C466844000C5358 /* PostSignUpAlarmRequestDTO.swift */,
 				0BE7EA0A2C46699F000C5358 /* GetAlarmResponseDTO.swift */,
 				0BE7EA0C2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift */,
 				0BE7EA0E2C466AEE000C5358 /* PostAlarmSetResponseDTO.swift */,
@@ -1077,7 +1074,6 @@
 				0BE7E9FC2C4660AC000C5358 /* GetWritingTimeDTO.swift in Sources */,
 				95310F982C40777C00023C7B /* OnBoardingView.swift in Sources */,
 				0B4A1BDA2C45636300E31EC4 /* SignUpRequestDTO.swift in Sources */,
-				0BE7EA092C466844000C5358 /* PostSignUpAlarmRequestDTO.swift in Sources */,
 				95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */,
 				0BE7E9F92C4659F9000C5358 /* DiaryRouter.swift in Sources */,
 				0BE7EA0D2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift in Sources */,

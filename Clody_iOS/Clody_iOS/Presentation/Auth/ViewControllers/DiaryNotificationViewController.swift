@@ -18,11 +18,12 @@ final class DiaryNotificationViewController: UIViewController {
     
     private let viewModel = DiaryNotificationViewModel()
     private let disposeBag = DisposeBag()
-    private let timePickerView = NotificationPickerView()
+    private var time = "21:30"
     
     // MARK: - UI Components
      
     private let rootView = DiaryNotificationView()
+    private let timePickerView = NotificationPickerView()
     
     // MARK: - Life Cycles
     
@@ -72,7 +73,7 @@ private extension DiaryNotificationViewController {
                     let selectedHour = self.timePickerView.pickerView.hours[selectedHourIndex]
                     let selectedMinute = self.timePickerView.pickerView.minutes[selectedMinuteIndex]
                     
-                    let selectedTime = ["\(selectedTimePeriods)", "\(selectedHour)", "\(selectedMinute)"]
+                    let selectedTime = ["\(selectedTimePeriods)", selectedHour, selectedMinute]
                     output.selectedTimeRelay.accept(selectedTime)
                 }
             })
@@ -91,7 +92,13 @@ private extension DiaryNotificationViewController {
             })
             .disposed(by: disposeBag)
         
-        output.pushViewController
+        output.setupNotification
+            .drive(onNext: {
+                self.setupNotification()
+            })
+            .disposed(by: disposeBag)
+        
+        output.setupNotificationNext
             .drive(onNext: {
                 self.navigationController?.pushViewController(OnBoardingViewController(), animated: true)
             })
@@ -99,7 +106,17 @@ private extension DiaryNotificationViewController {
         
         output.selectedTimeRelay
             .bind(onNext: { values in
-                let timeText = "\(values[0]) \(values[1])시 \(values[2])분"
+                guard let timePeriods = values[0] as? String,
+                      let hour = values[1] as? Int,
+                      let minute = values[2] as? Int else {
+                    return
+                }
+                
+                let hour24 = timePeriods == "오전" ? hour : 12 + hour
+                let hourString = hour24 < 10 ? "0\(hour24)" : "\(hour24)"
+                let minuteString = minute < 10 ? "0\(minute)" : "\(minute)"
+                self.time = "\(hourString):\(minuteString)"
+                let timeText = "\(timePeriods) \(hour)시 \(minute)분"
                 self.rootView.timeLabel.attributedText = UIFont.pretendardString(text: timeText, style: .body1_semibold)
             })
             .disposed(by: disposeBag)
@@ -127,6 +144,15 @@ private extension DiaryNotificationViewController {
         timePickerView.animateHide {
             self.timePickerView.isHidden = true
             completion?()
+        }
+    }
+}
+
+extension DiaryNotificationViewController {
+    
+    func setupNotification() {
+        viewModel.setupNotification(time: time) {
+            self.navigationController?.pushViewController(OnBoardingViewController(), animated: true)
         }
     }
 }
