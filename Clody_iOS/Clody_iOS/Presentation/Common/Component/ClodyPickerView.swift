@@ -23,7 +23,7 @@ final class ClodyPickerView: UIPickerView {
     lazy var timePeriods = ["오전", "오후"]
     lazy var hours = Array(1...12)
     lazy var minutes = [0, 10, 20, 30, 40, 50]
-    lazy var years = [2020, 2021, 2022, 2023, 2024]
+    lazy var years = Array(2000...2030)
     lazy var months = Array(1...12)
     
     // MARK: - Life Cycles
