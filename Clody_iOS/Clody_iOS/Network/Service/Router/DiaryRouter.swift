@@ -21,15 +21,30 @@ extension DiaryRouter: BaseTargetType {
     var headers: [String : String]? {
         switch self {
         case .getDailyDiary:
-            return APIConstants.hasTokenHeader
+            return [
+                APIConstants.contentType: APIConstants.applicationJSON,
+                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
+            ]
         case .deleteDiary:
-            return APIConstants.hasTokenHeader
+            return [
+                APIConstants.contentType: APIConstants.applicationJSON,
+                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
+            ]
         case .postDiary:
-            return APIConstants.hasTokenHeader
+            return [
+                APIConstants.contentType: APIConstants.applicationJSON,
+                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
+            ]
         case .getWritingTime:
-            return APIConstants.hasTokenHeader
+            return [
+                APIConstants.contentType: APIConstants.applicationJSON,
+                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
+            ]
         case .getReply:
-            return APIConstants.hasTokenHeader
+            return [
+                APIConstants.contentType: APIConstants.applicationJSON,
+                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
+            ]
         }
     }
     
@@ -37,9 +52,9 @@ extension DiaryRouter: BaseTargetType {
         switch self {
         case .getDailyDiary, .postDiary, .deleteDiary:
             return "diary"
-        case .getWritingTime(year: let year, month: let month, date: let date):
+        case .getWritingTime:
             return "diary/time"
-        case .getReply(year: let year, month: let month, date: let date):
+        case .getReply:
             return "reply"
         }
     }

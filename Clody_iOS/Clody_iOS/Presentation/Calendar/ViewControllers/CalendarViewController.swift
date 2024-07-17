@@ -177,7 +177,7 @@ private extension CalendarViewController {
                 if viewModel.dailyDiaryDataRelay.value.diaries.count != 0 {
 //                    self.navigationController?.pushViewController(ReplyWaitingViewController(), animated: true)
                 } else {
-                    self.navigationController?.pushViewController(WritingDiaryViewController(), animated: true)
+//                    self.navigationController?.pushViewController(WritingDiaryViewController(), animated: true)
                 }
             })
             .disposed(by: disposeBag)
