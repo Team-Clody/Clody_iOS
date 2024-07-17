@@ -12,13 +12,34 @@ import Then
 
 final class ReplyDetailView: BaseView {
     
-    private lazy var navigationBar = ClodyNavigationBar(type: .reply, title: dummyData.date)
+    private lazy var navigationBar = ClodyNavigationBar(type: .reply, title: "\(month)월 \(date)일")
     private let backgroundView = UIView()
     private let rodyImageView = UIImageView()
     private lazy var titleLabel = UILabel()
     private lazy var replyTextView = UITextView()
     
-    private let dummyData = ReplyDetailModel.dummyData()
+    private let month: Int
+    private let date: Int
+    private let nickname: String
+    private let content: String
+    
+    init(
+        month: Int,
+        date: Int,
+        nickname: String,
+        content: String
+    ) {
+        self.month = month
+        self.date = date
+        self.nickname = nickname
+        self.content = content
+        
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func setStyle() {
         backgroundColor = .white
@@ -34,16 +55,17 @@ final class ReplyDetailView: BaseView {
         }
         
         titleLabel.do {
-            let title = dummyData.nickname + I18N.Reply.luckyReplyForYou
+            let title = nickname + I18N.Reply.luckyReplyForYou
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(text: title, style: .body2_semibold)
+            $0.numberOfLines = 0
         }
         
         replyTextView.do {
             $0.backgroundColor = .clear
             $0.textColor = .grey02
             $0.attributedText = UIFont.pretendardString(
-                text: dummyData.reply,
+                text: content,
                 style: .letter_medium,
                 lineHeightMultiple: 1.9
             )
@@ -78,6 +100,7 @@ final class ReplyDetailView: BaseView {
         
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(rodyImageView.snp.bottom).offset(22)
+            $0.horizontalEdges.equalToSuperview().inset(24)
             $0.centerX.equalToSuperview()
         }
         
