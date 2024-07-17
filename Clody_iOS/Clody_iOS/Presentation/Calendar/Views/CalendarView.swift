@@ -19,10 +19,10 @@ final class CalendarView: BaseView {
     let calendarNavigationView = ClodyNavigationBar(type: .calendar, date: "2024년 00월")
     private let contentView = UIView()
     private let cloverBackgroundView = UIView()
-    private let cloverLabel = UILabel()
+    let cloverLabel = UILabel()
     let mainCalendarView = FSCalendar()
     let dateLabel = UILabel()
-    private let dayLabel = UILabel()
+    let  dayLabel = UILabel()
     lazy var kebabButton = UIButton()
     lazy var dailyDiaryCollectionView = UICollectionView(
         frame: .zero,
@@ -47,7 +47,7 @@ final class CalendarView: BaseView {
         
         cloverBackgroundView.do {
             $0.layer.cornerRadius = 9
-            $0.backgroundColor = .lightGreen
+            $0.backgroundColor = .lightGreenBack
         }
         
         cloverLabel.do {

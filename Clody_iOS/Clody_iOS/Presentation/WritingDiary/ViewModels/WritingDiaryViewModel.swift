@@ -149,6 +149,7 @@ final class WritingDiaryViewModel: ViewModelType {
             self.showSaveErrorToastRelay.accept(())
         } else {
             self.showSaveAlertRelay.accept(())
+            postWritingDiary(date: "2024-07-01", content: diariesRelay.value)
         }
     }
     
@@ -162,5 +163,16 @@ final class WritingDiaryViewModel: ViewModelType {
         self.diariesRelay.accept(items)
         self.textViewIsEmptyRelay.accept(statuses)
         self.isFirstRelay.accept(isFirst)
+    }
+
+    private func postWritingDiary(date: String, content: [String]) {
+        let provider = Providers.diaryRouter
+        let data = PostDiaryRequestDTO(date: date, content: content)
+        
+        provider.request(target: .postDiary(data: data), instance: BaseResponse<PostDiaryResponseDTO>.self, completion: { data in
+            guard let data = data.data else { return }
+            
+            print(data)
+        })
     }
 }

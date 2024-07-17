@@ -20,5 +20,5 @@ struct ListDiary: Codable {
 }
 
 struct ListDiaryContent: Codable {
-    let contnet: String
+    let content: String
 }

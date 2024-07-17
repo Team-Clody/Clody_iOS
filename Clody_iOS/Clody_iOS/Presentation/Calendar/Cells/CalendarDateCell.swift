@@ -39,7 +39,7 @@ final class CalendarDateCell: FSCalendarCell {
     
     func setStyle() {
         cloverImageView.do {
-            $0.image = .clover1
+            $0.image = .clover0
             $0.contentMode = .scaleAspectFit
         }
         
@@ -51,6 +51,7 @@ final class CalendarDateCell: FSCalendarCell {
         newImageView.do {
             $0.image = .new
             $0.contentMode = .scaleAspectFit
+            $0.isHidden = true
         }
         
         backgroundSelectView.do {
@@ -97,20 +98,33 @@ final class CalendarDateCell: FSCalendarCell {
 
 extension CalendarDateCell {
     
-    func configure(data: CalendarCellModel, dataStatus: CalendarCellState) {
-        switch dataStatus {
-        case .today:
+    func configure(isToday: Bool, isSelected: Bool, date: String, data: MonthlyDiary) {
+        
+        if isToday {
+            if data.diaryCount == 0 {
+                self.cloverImageView.image = .cloverToday
+            } else {
+                self.cloverImageView.image = .cloverTodayDone
+            }
             clendarDateLabel.textColor = .black
             backgroundSelectView.isHidden = true
-        case .selected:
-            clendarDateLabel.textColor = .white
-            backgroundSelectView.isHidden = false
-        case .normal:
-            clendarDateLabel.textColor = .grey05
-            backgroundSelectView.isHidden = true
+        } else {
+            self.cloverImageView.image = UIImage(named: "clover\(data.diaryCount)")
         }
-        self.cloverImageView.image = UIImage(named: "clover\(data.cloverStatus)")
-        let label = DateFormatter.date(from: data.date)
-        self.clendarDateLabel.text = DateFormatter.string(from: label ?? Date(), format: "d")
+        
+        if isSelected {
+            backgroundSelectView.isHidden = false
+            clendarDateLabel.textColor = .white
+        } else {
+            backgroundSelectView.isHidden = true
+            clendarDateLabel.textColor = .grey05
+        }
+        
+        
+        if data.replyStatus == "READY_NOT_READ" {
+            newImageView.isHidden = false
+        }
+        
+        self.clendarDateLabel.text = date
     }
 }
