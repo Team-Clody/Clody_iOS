@@ -22,14 +22,30 @@ final class WritingDiaryViewController: UIViewController {
     private let viewModel = WritingDiaryViewModel()
     private let disposeBag = DisposeBag()
     private let kebabButtonTap = PublishRelay<Int>()
+    private let year, month, day: Int
+    private let dayOfWeek: String
     
     // MARK: - UI Components
     
     private let rootView = WritingDiaryView()
     private let deleteBottomSheetView = DeleteBottomSheetView()
     private let tapGestureRecognizer = UITapGestureRecognizer()
+    private var alert: ClodyAlert?
+    private lazy var dimmingView = UIView()
     
     // MARK: - Life Cycles
+    
+    init(year: Int, month: Int, day: Int, dayOfWeek: String) {
+        self.year = year
+        self.month = month
+        self.day = day
+        self.dayOfWeek = dayOfWeek
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()
@@ -97,17 +113,58 @@ private extension WritingDiaryViewController {
             .disposed(by: disposeBag)
         
         output.showSaveAlert
-            .emit(onNext: {
-//                self.showClodyAlert(type: .saveDiary, title: "일기를 저장할까요?", message: "저장한 일기는 수정이 어려워요.", rightButtonText: "저장하기")
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.showAlert(
+                    type: .logout,
+                    title: I18N.Alert.saveDiaryTitle,
+                    message: I18N.Alert.saveDiaryMessage,
+                    rightButtonText: I18N.Alert.save
+                )
+
+                self.alert?.leftButton.rx.tap
+                    .subscribe(onNext: {
+                        self.hideAlert()
+                    })
+                    .disposed(by: self.disposeBag)
+                
+                self.alert?.rightButton.rx.tap
+                    .subscribe(onNext: {
+                        self.viewModel.saveData() { createdAt in
+                            self.hideAlert()
+//                            self.navigationController?.pushViewController(ReplyWaitingViewController(year: self.year, month: self.month, date: self.day), animated: true)
+                        }
+                    })
+                    .disposed(by: self.disposeBag)
             })
             .disposed(by: disposeBag)
         
         output.showDelete
             .emit(onNext: { [weak self] index in
-                self?.presentBottomSheet()
+                guard let self = self else { return }
+                self.showAlert(
+                    type: .deleteDiary,
+                    title: I18N.Alert.deleteDiaryTitle,
+                    message: I18N.Alert.deleteDiaryMessage,
+                    rightButtonText: I18N.Alert.delete
+                )
+
+                self.alert?.leftButton.rx.tap
+                    .subscribe(onNext: {
+                        self.hideAlert()
+                    })
+                    .disposed(by: self.disposeBag)
+                
+                self.alert?.rightButton.rx.tap
+                    .subscribe(onNext: {
+//                        self.viewModel.deleteData(index: index) {
+                            self.hideAlert()
+//                            self.navigationController?.pushViewController(ReplyWaitingViewController(year: self.year, month: self.month, date: self.day), animated: true)
+//                        }
+                    })
+                    .disposed(by: self.disposeBag)
             })
             .disposed(by: disposeBag)
-
     }
     
     func setStyle() {
@@ -187,7 +244,7 @@ private extension WritingDiaryViewController {
             },
             configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: WritingDiaryHeaderView.description(), for: indexPath) as! WritingDiaryHeaderView
-                header.bindData(date: "6월 26일 목요일")
+                header.bindData(date: "")
                 return header
             }
         )
@@ -255,5 +312,47 @@ private extension WritingDiaryViewController {
                 self.view.layoutIfNeeded()
             })
             .disposed(by: disposeBag)
+    }
+}
+
+/// Alert 관련 함수입니다.
+private extension WritingDiaryViewController {
+    
+    func showAlert(
+        type: AlertType,
+        title: String,
+        message: String,
+        rightButtonText: String
+    ) {
+        self.alert = ClodyAlert(type: type, title: title, message: message, rightButtonText: rightButtonText)
+        setAlert()
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.alert!.alpha = 1
+        })
+    }
+    
+    func hideAlert() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alert!.alpha = 0
+        }) { _ in
+            self.dimmingView.removeFromSuperview()
+            self.alert!.removeFromSuperview()
+        }
+    }
+    
+    func setAlert() {
+        alert!.alpha = 0
+        dimmingView.backgroundColor = .black.withAlphaComponent(0.4)
+        self.view.addSubviews(dimmingView, alert!)
+        
+        dimmingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        alert!.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.center.equalToSuperview()
+        }
     }
 }

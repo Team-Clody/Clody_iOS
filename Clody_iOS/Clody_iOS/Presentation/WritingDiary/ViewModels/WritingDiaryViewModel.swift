@@ -67,13 +67,6 @@ final class WritingDiaryViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
-        input.tapSaveButton
-            .emit(onNext: { [weak self] in
-                guard let self = self else { return }
-                self.saveData()
-            })
-            .disposed(by: disposeBag)
-        
         input.tapAddButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
@@ -100,7 +93,7 @@ final class WritingDiaryViewModel: ViewModelType {
         input.tapDeleteButton
             .emit(onNext: { [weak self] in
                 guard let self = self, let index = self.deleteIndexRelay.value else { return }
-                self.deleteData(index: index)
+//                self.deleteData(index: index) {}
             })
             .disposed(by: disposeBag)
         
@@ -137,7 +130,7 @@ final class WritingDiaryViewModel: ViewModelType {
             popToCalendar: popToCalendar,
             isAddButtonEnabled: isAddButtonEnabled,
             showSaveErrorToast: showSaveErrorToast,
-            showSaveAlert: showSaveAlert, 
+            showSaveAlert: showSaveAlert,
             showDelete: showDelete
         )
     }
@@ -151,19 +144,22 @@ final class WritingDiaryViewModel: ViewModelType {
         textViewIsEmptyRelay.accept(initialStatuses)
         isFirstRelay.accept(initialIsFirst)
     }
+}
+
+extension WritingDiaryViewModel {
     
-    private func saveData() {
-        // 데이터 저장 로직 추가
-        // writingDiaryDataRelay를 이용해 데이터를 저장할 수 있음
+    func saveData(completion: @escaping (String) -> ()) {
         if diariesRelay.value.contains("") {
             self.showSaveErrorToastRelay.accept(())
         } else {
             self.showSaveAlertRelay.accept(())
-            postWritingDiary(date: "2024-07-01", content: diariesRelay.value)
+            postDiary(date: "", content: diariesRelay.value) { createdAt in
+                completion(createdAt)
+            }
         }
     }
     
-    private func deleteData(index: Int) {
+    func deleteData(index: Int, completion: @escaping () -> ()) {
         var items = self.diariesRelay.value
         var statuses = self.textViewIsEmptyRelay.value
         var isFirst = self.isFirstRelay.value
@@ -173,16 +169,24 @@ final class WritingDiaryViewModel: ViewModelType {
         self.diariesRelay.accept(items)
         self.textViewIsEmptyRelay.accept(statuses)
         self.isFirstRelay.accept(isFirst)
+        
+        deleteDiary() {
+            completion()
+        }
     }
 
-    private func postWritingDiary(date: String, content: [String]) {
+    private func postDiary(date: String, content: [String], completion: @escaping (String) -> ()) {
         let provider = Providers.diaryRouter
         let data = PostDiaryRequestDTO(date: date, content: content)
         
-        provider.request(target: .postDiary(data: data), instance: BaseResponse<PostDiaryResponseDTO>.self, completion: { data in
+        provider.request(target: .postDiary(data: data), instance: BaseResponse<PostDiaryResponseDTO>.self) { data in
             guard let data = data.data else { return }
-            
+            completion(data.createdAt)
             print(data)
-        })
+        }
+    }
+    
+    private func deleteDiary(completion: @escaping () -> ()) {
+        completion()
     }
 }
