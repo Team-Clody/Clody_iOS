@@ -86,7 +86,12 @@ private extension ReplyWaitingViewController {
             })
             .disposed(by: disposeBag)
         
-        getReply(date: date)
+        output.getReply
+            .drive(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.getReply(date: self.date)
+            })
+            .disposed(by: disposeBag)
     }
 
     func setUI() {
