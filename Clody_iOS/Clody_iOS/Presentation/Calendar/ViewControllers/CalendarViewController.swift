@@ -24,6 +24,9 @@ final class CalendarViewController: UIViewController {
     private let currentPageRelay = PublishRelay<Date>()
     private var calendarData: [MonthlyDiary] = [MonthlyDiary(diaryCount: 0, replyStatus: "")]
     
+    private var alert: ClodyAlert?
+    private lazy var dimmingView = UIView()
+    
     // MARK: - UI Components
     
     private let rootView = CalendarView()
@@ -161,6 +164,8 @@ private extension CalendarViewController {
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
                 rootView.calendarNavigationView.dateButton.titleLabel?.text = data
+                rootView.mainCalendarView.reloadData()
+                rootView.dailyDiaryCollectionView.reloadData()
             })
             .disposed(by: disposeBag)
         
@@ -180,6 +185,34 @@ private extension CalendarViewController {
                 } else {
                     self.navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
                 }
+            })
+        
+        output.showDelete
+            .emit(onNext: { [weak self] index in
+                guard let self = self else { return }
+                self.showAlert(
+                    type: .deleteDiary,
+                    title: I18N.Alert.deleteDiaryTitle,
+                    message: I18N.Alert.deleteDiaryMessage,
+                    rightButtonText: I18N.Alert.delete
+                )
+                
+                self.alert?.leftButton.rx.tap
+                    .subscribe(onNext: {
+                        self.hideAlert()
+                    })
+                    .disposed(by: self.disposeBag)
+                
+                self.alert?.rightButton.rx.tap
+                    .subscribe(onNext: {
+                        
+                        let year = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "yyyy")
+                        let month = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "MM")
+                        let day = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "d")
+                        self.viewModel.deleteDiary(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
+                        self.hideAlert()
+                    })
+                    .disposed(by: self.disposeBag)
             })
             .disposed(by: disposeBag)
         
@@ -216,7 +249,7 @@ private extension CalendarViewController {
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissBottomSheet(animated: true, completion: {
-//                    self?.showClodyAlert(type: .deleteDiary, title: "정말 일기를 삭제할까요?", message: "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요.", rightButtonText: "삭제")
+                    
                 })
             })
             .disposed(by: disposeBag)
@@ -371,5 +404,48 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         return 0 // 이벤트 숨김
+    }
+}
+
+private extension CalendarViewController {
+    
+    func showAlert(
+        type: AlertType,
+        title: String,
+        message: String,
+        rightButtonText: String
+    ) {
+        self.alert = ClodyAlert(type: type, title: title, message: message, rightButtonText: rightButtonText)
+        setAlert()
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.alert!.alpha = 1
+        })
+    }
+    
+    func hideAlert() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alert!.alpha = 0
+        }) { _ in
+            self.dimmingView.removeFromSuperview()
+            self.alert!.removeFromSuperview()
+        }
+        rootView.mainCalendarView.reloadData()
+        rootView.dailyDiaryCollectionView.reloadData()
+    }
+    
+    func setAlert() {
+        alert!.alpha = 0
+        dimmingView.backgroundColor = .black.withAlphaComponent(0.4)
+        self.view.addSubviews(dimmingView, alert!)
+        
+        dimmingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        alert!.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.center.equalToSuperview()
+        }
     }
 }

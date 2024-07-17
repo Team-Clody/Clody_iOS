@@ -38,6 +38,7 @@ final class CalendarViewModel: ViewModelType {
         let currentPage: Driver<Date>
         let diaryDeleted: Signal<Void>
         let navigateToResponse: Signal<Void>
+        let showDelete: Signal<Void>
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
@@ -90,11 +91,7 @@ final class CalendarViewModel: ViewModelType {
         input.tapDeleteButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                let year = DateFormatter.string(from: selectedDateRelay.value, format: "yyyy")
-                let month = DateFormatter.string(from: selectedDateRelay.value, format: "MM")
-                let day = DateFormatter.string(from: selectedDateRelay.value, format: "d")
-                // 삭제 API Alert 버튼으로 옮겨야함!
-                self.deleteDiary(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
+
             })
             .disposed(by: disposeBag)
         
@@ -144,6 +141,8 @@ final class CalendarViewModel: ViewModelType {
         let currentPage = currentPageRelay.asDriver(onErrorJustReturn: Date())
         
         let diaryDeleted = input.tapDeleteButton.asSignal()
+        
+        let showDelete = input.tapDeleteButton.asSignal()
 
         return Output(
             dateLabel: dateLabel,
@@ -158,7 +157,8 @@ final class CalendarViewModel: ViewModelType {
             cloverCount: cloverCount,
             currentPage: currentPage,
             diaryDeleted: diaryDeleted, 
-            navigateToResponse: navigateToResponse
+            navigateToResponse: navigateToResponse,
+            showDelete: showDelete
         )
     }
 }

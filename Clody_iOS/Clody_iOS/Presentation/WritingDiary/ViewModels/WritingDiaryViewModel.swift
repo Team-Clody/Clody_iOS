@@ -93,7 +93,7 @@ final class WritingDiaryViewModel: ViewModelType {
         input.tapDeleteButton
             .emit(onNext: { [weak self] in
                 guard let self = self, let index = self.deleteIndexRelay.value else { return }
-//                self.deleteData(index: index) {}
+                self.deleteData(index: index, completion: {}) 
             })
             .disposed(by: disposeBag)
         
