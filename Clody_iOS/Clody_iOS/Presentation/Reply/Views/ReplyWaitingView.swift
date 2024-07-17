@@ -13,7 +13,9 @@ import Lottie
 
 final class ReplyWaitingView: BaseView {
     
-    let imageView = LottieAnimationView(name: "replyLody")
+    private let waitingLottie = LottieAnimationView(name: "waitingLody")
+    private lazy var replyLottie = LottieAnimationView(name: "replyLody")
+    private let lottieView = UIView()
     let timeLabel = UILabel()
     private let introLabel = UILabel()
     let openButton = ClodyBottomButton(title: I18N.Reply.open)
@@ -21,7 +23,7 @@ final class ReplyWaitingView: BaseView {
     override func setStyle() {
         backgroundColor = .white
         
-        imageView.do {
+        waitingLottie.do {
             $0.play()
             $0.loopMode = .loop
         }
@@ -42,17 +44,22 @@ final class ReplyWaitingView: BaseView {
     }
     
     override func setHierarchy() {
-        addSubviews(imageView, timeLabel, introLabel, openButton)
+        addSubviews(lottieView, timeLabel, introLabel, openButton)
+        lottieView.addSubviews(waitingLottie)
     }
     
     override func setLayout() {
-        imageView.snp.makeConstraints {
+        lottieView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(165))
             $0.centerX.equalToSuperview()
         }
         
+        waitingLottie.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         timeLabel.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.bottom).offset(ScreenUtils.getHeight(26))
+            $0.top.equalTo(lottieView.snp.bottom).offset(ScreenUtils.getHeight(26))
             $0.centerX.equalToSuperview()
         }
         
@@ -72,7 +79,17 @@ final class ReplyWaitingView: BaseView {
 extension ReplyWaitingView {
     
     func setReplyArrivedView() {
-//        imageView.image = .imgReplyArrived
         introLabel.attributedText = UIFont.pretendardString(text: I18N.Reply.replyArrived, style: .body3_medium)
+        waitingLottie.removeFromSuperview()
+        lottieView.addSubview(replyLottie)
+        
+        replyLottie.do {
+            $0.play()
+            $0.loopMode = .loop
+        }
+        
+        replyLottie.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
 }
