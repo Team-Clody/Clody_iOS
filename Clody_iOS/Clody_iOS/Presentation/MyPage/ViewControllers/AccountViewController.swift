@@ -41,6 +41,11 @@ final class AccountViewController: UIViewController {
                 self?.nicknameTextField.countLabel.text = "\(count)"
             })
             .disposed(by: disposeBag)
+        
+        viewModel.getUserInfoAPI { [weak self] userInfo in
+            self?.rootView.nicknameLabel.text = userInfo.name
+            self?.rootView.emailLabel.text = userInfo.email
+        }
     }
     
     deinit {
@@ -62,6 +67,13 @@ final class AccountViewController: UIViewController {
         
         viewModel.isLogoutButtonEnabled
             .bind(to: rootView.logoutButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        output.userInfo
+            .drive(onNext: { [weak self] name, email in
+                self?.rootView.nicknameLabel.text = name
+                self?.rootView.emailLabel.text = email
+            })
             .disposed(by: disposeBag)
         
         rootView.logoutButton.rx.tap
