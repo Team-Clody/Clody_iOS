@@ -148,6 +148,9 @@ private extension CalendarViewController {
         output.showPickerView
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
+                let date = viewModel.selectedMonthRelay.value
+                let selectedMonth = "\(date[0])년 \(date[1])월"
+                rootView.calendarNavigationView.dateText = selectedMonth
                 self.presentPickerView()
             })
             .disposed(by: disposeBag)
