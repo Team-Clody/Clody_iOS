@@ -13,12 +13,6 @@ import RxSwift
 import SnapKit
 import Then
 
-enum CalendarCellState {
-    case today
-    case selected
-    case normal
-}
-
 final class CalendarViewController: UIViewController {
     
     // MARK: - Properties
@@ -32,7 +26,7 @@ final class CalendarViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let rootView = CalendarView()
+    private var rootView = CalendarView()
     private let deleteBottomSheetView = DeleteBottomSheetView()
     private let datePickerView = DatePickeView()
     
@@ -75,24 +69,35 @@ private extension CalendarViewController {
                 .map { _ in }
                 .asSignal(onErrorJustReturn: ())
         )
-
+        
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
         output.dateLabel
             .drive(rootView.dateLabel.rx.text)
             .disposed(by: disposeBag)
         
+        //데일리 다이어리 업데이트
         output.diaryData
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
                 let isNotEmpty = data.count != 0
+                let isToday = Calendar.current.isDateInToday(self.viewModel.selectedDateRelay.value)
+                
+                var buttonTitle = isNotEmpty ? "답장 확인" : "일기 쓰기"
+                var buttonColor = isNotEmpty ? UIColor(named: "grey01") : UIColor(named: "mainYellow")
+                var textColor = isNotEmpty ? "white" : "grey02"
+                let isEnabled = isToday || isNotEmpty
+                
+                if !isEnabled {
+                    buttonColor = .lightYellow
+                    textColor = "grey06"
+                }
+                
                 self.rootView.emptyDiaryView.isHidden = isNotEmpty
-                let buttonTitle = isNotEmpty ? "답장 확인" : "일기 쓰기"
-                let buttonColor = isNotEmpty ? UIColor(named: "grey01") : UIColor(named: "mainYellow")
-                let textColor = isNotEmpty ? "white" : "grey02"
                 self.rootView.calendarButton.setAttributedTitle(UIFont.pretendardString(text: buttonTitle, style: .body1_semibold), for: .normal)
                 self.rootView.calendarButton.backgroundColor = buttonColor
                 self.rootView.calendarButton.setTitleColor(UIColor(named: textColor), for: .normal)
+                self.rootView.calendarButton.isEnabled = isEnabled
             })
             .disposed(by: disposeBag)
         
@@ -100,8 +105,9 @@ private extension CalendarViewController {
             .drive(rootView.dailyDiaryCollectionView.rx.items(cellIdentifier: DailyCalendarCollectionViewCell.description(), cellType: DailyCalendarCollectionViewCell.self)) { index, model, cell in
                 cell.bindData(data: model.content, index: "\(index + 1).")
             }
-            .disposed(by: disposeBag)   
+            .disposed(by: disposeBag)
         
+        // count와 reply를 담고 있는 배열
         output.calendarData
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
@@ -160,11 +166,22 @@ private extension CalendarViewController {
             })
             .disposed(by: disposeBag)
         
-        rootView.calendarButton.rx.tap
-            .bind { [weak self] in
-//                self?.viewModel.responseButtonStatusRelay.accept(self?.viewModel.dailyDiaryDummyDataRelay.value.status ?? "")
-            }
+        output.navigateToResponse
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                if viewModel.dailyDiaryDataRelay.value.diaries.count != 0 {
+                    self.navigationController?.pushViewController(ReplyWaitingViewController(), animated: true)
+                } else {
+                    self.navigationController?.pushViewController(WritingDiaryViewController(), animated: true)
+                }
+            })
             .disposed(by: disposeBag)
+        
+//        rootView.calendarButton.rx.tap
+//            .bind { [weak self] in
+//                //                self?.viewModel.responseButtonStatusRelay.accept(self?.viewModel.dailyDiaryDummyDataRelay.value.status ?? "")
+//            }
+//            .disposed(by: disposeBag)
         
         output.diaryDeleted
             .emit(onNext: { [weak self] in
@@ -215,6 +232,7 @@ private extension CalendarViewController {
     
     private func setupPickerView() {
         self.view.addSubview(datePickerView)
+        
         datePickerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -241,7 +259,7 @@ private extension CalendarViewController {
                     dateComponents.year = selectedYear
                     dateComponents.month = selectedMonth
                     dateComponents.day = 1 // 해당 월의 첫 번째 날로 설정
-
+                    
                     if let date = Calendar.current.date(from: dateComponents) {
                         self?.rootView.mainCalendarView.currentPage = date
                     }
@@ -291,26 +309,23 @@ private extension CalendarViewController {
 extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
-            guard let cell = calendar.dequeueReusableCell(withIdentifier: CalendarDateCell.description(), for: date, at: position) as? CalendarDateCell else { return FSCalendarCell() }
-            
-            let day = Calendar.current.component(.day, from: date) - 1
-            let data: MonthlyDiary? = day >= 0 && day < calendarData.count ? calendarData[day] : nil
-            
-            let dateStatus: CalendarCellState = {
-                if Calendar.current.isDateInToday(date) {
-                    return .today
-                } else if Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value) {
-                    return .selected
-                } else {
-                    return .normal
-                }
-            }()
-            
-            let dayString = String(day + 1)
-            
-            cell.configure(data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: ""), dataStatus: dateStatus, date: dayString)
-            return cell
-        }
+        guard let cell = calendar.dequeueReusableCell(withIdentifier: CalendarDateCell.description(), for: date, at: position) as? CalendarDateCell else { return FSCalendarCell() }
+        
+        let day = Calendar.current.component(.day, from: date) - 1
+        let data: MonthlyDiary? = day >= 0 && day < calendarData.count ? calendarData[day] : nil
+        
+        data?.diaryCount
+        data?.replyStatus
+        
+        let isToday = Calendar.current.isDateInToday(date)
+        let isSelected = Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value)
+        let date = DateFormatter.string(from: date, format: "d")
+        
+        let dayString = String(day + 1)
+        
+        cell.configure(isToday: isToday, isSelected: isSelected, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: ""))
+        return cell
+    }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         tapDateRelay.accept(date)

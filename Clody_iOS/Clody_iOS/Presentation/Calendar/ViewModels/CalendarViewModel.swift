@@ -37,12 +37,13 @@ final class CalendarViewModel: ViewModelType {
         let cloverCount: Driver<Int>
         let currentPage: Driver<Date>
         let diaryDeleted: Signal<Void>
+        let navigateToResponse: Signal<Void>
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
     let monthlyCalendarDataRelay = BehaviorRelay<CalendarMonthlyResponseDTO>(value: CalendarMonthlyResponseDTO(totalMonthlyCount: 0, diaries: [MonthlyDiary(diaryCount: 0, replyStatus: "")]))
     let dailyDiaryDataRelay = BehaviorRelay<GetDiaryResponseDTO>(value: GetDiaryResponseDTO(diaries: []))
-    let selectedMonthRelay = BehaviorRelay<[String]>(value: ["2024", "7"])
+    let selectedMonthRelay = BehaviorRelay<[String]>(value: ["0", "0"])
     let currentPageRelay = BehaviorRelay<Date>(value: Date())
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
@@ -52,7 +53,14 @@ final class CalendarViewModel: ViewModelType {
                 guard let self = self else { return }
                 let today = Date()
                 self.selectedDateRelay.accept(today)
-                self.getMonthlyCalendar(year: 2024, month: 7)
+                
+                let year = DateFormatter.string(from: selectedDateRelay.value, format: "yyyy")
+                let month = DateFormatter.string(from: selectedDateRelay.value, format: "MM")
+                let day = DateFormatter.string(from: selectedDateRelay.value, format: "d")
+                
+                self.selectedMonthRelay.accept([year, month])
+                self.getMonthlyCalendar(year: Int(year) ?? 0, month: Int(month) ?? 0)
+                self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
             })
             .disposed(by: disposeBag)
         
@@ -126,12 +134,7 @@ final class CalendarViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: "Error")
         
-        let status = input.tapResponseButton.asSignal()
-            .map { date -> String in
-                let dateSelected = ""
-                return dateSelected
-            }
-            .asDriver(onErrorJustReturn: "Error")
+        let navigateToResponse = input.tapResponseButton.asSignal()
         
         let currentPage = currentPageRelay.asDriver(onErrorJustReturn: Date())
         
@@ -149,7 +152,8 @@ final class CalendarViewModel: ViewModelType {
             changeNavigationDate: changeNavigationDate,
             cloverCount: cloverCount,
             currentPage: currentPage,
-            diaryDeleted: diaryDeleted
+            diaryDeleted: diaryDeleted, 
+            navigateToResponse: navigateToResponse
         )
     }
 }
@@ -181,6 +185,8 @@ extension CalendarViewModel {
             guard let data = data.data else { return }
             
             self.monthlyCalendarDataRelay.accept(data)
+            
+            self.selectedMonthRelay.accept([String(year), String(month)])
         })
     }
     
