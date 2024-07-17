@@ -21,6 +21,7 @@ final class NotificationViewController: UIViewController {
     private let rootView = NotificationView()
     private var settingNotificationTimeView: SettingNotificationTimeView?
     let closeButton = UIButton()
+    private let selectedTimeRelay = PublishRelay<[Any]>()
 
     // MARK: - Life Cycles
 
@@ -39,6 +40,31 @@ final class NotificationViewController: UIViewController {
             self.alarmData = data
             self.rootView.tableView.reloadData()
         }
+        
+        bindSelectedTimeRelay()
+    }
+    
+    private func bindSelectedTimeRelay() {
+        selectedTimeRelay
+            .bind(onNext: { [weak self] values in
+                guard let self = self else { return }
+                guard let timePeriods = values[0] as? String,
+                      let hour = values[1] as? Int,
+                      let minute = values[2] as? Int else {
+                    return
+                }
+                
+                let hour24 = (timePeriods == "오전" || hour == 12) ? hour : 12 + hour
+                let hourString = hour24 < 10 ? "0\(hour24)" : "\(hour24)"
+                let minuteString = minute < 10 ? "0\(minute)" : "\(minute)"
+                let convertedTime = "\(hourString):\(minuteString)"
+                
+                self.alarmData.time = convertedTime
+                let timeText = "\(timePeriods) \(hour)시 \(minute)분"
+                
+                self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: convertedTime, fcmToken: "")
+            })
+            .disposed(by: disposeBag)
     }
 
     private func showPickerView() {
@@ -48,10 +74,17 @@ final class NotificationViewController: UIViewController {
                 self?.settingNotificationTimeView = nil
             }
             $0.doneHandler = { [weak self] newTime in
-                self?.alarmData.time = newTime
-                self?.rootView.tableView.reloadData()
-                self?.settingNotificationTimeView?.removeFromSuperview()
-                self?.settingNotificationTimeView = nil
+                guard let self = self else { return }
+                
+                let timeComponents = newTime.split(separator: " ")
+                guard timeComponents.count == 3,
+                      let hour = Int(timeComponents[1].dropLast(1)),
+                      let minute = Int(timeComponents[2].dropLast(1)) else { return }
+                
+                self.selectedTimeRelay.accept([String(timeComponents[0]), hour, minute])
+                
+                self.settingNotificationTimeView?.removeFromSuperview()
+                self.settingNotificationTimeView = nil
             }
         }
 
@@ -69,7 +102,6 @@ final class NotificationViewController: UIViewController {
 private extension NotificationViewController {
 
     func bindViewModel() {
-//        cell.switchControl.rx.isOn.onNext(element.hasSwitch)
         let input = NotificationViewModel.Input(
             backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )

@@ -57,4 +57,12 @@ final class NotificationViewModel: ViewModelType {
         dateFormatter.locale = Locale(identifier: "ko_KR")
         return dateFormatter.string(from: date)
     }
+    
+    func postAlarmChangeAPI(isDiaryAlarm: Bool, isReplyAlarm: Bool, time: String, fcmToken: String) {
+        let provider = Providers.myPageProvider
+        
+        provider.request(target: .postAlarmSet(data: PostAlarmSetRequestDTO(isDiaryAlarm: isDiaryAlarm, isReplyAlarm: isReplyAlarm, time: time, fcmToken: fcmToken)), instance: BaseResponse<PostAlarmSetResponseDTO>.self) { data in
+            print(data)
+        }
+    }
 }
