@@ -230,6 +230,7 @@ final class AccountViewController: UIViewController {
     @objc private func handleChangeNickname() {
         guard let newNickname = nicknameTextField.textField.text, !newNickname.isEmpty else { return }
             rootView.nicknameLabel.text = newNickname
+        viewModel.patchNickNameChange(nickname: newNickname)
         view.subviews.last?.removeFromSuperview()
         view.subviews.last?.removeFromSuperview()
     }

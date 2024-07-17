@@ -31,11 +31,17 @@ final class AccountViewModel: ViewModelType {
             
             let accountModel = GetAccountResponseDTO(email: response.email, name: response.name, platform: response.platform)
             completion(accountModel)
-            print("🐶")
-            print(data)
-
         })
     }
+    
+    func patchNickNameChange(nickname: String) {
+        let provider = Providers.myPageProvider
+
+        provider.request(target: .patchNickname(data: PatchNicknameRequestDTO(name: nickname)), instance: BaseResponse<PatchNicknameResponseDTO>.self, completion: { data in
+            print(data)
+        })
+    }
+
 }
 
 extension AccountViewModel {
