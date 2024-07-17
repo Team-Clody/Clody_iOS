@@ -23,7 +23,11 @@ extension AccountViewModel {
     
     func logout(completion: @escaping () -> ()) {
         Providers.authProvider.request(target: .logout, instance: BaseResponse<EmptyResponseDTO>.self) { response in
-            completion()
+            if let data = response.data {
+                UserManager.shared.clearAll()
+                print(data)
+                completion()
+            }
         }
     }
 

@@ -84,6 +84,9 @@ final class AccountViewController: UIViewController {
                     .subscribe(onNext: {
                         self.viewModel.logout() {
                             self.hideAlert()
+                            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                                sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
+                            }
                         }
                     })
                     .disposed(by: self.disposeBag)
@@ -110,6 +113,9 @@ final class AccountViewController: UIViewController {
                     .subscribe(onNext: {
                         self.viewModel.withdraw() {
                             self.hideAlert()
+                            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                                sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
+                            }
                         }
                         self.hideAlert()
                     })
