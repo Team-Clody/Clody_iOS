@@ -65,10 +65,26 @@ private extension ReplyWaitingViewController {
             .take(until: { $0 < 0 })
         
         let input = ReplyWaitingViewModel.Input(
+            viewDidLoad: Observable.just(()).asSignal(onErrorJustReturn: ()),
             timer: timer,
             openButtonTapEvent: openButton.rx.tap.asSignal()
         )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
+        
+        output.getWritingTime
+            .drive(onNext: { [weak self] in
+                guard let self = self else { return }
+                let dateTuple = date.dateToYearMonthDay()
+                
+                self.viewModel.getWritingTime(year: dateTuple.0, month: dateTuple.1, date: dateTuple.2) { data in
+                    let createdTime = (data.HH * 3600) + (data.MM * 60) + data.SS
+                    let remainingTime = (createdTime + 60) - Date().currentTimeSeconds()
+                    if remainingTime <= 0 {
+                        self.totalSeconds = 0
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
         
         output.timeLabelDidChange
             .drive(onNext: { [weak self] timeString in

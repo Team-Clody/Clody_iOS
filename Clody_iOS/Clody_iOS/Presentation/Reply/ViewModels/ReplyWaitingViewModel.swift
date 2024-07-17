@@ -13,17 +13,22 @@ import RxSwift
 final class ReplyWaitingViewModel: ViewModelType {
     
     struct Input {
+        let viewDidLoad: Signal<Void>
         let timer: Observable<Int>
         let openButtonTapEvent: Signal<Void>
     }
         
     struct Output {
+        let getWritingTime: Driver<Void>
         let timeLabelDidChange: Driver<String>
         let replyArrivalEvent: Driver<Void>
         let getReply: Driver<Void>
     }
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
+        let getWritingTime = input.viewDidLoad
+            .asDriver(onErrorJustReturn: ())
+        
         let timeLabelDidChange = input.timer
             .map { totalSeconds in
                 let hours = totalSeconds / 3600
@@ -47,12 +52,13 @@ final class ReplyWaitingViewModel: ViewModelType {
             .map { _ in
                 return Void()
             }
-            .asDriver(onErrorJustReturn: Void())
+            .asDriver(onErrorJustReturn: ())
         
         let getReply = input.openButtonTapEvent
-            .asDriver(onErrorJustReturn: Void())
+            .asDriver(onErrorJustReturn: ())
         
         return Output(
+            getWritingTime: getWritingTime,
             timeLabelDidChange: timeLabelDidChange,
             replyArrivalEvent: replyArrivalEvent,
             getReply: getReply
@@ -66,6 +72,18 @@ extension ReplyWaitingViewModel {
         Providers.diaryRouter.request(
             target: .getReply(year: year, month: month, date: date),
             instance: BaseResponse<GetReplyResponseDTO>.self
+        ) { response in
+            if let data = response.data {
+                print(data)
+                completion(data)
+            }
+        }
+    }
+    
+    func getWritingTime(year: Int, month: Int, date: Int, completion: @escaping (GetWritingTimeDTO) -> ()) {
+        Providers.diaryRouter.request(
+            target: .getWritingTime(year: year, month: month, date: date),
+            instance: BaseResponse<GetWritingTimeDTO>.self
         ) { response in
             if let data = response.data {
                 print(data)
