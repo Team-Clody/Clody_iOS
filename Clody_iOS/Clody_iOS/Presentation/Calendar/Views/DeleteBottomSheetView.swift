@@ -16,7 +16,7 @@ final class DeleteBottomSheetView: BaseView {
     
     let dimmedView = UIView()
     let bottomSheetView = UIView()
-    private let deleteIcon = UIImageView()
+    let deleteIcon = UIImageView()
     private let deleteLabel = UILabel()
     let deleteContainer = UIView()
     

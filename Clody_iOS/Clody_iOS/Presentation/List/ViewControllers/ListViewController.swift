@@ -7,7 +7,6 @@
 
 import UIKit
 
-import FSCalendar
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -72,8 +71,10 @@ private extension ListViewController {
         output.replyDate
             .drive(onNext: { [weak self] date in
                 guard let self = self else { return }
-                // 필요한 동작 수행
-                print("Reply Date: \(date)")
+                let dateData = DateFormatter.date(from: date)
+                let diaryStatus = viewModel.listDataRelay.value.diaries.first(where: { $0.date == date})?.replyStatus
+                let isNew = diaryStatus == "READY_NOT_READ"
+                self.navigationController?.pushViewController(ReplyWaitingViewController(date: dateData ?? Date(), isNew: isNew), animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -161,6 +162,14 @@ private extension ListViewController {
             $0.edges.equalToSuperview()
         }
         datePickerView.isHidden = true
+        
+        datePickerView.cancelIcon.rx.tap
+            .subscribe(onNext: {
+                self.dismissPickerView(animated: true, completion: {
+                    
+                })
+            })
+            .disposed(by: self.disposeBag)
         
         datePickerView.completeButton.rx.tapGesture()
             .when(.recognized)
