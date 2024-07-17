@@ -29,9 +29,10 @@ final class ReplyWaitingViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(date: Date, isNew: Bool) {
+    init(date: Date, isNew: Bool, hasNavigationBar: Bool) {
         self.date = date
         self.isNew = isNew
+        if hasNavigationBar { rootView.setNavigationBar() }
         
         super.init(nibName: nil, bundle: nil)
     }
