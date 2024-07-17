@@ -244,6 +244,10 @@ private extension WritingDiaryViewController {
                     $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(addButtonPadding)
                 }
                 
+                self.rootView.writingCollectionView.snp.updateConstraints {
+                    $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(addButtonPadding)
+                }
+                
                 self.view.layoutIfNeeded()
             })
             .disposed(by: disposeBag)

@@ -56,7 +56,7 @@ final class WritingDiaryView: BaseView {
         
         writingCollectionView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(safeAreaLayoutGuide)
             $0.top.equalTo(navigationBarView.snp.bottom)
         }
         
