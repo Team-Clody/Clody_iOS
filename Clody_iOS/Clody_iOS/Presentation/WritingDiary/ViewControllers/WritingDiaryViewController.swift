@@ -43,7 +43,7 @@ final class WritingDiaryViewController: UIViewController {
     }
     
     // MARK: - Life Cycles
-
+    
     override func loadView() {
         super.loadView()
         
@@ -118,7 +118,7 @@ private extension WritingDiaryViewController {
                     message: I18N.Alert.saveDiaryMessage,
                     rightButtonText: I18N.Alert.save
                 )
-
+                
                 self.alert?.leftButton.rx.tap
                     .subscribe(onNext: {
                         self.hideAlert()
@@ -129,7 +129,7 @@ private extension WritingDiaryViewController {
                     .subscribe(onNext: {
                         self.viewModel.saveData() { createdAt in
                             self.hideAlert()
-//                            self.navigationController?.pushViewController(ReplyWaitingViewController(year: self.year, month: self.month, date: self.day), animated: true)
+                            self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date), animated: true)
                         }
                     })
                     .disposed(by: self.disposeBag)
@@ -145,7 +145,7 @@ private extension WritingDiaryViewController {
                     message: I18N.Alert.deleteDiaryMessage,
                     rightButtonText: I18N.Alert.delete
                 )
-
+                
                 self.alert?.leftButton.rx.tap
                     .subscribe(onNext: {
                         self.hideAlert()
@@ -154,10 +154,10 @@ private extension WritingDiaryViewController {
                 
                 self.alert?.rightButton.rx.tap
                     .subscribe(onNext: {
-//                        self.viewModel.deleteData(index: index) {
-                            self.hideAlert()
-//                            self.navigationController?.pushViewController(ReplyWaitingViewController(year: self.year, month: self.month, date: self.day), animated: true)
-//                        }
+                        //                        self.viewModel.deleteData(index: index) {
+                        self.hideAlert()
+                        //                            self.navigationController?.pushViewController(ReplyWaitingViewController(year: self.year, month: self.month, date: self.day), animated: true)
+                        //                        }
                     })
                     .disposed(by: self.disposeBag)
             })
@@ -258,7 +258,7 @@ private extension WritingDiaryViewController {
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissBottomSheet(animated: true, completion: {
-//                    self?.showClodyAlert(type: .deleteDiary, title: "정말 일기를 삭제할까요?", message: "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요.", rightButtonText: "삭제")
+                    //                    self?.showClodyAlert(type: .deleteDiary, title: "정말 일기를 삭제할까요?", message: "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요.", rightButtonText: "삭제")
                 })
             })
             .disposed(by: disposeBag)
@@ -283,7 +283,7 @@ private extension WritingDiaryViewController {
             completion?()
         }
     }
-
+    
     func setupGestureRecognizer() {
         view.addGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer.rx.event

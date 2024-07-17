@@ -55,7 +55,7 @@ final class CalendarViewModel: ViewModelType {
                 self.selectedDateRelay.accept(today)
                 
                 let year = DateFormatter.string(from: selectedDateRelay.value, format: "yyyy")
-                let month = DateFormatter.string(from: selectedDateRelay.value, format: "MM")
+                let month = DateFormatter.string(from: selectedDateRelay.value, format: "M")
                 let day = DateFormatter.string(from: selectedDateRelay.value, format: "d")
                 
                 self.selectedMonthRelay.accept([year, month])
@@ -68,7 +68,7 @@ final class CalendarViewModel: ViewModelType {
             .emit(onNext: { [weak self] date in
                 guard let self = self else { return }
                 let year = DateFormatter.string(from: date, format: "yyyy")
-                let month = DateFormatter.string(from: date, format: "MM")
+                let month = DateFormatter.string(from: date, format: "M")
                 let day = DateFormatter.string(from: date, format: "d")
                 
                 self.selectedDateRelay.accept(date)

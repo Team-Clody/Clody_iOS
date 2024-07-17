@@ -69,7 +69,7 @@ final class CalendarView: BaseView {
             $0.headerHeight = 0
             $0.weekdayHeight = 50
             $0.rowHeight = 71
-            //            $0.scrollEnabled = false
+            $0.scrollEnabled = false
             
             $0.appearance.weekdayFont = .pretendard(.body3_medium)
             $0.appearance.weekdayTextColor = .grey06

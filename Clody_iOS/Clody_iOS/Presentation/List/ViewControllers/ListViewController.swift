@@ -7,7 +7,6 @@
 
 import UIKit
 
-import FSCalendar
 import RxCocoa
 import RxSwift
 import SnapKit
