@@ -51,7 +51,12 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
         }
     }
     
-    func bindData(date: String) {
-        dateLabel.text = date
+    func bindData(dateData: Date) {
+        let month = DateFormatter.string(from: dateData, format: "M")
+        let date = DateFormatter.string(from: dateData, format: "d")
+        let dateString = DateFormatter.string(from: dateData, format: "yyyy-MM-dd")
+        let dayOfContent = DateFormatter.date(from: dateString)
+        
+        dateLabel.text = month + "월 " + date + "일 " + (dayOfContent?.koreanDayOfWeek() ?? "")
     }
 }

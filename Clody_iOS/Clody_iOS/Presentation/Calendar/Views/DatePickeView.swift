@@ -17,7 +17,7 @@ final class DatePickeView: BaseView {
     let dimmedView = UIView()
     let backgroundView = UIView()
     let pickerView = ClodyPickerView(type: .calendar)
-    private let cancelIcon = UIImageView()
+    let cancelIcon = UIButton()
     private let titleLabel = UILabel()
     lazy var completeButton = UIButton()
     
@@ -39,8 +39,7 @@ final class DatePickeView: BaseView {
         }
         
         cancelIcon.do {
-            $0.image = .icX
-            $0.contentMode = .scaleAspectFit
+            $0.setImage(.icX, for: .normal)
         }
         
         completeButton.do {
