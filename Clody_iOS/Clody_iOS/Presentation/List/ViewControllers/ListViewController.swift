@@ -60,7 +60,11 @@ private extension ListViewController {
             tapKebabButton: tapKebobRelay.asSignal(),
             tapCalendarButton: rootView.navigationBarView.calendarButton.rx.tap.asSignal(),
             tapDateButton: rootView.navigationBarView.dateButton.rx.tap.asSignal(),
-            monthTap: tabMonthRelay.asSignal()
+            monthTap: tabMonthRelay.asSignal(),
+            tapDeleteButton: deleteBottomSheetView.deleteContainer.rx.tapGesture()
+                .when(.recognized)
+                .map { _ in }
+                .asSignal(onErrorJustReturn: ())
         )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
@@ -73,11 +77,16 @@ private extension ListViewController {
             })
             .disposed(by: disposeBag)
         
+        output.listDataChanged
+            .drive(onNext: { [weak self] date in
+                guard let self = self else { return }
+                rootView.listCollectionView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
         output.kebabDate
             .drive(onNext: { [weak self] date in
                 guard let self = self else { return }
-                // 필요한 동작 수행
-                print("Kebab Date: \(date)")
                 self.presentBottomSheet()
             })
             .disposed(by: disposeBag)
@@ -93,6 +102,10 @@ private extension ListViewController {
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.presentPickerView()
+                
+                let date = viewModel.selectedMonthRelay.value
+                let selectedMonth = "\(date[0])년 \(date[1])월"
+                rootView.navigationBarView.dateText = selectedMonth
             })
             .disposed(by: disposeBag)
         
@@ -222,7 +235,7 @@ extension ListViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.description(), for: indexPath)
                 as? ListCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.bindData(diaryContent: viewModel.listDataRelay.value.diaries[indexPath.section].diary[indexPath.item].contnet, index: indexPath.item)
+        cell.bindData(diaryContent: viewModel.listDataRelay.value.diaries[indexPath.section].diary[indexPath.item].content, index: indexPath.item)
         return cell
     }
     

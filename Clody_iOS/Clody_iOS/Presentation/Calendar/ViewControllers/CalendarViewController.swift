@@ -119,6 +119,8 @@ private extension CalendarViewController {
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
                 rootView.mainCalendarView.reloadData()
+                let dayOfContent = DateFormatter.date(from: data)
+                rootView.dayLabel.text = dayOfContent?.koreanDayOfWeek()
             })
             .disposed(by: disposeBag)
         

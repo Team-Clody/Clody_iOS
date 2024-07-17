@@ -90,7 +90,11 @@ final class CalendarViewModel: ViewModelType {
         input.tapDeleteButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.deleteDiary()
+                let year = DateFormatter.string(from: selectedDateRelay.value, format: "yyyy")
+                let month = DateFormatter.string(from: selectedDateRelay.value, format: "MM")
+                let day = DateFormatter.string(from: selectedDateRelay.value, format: "d")
+                // 삭제 API Alert 버튼으로 옮겨야함!
+                self.deleteDiary(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
             })
             .disposed(by: disposeBag)
         
@@ -201,10 +205,10 @@ extension CalendarViewModel {
         })
     }
     
-    func deleteDiary() {
+    func deleteDiary(year: Int, month: Int, date: Int) {
         let provider = Providers.diaryRouter
 
-        provider.request(target: .deleteDiary(year: 2024, month: 7, date: 16), instance: BaseResponse<EmptyResponseDTO>.self, completion: { data in
+        provider.request(target: .deleteDiary(year: year, month: month, date: date), instance: BaseResponse<EmptyResponseDTO>.self, completion: { data in
             guard let data = data.data else { return }
             
         })
