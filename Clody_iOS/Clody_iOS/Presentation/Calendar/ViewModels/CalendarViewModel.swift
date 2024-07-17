@@ -82,7 +82,8 @@ final class CalendarViewModel: ViewModelType {
                 self.currentPageRelay.accept(date)
                 let year = Calendar.current.component(.year, from: date)
                 let month = Calendar.current.component(.month, from: date)
-                self.selectedMonthRelay.accept(["\(year)", "\(month)"])
+         
+                getMonthlyCalendar(year: year, month: month)
             })
             .disposed(by: disposeBag)
         

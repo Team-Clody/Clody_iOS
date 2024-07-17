@@ -334,6 +334,11 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         tapDateRelay.accept(date)
     }
     
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        let currentPage = calendar.currentPage
+        currentPageRelay.accept(currentPage)
+    }
+    
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
         return .clear // 날짜 숫자를 숨김
     }
