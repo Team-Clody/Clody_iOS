@@ -26,7 +26,7 @@ final class CalendarViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private var rootView = CalendarView()
+    private let rootView = CalendarView()
     private let deleteBottomSheetView = DeleteBottomSheetView()
     private let datePickerView = DatePickeView()
     
@@ -181,12 +181,6 @@ private extension CalendarViewController {
                 }
             })
             .disposed(by: disposeBag)
-        
-//        rootView.calendarButton.rx.tap
-//            .bind { [weak self] in
-//                //                self?.viewModel.responseButtonStatusRelay.accept(self?.viewModel.dailyDiaryDummyDataRelay.value.status ?? "")
-//            }
-//            .disposed(by: disposeBag)
         
         output.diaryDeleted
             .emit(onNext: { [weak self] in

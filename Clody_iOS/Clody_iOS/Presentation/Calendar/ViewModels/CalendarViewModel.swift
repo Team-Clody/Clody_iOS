@@ -164,25 +164,7 @@ final class CalendarViewModel: ViewModelType {
 }
 
 extension CalendarViewModel {
-    
-//    private func loadDummyData(for date: Date) {
-//        let monthString = DateFormatter.string(from: date, format: "yyyy-MM")
-//        let calendarData = CalendarModel.dummy(monthString: monthString)
-//        self.calendarDummyDataRelay.accept(calendarData)
-//        
-//        let dateString = DateFormatter.string(from: date, format: "yyyy-MM-dd")
-//        let dailyData = CalendarDailyModel.dummy(dateString: dateString)
-//        self.dailyDiaryDummyDataRelay.accept(dailyData)
-//    }
-//    
-//    private func loadDailyDummyData(for date: Date) {
-//        let dateString = DateFormatter.string(from: date, format: "yyyy-MM-dd")
-//        let dailyData = CalendarDailyModel.dummy(dateString: dateString)
-//        // 데이터를 받아온 시점 칸의 개수 * 최대 높이 + 캘린더 높이 막 이런 식으로 remake를 해주기
-//        // 뷰컨으로 값 넘겨서 remake
-//        self.dailyDiaryDummyDataRelay.accept(dailyData)
-//    }
-    
+
     func getMonthlyCalendar(year: Int, month: Int) {
         let provider = Providers.calendarProvider
 
