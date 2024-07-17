@@ -49,14 +49,18 @@ final class AuthInterceptor: RequestInterceptor {
                         completion(.retry)
                     } else {
                         print("🚨토큰 데이터가 없습니다🚨")
-                        // 로그아웃 처리 필요
-                        // UserManager.shared.logout()
+                        UserManager.shared.clearAll()
+                        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                            sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
+                        }
                         completion(.doNotRetryWithError(error))
                     }
                 } else {
                     print("🚨토큰 재발급에 실패했습니다🚨")
-                    // 로그아웃 처리 필요
-                    // UserManager.shared.logout()
+                    UserManager.shared.clearAll()
+                    if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                        sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
+                    }
                     completion(.doNotRetryWithError(error))
                 }
             case .failure(let moyaError):
