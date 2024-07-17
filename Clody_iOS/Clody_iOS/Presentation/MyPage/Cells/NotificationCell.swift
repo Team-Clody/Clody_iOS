@@ -13,9 +13,9 @@ import Then
 final class NotificationCell: UITableViewCell {
 
     let titleLabel: UILabel = UILabel()
-    let detailLabel: UILabel = UILabel()
-    let arrowImageView: UIImageView = UIImageView()
-    let switchControl: UISwitch = UISwitch()
+    lazy var detailLabel: UILabel = UILabel()
+    lazy var arrowImageView: UIImageView = UIImageView()
+    lazy var switchControl: UISwitch = UISwitch()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -79,19 +79,51 @@ final class NotificationCell: UITableViewCell {
         }
     }
 
-    func configure(with item: NotificationItem) {
+    func configure(with item: AlarmModel, indexPath: Int) {
+        titleLabel.attributedText = UIFont.pretendardString(
+            text: SettingAlarmCellTitle.allCases[indexPath].rawValue,
+            style: .body1_medium
+        )
         
-        titleLabel.attributedText = UIFont.pretendardString(text: item.title, style: .body1_medium)
-        
-        if let detail = item.detail {
-            detailLabel.attributedText = UIFont.pretendardString(text: detail, style: .body3_medium)
-            detailLabel.isHidden = false
-            arrowImageView.isHidden = false
-            switchControl.isHidden = true
-        } else {
+        switch indexPath {
+        case 0:
+            switchControl.isHidden = false
+            switchControl.isOn = item.isDiaryAlarm
             detailLabel.isHidden = true
             arrowImageView.isHidden = true
+        case 1:
+            switchControl.isHidden = true
+            detailLabel.isHidden = false
+            arrowImageView.isHidden = false
+            detailLabel.attributedText = UIFont.pretendardString(
+                text: convertTo12HourFormat(item.time),
+                style: .body3_medium
+            )
+        case 2:
             switchControl.isHidden = false
+            switchControl.isOn = item.isReplyAlarm
+            detailLabel.isHidden = true
+            arrowImageView.isHidden = true
+        default:
+            return
         }
     }
+    
+    private func convertTo12HourFormat(_ time: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        guard let date = dateFormatter.date(from: time) else {
+            return time
+        }
+        
+        dateFormatter.dateFormat = "a h:mm"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        return dateFormatter.string(from: date)
+    }
+}
+
+enum SettingAlarmCellTitle: String, CaseIterable {
+    case writingAlarm = "알기 작성 알림 받기"
+    case time = "알림 시간"
+    case replyAlarm = "답장 도착 알림 받기"
 }

@@ -12,7 +12,6 @@ import RxSwift
 import Moya
 
 final class NotificationViewModel: ViewModelType {
-    let notificationItems = BehaviorRelay<[NotificationItem]>(value: [])
     private let provider = MoyaProvider<MyPageRouter>()
 
     struct Input {
@@ -20,7 +19,6 @@ final class NotificationViewModel: ViewModelType {
     }
     
     struct Output {
-        let notificationItems: Driver<[NotificationItem]>
         let popViewController: Driver<Void>
     }
 
@@ -28,36 +26,35 @@ final class NotificationViewModel: ViewModelType {
         let popViewController = input.backButtonTapEvent
             .asDriver(onErrorJustReturn: Void())
         
-        return Output(notificationItems: notificationItems.asDriver(), popViewController: popViewController)
+        return Output(
+            popViewController: popViewController
+        )
     }
 
-    func alarmGetAPI() {
+    func getAlarmAPI(completion: @escaping (AlarmModel) -> ()) {
         let provider = Providers.myPageProvider
         
-        provider.request(target: .getAlarmSet, instance: BaseResponse<GetAlarmResponseDTO>.self, completion: { data in
+        provider.request(target: .getAlarmSet, instance: BaseResponse<GetAlarmResponseDTO>.self) { data in
             guard let response = data.data else { return }
-            
-            print("🐶")
-            print(data.data?.fcmToken)
-            print(data.data?.isDiaryAlarm)
-            print(data.data?.isReplyAlarm)
-            print(data.data?.time)
-            
-        })
-    }
-
-    func updateNotificationTime(_ time: String) {
-        var items = notificationItems.value
-        if let index = items.firstIndex(where: { $0.title == "알림 시간" }) {
-            items[index].detail = time
-            notificationItems.accept(items)
+    
+            let alarmModel = AlarmModel(isDiaryAlarm: response.isDiaryAlarm, isReplyAlarm: response.isReplyAlarm, time: response.time)
+            completion(alarmModel)
         }
     }
+    
+    func updateNotificationTime(_ time: String) {
+        
+    }
+    
+    private func convertTo12HourFormat(_ time: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        guard let date = dateFormatter.date(from: time) else {
+            return time
+        }
+        
+        dateFormatter.dateFormat = "a h:mm"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        return dateFormatter.string(from: date)
+    }
 }
-
-struct NotificationItem {
-    let title: String
-    var detail: String?
-    let hasSwitch: Bool
-}
-

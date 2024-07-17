@@ -10,7 +10,11 @@ final class NotificationViewController: UIViewController {
 
     private let viewModel = NotificationViewModel()
     private let disposeBag = DisposeBag()
-    private var selectedTime: String = "오후 9시 30분"
+    private var alarmData = AlarmModel(
+        isDiaryAlarm: false,
+        isReplyAlarm: false,
+        time: ""
+    )
 
     // MARK: - UI Components
 
@@ -29,14 +33,12 @@ final class NotificationViewController: UIViewController {
         super.viewDidLoad()
         bindViewModel()
         view.backgroundColor = .white
+        rootView.tableView.dataSource = self
         
-        let sampleData = [
-            NotificationItem(title: "일기 작성 알림 받기", detail: nil, hasSwitch: true),
-            NotificationItem(title: "알림 시간", detail: selectedTime, hasSwitch: false),
-            NotificationItem(title: "답장 도착 알림 받기", detail: nil, hasSwitch: true)
-        ]
-        viewModel.notificationItems.accept(sampleData)
-        viewModel.alarmGetAPI()
+        viewModel.getAlarmAPI() { data in
+            self.alarmData = data
+            self.rootView.tableView.reloadData()
+        }
     }
 
     private func showPickerView() {
@@ -46,8 +48,8 @@ final class NotificationViewController: UIViewController {
                 self?.settingNotificationTimeView = nil
             }
             $0.doneHandler = { [weak self] newTime in
-                self?.selectedTime = newTime
-                self?.viewModel.updateNotificationTime(newTime)
+                self?.alarmData.time = newTime
+                self?.rootView.tableView.reloadData()
                 self?.settingNotificationTimeView?.removeFromSuperview()
                 self?.settingNotificationTimeView = nil
             }
@@ -60,15 +62,6 @@ final class NotificationViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
     }
-
-    @objc private func handleCloseButton() {
-        settingNotificationTimeView?.removeFromSuperview()
-        settingNotificationTimeView = nil
-    }
-
-    @objc private func handleDoneButton() {
-
-    }
 }
 
 // MARK: - Extensions
@@ -76,6 +69,7 @@ final class NotificationViewController: UIViewController {
 private extension NotificationViewController {
 
     func bindViewModel() {
+//        cell.switchControl.rx.isOn.onNext(element.hasSwitch)
         let input = NotificationViewModel.Input(
             backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
@@ -85,19 +79,6 @@ private extension NotificationViewController {
     }
 
     func bindOutput(_ output: NotificationViewModel.Output) {
-        output.notificationItems
-            .drive(rootView.tableView.rx.items(cellIdentifier: "NotificationCell", cellType: NotificationCell.self)) { [weak self] (row, element, cell) in
-                cell.configure(with: element)
-
-                if element.title == "알림 시간" {
-                    cell.arrowImageView.isUserInteractionEnabled = true
-                    cell.switchControl.rx.isOn.onNext(element.hasSwitch)
-                    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self?.arrowImageViewTapped))
-                    cell.arrowImageView.addGestureRecognizer(tapGesture)
-                }
-            }
-            .disposed(by: disposeBag)
-
         output.popViewController
             .drive(onNext: { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
@@ -109,5 +90,23 @@ private extension NotificationViewController {
 
     @objc func arrowImageViewTapped() {
         showPickerView()
+    }
+}
+
+extension NotificationViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationCell", for: indexPath) as? NotificationCell else { return .init() }
+        if indexPath.row == 1 {
+            cell.arrowImageView.isUserInteractionEnabled = true
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.arrowImageViewTapped))
+            cell.arrowImageView.addGestureRecognizer(tapGesture)
+        }
+        cell.configure(with: alarmData, indexPath: indexPath.row)
+        return cell
     }
 }
