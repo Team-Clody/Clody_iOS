@@ -12,10 +12,10 @@ import Then
 
 final class NotificationCell: UITableViewCell {
 
-    private let titleLabel: UILabel = UILabel()
-    private let detailLabel: UILabel = UILabel()
+    let titleLabel: UILabel = UILabel()
+    let detailLabel: UILabel = UILabel()
     let arrowImageView: UIImageView = UIImageView()
-    private let switchControl: UISwitch = UISwitch()
+    let switchControl: UISwitch = UISwitch()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -9,10 +9,11 @@ import UIKit
 
 import RxCocoa
 import RxSwift
+import Moya
 
 final class NotificationViewModel: ViewModelType {
-    let notificationItems = PublishSubject<[NotificationItem]>()
-    private let updatedNotificationItems = BehaviorRelay<[NotificationItem]>(value: [])
+    let notificationItems = BehaviorRelay<[NotificationItem]>(value: [])
+    private let provider = MoyaProvider<MyPageRouter>()
 
     struct Input {
         let backButtonTapEvent: Signal<Void>
@@ -24,21 +25,32 @@ final class NotificationViewModel: ViewModelType {
     }
 
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
-        notificationItems
-            .bind(to: updatedNotificationItems)
-            .disposed(by: disposeBag)
-        
         let popViewController = input.backButtonTapEvent
             .asDriver(onErrorJustReturn: Void())
         
-        return Output(notificationItems: updatedNotificationItems.asDriver(), popViewController: popViewController)
+        return Output(notificationItems: notificationItems.asDriver(), popViewController: popViewController)
+    }
+
+    func alarmGetAPI() {
+        let provider = Providers.myPageProvider
+        
+        provider.request(target: .getAlarmSet, instance: BaseResponse<GetAlarmResponseDTO>.self, completion: { data in
+            guard let response = data.data else { return }
+            
+            print("🐶")
+            print(data.data?.fcmToken)
+            print(data.data?.isDiaryAlarm)
+            print(data.data?.isReplyAlarm)
+            print(data.data?.time)
+            
+        })
     }
 
     func updateNotificationTime(_ time: String) {
-        var items = updatedNotificationItems.value
+        var items = notificationItems.value
         if let index = items.firstIndex(where: { $0.title == "알림 시간" }) {
             items[index].detail = time
-            updatedNotificationItems.accept(items)
+            notificationItems.accept(items)
         }
     }
 }

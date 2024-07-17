@@ -163,7 +163,6 @@
 		0B20F3E82C2C4DAB00F8D62D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B20F3EA2C2C4DAB00F8D62D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B4A1BB82C44E59B00E31EC4 /* DatePickeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickeView.swift; sourceTree = "<group>"; };
-		0B4A1BBA2C453DC700E31EC4 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		0B4A1BBB2C453F8400E31EC4 /* AuthIntercepter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthIntercepter.swift; sourceTree = "<group>"; };
 		0B4A1BBD2C453F9600E31EC4 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		0B4A1BBF2C453FB800E31EC4 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
@@ -238,6 +237,7 @@
 		2C0B3C852C30DD55002EB1A3 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		2C0B3C872C30DD5B002EB1A3 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		2C7FCF742C42DD6200F4E089 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		2CB129422C47F2CC009D1480 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		2CC0CE702C3C0ECD001F3E6B /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		2CC0CE722C3C0ED9001F3E6B /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
 		2CC0CE742C3C0EE7001F3E6B /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
@@ -338,7 +338,7 @@
 				0B20F3E02C2C4DAA00F8D62D /* ViewController.swift */,
 				0B20F3EA2C2C4DAB00F8D62D /* Info.plist */,
 				95310F892C401A1F00023C7B /* GoogleService-Info.plist */,
-				0B4A1BBA2C453DC700E31EC4 /* Config.xcconfig */,
+				2CB129422C47F2CC009D1480 /* Config.xcconfig */,
 			);
 			path = Clody_iOS;
 			sourceTree = "<group>";
@@ -1170,7 +1170,7 @@
 /* Begin XCBuildConfiguration section */
 		0B20F3EB2C2C4DAB00F8D62D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0B4A1BBA2C453DC700E31EC4 /* Config.xcconfig */;
+			baseConfigurationReference = 2CB129422C47F2CC009D1480 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1234,7 +1234,6 @@
 		};
 		0B20F3EC2C2C4DAB00F8D62D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0B4A1BBA2C453DC700E31EC4 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1320,6 +1319,7 @@
 		};
 		0B20F3EF2C2C4DAB00F8D62D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2CB129422C47F2CC009D1480 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

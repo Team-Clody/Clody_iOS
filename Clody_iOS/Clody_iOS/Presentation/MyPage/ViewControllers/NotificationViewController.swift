@@ -35,7 +35,8 @@ final class NotificationViewController: UIViewController {
             NotificationItem(title: "알림 시간", detail: selectedTime, hasSwitch: false),
             NotificationItem(title: "답장 도착 알림 받기", detail: nil, hasSwitch: true)
         ]
-        viewModel.notificationItems.onNext(sampleData)
+        viewModel.notificationItems.accept(sampleData)
+        viewModel.alarmGetAPI()
     }
 
     private func showPickerView() {
@@ -66,7 +67,7 @@ final class NotificationViewController: UIViewController {
     }
 
     @objc private func handleDoneButton() {
-        
+
     }
 }
 
@@ -78,7 +79,7 @@ private extension NotificationViewController {
         let input = NotificationViewModel.Input(
             backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
-        
+
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         bindOutput(output)
     }
@@ -87,15 +88,16 @@ private extension NotificationViewController {
         output.notificationItems
             .drive(rootView.tableView.rx.items(cellIdentifier: "NotificationCell", cellType: NotificationCell.self)) { [weak self] (row, element, cell) in
                 cell.configure(with: element)
-                
+
                 if element.title == "알림 시간" {
                     cell.arrowImageView.isUserInteractionEnabled = true
+                    cell.switchControl.rx.isOn.onNext(element.hasSwitch)
                     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self?.arrowImageViewTapped))
                     cell.arrowImageView.addGestureRecognizer(tapGesture)
                 }
             }
             .disposed(by: disposeBag)
-        
+
         output.popViewController
             .drive(onNext: { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
