@@ -17,7 +17,10 @@ final class ReplyWaitingViewController: UIViewController {
     
     private let viewModel = ReplyWaitingViewModel()
     private let disposeBag = DisposeBag()
-    private var totalSeconds = 5
+    private var totalSeconds = 60
+    private var year: Int
+    private var month: Int
+    private var date: Int
     
     // MARK: - UI Components
      
@@ -26,6 +29,17 @@ final class ReplyWaitingViewController: UIViewController {
     private lazy var openButton = rootView.openButton
     
     // MARK: - Life Cycles
+    
+    init(year: Int, month: Int, date: Int) {
+        self.year = year
+        self.month = month
+        self.date = date
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()
@@ -73,15 +87,26 @@ private extension ReplyWaitingViewController {
             })
             .disposed(by: disposeBag)
         
-        output.pushReplyDetailViewController
+        output.getReply
             .drive(onNext: { [weak self] in
-                let replyDetailViewController = ReplyDetailViewController()
-                self?.navigationController?.pushViewController(replyDetailViewController, animated: false)
+                self?.getReply()
             })
             .disposed(by: disposeBag)
     }
 
     func setUI() {
         self.navigationController?.isNavigationBarHidden = true
+    }
+}
+
+private extension ReplyWaitingViewController {
+    
+    func getReply() {
+        viewModel.getReply(year: year, month: month, date: date) { data in
+            self.navigationController?.pushViewController(
+                ReplyDetailViewController(data: data),
+                animated: false
+            )
+        }
     }
 }

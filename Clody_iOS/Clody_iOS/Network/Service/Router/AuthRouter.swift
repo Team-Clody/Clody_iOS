@@ -11,7 +11,7 @@ import Moya
 
 enum AuthRouter {
     case signUp(data: SignUpRequestDTO)
-    case login(data: LoginRequestDTO)
+    case signIn(data: LoginRequestDTO)
     case tokenRefresh
     case logout
     case revoke
@@ -22,14 +22,19 @@ extension AuthRouter: BaseTargetType {
         switch self {
         case .signUp:
             return APIConstants.authCodeHeader
-        case .login:
+        case .signIn:
             return APIConstants.authCodeHeader
         case .tokenRefresh:
-            return APIConstants.hasRefreshTokenHeader
+            return [
+                APIConstants.contentType: APIConstants.applicationJSON,
+                APIConstants.auth : APIConstants.Bearer + UserManager.shared.refreshTokenValue
+            ]
         case .logout:
             return APIConstants.hasTokenHeader
         case .revoke:
-            return APIConstants.hasTokenHeader
+            return [
+                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
+            ]
         }
     }
     
@@ -37,20 +42,20 @@ extension AuthRouter: BaseTargetType {
         switch self {
         case .signUp:
             return "auth/signup"
-        case .login:
+        case .signIn:
             return "auth/signin"
         case .tokenRefresh:
             return "auth/reissue"
         case .logout:
             return "logout"
         case .revoke:
-            return "revoke"
+            return "user/revoke"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .signUp, .login:
+        case .signUp, .signIn:
             return .post
         case .tokenRefresh, .logout:
             return .get
@@ -63,7 +68,7 @@ extension AuthRouter: BaseTargetType {
         switch self {
         case .signUp(let data):
             return .requestJSONEncodable(data)
-        case .login(let data):
+        case .signIn(let data):
             return .requestJSONEncodable(data)
         case .tokenRefresh:
             return .requestPlain

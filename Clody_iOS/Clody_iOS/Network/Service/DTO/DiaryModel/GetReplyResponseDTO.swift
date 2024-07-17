@@ -8,5 +8,8 @@
 import Foundation
 
 struct GetReplyResponseDTO: Codable {
-    let Content: String
+    let content: String
+    let nickname: String
+    let month: Int
+    let date: Int
 }

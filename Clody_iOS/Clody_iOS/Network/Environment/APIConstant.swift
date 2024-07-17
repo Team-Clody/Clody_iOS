@@ -16,8 +16,8 @@ struct APIConstants{
     static let refresh = "refreshToken"
     static let accessToken = "Bearer " + ""
     static let refreshToken = "Bearer " + ""
-    static let authCode = ""
-    // authcode = kakao.accessToken
+    static var authCode = ""
+    static let Bearer = "Bearer "
 }
 
 extension APIConstants{
