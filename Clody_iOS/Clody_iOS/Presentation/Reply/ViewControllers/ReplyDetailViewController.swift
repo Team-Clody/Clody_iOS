@@ -18,15 +18,35 @@ final class ReplyDetailViewController: UIViewController {
     
     private let viewModel = ReplyDetailViewModel()
     private let disposeBag = DisposeBag()
-    private let nickname = "밤빵식"
+    private let nickname: String
+    private let content: String
+    private let month: Int
+    private let date: Int
     
     // MARK: - UI Components
     
-    private let rootView = ReplyDetailView()
+    private lazy var rootView = ReplyDetailView(
+        month: month,
+        date: date,
+        nickname: nickname,
+        content: content
+    )
     private lazy var getClodyAlertView = GetCloverAlertView(nickname: nickname)
     private let dimmingView = UIView()
     
     // MARK: - Life Cycles
+    
+    init(data: GetReplyResponseDTO) {
+        self.nickname = data.nickname
+        self.content = data.content
+        self.month = data.month
+        self.date = data.date
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()

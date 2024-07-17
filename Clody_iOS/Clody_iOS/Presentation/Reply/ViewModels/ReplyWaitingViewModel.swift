@@ -20,7 +20,7 @@ final class ReplyWaitingViewModel: ViewModelType {
     struct Output {
         let timeLabelDidChange: Driver<String>
         let replyArrivalEvent: Driver<Void>
-        let pushReplyDetailViewController: Driver<Void>
+        let getReply: Driver<Void>
     }
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
@@ -49,13 +49,28 @@ final class ReplyWaitingViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: Void())
         
-        let pushReplyDetailViewController = input.openButtonTapEvent
+        let getReply = input.openButtonTapEvent
             .asDriver(onErrorJustReturn: Void())
         
         return Output(
             timeLabelDidChange: timeLabelDidChange,
             replyArrivalEvent: replyArrivalEvent,
-            pushReplyDetailViewController: pushReplyDetailViewController
+            getReply: getReply
         )
+    }
+}
+
+extension ReplyWaitingViewModel {
+    
+    func getReply(year: Int, month: Int, date: Int, completion: @escaping (GetReplyResponseDTO) -> ()) {
+        Providers.diaryRouter.request(
+            target: .getReply(year: year, month: month, date: date),
+            instance: BaseResponse<GetReplyResponseDTO>.self
+        ) { response in
+            if let data = response.data {
+                print(data)
+                completion(data)
+            }
+        }
     }
 }

@@ -175,7 +175,7 @@ private extension CalendarViewController {
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 if viewModel.dailyDiaryDataRelay.value.diaries.count != 0 {
-                    self.navigationController?.pushViewController(ReplyWaitingViewController(), animated: true)
+//                    self.navigationController?.pushViewController(ReplyWaitingViewController(), animated: true)
                 } else {
                     self.navigationController?.pushViewController(WritingDiaryViewController(), animated: true)
                 }
