@@ -7,10 +7,11 @@
 
 import UIKit
 
+import KakaoSDKAuth
+import KakaoSDKUser
 import RxCocoa
 import RxSwift
 import Then
-import KakaoSDKUser
 
 final class LoginViewController: UIViewController {
     
@@ -20,7 +21,7 @@ final class LoginViewController: UIViewController {
     private let disposeBag = DisposeBag()
     
     // MARK: - UI Components
-     
+    
     private let rootView = LoginView()
     
     // MARK: - Life Cycles
@@ -36,64 +37,54 @@ final class LoginViewController: UIViewController {
         
         bindViewModel()
         setUI()
-        
-        rootView.kakaoLoginButton.rx.tap
-            .bind(onNext: handleKakaoLogin)
-            .disposed(by: disposeBag)
     }
 }
-
+    
 // MARK: - Extensions
 
 private extension LoginViewController {
-
+    
     func bindViewModel() {
         let input = LoginViewModel.Input(kakaoLoginButtonTapEvent: rootView.kakaoLoginButton.rx.tap.asSignal())
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
         output.loginWithKakao
             .drive(onNext: {
-                self.navigationController?.pushViewController(TermsViewController(), animated: true)
+                if UserApi.isKakaoTalkLoginAvailable() {
+                    UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+                        self.signInWithKakao(error, oauthToken)
+                    }
+                } else {
+                    UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
+                        self.signInWithKakao(error, oauthToken)
+                    }
+                }
             })
             .disposed(by: disposeBag)
     }
-
+    
     func setUI() {
         self.navigationController?.isNavigationBarHidden = true
     }
 }
 
-
-func testAPI() {
-    let provider = Providers.calendarProvider
+private extension LoginViewController {
     
-//    provider.request(target: .postDiary(data: PostDiaryRequestDTO(date: "2024-03-01", cotent: ["혁진이형 파이팅"])), instance: BaseResponse<PostDiaryResponseDTO>.self) { data in
-//            print(data)
-//        
-//        print(data.message)
-//    }
-}
-
-
-func handleKakaoLogin() {
-    if (UserApi.isKakaoTalkLoginAvailable()) {
-        UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-            if let error = error {
-                print(error)
-            }
-            if let oauthToken = oauthToken{
-                print(oauthToken)
-                let idToken = oauthToken.accessToken
-                print("🍀",idToken)
-            }
-        }
-    } else {
-        UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
-            if let error = error {
-                print("🍀",error)
-            }
-            if let oauthToken = oauthToken{
-                print("kakao success")
+    func signInWithKakao(_ error: Error?, _ oauthToken: OAuthToken?) {
+        if let error = error {
+            print("❗️카카오 로그인 실패 - \(error)")
+        } else {
+            print("✅ 카카오 로그인 성공")
+            UserApi.shared.me() { (user, error) in
+                if let error = error {
+                    print("❗️유저 정보 가져오기 실패 - \(error)")
+                } else {
+                    if let oauthToken = oauthToken {
+                        self.viewModel.signInWithKakao(oauthToken: oauthToken) {
+                            self.navigationController?.pushViewController(TermsViewController(), animated: true)
+                        }
+                    }
+                }
             }
         }
     }

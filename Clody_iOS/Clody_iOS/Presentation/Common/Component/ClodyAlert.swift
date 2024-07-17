@@ -17,76 +17,6 @@ enum AlertType {
     case saveDiary
 }
 
-final class ClodyAlertViewController: UIViewController {
-    
-    // MARK: - UI Components
-    
-    let alertView: ClodyAlert
-    
-    // MARK: - Properties
-    
-    var type: AlertType {
-        get { return alertView.type }
-    }
-    
-    // MARK: - Life Cycles
-    
-    init(
-        type: AlertType,
-        title: String,
-        message: String,
-        rightButtonText: String
-    ) {
-        self.alertView = ClodyAlert(type, title, message, rightButtonText)
-        super.init(nibName: nil, bundle: nil)
-        
-        setStyle()
-        setHierarchy()
-        setLayout()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        UIView.animate(withDuration: 0.5, animations: {
-            self.alertView.alpha = 1
-        })
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        UIView.animate(withDuration: 0.5, animations: {
-            self.alertView.alpha = 0
-        })
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-private extension ClodyAlertViewController {
-    
-    // MARK: - Methods
-    
-    func setStyle() {
-        self.modalPresentationStyle = .fullScreen
-        view.backgroundColor = .white.withAlphaComponent(0.4)
-    }
-    
-    func setHierarchy() {
-        view.addSubview(alertView)
-    }
-    
-    func setLayout() {
-        alertView.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.center.equalToSuperview()
-        }
-    }
-}
-
 final class ClodyAlert: UIView {
     
     // MARK: - UI Components
@@ -103,10 +33,10 @@ final class ClodyAlert: UIView {
     // MARK: - Life Cycles
 
     init(
-        _ type: AlertType,
-        _ title: String,
-        _ message: String,
-        _ rightButtonText: String
+        type: AlertType,
+        title: String,
+        message: String,
+        rightButtonText: String
     ) {
         self.type = type
         super.init(frame: .zero)

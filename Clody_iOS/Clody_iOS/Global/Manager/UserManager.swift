@@ -25,10 +25,7 @@ final class UserManager {
         set { keychain["refreshToken"] = newValue }
     }
     
-    var authCode: String? {
-        get { return keychain["authCode"] }
-        set { keychain["authCode"] = newValue }
-    }
+    var authCode: String?
     
     var idToken: String? {
         get { return keychain["idToken"] }
@@ -40,12 +37,18 @@ final class UserManager {
         set { keychain["platForm"] = newValue }
     }
     
+    var fcmToken: String? {
+        get { return keychain["fcmToken"] }
+        set { keychain["fcmToken"] = newValue }
+    }
+    
     var hasAccessToken: Bool { return self.accessToken != nil }
     var accessTokenValue: String { return self.accessToken ?? "" }
     var refreshTokenValue: String { return self.refreshToken ?? "" }
     var authCodeValue: String { return self.authCode ?? "" }
     var idTokenValue: String { return self.idToken ?? "" }
     var platFormValue: String { return self.platForm ?? "" }
+    var fcmTokenValue: String { return self.fcmToken ?? "" }
 }
 
 extension UserManager {
@@ -54,14 +57,14 @@ extension UserManager {
         self.refreshToken = refreshToken
     }
     
-    func updateAuthCode(_ authCode: String) {
-        self.authCode = authCode
+    func updateFcmToken(_ fcmToken: String) {
+        self.fcmToken = fcmToken
     }
     
     func clearAll() {
         self.accessToken = nil
         self.refreshToken = nil
-        self.authCode = nil
+        self.fcmToken = nil
         self.idToken = nil
         self.platForm = nil
     }

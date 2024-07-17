@@ -17,5 +17,27 @@ final class AccountViewModel: ViewModelType {
             .asDriver(onErrorJustReturn: Void())
         return Output(popViewController: popViewController)
     }
+}
+
+extension AccountViewModel {
     
+    func logout(completion: @escaping () -> ()) {
+        Providers.authProvider.request(target: .logout, instance: BaseResponse<EmptyResponseDTO>.self) { response in
+            if let data = response.data {
+                UserManager.shared.clearAll()
+                print(data)
+                completion()
+            }
+        }
+    }
+
+    func withdraw(completion: @escaping () -> ()) {
+        Providers.authProvider.request(target: .revoke, instance: BaseResponse<EmptyResponseDTO>.self) { response in
+            if let data = response.data {
+                UserManager.shared.clearAll()
+                print(data)
+                completion()
+            }
+        }
+    }
 }

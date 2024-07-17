@@ -78,7 +78,6 @@
 		0BE7EA022C466524000C5358 /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA012C466524000C5358 /* LoginResponseDTO.swift */; };
 		0BE7EA042C4665FC000C5358 /* TokenRefreshResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA032C4665FC000C5358 /* TokenRefreshResponseDTO.swift */; };
 		0BE7EA072C466793000C5358 /* MyPageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA062C466793000C5358 /* MyPageRouter.swift */; };
-		0BE7EA092C466844000C5358 /* PostSignUpAlarmRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA082C466844000C5358 /* PostSignUpAlarmRequestDTO.swift */; };
 		0BE7EA0B2C46699F000C5358 /* GetAlarmResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA0A2C46699F000C5358 /* GetAlarmResponseDTO.swift */; };
 		0BE7EA0D2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA0C2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift */; };
 		0BE7EA0F2C466AEE000C5358 /* PostAlarmSetResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA0E2C466AEE000C5358 /* PostAlarmSetResponseDTO.swift */; };
@@ -120,7 +119,6 @@
 		95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F732C3C765C00023C7B /* ClodyTextField.swift */; };
 		95310F762C3C97A800023C7B /* ClodyBottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F752C3C97A800023C7B /* ClodyBottomButton.swift */; };
 		95310F782C3D6DF800023C7B /* ClodyAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F772C3D6DF800023C7B /* ClodyAlert.swift */; };
-		95310F7A2C3D8C8B00023C7B /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F792C3D8C8B00023C7B /* UIViewController+.swift */; };
 		95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F7B2C3DD36100023C7B /* ClodyPickerView.swift */; };
 		95310F7F2C3FF44E00023C7B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F7E2C3FF44E00023C7B /* LoginViewController.swift */; };
 		95310F832C3FF53400023C7B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F822C3FF53400023C7B /* LoginView.swift */; };
@@ -219,7 +217,6 @@
 		0BE7EA012C466524000C5358 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
 		0BE7EA032C4665FC000C5358 /* TokenRefreshResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshResponseDTO.swift; sourceTree = "<group>"; };
 		0BE7EA062C466793000C5358 /* MyPageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageRouter.swift; sourceTree = "<group>"; };
-		0BE7EA082C466844000C5358 /* PostSignUpAlarmRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSignUpAlarmRequestDTO.swift; sourceTree = "<group>"; };
 		0BE7EA0A2C46699F000C5358 /* GetAlarmResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAlarmResponseDTO.swift; sourceTree = "<group>"; };
 		0BE7EA0C2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAlarmSetRequestDTO.swift; sourceTree = "<group>"; };
 		0BE7EA0E2C466AEE000C5358 /* PostAlarmSetResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAlarmSetResponseDTO.swift; sourceTree = "<group>"; };
@@ -253,7 +250,6 @@
 		95310F732C3C765C00023C7B /* ClodyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyTextField.swift; sourceTree = "<group>"; };
 		95310F752C3C97A800023C7B /* ClodyBottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyBottomButton.swift; sourceTree = "<group>"; };
 		95310F772C3D6DF800023C7B /* ClodyAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyAlert.swift; sourceTree = "<group>"; };
-		95310F792C3D8C8B00023C7B /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		95310F7B2C3DD36100023C7B /* ClodyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyPickerView.swift; sourceTree = "<group>"; };
 		95310F7E2C3FF44E00023C7B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		95310F822C3FF53400023C7B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -520,7 +516,6 @@
 		0BE7EA052C466782000C5358 /* MyPageModel */ = {
 			isa = PBXGroup;
 			children = (
-				0BE7EA082C466844000C5358 /* PostSignUpAlarmRequestDTO.swift */,
 				0BE7EA0A2C46699F000C5358 /* GetAlarmResponseDTO.swift */,
 				0BE7EA0C2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift */,
 				0BE7EA0E2C466AEE000C5358 /* PostAlarmSetResponseDTO.swift */,
@@ -561,7 +556,6 @@
 				0BFCC5EF2C2F852D00B5E0DB /* UIStackView+.swift */,
 				2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */,
 				0B190F0A2C380F5300D46CFC /* DateFormatter+.swift */,
-				95310F792C3D8C8B00023C7B /* UIViewController+.swift */,
 				0B4EF9CE2C478AAF00CAF1F6 /* Date+.swift */,
 			);
 			path = Extensions;
@@ -806,7 +800,7 @@
 		95310F7D2C3FF37500023C7B /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				95310FBC2C44346500023C7B /* ViewModel */,
+				95310FBC2C44346500023C7B /* ViewModels */,
 				95310F812C3FF51600023C7B /* Views */,
 				95310F802C3FF50D00023C7B /* ViewControllers */,
 			);
@@ -894,7 +888,7 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		95310FBC2C44346500023C7B /* ViewModel */ = {
+		95310FBC2C44346500023C7B /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				95310FBD2C4434B500023C7B /* LoginViewModel.swift */,
@@ -903,7 +897,7 @@
 				95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */,
 				95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */,
 			);
-			path = ViewModel;
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		95A89E752C36EE2700E07ABC /* Common */ = {
@@ -1083,7 +1077,6 @@
 				0BE7E9FC2C4660AC000C5358 /* GetWritingTimeDTO.swift in Sources */,
 				95310F982C40777C00023C7B /* OnBoardingView.swift in Sources */,
 				0B4A1BDA2C45636300E31EC4 /* SignUpRequestDTO.swift in Sources */,
-				0BE7EA092C466844000C5358 /* PostSignUpAlarmRequestDTO.swift in Sources */,
 				95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */,
 				0BE7E9F92C4659F9000C5358 /* DiaryRouter.swift in Sources */,
 				0BE7EA0D2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift in Sources */,
@@ -1152,7 +1145,6 @@
 				2CE6378D2C3D56A700B6EC6D /* AccountView.swift in Sources */,
 				2CC0CE732C3C0ED9001F3E6B /* MyPageTableViewCell.swift in Sources */,
 				0B72DA342C46C18F00292173 /* NotificationCell.swift in Sources */,
-				95310F7A2C3D8C8B00023C7B /* UIViewController+.swift in Sources */,
 				95310FA62C41D97E00023C7B /* SplashViewController.swift in Sources */,
 				95310F882C40043800023C7B /* ScreenUtils.swift in Sources */,
 				95310FA02C410DE200023C7B /* DiaryNotificationView.swift in Sources */,

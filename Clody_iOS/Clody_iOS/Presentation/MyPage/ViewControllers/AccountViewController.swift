@@ -16,6 +16,8 @@ final class AccountViewController: UIViewController {
     // MARK: - UI Components
     
     private let rootView = AccountView()
+    private var alert: ClodyAlert?
+    private lazy var dimmingView = UIView()
     
     // MARK: - Life Cycles
     
@@ -27,6 +29,7 @@ final class AccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         bindViewModel()
         setActions()
         setKeyboardNotifications()
@@ -64,52 +67,59 @@ final class AccountViewController: UIViewController {
         rootView.logoutButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                let alertVC = ClodyAlertViewController(
+                self.showAlert(
                     type: .logout,
-                    title: "로그아웃 하시겠어요?",
-                    message: "기다릴게요, 다음에 다시 만나요!",
-                    rightButtonText: "로그아웃"
+                    title: I18N.Alert.logoutTitle,
+                    message: I18N.Alert.logoutMessage,
+                    rightButtonText: I18N.Alert.logout
                 )
 
-                alertVC.alertView.leftButton.rx.tap
-                    .subscribe(onNext: { [weak alertVC] in
-                        alertVC?.dismiss(animated: true, completion: nil)
+                alert?.leftButton.rx.tap
+                    .subscribe(onNext: {
+                        self.hideAlert()
                     })
                     .disposed(by: self.disposeBag)
                 
-                alertVC.alertView.rightButton.rx.tap
-                    .subscribe(onNext: { [weak alertVC] in
-                        alertVC?.dismiss(animated: true, completion: nil)
+                alert?.rightButton.rx.tap
+                    .subscribe(onNext: {
+                        self.viewModel.logout() {
+                            self.hideAlert()
+                            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                                sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
+                            }
+                        }
                     })
                     .disposed(by: self.disposeBag)
-                                
-                self.present(alertVC, animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
     
         rootView.deleteAccountButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                let alertVC = ClodyAlertViewController(
+                self.showAlert(
                     type: .withdraw,
-                    title: "서비스를 탈퇴하시겠어요?",
-                    message: "작성하신 일기와 받은 답장 및 클로버가 모두 삭제되며 복구할 수 없어요.",
-                    rightButtonText: "탈퇴할래요"
+                    title: I18N.Alert.withdrawTitle,
+                    message: I18N.Alert.withdrawMessage,
+                    rightButtonText: I18N.Alert.withdraw
                 )
                 
-                alertVC.alertView.leftButton.rx.tap
-                    .subscribe(onNext: { [weak alertVC] in
-                        alertVC?.dismiss(animated: true, completion: nil)
+                alert?.leftButton.rx.tap
+                    .subscribe(onNext: {
+                        self.hideAlert()
                     })
                     .disposed(by: self.disposeBag)
                 
-                alertVC.alertView.rightButton.rx.tap
-                    .subscribe(onNext: { [weak alertVC] in
-                        alertVC?.dismiss(animated: true, completion: nil)
+                alert?.rightButton.rx.tap
+                    .subscribe(onNext: {
+                        self.viewModel.withdraw() {
+                            self.hideAlert()
+                            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                                sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
+                            }
+                        }
+                        self.hideAlert()
                     })
                     .disposed(by: self.disposeBag)
-
-                self.present(alertVC, animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
     }
@@ -234,8 +244,48 @@ final class AccountViewController: UIViewController {
     }
     
     private func setDelegate() {
-        
         nicknameTextField.textField.delegate = self
+    }
+}
+
+private extension AccountViewController {
+    
+    func showAlert(
+        type: AlertType,
+        title: String,
+        message: String,
+        rightButtonText: String
+    ) {
+        self.alert = ClodyAlert(type: type, title: title, message: message, rightButtonText: rightButtonText)
+        setAlert()
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.alert!.alpha = 1
+        })
+    }
+    
+    func hideAlert() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alert!.alpha = 0
+        }) { _ in
+            self.dimmingView.removeFromSuperview()
+            self.alert!.removeFromSuperview()
+        }
+    }
+    
+    func setAlert() {
+        alert!.alpha = 0
+        dimmingView.backgroundColor = .black.withAlphaComponent(0.4)
+        self.view.addSubviews(dimmingView, alert!)
+        
+        dimmingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        alert!.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.center.equalToSuperview()
+        }
     }
 }
 
