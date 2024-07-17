@@ -133,10 +133,14 @@ private extension WritingDiaryViewController {
                 
                 self.alert?.rightButton.rx.tap
                     .subscribe(onNext: {
-                        self.viewModel.saveData() { createdAt in
-                            self.hideAlert()
-                            self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date), animated: true)
-                        }
+                        
+                        let dateString = DateFormatter.string(
+                            from: self.date,
+                            format: "yyyy-MM-d"
+                        )
+                        self.viewModel.postDiary(date: dateString, content: self.viewModel.diariesRelay.value, completion: {_ in                           self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date), animated: true)})
+  
+                        self.hideAlert()
                     })
                     .disposed(by: self.disposeBag)
             })

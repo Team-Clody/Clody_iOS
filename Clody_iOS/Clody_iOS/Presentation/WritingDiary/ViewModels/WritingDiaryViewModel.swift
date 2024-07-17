@@ -67,6 +67,13 @@ final class WritingDiaryViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
+        input.tapSaveButton
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.saveData(completion: {_ in })
+            })
+            .disposed(by: disposeBag)
+        
         input.tapAddButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
@@ -93,7 +100,7 @@ final class WritingDiaryViewModel: ViewModelType {
         input.tapDeleteButton
             .emit(onNext: { [weak self] in
                 guard let self = self, let index = self.deleteIndexRelay.value else { return }
-                self.deleteData(index: index, completion: {}) 
+                self.deleteData(index: index) {}
             })
             .disposed(by: disposeBag)
         
@@ -153,9 +160,6 @@ extension WritingDiaryViewModel {
             self.showSaveErrorToastRelay.accept(())
         } else {
             self.showSaveAlertRelay.accept(())
-            postDiary(date: "", content: diariesRelay.value) { createdAt in
-                completion(createdAt)
-            }
         }
     }
     
@@ -175,7 +179,7 @@ extension WritingDiaryViewModel {
         }
     }
 
-    private func postDiary(date: String, content: [String], completion: @escaping (String) -> ()) {
+    func postDiary(date: String, content: [String], completion: @escaping (String) -> ()) {
         let provider = Providers.diaryRouter
         let data = PostDiaryRequestDTO(date: date, content: content)
         
