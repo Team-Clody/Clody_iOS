@@ -19,6 +19,7 @@ final class ReplyWaitingViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private var totalSeconds = 60
     private var date: Date
+    private var isNew: Bool
     
     // MARK: - UI Components
      
@@ -28,8 +29,9 @@ final class ReplyWaitingViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(date: Date) {
+    init(date: Date, isNew: Bool) {
         self.date = date
+        self.isNew = isNew
         
         super.init(nibName: nil, bundle: nil)
     }

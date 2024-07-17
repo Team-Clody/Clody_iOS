@@ -181,7 +181,8 @@ private extension CalendarViewController {
                 guard let self = self else { return }
                 let date = viewModel.selectedDateRelay.value
                 if viewModel.dailyDiaryDataRelay.value.diaries.count != 0 {
-                    self.navigationController?.pushViewController(ReplyWaitingViewController(date: date), animated: true)
+                    // isNew 처리 필요
+                    self.navigationController?.pushViewController(ReplyWaitingViewController(date: date, isNew: true), animated: true)
                 } else {
                     self.navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
                 }
@@ -270,6 +271,14 @@ private extension CalendarViewController {
         }
         
         datePickerView.isHidden = true
+        
+        datePickerView.cancelIcon.rx.tap
+            .subscribe(onNext: {
+                self.dismissPickerView(animated: true, completion: {
+                    
+                })
+            })
+            .disposed(by: self.disposeBag)
         
         datePickerView.completeButton.rx.tapGesture()
             .when(.recognized)
