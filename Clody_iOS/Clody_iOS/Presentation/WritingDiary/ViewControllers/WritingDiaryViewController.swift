@@ -22,8 +22,7 @@ final class WritingDiaryViewController: UIViewController {
     private let viewModel = WritingDiaryViewModel()
     private let disposeBag = DisposeBag()
     private let kebabButtonTap = PublishRelay<Int>()
-    private let year, month, day: Int
-    private let dayOfWeek: String
+    private var date: Date
     
     // MARK: - UI Components
     
@@ -35,11 +34,9 @@ final class WritingDiaryViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(year: Int, month: Int, day: Int, dayOfWeek: String) {
-        self.year = year
-        self.month = month
-        self.day = day
-        self.dayOfWeek = dayOfWeek
+    init(date: Date) {
+        self.date = date
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -112,6 +109,12 @@ private extension WritingDiaryViewController {
             })
             .disposed(by: disposeBag)
         
+        output.showDelete
+            .emit(onNext: {
+                self.presentBottomSheet()
+            })
+            .disposed(by: disposeBag)
+        
         output.showSaveAlert
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
@@ -121,7 +124,7 @@ private extension WritingDiaryViewController {
                     message: I18N.Alert.saveDiaryMessage,
                     rightButtonText: I18N.Alert.save
                 )
-
+                
                 self.alert?.leftButton.rx.tap
                     .subscribe(onNext: {
                         self.hideAlert()
@@ -130,37 +133,15 @@ private extension WritingDiaryViewController {
                 
                 self.alert?.rightButton.rx.tap
                     .subscribe(onNext: {
-                        self.viewModel.saveData() { createdAt in
-                            self.hideAlert()
-//                            self.navigationController?.pushViewController(ReplyWaitingViewController(year: self.year, month: self.month, date: self.day), animated: true)
-                        }
-                    })
-                    .disposed(by: self.disposeBag)
-            })
-            .disposed(by: disposeBag)
-        
-        output.showDelete
-            .emit(onNext: { [weak self] index in
-                guard let self = self else { return }
-                self.showAlert(
-                    type: .deleteDiary,
-                    title: I18N.Alert.deleteDiaryTitle,
-                    message: I18N.Alert.deleteDiaryMessage,
-                    rightButtonText: I18N.Alert.delete
-                )
-
-                self.alert?.leftButton.rx.tap
-                    .subscribe(onNext: {
+                        
+                        let dateString = DateFormatter.string(
+                            from: self.date,
+                            format: "yyyy-MM-d"
+                        )
+                        self.viewModel.postDiary(date: dateString, content: self.viewModel.diariesRelay.value, completion: {_ in
+                            self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isNew: true), animated: true)})
+  
                         self.hideAlert()
-                    })
-                    .disposed(by: self.disposeBag)
-                
-                self.alert?.rightButton.rx.tap
-                    .subscribe(onNext: {
-//                        self.viewModel.deleteData(index: index) {
-                            self.hideAlert()
-//                            self.navigationController?.pushViewController(ReplyWaitingViewController(year: self.year, month: self.month, date: self.day), animated: true)
-//                        }
                     })
                     .disposed(by: self.disposeBag)
             })
@@ -244,7 +225,7 @@ private extension WritingDiaryViewController {
             },
             configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: WritingDiaryHeaderView.description(), for: indexPath) as! WritingDiaryHeaderView
-                header.bindData(date: "")
+                header.bindData(dateData: self.date)
                 return header
             }
         )
@@ -261,7 +242,7 @@ private extension WritingDiaryViewController {
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissBottomSheet(animated: true, completion: {
-//                    self?.showClodyAlert(type: .deleteDiary, title: "정말 일기를 삭제할까요?", message: "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요.", rightButtonText: "삭제")
+                    
                 })
             })
             .disposed(by: disposeBag)
@@ -286,7 +267,7 @@ private extension WritingDiaryViewController {
             completion?()
         }
     }
-
+    
     func setupGestureRecognizer() {
         view.addGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer.rx.event

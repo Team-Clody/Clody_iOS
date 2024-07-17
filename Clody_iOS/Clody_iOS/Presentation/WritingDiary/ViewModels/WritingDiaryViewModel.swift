@@ -67,6 +67,13 @@ final class WritingDiaryViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
+        input.tapSaveButton
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.saveData()
+            })
+            .disposed(by: disposeBag)
+        
         input.tapAddButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
@@ -93,7 +100,7 @@ final class WritingDiaryViewModel: ViewModelType {
         input.tapDeleteButton
             .emit(onNext: { [weak self] in
                 guard let self = self, let index = self.deleteIndexRelay.value else { return }
-//                self.deleteData(index: index) {}
+                self.deleteData(index: index) {}
             })
             .disposed(by: disposeBag)
         
@@ -148,14 +155,11 @@ final class WritingDiaryViewModel: ViewModelType {
 
 extension WritingDiaryViewModel {
     
-    func saveData(completion: @escaping (String) -> ()) {
+    func saveData() {
         if diariesRelay.value.contains("") {
             self.showSaveErrorToastRelay.accept(())
         } else {
             self.showSaveAlertRelay.accept(())
-            postDiary(date: "", content: diariesRelay.value) { createdAt in
-                completion(createdAt)
-            }
         }
     }
     
@@ -169,24 +173,18 @@ extension WritingDiaryViewModel {
         self.diariesRelay.accept(items)
         self.textViewIsEmptyRelay.accept(statuses)
         self.isFirstRelay.accept(isFirst)
-        
-        deleteDiary() {
-            completion()
-        }
-    }
-
-    private func postDiary(date: String, content: [String], completion: @escaping (String) -> ()) {
-        let provider = Providers.diaryRouter
-        let data = PostDiaryRequestDTO(date: date, content: content)
-        
-        provider.request(target: .postDiary(data: data), instance: BaseResponse<PostDiaryResponseDTO>.self) { data in
-            guard let data = data.data else { return }
-            completion(data.createdAt)
-            print(data)
-        }
     }
     
-    private func deleteDiary(completion: @escaping () -> ()) {
-        completion()
+    func postDiary(date: String, content: [String], completion: @escaping (String) -> ()) {
+        func postDiary(date: String, content: [String], completion: @escaping (String) -> ()) {
+            let provider = Providers.diaryRouter
+            let data = PostDiaryRequestDTO(date: date, content: content)
+            
+            provider.request(target: .postDiary(data: data), instance: BaseResponse<PostDiaryResponseDTO>.self) { data in
+                guard let data = data.data else { return }
+                completion(data.createdAt)
+                print(data)
+            }
+        }
     }
 }
