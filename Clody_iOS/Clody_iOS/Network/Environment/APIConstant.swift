@@ -22,9 +22,9 @@ struct APIConstants{
 
 extension APIConstants{
     static let authCodeHeader = [contentType: applicationJSON,
-                                       auth : authCode]
+                                        auth: Bearer + authCode]
     static let hasTokenHeader = [contentType: applicationJSON,
-                                       auth : accessToken]
+                                        auth: accessToken]
     static let hasRefreshTokenHeader = [contentType: applicationJSON]
 }
 
