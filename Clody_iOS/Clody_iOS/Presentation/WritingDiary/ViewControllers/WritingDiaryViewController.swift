@@ -22,12 +22,23 @@ final class WritingDiaryViewController: UIViewController {
     private let viewModel = WritingDiaryViewModel()
     private let disposeBag = DisposeBag()
     private let kebabButtonTap = PublishRelay<Int>()
+    private var date: Date
     
     // MARK: - UI Components
     
     private let rootView = WritingDiaryView()
     private let deleteBottomSheetView = DeleteBottomSheetView()
     private let tapGestureRecognizer = UITapGestureRecognizer()
+    
+    init(date: Date) {
+        self.date = date
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Life Cycles
     
@@ -187,7 +198,7 @@ private extension WritingDiaryViewController {
             },
             configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: WritingDiaryHeaderView.description(), for: indexPath) as! WritingDiaryHeaderView
-                header.bindData(date: "6월 26일 목요일")
+                header.bindData(dateData: self.date)
                 return header
             }
         )

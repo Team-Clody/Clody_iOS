@@ -174,10 +174,11 @@ private extension CalendarViewController {
         output.navigateToResponse
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
+                let date = viewModel.selectedDateRelay.value
                 if viewModel.dailyDiaryDataRelay.value.diaries.count != 0 {
-//                    self.navigationController?.pushViewController(ReplyWaitingViewController(), animated: true)
+                    self.navigationController?.pushViewController(ReplyWaitingViewController(date: date), animated: true)
                 } else {
-                    self.navigationController?.pushViewController(WritingDiaryViewController(), animated: true)
+                    self.navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
                 }
             })
             .disposed(by: disposeBag)
@@ -234,6 +235,7 @@ private extension CalendarViewController {
         datePickerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
         datePickerView.isHidden = true
         
         datePickerView.completeButton.rx.tapGesture()
@@ -311,9 +313,6 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
         let day = Calendar.current.component(.day, from: date) - 1
         let data: MonthlyDiary? = day >= 0 && day < calendarData.count ? calendarData[day] : nil
-        
-        data?.diaryCount
-        data?.replyStatus
         
         let isToday = Calendar.current.isDateInToday(date)
         let isSelected = Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value)

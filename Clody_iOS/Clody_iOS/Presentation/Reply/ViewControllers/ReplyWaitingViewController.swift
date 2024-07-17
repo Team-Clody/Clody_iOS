@@ -18,9 +18,7 @@ final class ReplyWaitingViewController: UIViewController {
     private let viewModel = ReplyWaitingViewModel()
     private let disposeBag = DisposeBag()
     private var totalSeconds = 60
-    private var year: Int
-    private var month: Int
-    private var date: Int
+    private var date: Date
     
     // MARK: - UI Components
      
@@ -30,9 +28,7 @@ final class ReplyWaitingViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(year: Int, month: Int, date: Int) {
-        self.year = year
-        self.month = month
+    init(date: Date) {
         self.date = date
         super.init(nibName: nil, bundle: nil)
     }
@@ -87,11 +83,7 @@ private extension ReplyWaitingViewController {
             })
             .disposed(by: disposeBag)
         
-        output.getReply
-            .drive(onNext: { [weak self] in
-                self?.getReply()
-            })
-            .disposed(by: disposeBag)
+        getReply(date: date)
     }
 
     func setUI() {
@@ -100,9 +92,14 @@ private extension ReplyWaitingViewController {
 }
 
 private extension ReplyWaitingViewController {
-    
-    func getReply() {
-        viewModel.getReply(year: year, month: month, date: date) { data in
+    func getReply(date: Date) {
+        
+        let year = DateFormatter.string(from: date, format: "yyyy")
+        let month = DateFormatter.string(from: date, format: "MM")
+        let date = DateFormatter.string(from: date, format: "d")
+        
+        
+        viewModel.getReply(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(date) ?? 0) { data in
             self.navigationController?.pushViewController(
                 ReplyDetailViewController(data: data),
                 animated: false
