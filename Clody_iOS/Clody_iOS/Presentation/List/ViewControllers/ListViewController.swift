@@ -72,8 +72,8 @@ private extension ListViewController {
         output.replyDate
             .drive(onNext: { [weak self] date in
                 guard let self = self else { return }
-                // 필요한 동작 수행
-                print("Reply Date: \(date)")
+                let dateData = DateFormatter.date(from: date)
+                self.navigationController?.pushViewController(ReplyWaitingViewController(date: dateData ?? Date()), animated: true)
             })
             .disposed(by: disposeBag)
         

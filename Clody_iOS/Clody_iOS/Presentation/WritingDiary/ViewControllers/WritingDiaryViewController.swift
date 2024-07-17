@@ -43,19 +43,7 @@ final class WritingDiaryViewController: UIViewController {
     }
     
     // MARK: - Life Cycles
-    
-    init(year: Int, month: Int, day: Int, dayOfWeek: String) {
-        self.year = year
-        self.month = month
-        self.day = day
-        self.dayOfWeek = dayOfWeek
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     override func loadView() {
         super.loadView()
         

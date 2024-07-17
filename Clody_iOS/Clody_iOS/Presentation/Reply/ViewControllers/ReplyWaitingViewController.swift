@@ -30,6 +30,7 @@ final class ReplyWaitingViewController: UIViewController {
     
     init(date: Date) {
         self.date = date
+        
         super.init(nibName: nil, bundle: nil)
     }
     
