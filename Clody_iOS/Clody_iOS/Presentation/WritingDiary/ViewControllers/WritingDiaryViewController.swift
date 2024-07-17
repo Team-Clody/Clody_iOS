@@ -59,7 +59,11 @@ private extension WritingDiaryViewController {
             tapSaveButton: rootView.saveButton.rx.tap.asSignal(),
             tapAddButton: rootView.addButton.rx.tap.asSignal(),
             tapBackButton: rootView.navigationBarView.backButton.rx.tap.asSignal(),
-            kebabButtonTap: kebabButtonTap
+            updateKebobRelay: kebabButtonTap,
+            tapDeleteButton: deleteBottomSheetView.deleteContainer.rx.tapGesture()
+                .when(.recognized)
+                .map { _ in }
+                .asSignal(onErrorJustReturn: ())
         )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
@@ -241,6 +245,10 @@ private extension WritingDiaryViewController {
                 guard let self = self else { return }
                 let addButtonPadding = keyboardVisibleHeight > 0 ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + 20 : 76
                 self.rootView.addButton.snp.updateConstraints {
+                    $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(addButtonPadding)
+                }
+                
+                self.rootView.writingCollectionView.snp.updateConstraints {
                     $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(addButtonPadding)
                 }
                 

@@ -32,7 +32,8 @@ final class WritingDiaryViewModel: ViewModelType {
         let tapSaveButton: Signal<Void>
         let tapAddButton: Signal<Void>
         let tapBackButton: Signal<Void>
-        let kebabButtonTap: PublishRelay<Int>
+        let updateKebobRelay: PublishRelay<Int>
+        let tapDeleteButton: Signal<Void>
     }
     
     struct Output {
@@ -43,9 +44,8 @@ final class WritingDiaryViewModel: ViewModelType {
         let isAddButtonEnabled: Driver<Bool>
         let showSaveErrorToast: Signal<Void>
         let showSaveAlert: Signal<Void>
-        let showDelete: Signal<Int>
+        let showDelete: Signal<Void>
     }
-    
     let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: [""]))
     let diariesRelay = BehaviorRelay<[String]>(value: [""])
     let textViewIsEmptyRelay = BehaviorRelay<[Bool]>(value: [true])
@@ -55,6 +55,7 @@ final class WritingDiaryViewModel: ViewModelType {
     private let showSaveErrorToastRelay = PublishRelay<Void>()
     private let showSaveAlertRelay = PublishRelay<Void>()
     private let showDeleteRelay = PublishRelay<Int>()
+    private let deleteIndexRelay = BehaviorRelay<Int?>(value: nil)
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
@@ -92,8 +93,15 @@ final class WritingDiaryViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
-        input.kebabButtonTap
-            .bind(to: showDeleteRelay)
+        input.updateKebobRelay
+            .bind(to: deleteIndexRelay)
+            .disposed(by: disposeBag)
+        
+        input.tapDeleteButton
+            .emit(onNext: { [weak self] in
+                guard let self = self, let index = self.deleteIndexRelay.value else { return }
+                self.deleteData(index: index)
+            })
             .disposed(by: disposeBag)
         
         let items = diariesRelay
@@ -118,7 +126,9 @@ final class WritingDiaryViewModel: ViewModelType {
         
         let showSaveAlert = showSaveAlertRelay.asSignal()
         
-        let showDelete = showDeleteRelay.asSignal()
+        let showDelete = deleteIndexRelay
+            .map { _ in }
+            .asSignal(onErrorJustReturn: ())
         
         return Output(
             items: items,
