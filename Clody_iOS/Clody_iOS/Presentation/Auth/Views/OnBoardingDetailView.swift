@@ -121,7 +121,7 @@ final class OnBoardingDetailView: BaseView {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(113))
+            $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(113))
             $0.centerX.equalToSuperview()
         }
         
