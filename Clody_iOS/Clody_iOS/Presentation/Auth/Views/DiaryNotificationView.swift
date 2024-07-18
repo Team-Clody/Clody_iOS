@@ -44,6 +44,7 @@ final class DiaryNotificationView: BaseView {
         
         downButton.do {
             $0.setImage(.icArrowDown, for: .normal)
+            $0.isUserInteractionEnabled = false
         }
         
         divider.do {
@@ -83,7 +84,7 @@ final class DiaryNotificationView: BaseView {
         
         downButton.snp.makeConstraints {
             $0.size.equalTo(23)
-            $0.top.equalToSuperview().inset(0.5)
+            $0.centerY.equalTo(timeLabel)
             $0.trailing.equalToSuperview()
         }
         
