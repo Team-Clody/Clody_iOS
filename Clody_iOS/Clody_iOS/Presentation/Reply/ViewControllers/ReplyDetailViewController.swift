@@ -22,6 +22,7 @@ final class ReplyDetailViewController: UIViewController {
     private let content: String
     private let month: Int
     private let date: Int
+    private let isNew: Bool
     
     // MARK: - UI Components
     
@@ -36,11 +37,12 @@ final class ReplyDetailViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(data: GetReplyResponseDTO) {
+    init(data: GetReplyResponseDTO, isNew: Bool) {
         self.nickname = data.nickname
         self.content = data.content
         self.month = data.month
         self.date = data.date
+        self.isNew = isNew
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -67,7 +69,7 @@ final class ReplyDetailViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        showAlert()
+        judgeIsAlert(isNew: isNew)
     }
 }
 
@@ -93,10 +95,6 @@ private extension ReplyDetailViewController {
     }
     
     func setStyle() {
-        dimmingView.do {
-            $0.backgroundColor = .black.withAlphaComponent(0.2)
-        }
-        
         getClodyAlertView.do {
             $0.alpha = 0
         }
@@ -117,7 +115,17 @@ private extension ReplyDetailViewController {
         }
     }
     
+    func judgeIsAlert(isNew: Bool) {
+        if isNew {
+            showAlert()
+        }
+    }
+    
     func showAlert() {
+        dimmingView.do {
+            $0.backgroundColor = .black.withAlphaComponent(0.2)
+        }
+        
         UIView.animate(withDuration: 1.0,
                        delay: 0,
                        options: .curveEaseInOut,
