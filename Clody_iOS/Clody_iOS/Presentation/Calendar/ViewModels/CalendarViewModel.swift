@@ -60,7 +60,7 @@ final class CalendarViewModel: ViewModelType {
                 let day = DateFormatter.string(from: selectedDateRelay.value, format: "d")
                 
                 self.selectedMonthRelay.accept([year, month])
-                self.getMonthlyCalendar(year: Int(year) ?? 0, month: Int(month) ?? 0)
+//                self.getMonthlyCalendar(year: Int(year) ?? 0, month: Int(month) ?? 0)
                 self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
             })
             .disposed(by: disposeBag)
@@ -184,6 +184,8 @@ extension CalendarViewModel {
             guard let data = data.data else { return }
             
             self.dailyDiaryDataRelay.accept(data)
+            
+            self.getMonthlyCalendar(year: year, month: month)
         })
     }
     

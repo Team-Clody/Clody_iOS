@@ -50,6 +50,28 @@ final class CalendarViewController: UIViewController {
         setStyle()
         setupDeleteBottomSheet()
         setupPickerView()
+        setupLoadingIndicator()
+        addTokenRefreshObservers()
+    }
+    
+    deinit {
+        removeTokenRefreshObservers()
+    }
+    
+    override func reloadView() {
+        super.reloadView()
+        // 이 뷰 컨트롤러에 맞는 뷰 리로드 로직 추가
+        viewModel.getDailyCalendarData(year: 2024, month: 7, date: 18)
+//        viewModel.getMonthlyCalendar(year: 2024, month: 7)
+        print("YourViewController 뷰 리로드")
+        self.rootView.dailyDiaryCollectionView.reloadData()
+        self.rootView.mainCalendarView.reloadData()
+    }
+    
+    override func handleTokenRefreshFailure() {
+        super.handleTokenRefreshFailure()
+        // 이 뷰 컨트롤러에 맞는 토큰 재발급 실패 처리 로직 추가
+        print("YourViewController 토큰 재발급 실패")
     }
 }
 
