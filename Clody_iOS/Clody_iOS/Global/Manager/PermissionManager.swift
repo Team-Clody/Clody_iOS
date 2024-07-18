@@ -18,7 +18,9 @@ final class PermissionManager: NSObject {
     // 권한이 있는지 체크하는 함수
     func checkNotificationPermission(completion: @escaping (Bool) -> Void) {
         userNotiCenter.getNotificationSettings { settings in
-            completion(settings.authorizationStatus == .authorized)
+            DispatchQueue.main.async {
+                completion(settings.authorizationStatus == .authorized)
+            }
         }
     }
 
