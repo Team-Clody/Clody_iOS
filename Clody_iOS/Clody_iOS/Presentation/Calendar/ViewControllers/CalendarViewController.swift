@@ -166,7 +166,7 @@ private extension CalendarViewController {
         output.changeNavigationDate
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
-                rootView.calendarNavigationView.dateButton.titleLabel?.text = data
+                rootView.calendarNavigationView.dateText = data
                 rootView.mainCalendarView.reloadData()
                 rootView.dailyDiaryCollectionView.reloadData()
             })

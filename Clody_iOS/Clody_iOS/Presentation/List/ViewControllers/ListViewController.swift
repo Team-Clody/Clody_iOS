@@ -113,7 +113,7 @@ private extension ListViewController {
         output.changeNavigationDate
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
-                rootView.navigationBarView.dateButton.titleLabel?.text = data
+                rootView.navigationBarView.dateText = data
             })
             .disposed(by: disposeBag)
     }
