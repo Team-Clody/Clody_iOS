@@ -22,8 +22,15 @@ final class AuthInterceptor: RequestInterceptor {
         print("---adapter 진입----")
         
         var adaptedRequest = urlRequest
-        if let accessToken = UserManager.shared.accessToken {
-            adaptedRequest.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        
+        if let isSignIn = urlRequest.url?.path.contains("/signin") {
+            adaptedRequest.setValue(APIConstants.Bearer + APIConstants.authCode, forHTTPHeaderField: APIConstants.auth)
+        } else if let isSignUp = urlRequest.url?.path.contains("/signup") {
+            adaptedRequest.setValue(APIConstants.Bearer + APIConstants.authCode, forHTTPHeaderField: APIConstants.auth)
+        } else {
+            if let accessToken = UserManager.shared.accessToken {
+                adaptedRequest.setValue("Bearer \(accessToken)", forHTTPHeaderField: APIConstants.auth)
+            }
         }
      
         completion(.success(adaptedRequest))
