@@ -139,7 +139,7 @@ private extension WritingDiaryViewController {
                             format: "yyyy-MM-d"
                         )
                         self.viewModel.postDiary(date: dateString, content: self.viewModel.diariesRelay.value, completion: {_ in
-                            self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isNew: true, hasNavigationBar: false), animated: true)})
+                            self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isNew: true, isHomeBackButton: true), animated: true)})
   
                         self.hideAlert()
                     })
