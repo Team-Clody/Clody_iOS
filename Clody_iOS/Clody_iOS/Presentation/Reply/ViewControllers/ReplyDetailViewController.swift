@@ -32,7 +32,7 @@ final class ReplyDetailViewController: UIViewController {
         content: content
     )
     private lazy var getClodyAlertView = GetCloverAlertView(nickname: nickname)
-    private let dimmingView = UIView()
+    private lazy var dimmingView = UIView()
     
     // MARK: - Life Cycles
     
@@ -59,9 +59,6 @@ final class ReplyDetailViewController: UIViewController {
         
         bindViewModel()
         setUI()
-        setStyle()
-        setHierarchy()
-        setLayout()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -77,13 +74,20 @@ private extension ReplyDetailViewController {
 
     func bindViewModel() {
         let input = ReplyDetailViewModel.Input(
-            okButtonTapEvent: getClodyAlertView.okButton.rx.tap.asSignal()
+            okButtonTapEvent: getClodyAlertView.okButton.rx.tap.asSignal(),
+            backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
         output.dismissAlert
             .drive(onNext: { [weak self] in
                 self?.hideAlert()
+            })
+            .disposed(by: disposeBag)
+        
+        output.popViewController
+            .drive(onNext: {
+                self.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
     }
@@ -118,6 +122,10 @@ private extension ReplyDetailViewController {
     }
     
     func showAlert() {
+        setStyle()
+        setHierarchy()
+        setLayout()
+        
         UIView.animate(withDuration: 1.0,
                        delay: 0,
                        options: .curveEaseInOut,

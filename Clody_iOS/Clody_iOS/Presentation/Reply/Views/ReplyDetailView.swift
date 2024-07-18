@@ -12,7 +12,7 @@ import Then
 
 final class ReplyDetailView: BaseView {
     
-    private lazy var navigationBar = ClodyNavigationBar(type: .reply, title: "\(month)월 \(date)일")
+    lazy var navigationBar = ClodyNavigationBar(type: .reply, title: "\(month)월 \(date)일")
     private let backgroundView = UIView()
     private let rodyImageView = UIImageView()
     private lazy var titleLabel = UILabel()
