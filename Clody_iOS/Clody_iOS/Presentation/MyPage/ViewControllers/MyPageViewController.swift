@@ -1,6 +1,8 @@
 import UIKit
 
 import SnapKit
+import RxCocoa
+import RxSwift
 import Then
 
 final class MyPageViewController: UIViewController {
@@ -8,9 +10,10 @@ final class MyPageViewController: UIViewController {
     // MARK: - Properties
     
     private let viewModel = MyPageViewModel()
+    private let disposeBag = DisposeBag()
     
     // MARK: - UI Components
-     
+    
     private let rootView = MyPageView()
     
     // MARK: - Life Cycles
@@ -38,10 +41,16 @@ private extension MyPageViewController {
         
         navigationController?.isNavigationBarHidden = true
     }
-
+    
     func setDelegate() {
         rootView.tableView.delegate = self
         rootView.tableView.dataSource = self
+        
+        rootView.navigationBar.backButton.rx.tap
+            .subscribe(onNext: {
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -60,7 +69,7 @@ extension MyPageViewController: UITableViewDataSource {
         
         let setting = Setting.allCases[indexPath.row]
         cell.configure(with: setting, at: indexPath)
-
+        
         if indexPath.row == 0 || indexPath.row == 3 {
             cell.showSeparatorLine(true)
         } else {
@@ -81,7 +90,7 @@ extension MyPageViewController: UITableViewDelegate {
     ) -> CGFloat {
         return 62
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let setting = Setting.allCases[indexPath.row]
         if setting == .profile {
