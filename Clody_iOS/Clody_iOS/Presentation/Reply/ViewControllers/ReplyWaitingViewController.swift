@@ -20,7 +20,7 @@ final class ReplyWaitingViewController: UIViewController {
     private var totalSeconds = 60
     private var date: Date
     private var isNew: Bool
-    private let hasNavigationBar: Bool
+    private let isHomeBackButton: Bool
     
     // MARK: - UI Components
      
@@ -30,11 +30,10 @@ final class ReplyWaitingViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(date: Date, isNew: Bool, hasNavigationBar: Bool) {
+    init(date: Date, isNew: Bool, isHomeBackButton: Bool) {
         self.date = date
         self.isNew = isNew
-        self.hasNavigationBar = hasNavigationBar
-        if hasNavigationBar { rootView.setNavigationBar() }
+        self.isHomeBackButton = isHomeBackButton
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -62,13 +61,16 @@ final class ReplyWaitingViewController: UIViewController {
 private extension ReplyWaitingViewController {
 
     func bindViewModel() {
-        if hasNavigationBar {
-            rootView.navigationBar.backButton.rx.tap
-                .subscribe(onNext: {
+        rootView.navigationBar.backButton.rx.tap
+            .subscribe(onNext: {
+                if self.isHomeBackButton {
+                    self.navigationController?.popToRootViewController(animated: true)
+                } else {
                     self.navigationController?.popViewController(animated: true)
-                })
-                .disposed(by: disposeBag)
-        }
+                }
+            })
+            .disposed(by: disposeBag)
+    
         
         let timer = Observable<Int>
             .interval(.seconds(1), scheduler: MainScheduler.instance)

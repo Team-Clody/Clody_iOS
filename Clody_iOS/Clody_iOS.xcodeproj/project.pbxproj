@@ -21,7 +21,7 @@
 		0B4A1BC02C453FB800E31EC4 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BBF2C453FB800E31EC4 /* BaseModel.swift */; };
 		0B4A1BC22C453FE700E31EC4 /* APIConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BC12C453FE700E31EC4 /* APIConstant.swift */; };
 		0B4A1BC42C45400100E31EC4 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BC32C45400100E31EC4 /* NetworkHelper.swift */; };
-		0B4A1BC62C45401500E31EC4 /* MoyaPluggin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BC52C45401500E31EC4 /* MoyaPluggin.swift */; };
+		0B4A1BC62C45401500E31EC4 /* MoyaPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BC52C45401500E31EC4 /* MoyaPlugin.swift */; };
 		0B4A1BC82C45402800E31EC4 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BC72C45402800E31EC4 /* NetworkResult.swift */; };
 		0B4A1BCA2C45403A00E31EC4 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BC92C45403A00E31EC4 /* NetworkRequest.swift */; };
 		0B4A1BCC2C45409600E31EC4 /* Providers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BCB2C45409600E31EC4 /* Providers.swift */; };
@@ -169,7 +169,7 @@
 		0B4A1BBF2C453FB800E31EC4 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		0B4A1BC12C453FE700E31EC4 /* APIConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstant.swift; sourceTree = "<group>"; };
 		0B4A1BC32C45400100E31EC4 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
-		0B4A1BC52C45401500E31EC4 /* MoyaPluggin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaPluggin.swift; sourceTree = "<group>"; };
+		0B4A1BC52C45401500E31EC4 /* MoyaPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaPlugin.swift; sourceTree = "<group>"; };
 		0B4A1BC72C45402800E31EC4 /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
 		0B4A1BC92C45403A00E31EC4 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		0B4A1BCB2C45409600E31EC4 /* Providers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Providers.swift; sourceTree = "<group>"; };
@@ -636,7 +636,7 @@
 			children = (
 				0B4A1BC12C453FE700E31EC4 /* APIConstant.swift */,
 				0B4A1BC32C45400100E31EC4 /* NetworkHelper.swift */,
-				0B4A1BC52C45401500E31EC4 /* MoyaPluggin.swift */,
+				0B4A1BC52C45401500E31EC4 /* MoyaPlugin.swift */,
 				0B4A1BC72C45402800E31EC4 /* NetworkResult.swift */,
 				0B4A1BC92C45403A00E31EC4 /* NetworkRequest.swift */,
 				0B4A1BD42C4546F800E31EC4 /* Config.swift */,
@@ -1091,7 +1091,7 @@
 				0BE7EA072C466793000C5358 /* MyPageRouter.swift in Sources */,
 				0BE7E9F12C4636DE000C5358 /* CalendarMonthlyResponseDTO.swift in Sources */,
 				0BFCC5DA2C2E8F0200B5E0DB /* CalendarModel.swift in Sources */,
-				0B4A1BC62C45401500E31EC4 /* MoyaPluggin.swift in Sources */,
+				0B4A1BC62C45401500E31EC4 /* MoyaPlugin.swift in Sources */,
 				0B20F3E12C2C4DAA00F8D62D /* ViewController.swift in Sources */,
 				95310FB02C42E0CB00023C7B /* ReplyDetailModel.swift in Sources */,
 				95310FAD2C42D9FB00023C7B /* ReplyDetailView.swift in Sources */,
