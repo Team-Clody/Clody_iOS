@@ -118,12 +118,16 @@ final class ListHeaderView: UICollectionReusableView {
     }
     
     func bindData(diary: ListDiary) {
+        
+        if diary.replyStatus == "READY_READ" {
+            cloverImageView.image = UIImage(named: diary.diaryCount == 0 ? "clover0" : "clover\(diary.diaryCount)")
+        } else {
+            cloverImageView.image = .clover0
+        }
+            
         if diary.replyStatus == "READY_NOT_READ" {
             newImageView.isHidden = false
         }
-        
-        cloverImageView.image = UIImage(named: diary.diaryCount == 0 ? "clover0" : "clover\(diary.diaryCount)")
-        newImageView.isHidden = diary.replyStatus != "not_read"
         
         let dayOfContent = DateFormatter.date(from: diary.date)
         dayLabel.text = dayOfContent?.koreanDayOfWeek()
