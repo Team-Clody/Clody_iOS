@@ -66,6 +66,7 @@ extension MyPageViewController: UITableViewDataSource {
         } else {
             cell.showSeparatorLine(false)
         }
+        cell.selectionStyle = .none
         
         return cell
     }
@@ -90,6 +91,6 @@ extension MyPageViewController: UITableViewDelegate {
             let notificationViewController = NotificationViewController()
             self.navigationController?.pushViewController(notificationViewController, animated: true)
         }
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: false)
     }
 }

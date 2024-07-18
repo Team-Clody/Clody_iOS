@@ -44,6 +44,8 @@ final class NotificationCell: UITableViewCell {
 
 
     private func setStyle() {
+        self.backgroundColor = .white
+        
         titleLabel.do {
             $0.textColor = .black
         }
@@ -54,8 +56,9 @@ final class NotificationCell: UITableViewCell {
         }
 
         arrowImageView.do {
-            $0.image = .arrow
+            $0.image = .icNext
             $0.contentMode = .scaleAspectFit
+            $0.tintColor = .grey05
         }
 
         switchControl.do {

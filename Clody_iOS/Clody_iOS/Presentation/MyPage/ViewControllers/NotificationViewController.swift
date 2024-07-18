@@ -149,6 +149,8 @@ extension NotificationViewController: UITableViewDataSource {
             }
             self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: self.alarmData.time, fcmToken: "")
         }
+        
+        cell.selectionStyle = .none
 
         return cell
     }

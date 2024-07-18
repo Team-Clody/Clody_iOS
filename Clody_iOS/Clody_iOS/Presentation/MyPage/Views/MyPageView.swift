@@ -15,6 +15,7 @@ final class MyPageView: BaseView {
             $0.rowHeight = UITableView.automaticDimension
             $0.estimatedRowHeight = 100
             $0.separatorStyle = .none
+            $0.backgroundColor = .white
         }
         
         backgroundColor = UIColor(named: "whiteCustom")
