@@ -50,28 +50,6 @@ final class CalendarViewController: UIViewController {
         setStyle()
         setupDeleteBottomSheet()
         setupPickerView()
-        setupLoadingIndicator()
-        addTokenRefreshObservers()
-    }
-    
-    deinit {
-        removeTokenRefreshObservers()
-    }
-    
-    override func reloadView() {
-        super.reloadView()
-        // 이 뷰 컨트롤러에 맞는 뷰 리로드 로직 추가
-        viewModel.getDailyCalendarData(year: 2024, month: 7, date: 18)
-//        viewModel.getMonthlyCalendar(year: 2024, month: 7)
-        print("YourViewController 뷰 리로드")
-        self.rootView.dailyDiaryCollectionView.reloadData()
-        self.rootView.mainCalendarView.reloadData()
-    }
-    
-    override func handleTokenRefreshFailure() {
-        super.handleTokenRefreshFailure()
-        // 이 뷰 컨트롤러에 맞는 토큰 재발급 실패 처리 로직 추가
-        print("YourViewController 토큰 재발급 실패")
     }
 }
 
@@ -123,9 +101,6 @@ private extension CalendarViewController {
                 self.rootView.calendarButton.backgroundColor = buttonColor
                 self.rootView.calendarButton.setTitleColor(UIColor(named: textColor), for: .normal)
                 self.rootView.calendarButton.isEnabled = isEnabled
-                
-                self.rootView.dailyDiaryCollectionView.reloadData()
-                self.rootView.mainCalendarView.reloadData()
             })
             .disposed(by: disposeBag)
         
@@ -206,11 +181,17 @@ private extension CalendarViewController {
                 guard let self = self else { return }
                 let date = viewModel.selectedDateRelay.value
                 if viewModel.dailyDiaryDataRelay.value.diaries.count != 0 {
-                    // isNew 처리 필요
                     var isNew = false
-                    let dateIndex = DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "d")
-                    let replyStatus = viewModel.monthlyCalendarDataRelay.value.diaries[(Int(dateIndex) ?? 1) - 1].replyStatus
-                    
+                    let dateIndex = Int(DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "d")) ?? 1
+                    let diaries = viewModel.monthlyCalendarDataRelay.value.diaries
+
+                    let replyStatus: String
+                    if diaries.indices.contains(dateIndex - 1) {
+                        replyStatus = diaries[dateIndex - 1].replyStatus
+                    } else {
+                        replyStatus = "특정 값"
+                    }
+
                     if replyStatus == "READY_NOT_READ" {
                         isNew = true
                     } else {
