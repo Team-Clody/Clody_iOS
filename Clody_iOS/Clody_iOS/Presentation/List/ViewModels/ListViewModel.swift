@@ -38,14 +38,14 @@ final class ListViewModel: ViewModelType {
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
         input.viewDidLoad
+            .observe(on: MainScheduler.asyncInstance)  
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 let today = Date()
                 let year = DateFormatter.string(from: today, format: "yyyy")
                 let month = DateFormatter.string(from: today, format: "M")
-
-                getListData(year: Int(year) ?? 0, month: Int(month) ?? 0)
-                selectedMonthRelay.accept([year, month])
+                self.getListData(year: Int(year) ?? 0, month: Int(month) ?? 0)
+                self.selectedMonthRelay.accept([year, month])
             })
             .disposed(by: disposeBag)
         
@@ -86,7 +86,12 @@ final class ListViewModel: ViewModelType {
         let showPickerView = input.tapDateButton.asSignal()
         
         let changeNavigationDate = selectedMonthRelay
+            .observe(on: MainScheduler.asyncInstance)  
             .map { date -> String in
+                let year = self.selectedMonthRelay.value[0]
+                let month = self.selectedMonthRelay.value[1]
+
+                self.getListData(year: Int(year) ?? 0, month: Int(month) ?? 0)
                 let dateSelected = "\(date[0])년 \(date[1])월"
                 return dateSelected
             }
@@ -113,8 +118,6 @@ extension ListViewModel {
             
             self.listDataRelay.accept(data)
         })
-        
-        self.selectedMonthRelay.accept([String(year), String(month)])
     }
     
     func deleteDiary(year: Int, month: Int, date: Int) {
