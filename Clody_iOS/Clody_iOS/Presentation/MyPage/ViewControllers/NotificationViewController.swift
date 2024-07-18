@@ -68,7 +68,7 @@ final class NotificationViewController: UIViewController {
                         self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: convertedTime, fcmToken: UserManager.shared.fcmTokenValue)
                     } else {
                         DispatchQueue.main.async {
-                            ClodyToast.show(message: "설정 > 알림에서 허용해주세요.")
+                            ClodyToast.show(message: "설정 > 알림 > 클로디에서 알림을 켜주세요.")
                         }
                     }
                 })
@@ -163,7 +163,7 @@ extension NotificationViewController: UITableViewDataSource {
                 if isAuth {
                     self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: self.alarmData.time, fcmToken: UserManager.shared.fcmTokenValue)
                 } else {
-                    ClodyToast.show(message: "설정 > 알림에서 허용해주세요.")
+                    ClodyToast.show(message: "설정 > 알림 > 클로디에서 알림을 켜주세요.")
                 }
             })
 
