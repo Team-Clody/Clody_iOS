@@ -16,7 +16,7 @@ final class CalendarView: BaseView {
     // MARK: - UI Components
     
     private let scrollView = UIScrollView()
-    let calendarNavigationView = ClodyNavigationBar(type: .calendar, date: "2024년 7월")
+    let calendarNavigationView = ClodyNavigationBar(type: .calendar, date: "2024년 00월")
     private let contentView = UIView()
     private let cloverBackgroundView = UIView()
     let cloverLabel = UILabel()

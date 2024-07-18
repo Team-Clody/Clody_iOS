@@ -56,11 +56,10 @@ final class CalendarViewModel: ViewModelType {
                 self.selectedDateRelay.accept(today)
                 
                 let year = DateFormatter.string(from: selectedDateRelay.value, format: "yyyy")
-                let month = DateFormatter.string(from: selectedDateRelay.value, format: "M")
-                let day = DateFormatter.string(from: selectedDateRelay.value, format: "d")
+                let month = DateFormatter.string(from: selectedDateRelay.value, format: "MM")
+                let day = DateFormatter.string(from: selectedDateRelay.value, format: "dd")
                 
                 self.selectedMonthRelay.accept([year, month])
-                self.getMonthlyCalendar(year: Int(year) ?? 0, month: Int(month) ?? 0)
                 self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
             })
             .disposed(by: disposeBag)
@@ -69,8 +68,8 @@ final class CalendarViewModel: ViewModelType {
             .emit(onNext: { [weak self] date in
                 guard let self = self else { return }
                 let year = DateFormatter.string(from: date, format: "yyyy")
-                let month = DateFormatter.string(from: date, format: "M")
-                let day = DateFormatter.string(from: date, format: "d")
+                let month = DateFormatter.string(from: date, format: "MM")
+                let day = DateFormatter.string(from: date, format: "dd")
                 
                 self.selectedDateRelay.accept(date)
                 self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
@@ -184,6 +183,8 @@ extension CalendarViewModel {
             guard let data = data.data else { return }
             
             self.dailyDiaryDataRelay.accept(data)
+            
+            self.getMonthlyCalendar(year: year, month: month)
         })
     }
     
@@ -193,6 +194,8 @@ extension CalendarViewModel {
         provider.request(target: .deleteDiary(year: year, month: month, date: date), instance: BaseResponse<EmptyResponseDTO>.self, completion: { data in
             guard let data = data.data else { return }
             
+            self.getMonthlyCalendar(year: year, month: month)
+            self.getDailyCalendarData(year: year, month: month, date: date)
         })
     }
 }

@@ -132,7 +132,7 @@ private extension ReplyWaitingViewController {
         
         let year = DateFormatter.string(from: date, format: "yyyy")
         let month = DateFormatter.string(from: date, format: "MM")
-        let date = DateFormatter.string(from: date, format: "d")
+        let date = DateFormatter.string(from: date, format: "dd")
         
         
         viewModel.getReply(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(date) ?? 0) { data in

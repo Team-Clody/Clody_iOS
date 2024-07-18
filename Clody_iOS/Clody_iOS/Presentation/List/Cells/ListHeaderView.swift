@@ -128,7 +128,7 @@ final class ListHeaderView: UICollectionReusableView {
         let dayOfContent = DateFormatter.date(from: diary.date)
         dayLabel.text = dayOfContent?.koreanDayOfWeek()
         if let date = DateFormatter.date(from: diary.date) {
-            let formattedDate = DateFormatter.string(from: date, format: "d")
+            let formattedDate = DateFormatter.string(from: date, format: "dd")
             dateLabel.text = "\(formattedDate)일"
         } else {
             dateLabel.text = "\(diary.date.split(separator: "-").last!)일"

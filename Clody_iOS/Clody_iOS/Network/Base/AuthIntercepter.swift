@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 import Alamofire
 import Moya
 import UIKit
@@ -20,17 +19,23 @@ final class AuthInterceptor: RequestInterceptor {
     private init() {}
     
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
-        print("---adater 진입----")
-        // 여기에 토큰 추가 등 요청 수정 작업을 수행할 수 있습니다.
-        completion(.success(urlRequest))
+        print("---adapter 진입----")
+        
+        var adaptedRequest = urlRequest
+        if let accessToken = UserManager.shared.accessToken {
+            adaptedRequest.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        }
+     
+        completion(.success(adaptedRequest))
     }
     
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
         print("-------🔧retry 시작🔧-------")
         
-        if request.retryCount < retryLimit {
+        if request.retryCount >= retryLimit {
             print("🚨재시도 횟수가 너무 많습니다🚨")
             completion(.doNotRetryWithError(error))
+            return
         }
         
         guard let response = request.response, response.statusCode == 401 else {
@@ -49,24 +54,24 @@ final class AuthInterceptor: RequestInterceptor {
                         completion(.retry)
                     } else {
                         print("🚨토큰 데이터가 없습니다🚨")
-                        UserManager.shared.clearAll()
-                        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                            sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
-                        }
-                        completion(.doNotRetryWithError(error))
+                        self.handleTokenRefreshFailure(completion: completion, error: error)
                     }
                 } else {
                     print("🚨토큰 재발급에 실패했습니다🚨")
-                    UserManager.shared.clearAll()
-                    if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                        sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
-                    }
-                    completion(.doNotRetryWithError(error))
+                    self.handleTokenRefreshFailure(completion: completion, error: error)
                 }
             case .failure(let moyaError):
                 print("🚨토큰 재발급 중 오류 발생: \(moyaError)🚨")
-                completion(.doNotRetryWithError(moyaError))
+                self.handleTokenRefreshFailure(completion: completion, error: moyaError)
             }
         }
+    }
+    
+    private func handleTokenRefreshFailure(completion: @escaping (RetryResult) -> Void, error: Error) {
+        UserManager.shared.clearAll()
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
+        }
+        completion(.doNotRetryWithError(error))
     }
 }

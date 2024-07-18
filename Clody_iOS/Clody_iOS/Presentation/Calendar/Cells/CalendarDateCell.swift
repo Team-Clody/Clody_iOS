@@ -99,32 +99,31 @@ final class CalendarDateCell: FSCalendarCell {
 extension CalendarDateCell {
     
     func configure(isToday: Bool, isSelected: Bool, date: String, data: MonthlyDiary) {
-        
-        if isToday {
-            if data.diaryCount == 0 {
-                self.cloverImageView.image = .cloverToday
-            } else {
-                self.cloverImageView.image = .cloverTodayDone
-            }
-            clendarDateLabel.textColor = .black
-            backgroundSelectView.isHidden = true
-        } else {
-            self.cloverImageView.image = UIImage(named: "clover\(data.diaryCount)")
-        }
-        
-        if isSelected {
-            backgroundSelectView.isHidden = false
-            clendarDateLabel.textColor = .white
-        } else {
-            backgroundSelectView.isHidden = true
-            clendarDateLabel.textColor = .grey05
-        }
-        
+        // 기본 설정
+        cloverImageView.image = UIImage(named: "clover\(data.diaryCount)")
+        clendarDateLabel.textColor = .grey05
+        backgroundSelectView.isHidden = true
         
         if data.replyStatus == "READY_NOT_READ" {
             newImageView.isHidden = false
+        } else {
+            newImageView.isHidden = true
         }
         
-        self.clendarDateLabel.text = date
+        // 오늘 날짜 처리
+        if isToday {
+            if data.diaryCount == 0 {
+                cloverImageView.image = .cloverToday
+            } else {
+                cloverImageView.image = (data.replyStatus == "READY_READ") ? UIImage(named: "clover\(data.diaryCount)") : .clover0
+            }
+            clendarDateLabel.textColor = .black
+        }
+        
+        // 선택된 날짜 처리
+        if isSelected {
+            backgroundSelectView.isHidden = false
+            clendarDateLabel.textColor = .white
+        }
     }
 }

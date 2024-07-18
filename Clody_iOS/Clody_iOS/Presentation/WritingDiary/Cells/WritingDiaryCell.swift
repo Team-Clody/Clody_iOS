@@ -19,7 +19,7 @@ final class WritingDiaryCell: UICollectionViewCell {
     
     let writingContainer = UIView()
     let writingListNumberLabel = UILabel()
-    let textView = UITextView()
+    lazy var textView = UITextView()
     lazy var kebabButton = UIButton()
     let textInputLabel = UILabel()
     let limitTextLabel = UILabel()
