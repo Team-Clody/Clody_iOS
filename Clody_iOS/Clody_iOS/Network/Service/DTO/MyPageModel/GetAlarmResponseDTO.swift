@@ -13,3 +13,9 @@ struct GetAlarmResponseDTO: Codable {
     let isReplyAlarm: Bool
     let time: String
 }
+
+struct AlarmModel {
+    var isDiaryAlarm: Bool
+    var isReplyAlarm: Bool
+    var time: String
+}

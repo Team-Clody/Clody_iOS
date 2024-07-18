@@ -12,7 +12,7 @@ final class AccountView: BaseView {
     let nicknameLabel = UILabel()
     let changeProfileButton = UIButton()
     private let emailImageView = UIImageView()
-    private let emailLabel = UILabel()
+    let emailLabel = UILabel()
     let logoutButton = UIButton()
     let deleteAccountButton = UIButton()
     private let deleteConfirmationLabel = UILabel()
