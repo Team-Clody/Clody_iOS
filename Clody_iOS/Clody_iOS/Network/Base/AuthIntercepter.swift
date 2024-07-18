@@ -54,15 +54,15 @@ final class AuthInterceptor: RequestInterceptor {
                         completion(.retry)
                     } else {
                         print("🚨토큰 데이터가 없습니다🚨")
-                        self.handleTokenRefreshFailure(completion: completion, error: error)
+//                        self.handleTokenRefreshFailure(completion: completion, error: error)
                     }
                 } else {
                     print("🚨토큰 재발급에 실패했습니다🚨")
-                    self.handleTokenRefreshFailure(completion: completion, error: error)
+//                    self.handleTokenRefreshFailure(completion: completion, error: error)
                 }
             case .failure(let moyaError):
                 print("🚨토큰 재발급 중 오류 발생: \(moyaError)🚨")
-                self.handleTokenRefreshFailure(completion: completion, error: moyaError)
+//                self.handleTokenRefreshFailure(completion: completion, error: moyaError)
             }
         }
     }
