@@ -12,14 +12,16 @@ import Then
 
 final class NotificationCell: UITableViewCell {
 
-    private let titleLabel: UILabel = UILabel()
-    private let detailLabel: UILabel = UILabel()
-    let arrowImageView: UIImageView = UIImageView()
-    private let switchControl: UISwitch = UISwitch()
+    let titleLabel: UILabel = UILabel()
+    lazy var detailLabel: UILabel = UILabel()
+    lazy var arrowImageView: UIImageView = UIImageView()
+    lazy var switchControl: UISwitch = UISwitch()
+    var switchValueChanged: ((Bool) -> Void)?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUI()
+        bindSwitch()
     }
 
     required init?(coder: NSCoder) {
@@ -31,8 +33,19 @@ final class NotificationCell: UITableViewCell {
         setHierarchy()
         setLayout()
     }
+    
+    private func bindSwitch() {
+        switchControl.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
+    }
+
+    @objc private func switchChanged() {
+        switchValueChanged?(switchControl.isOn)
+    }
+
 
     private func setStyle() {
+        self.backgroundColor = .white
+        
         titleLabel.do {
             $0.textColor = .black
         }
@@ -43,8 +56,9 @@ final class NotificationCell: UITableViewCell {
         }
 
         arrowImageView.do {
-            $0.image = .arrow
+            $0.image = .icNext
             $0.contentMode = .scaleAspectFit
+            $0.tintColor = .grey05
         }
 
         switchControl.do {
@@ -79,19 +93,51 @@ final class NotificationCell: UITableViewCell {
         }
     }
 
-    func configure(with item: NotificationItem) {
+    func configure(with item: AlarmModel, indexPath: Int) {
+        titleLabel.attributedText = UIFont.pretendardString(
+            text: SettingAlarmCellTitle.allCases[indexPath].rawValue,
+            style: .body1_medium
+        )
         
-        titleLabel.attributedText = UIFont.pretendardString(text: item.title, style: .body1_medium)
-        
-        if let detail = item.detail {
-            detailLabel.attributedText = UIFont.pretendardString(text: detail, style: .body3_medium)
-            detailLabel.isHidden = false
-            arrowImageView.isHidden = false
-            switchControl.isHidden = true
-        } else {
+        switch indexPath {
+        case 0:
+            switchControl.isHidden = false
+            switchControl.isOn = item.isDiaryAlarm
             detailLabel.isHidden = true
             arrowImageView.isHidden = true
+        case 1:
+            switchControl.isHidden = true
+            detailLabel.isHidden = false
+            arrowImageView.isHidden = false
+            detailLabel.attributedText = UIFont.pretendardString(
+                text: convertTo12HourFormat(item.time),
+                style: .body3_medium
+            )
+        case 2:
             switchControl.isHidden = false
+            switchControl.isOn = item.isReplyAlarm
+            detailLabel.isHidden = true
+            arrowImageView.isHidden = true
+        default:
+            return
         }
     }
+    
+    private func convertTo12HourFormat(_ time: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        guard let date = dateFormatter.date(from: time) else {
+            return time
+        }
+        
+        dateFormatter.dateFormat = "a h:mm"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        return dateFormatter.string(from: date)
+    }
+}
+
+enum SettingAlarmCellTitle: String, CaseIterable {
+    case writingAlarm = "알기 작성 알림 받기"
+    case time = "알림 시간"
+    case replyAlarm = "답장 도착 알림 받기"
 }

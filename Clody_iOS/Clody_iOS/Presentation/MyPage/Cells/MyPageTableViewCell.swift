@@ -13,6 +13,7 @@ final class MyPageTableViewCell: UITableViewCell {
     
     private let separatorLine = UIView()
     private var latestVersionLabel: UILabel?
+    private let arrowImageView = UIImageView() // arrowImageView를 클래스 프로퍼티로 선언
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -26,9 +27,18 @@ final class MyPageTableViewCell: UITableViewCell {
     }
     
     private func setStyle() {
+        
+        self.backgroundColor = .white
+        
         separatorLine.do {
-            $0.backgroundColor = .grey07
+            $0.backgroundColor = .grey08
             $0.isHidden = true
+        }
+        
+        arrowImageView.do {
+            $0.tintColor = .grey05
+            $0.contentMode = .scaleAspectFit
+            $0.image = .arrow
         }
         
         layoutMargins = UIEdgeInsets.zero
@@ -37,7 +47,8 @@ final class MyPageTableViewCell: UITableViewCell {
     }
     
     private func setHierarchy() {
-        addSubview(separatorLine)
+        contentView.addSubview(separatorLine)
+        contentView.addSubview(arrowImageView)
     }
     
     private func setLayout() {
@@ -45,6 +56,12 @@ final class MyPageTableViewCell: UITableViewCell {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
             $0.height.equalTo(8)
+        }
+        
+        arrowImageView.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(14)
+            $0.size.equalTo(25)
         }
     }
     
@@ -54,12 +71,14 @@ final class MyPageTableViewCell: UITableViewCell {
     
     func configure(with setting: Setting, at indexPath: IndexPath) {
         textLabel?.attributedText = UIFont.pretendardString(text: setting.rawValue, style: .body1_medium)
+        textLabel?.textColor = .grey03
         
         if setting == .version {
             configureVersionLabel(with: "최신 버전")
+            arrowImageView.isHidden = true
         } else {
-            accessoryType = .disclosureIndicator
             latestVersionLabel?.isHidden = true
+            arrowImageView.isHidden = false
         }
     }
     

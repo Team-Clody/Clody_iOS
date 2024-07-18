@@ -1,10 +1,3 @@
-//
-//  NotificationView.swift
-//  Clody_iOS
-//
-//  Created by Seonwoo Kim on 7/16/24.
-//
-
 import UIKit
 
 import SnapKit
@@ -16,10 +9,13 @@ final class NotificationView: BaseView {
     public let navigationBar = ClodyNavigationBar(type: .setting, title: "알림 설정")
 
     override func setStyle() {
+        self.backgroundColor = .white
+        
         tableView.do {
             $0.register(NotificationCell.self, forCellReuseIdentifier: "NotificationCell")
             $0.tableFooterView = UIView()
             $0.separatorStyle = .none
+            $0.backgroundColor = .white
         }
     }
 

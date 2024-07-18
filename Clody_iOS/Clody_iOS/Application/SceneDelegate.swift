@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let rootViewController = SplashViewController()
+        let rootViewController = SplashViewController() 
         
         window.rootViewController = rootViewController
         window.makeKeyAndVisible()
@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 if UserManager.shared.hasAccessToken {
                     self.window?.rootViewController = UINavigationController(rootViewController: CalendarViewController())
                 } else {
-                    self.window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
+                    self.window?.rootViewController = UINavigationController(rootViewController: LoginViewController()) 
                 }
             }
         }
