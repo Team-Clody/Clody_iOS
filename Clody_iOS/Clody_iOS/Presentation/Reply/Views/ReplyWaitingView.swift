@@ -13,7 +13,7 @@ import Lottie
 
 final class ReplyWaitingView: BaseView {
     
-    private lazy var navigationBar = ClodyNavigationBar(type: .normal)
+    lazy var navigationBar = ClodyNavigationBar(type: .normal)
     private let waitingLottie = LottieAnimationView(name: "waitingLody")
     private lazy var replyLottie = LottieAnimationView(name: "replyLody")
     private let lottieView = UIView()
