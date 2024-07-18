@@ -27,6 +27,8 @@ final class ListViewController: UIViewController {
     private let rootView = ListView()
     private let datePickerView = DatePickeView()
     private let deleteBottomSheetView = DeleteBottomSheetView()
+    private var alert: ClodyAlert?
+    private lazy var dimmingView = UIView()
     
     // MARK: - Life Cycles
     
@@ -116,6 +118,39 @@ private extension ListViewController {
                 rootView.navigationBarView.dateText = data
             })
             .disposed(by: disposeBag)
+        
+        output.showDelete
+            .emit(onNext: { [weak self] index in
+                guard let self = self else { return }
+                self.showAlert(
+                    type: .deleteDiary,
+                    title: I18N.Alert.deleteDiaryTitle,
+                    message: I18N.Alert.deleteDiaryMessage,
+                    rightButtonText: I18N.Alert.delete
+                )
+                
+                self.alert?.leftButton.rx.tap
+                    .subscribe(onNext: {
+                        self.hideAlert()
+                    })
+                    .disposed(by: self.disposeBag)
+                
+                self.alert?.rightButton.rx.tap
+                    .subscribe(onNext: {
+                        let dateComponents = self.viewModel.selectedDateRelay.value?.split(separator: "-").map { Int($0) ?? 0 }
+                        if dateComponents?.count == 3 {
+                            let year = dateComponents?[0]
+                            let month = dateComponents?[1]
+                            let day = dateComponents?[2]
+                            
+                            self.viewModel.deleteDiary(year: year ?? 0, month: month ?? 0, date: day ?? 0)
+                        }
+                        self.hideAlert()
+                    })
+                    .disposed(by: self.disposeBag)
+            })
+            .disposed(by: disposeBag)
+
     }
     
     func setDelegate() {
@@ -269,6 +304,48 @@ extension ListViewController: UICollectionViewDataSource {
             return header
         default:
             return UICollectionReusableView()
+        }
+    }
+}
+
+private extension ListViewController {
+    
+    func showAlert(
+        type: AlertType,
+        title: String,
+        message: String,
+        rightButtonText: String
+    ) {
+        self.alert = ClodyAlert(type: type, title: title, message: message, rightButtonText: rightButtonText)
+        setAlert()
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.alert!.alpha = 1
+        })
+    }
+    
+    func hideAlert() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alert!.alpha = 0
+        }) { _ in
+            self.dimmingView.removeFromSuperview()
+            self.alert!.removeFromSuperview()
+        }
+        rootView.listCollectionView.reloadData()
+    }
+    
+    func setAlert() {
+        alert!.alpha = 0
+        dimmingView.backgroundColor = .black.withAlphaComponent(0.4)
+        self.view.addSubviews(dimmingView, alert!)
+        
+        dimmingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        alert!.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.center.equalToSuperview()
         }
     }
 }

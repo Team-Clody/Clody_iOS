@@ -29,11 +29,12 @@ final class ListViewModel: ViewModelType {
         let showPickerView: Signal<Void>
         let changeNavigationDate: Driver<String>
         let listDataChanged: Driver<[ListDiary]>
+        let showDelete: Signal<Void>
     }
     
     let listDataRelay = BehaviorRelay<CalendarListResponseDTO>(value: CalendarListResponseDTO(totalMonthlyCount: 0, diaries: []))
     let selectedMonthRelay = BehaviorRelay<[String]>(value: ["", ""])
-    private let selectedDateRelay = BehaviorRelay<String?>(value: nil)
+    let selectedDateRelay = BehaviorRelay<String?>(value: nil)
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
@@ -54,20 +55,6 @@ final class ListViewModel: ViewModelType {
                  self?.selectedDateRelay.accept(date)
              })
              .disposed(by: disposeBag)
-        
-        input.tapDeleteButton
-            .emit(onNext: { [weak self] in
-                guard let self = self, let date = self.selectedDateRelay.value else { return }
-                let dateComponents = date.split(separator: "-").map { Int($0) ?? 0 }
-                if dateComponents.count == 3 {
-                    let year = dateComponents[0]
-                    let month = dateComponents[1]
-                    let day = dateComponents[2]
-                    // Alert에 붙여야 함.
-                    self.deleteDiary(year: year, month: month, date: day)
-                }
-            })
-            .disposed(by: disposeBag)
         
         let replyDate = input.tapReplyButton
             .asDriver(onErrorJustReturn: "")
@@ -97,13 +84,16 @@ final class ListViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: "Error")
         
+        let showDelete = input.tapDeleteButton.asSignal()
+        
         return Output(
             replyDate: replyDate,
             kebabDate: kebabDate,
             changeToCalendar: changeToCalendar,
             showPickerView: showPickerView,
             changeNavigationDate: changeNavigationDate, 
-            listDataChanged: listDataChanged
+            listDataChanged: listDataChanged,
+            showDelete: showDelete
         )
     }
 }
@@ -125,7 +115,7 @@ extension ListViewModel {
 
         provider.request(target: .deleteDiary(year: year, month: month, date: date), instance: BaseResponse<EmptyResponseDTO>.self, completion: { data in
             guard let data = data.data else { return }
-            
+            self.getListData(year: year, month: month)
         })
     }
 }
