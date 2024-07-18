@@ -150,7 +150,7 @@ final class CalendarView: BaseView {
         calendarNavigationView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.width.equalToSuperview()
-            $0.height.equalTo(36)
+            $0.height.equalTo(44)
         }
         
         cloverBackgroundView.snp.makeConstraints {

@@ -14,7 +14,6 @@ final class DiaryNotificationView: BaseView {
     
     // MARK: - UI Components
     
-    private let navigationBar = ClodyNavigationBar(type: .normal)
     private let introLabel = UILabel()
     let timeSettingView = UIView()
     let timeLabel = UILabel()
@@ -67,19 +66,13 @@ final class DiaryNotificationView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(navigationBar, introLabel, timeSettingView, completeButton, setNextButton)
+        self.addSubviews(introLabel, timeSettingView, completeButton, setNextButton)
         timeSettingView.addSubviews(timeLabel, downButton, divider)
     }
     
     override func setLayout() {
-        navigationBar.snp.makeConstraints {
-            $0.height.equalTo(44)
-            $0.top.equalTo(safeAreaLayoutGuide)
-            $0.horizontalEdges.equalToSuperview()
-        }
-        
         introLabel.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(40)
+            $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(84))
             $0.leading.equalToSuperview().inset(24)
         }
         

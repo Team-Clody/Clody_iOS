@@ -29,7 +29,7 @@ final class MyPageView: BaseView {
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(52)
+            $0.height.equalTo(44)
         }
         
         tableView.snp.makeConstraints {
