@@ -74,7 +74,6 @@ extension ReplyWaitingViewModel {
             instance: BaseResponse<GetReplyResponseDTO>.self
         ) { response in
             if let data = response.data {
-                print(data)
                 completion(data)
             }
         }
@@ -86,7 +85,6 @@ extension ReplyWaitingViewModel {
             instance: BaseResponse<GetWritingTimeDTO>.self
         ) { response in
             if let data = response.data {
-                print(data)
                 completion(data)
             }
         }

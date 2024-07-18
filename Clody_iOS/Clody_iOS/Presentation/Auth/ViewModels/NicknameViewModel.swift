@@ -70,7 +70,6 @@ extension NicknameViewModel {
             ),
             instance: BaseResponse<SignUpResponseDTO>.self
         ) { response in
-            print(response)
             guard let data = response.data else { return }
             UserManager.shared.updateToken(
                 data.accessToken,

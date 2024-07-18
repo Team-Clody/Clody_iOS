@@ -37,7 +37,6 @@ extension LoginViewModel {
             target: .signIn(data: LoginRequestDTO(platform: UserManager.shared.platFormValue)),
             instance: BaseResponse<LoginResponseDTO>.self
         ) { response in
-            print(response)
             guard let data = response.data else { return }
             UserManager.shared.updateToken(
                 data.accessToken,

@@ -58,7 +58,6 @@ extension DiaryNotificationViewModel {
             instance: BaseResponse<PostAlarmSetResponseDTO>.self
         ) { response in
             if let data = response.data {
-                print(data)
                 completion()
             }
         }
