@@ -31,8 +31,6 @@ final class LoginViewModel: ViewModelType {
 extension LoginViewModel {
     
     func signInWithKakao(oauthToken: OAuthToken, completion: @escaping () -> ()) {
-        // TODO: 성공/실패는 response로 나중에 바꾸기 - completion
-        print("💛\(oauthToken.accessToken)")
         UserManager.shared.platForm = "kakao"
         APIConstants.authCode = oauthToken.accessToken
         Providers.authProvider.request(
