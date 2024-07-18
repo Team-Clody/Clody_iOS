@@ -61,6 +61,7 @@ final class ListHeaderView: UICollectionReusableView {
         
         newImageView.do {
             $0.image = .new
+            $0.isHidden = true
         }
         
         kebabButton.do {

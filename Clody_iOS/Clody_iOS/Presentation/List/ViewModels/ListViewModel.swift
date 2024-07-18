@@ -42,11 +42,7 @@ final class ListViewModel: ViewModelType {
             .observe(on: MainScheduler.asyncInstance)  
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                let today = Date()
-                let year = DateFormatter.string(from: today, format: "yyyy")
-                let month = DateFormatter.string(from: today, format: "MM")
-                self.getListData(year: Int(year) ?? 0, month: Int(month) ?? 0)
-                self.selectedMonthRelay.accept([year, month])
+                fetchData()
             })
             .disposed(by: disposeBag)
         
@@ -99,6 +95,14 @@ final class ListViewModel: ViewModelType {
 }
 
 extension ListViewModel {
+    
+    func fetchData() {
+        let today = Date()
+        let year = DateFormatter.string(from: today, format: "yyyy")
+        let month = DateFormatter.string(from: today, format: "MM")
+        self.getListData(year: Int(year) ?? 0, month: Int(month) ?? 0)
+        self.selectedMonthRelay.accept([year, month])
+    }
     
     func getListData(year: Int, month: Int) {
         let provider = Providers.calendarProvider
