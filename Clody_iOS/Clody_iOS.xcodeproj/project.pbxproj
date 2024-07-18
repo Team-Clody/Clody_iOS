@@ -37,6 +37,7 @@
 		0B4A1BE62C456CD100E31EC4 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 0B4A1BE52C456CD100E31EC4 /* KakaoSDKCommon */; };
 		0B4A1BE82C456CD100E31EC4 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 0B4A1BE72C456CD100E31EC4 /* KakaoSDKUser */; };
 		0B4EF9CF2C478AAF00CAF1F6 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4EF9CE2C478AAF00CAF1F6 /* Date+.swift */; };
+		0B4EF9D12C48C39600CAF1F6 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4EF9D02C48C39600CAF1F6 /* PermissionManager.swift */; };
 		0B6C07372C3B99970054A0B0 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 0B6C07362C3B99970054A0B0 /* Differentiator */; };
 		0B6C07392C3B99970054A0B0 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 0B6C07382C3B99970054A0B0 /* RxDataSources */; };
 		0B6C07432C3DC2DE0054A0B0 /* ListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C07422C3DC2DE0054A0B0 /* ListModel.swift */; };
@@ -181,6 +182,7 @@
 		0B4A1BDB2C4564E500E31EC4 /* SignUpResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponseDTO.swift; sourceTree = "<group>"; };
 		0B4A1BDD2C45686300E31EC4 /* EmptyResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponseDTO.swift; sourceTree = "<group>"; };
 		0B4EF9CE2C478AAF00CAF1F6 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		0B4EF9D02C48C39600CAF1F6 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		0B6C07422C3DC2DE0054A0B0 /* ListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListModel.swift; sourceTree = "<group>"; };
 		0B6C07442C3DC2E90054A0B0 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0B6C07462C3DC2F40054A0B0 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
@@ -497,6 +499,7 @@
 			isa = PBXGroup;
 			children = (
 				0BE7E9E92C45B0B8000C5358 /* UserManager.swift */,
+				0B4EF9D02C48C39600CAF1F6 /* PermissionManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1064,6 +1067,7 @@
 				0B4A1BD52C4546F800E31EC4 /* Config.swift in Sources */,
 				0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */,
 				2CE6378B2C3D546200B6EC6D /* AccountViewController.swift in Sources */,
+				0B4EF9D12C48C39600CAF1F6 /* PermissionManager.swift in Sources */,
 				95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */,
 				95310FB72C43B07100023C7B /* ReplyWaitingViewModel.swift in Sources */,
 				0B72DA322C46C17800292173 /* SettingNotificationTimeView.swift in Sources */,
