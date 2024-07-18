@@ -145,8 +145,9 @@ extension NotificationViewController: UITableViewDataSource {
         if indexPath.row == 1 {
             cell.arrowImageView.isUserInteractionEnabled = true
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.arrowImageViewTapped))
-            cell.arrowImageView.addGestureRecognizer(tapGesture)
+            cell.addGestureRecognizer(tapGesture)
         }
+    
         cell.configure(with: alarmData, indexPath: indexPath.row)
         
         cell.switchValueChanged = { [weak self] isOn in
