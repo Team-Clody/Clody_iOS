@@ -76,7 +76,7 @@ private extension ListViewController {
                 let dateData = DateFormatter.date(from: date)
                 let diaryStatus = viewModel.listDataRelay.value.diaries.first(where: { $0.date == date})?.replyStatus
                 let isNew = diaryStatus == "READY_NOT_READ"
-                self.navigationController?.pushViewController(ReplyWaitingViewController(date: dateData ?? Date(), isNew: isNew), animated: true)
+                self.navigationController?.pushViewController(ReplyWaitingViewController(date: dateData ?? Date(), isNew: isNew, isHomeBackButton: false), animated: true)
             })
             .disposed(by: disposeBag)
         

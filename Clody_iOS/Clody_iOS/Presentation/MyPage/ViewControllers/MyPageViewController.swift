@@ -1,5 +1,6 @@
 import UIKit
 
+import RxSwift
 import SnapKit
 import RxCocoa
 import RxSwift
@@ -27,6 +28,7 @@ final class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bindViewModel()
         setStyle()
         setDelegate()
     }
@@ -36,9 +38,16 @@ final class MyPageViewController: UIViewController {
 
 private extension MyPageViewController {
     
+    func bindViewModel() {
+        rootView.navigationBar.backButton.rx.tap
+            .subscribe(onNext: {
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+    }
+    
     func setStyle() {
         view.backgroundColor = .white
-        
         navigationController?.isNavigationBarHidden = true
     }
     
@@ -68,6 +77,7 @@ extension MyPageViewController: UITableViewDataSource {
         ) as! MyPageTableViewCell
         
         let setting = Setting.allCases[indexPath.row]
+        cell.selectionStyle = .none
         cell.configure(with: setting, at: indexPath)
         
         if indexPath.row == 0 || indexPath.row == 3 {
@@ -75,7 +85,6 @@ extension MyPageViewController: UITableViewDataSource {
         } else {
             cell.showSeparatorLine(false)
         }
-        cell.selectionStyle = .none
         
         return cell
     }
@@ -93,13 +102,13 @@ extension MyPageViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let setting = Setting.allCases[indexPath.row]
-        if setting == .profile {
-            let accountViewController = AccountViewController()
-            self.navigationController?.pushViewController(accountViewController, animated: true)
-        } else if setting == .notification {
-            let notificationViewController = NotificationViewController()
-            self.navigationController?.pushViewController(notificationViewController, animated: true)
+        switch setting {
+        case .profile:
+            self.navigationController?.pushViewController(AccountViewController(), animated: true)
+        case .notification:
+            self.navigationController?.pushViewController(NotificationViewController(), animated: true)
+        default:
+            return
         }
-        tableView.deselectRow(at: indexPath, animated: false)
     }
 }

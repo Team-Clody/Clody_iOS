@@ -20,6 +20,7 @@ final class ReplyWaitingViewController: UIViewController {
     private var totalSeconds = 60
     private var date: Date
     private var isNew: Bool
+    private let isHomeBackButton: Bool
     
     // MARK: - UI Components
      
@@ -29,9 +30,10 @@ final class ReplyWaitingViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(date: Date, isNew: Bool) {
+    init(date: Date, isNew: Bool, isHomeBackButton: Bool) {
         self.date = date
         self.isNew = isNew
+        self.isHomeBackButton = isHomeBackButton
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -59,16 +61,42 @@ final class ReplyWaitingViewController: UIViewController {
 private extension ReplyWaitingViewController {
 
     func bindViewModel() {
+        rootView.navigationBar.backButton.rx.tap
+            .subscribe(onNext: {
+                if self.isHomeBackButton {
+                    self.navigationController?.popToRootViewController(animated: true)
+                } else {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            })
+            .disposed(by: disposeBag)
+        
         let timer = Observable<Int>
             .interval(.seconds(1), scheduler: MainScheduler.instance)
             .map { self.totalSeconds - $0 }
             .take(until: { $0 < 0 })
         
         let input = ReplyWaitingViewModel.Input(
+            viewDidLoad: Observable.just(()).asSignal(onErrorJustReturn: ()),
             timer: timer,
             openButtonTapEvent: openButton.rx.tap.asSignal()
         )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
+        
+        output.getWritingTime
+            .drive(onNext: { [weak self] in
+                guard let self = self else { return }
+                let dateTuple = date.dateToYearMonthDay()
+                
+                self.viewModel.getWritingTime(year: dateTuple.0, month: dateTuple.1, date: dateTuple.2) { data in
+                    let createdTime = (data.HH * 3600) + (data.MM * 60) + data.SS
+                    let remainingTime = (createdTime + 60) - Date().currentTimeSeconds()
+                    if remainingTime <= 0 {
+                        self.totalSeconds = 0
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
         
         output.timeLabelDidChange
             .drive(onNext: { [weak self] timeString in
@@ -86,7 +114,12 @@ private extension ReplyWaitingViewController {
             })
             .disposed(by: disposeBag)
         
-        getReply(date: date)
+        output.getReply
+            .drive(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.getReply(date: self.date)
+            })
+            .disposed(by: disposeBag)
     }
 
     func setUI() {
@@ -105,7 +138,7 @@ private extension ReplyWaitingViewController {
         viewModel.getReply(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(date) ?? 0) { data in
             self.navigationController?.pushViewController(
                 ReplyDetailViewController(data: data, isNew: self.isNew),
-                animated: false
+                animated: true
             )
         }
     }

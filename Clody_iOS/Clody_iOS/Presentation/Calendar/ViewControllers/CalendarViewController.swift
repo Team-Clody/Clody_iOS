@@ -198,7 +198,7 @@ private extension CalendarViewController {
                         isNew = false
                     }
                     
-                    self.navigationController?.pushViewController(ReplyWaitingViewController(date: date, isNew: isNew), animated: true)
+                    self.navigationController?.pushViewController(ReplyWaitingViewController(date: date, isNew: isNew, isHomeBackButton: false), animated: true)
                 } else {
                     self.navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
                 }

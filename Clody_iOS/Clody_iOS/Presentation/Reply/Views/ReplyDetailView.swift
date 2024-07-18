@@ -12,7 +12,7 @@ import Then
 
 final class ReplyDetailView: BaseView {
     
-    private lazy var navigationBar = ClodyNavigationBar(type: .reply, title: "\(month)월 \(date)일")
+    lazy var navigationBar = ClodyNavigationBar(type: .reply, title: "\(month)월 \(date)일")
     private let backgroundView = UIView()
     private let rodyImageView = UIImageView()
     private lazy var titleLabel = UILabel()
@@ -59,6 +59,7 @@ final class ReplyDetailView: BaseView {
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(text: title, style: .body2_semibold)
             $0.numberOfLines = 0
+            $0.textAlignment = .center
         }
         
         replyTextView.do {

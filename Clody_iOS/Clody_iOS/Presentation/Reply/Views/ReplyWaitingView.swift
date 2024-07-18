@@ -13,6 +13,7 @@ import Lottie
 
 final class ReplyWaitingView: BaseView {
     
+    let navigationBar = ClodyNavigationBar(type: .normal)
     private let waitingLottie = LottieAnimationView(name: "waitingLody")
     private lazy var replyLottie = LottieAnimationView(name: "replyLody")
     private let lottieView = UIView()
@@ -44,13 +45,19 @@ final class ReplyWaitingView: BaseView {
     }
     
     override func setHierarchy() {
-        addSubviews(lottieView, timeLabel, introLabel, openButton)
+        addSubviews(navigationBar, lottieView, timeLabel, introLabel, openButton)
         lottieView.addSubviews(waitingLottie)
     }
     
     override func setLayout() {
+        navigationBar.snp.makeConstraints {
+            $0.height.equalTo(44)
+            $0.top.equalTo(safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview()
+        }
+        
         lottieView.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(165))
+            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(121))
             $0.centerX.equalToSuperview()
         }
         

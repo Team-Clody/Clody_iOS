@@ -8,7 +8,7 @@
 import Foundation
 
 struct GetWritingTimeDTO: Codable {
-    let HH: String
-    let MM: String
-    let SS: String
+    let HH: Int
+    let MM: Int
+    let SS: Int
 }

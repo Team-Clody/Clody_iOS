@@ -44,7 +44,7 @@ final class AuthInterceptor: RequestInterceptor {
             case .success(let response):
                 if response.statusCode == 200, let data = try? response.map(BaseResponse<TokenRefreshResponseDTO>.self), data.status == 200 {
                     if let tokenData = data.data {
-                         UserManager.shared.updateToken(tokenData.accessToken, tokenData.refreshToken)
+                        UserManager.shared.updateToken(tokenData.accessToken, tokenData.refreshToken)
                         print("🪄토큰 재발급에 성공했습니다🪄")
                         completion(.retry)
 

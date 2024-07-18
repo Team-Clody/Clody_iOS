@@ -37,7 +37,6 @@ extension DiaryRouter: BaseTargetType {
             ]
         case .getWritingTime:
             return [
-                APIConstants.contentType: APIConstants.applicationJSON,
                 APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
             ]
         case .getReply:
