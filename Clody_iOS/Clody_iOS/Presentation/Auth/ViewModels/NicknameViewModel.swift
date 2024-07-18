@@ -17,6 +17,7 @@ final class NicknameViewModel: ViewModelType {
         let textFieldDidBeginEditing: Signal<Void>
         let textFieldDidEndEditing: Signal<Bool>
         let nextButtonTapEvent: Signal<Void>
+        let backButtonTapEvent: Signal<Void>
     }
     
     struct Output {
@@ -24,6 +25,7 @@ final class NicknameViewModel: ViewModelType {
         let isTextFieldFocused: Driver<Bool>
         let nextButtonIsEnabled: Driver<Bool>
         let pushViewController: Driver<Void>
+        let popViewController: Driver<Void>
     }
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
@@ -46,11 +48,15 @@ final class NicknameViewModel: ViewModelType {
         let pushViewController = input.nextButtonTapEvent
             .asDriver(onErrorJustReturn: ())
         
+        let popViewController = input.backButtonTapEvent
+            .asDriver(onErrorJustReturn: ())
+        
         return Output(
             charCountDidChange: charCountDidChange,
             isTextFieldFocused: isTextFieldFocused,
             nextButtonIsEnabled: nextButtonIsEnabled,
-            pushViewController: pushViewController
+            pushViewController: pushViewController,
+            popViewController: popViewController
         )
     }
 }
@@ -64,7 +70,6 @@ extension NicknameViewModel {
             ),
             instance: BaseResponse<SignUpResponseDTO>.self
         ) { response in
-            print(response)
             guard let data = response.data else { return }
             UserManager.shared.updateToken(
                 data.accessToken,

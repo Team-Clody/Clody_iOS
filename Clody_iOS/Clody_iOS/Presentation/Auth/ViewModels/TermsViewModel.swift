@@ -18,6 +18,7 @@ final class TermsViewModel: ViewModelType {
         let agreeTermsButtonTapEvent = BehaviorRelay<Bool>(value: false)
         let agreePrivacyButtonTapEvent = BehaviorRelay<Bool>(value: false)
         let nextButtonTapEvent: Signal<Void>
+        let backButtonTapEvent: Signal<Void>
     }
     
     struct Output {
@@ -25,6 +26,7 @@ final class TermsViewModel: ViewModelType {
         let allAgreeButtonMergeEvent: Driver<Bool>
         let nextButtonIsEnabled: Driver<Bool>
         let pushViewController: Driver<Void>
+        let popViewController: Driver<Void>
     }
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
@@ -55,11 +57,15 @@ final class TermsViewModel: ViewModelType {
         let pushViewController = input.nextButtonTapEvent
             .asDriver(onErrorJustReturn: ())
         
+        let popViewController = input.backButtonTapEvent
+            .asDriver(onErrorJustReturn: ())
+        
         return Output(
             twoAgreeCombineEvent: twoAgreeCombineEvent,
             allAgreeButtonMergeEvent: allAgreeButtonMergeEvent,
             nextButtonIsEnabled: nextButtonIsEnabled,
-            pushViewController: pushViewController
+            pushViewController: pushViewController,
+            popViewController: popViewController
         )
     }
 }

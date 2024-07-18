@@ -176,15 +176,13 @@ extension WritingDiaryViewModel {
     }
     
     func postDiary(date: String, content: [String], completion: @escaping (String) -> ()) {
-        func postDiary(date: String, content: [String], completion: @escaping (String) -> ()) {
-            let provider = Providers.diaryRouter
-            let data = PostDiaryRequestDTO(date: date, content: content)
-            
-            provider.request(target: .postDiary(data: data), instance: BaseResponse<PostDiaryResponseDTO>.self) { data in
-                guard let data = data.data else { return }
-                completion(data.createdAt)
-                print(data)
-            }
+        let provider = Providers.diaryRouter
+        let data = PostDiaryRequestDTO(date: date, content: content)
+        
+        provider.request(target: .postDiary(data: data), instance: BaseResponse<PostDiaryResponseDTO>.self) { data in
+            guard let data = data.data else { return }
+            completion(data.createdAt)
+            print(data)
         }
     }
 }

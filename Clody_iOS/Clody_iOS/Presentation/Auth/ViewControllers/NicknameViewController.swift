@@ -55,7 +55,8 @@ private extension NicknameViewController {
             textFieldInputEvent: clodyTextField.textField.rx.text.orEmpty.asSignal(onErrorJustReturn: ""),
             textFieldDidBeginEditing: clodyTextField.textField.rx.controlEvent(.editingDidBegin).asSignal(),
             textFieldDidEndEditing: textFieldDidEndEditing,
-            nextButtonTapEvent: rootView.nextButton.rx.tap.asSignal()
+            nextButtonTapEvent: rootView.nextButton.rx.tap.asSignal(), 
+            backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
@@ -81,6 +82,12 @@ private extension NicknameViewController {
             .drive(onNext: {
                 guard let nickname = self.clodyTextField.textField.text else { return }
                 self.signUpWithKakao(nickname: nickname)
+            })
+            .disposed(by: disposeBag)
+        
+        output.popViewController
+            .drive(onNext: {
+                self.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
     }

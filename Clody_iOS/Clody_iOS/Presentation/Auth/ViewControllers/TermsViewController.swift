@@ -60,7 +60,8 @@ private extension TermsViewController {
         let input = TermsViewModel.Input(
             allAgreeTextButtonTapEvent: allAgreeTextButtonTapEvent,
             allAgreeIconButtonTapEvent: allAgreeIconButtonTapEvent,
-            nextButtonTapEvent: rootView.nextButton.rx.tap.asSignal()
+            nextButtonTapEvent: rootView.nextButton.rx.tap.asSignal(), 
+            backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
@@ -107,6 +108,12 @@ private extension TermsViewController {
         output.pushViewController
             .drive(onNext: { _ in
                 self.navigationController?.pushViewController(NicknameViewController(), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        output.popViewController
+            .drive(onNext: {
+                self.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
     }

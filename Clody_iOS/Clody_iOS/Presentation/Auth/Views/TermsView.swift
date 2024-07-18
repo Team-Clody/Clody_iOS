@@ -14,7 +14,7 @@ final class TermsView: BaseView {
     
     // MARK: - UI Components
     
-    private let navigationBar = ClodyNavigationBar(type: .normal)
+    let navigationBar = ClodyNavigationBar(type: .normal)
     private let introLabel = UILabel()
     let allAgreeTextButton = UIButton()
     let allAgreeIconButton = UIButton()

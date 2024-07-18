@@ -14,7 +14,7 @@ final class NicknameView: BaseView {
     
     // MARK: - UI Components
     
-    private let navigationBar = ClodyNavigationBar(type: .normal)
+    let navigationBar = ClodyNavigationBar(type: .normal)
     private let introLabel = UILabel()
     let textField = ClodyTextField(type: .nickname)
     let nextButton = ClodyBottomButton(title: I18N.Common.next)
