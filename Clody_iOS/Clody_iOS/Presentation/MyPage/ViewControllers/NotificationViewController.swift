@@ -62,7 +62,14 @@ final class NotificationViewController: UIViewController {
                 self.alarmData.time = convertedTime
                 let timeText = "\(timePeriods) \(hour)시 \(minute)분"
                 
-                self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: convertedTime, fcmToken: "")
+                PermissionManager.shared.checkNotificationPermission(completion: { isAuth in
+                    print(isAuth)
+                    if isAuth {
+                        self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: convertedTime, fcmToken: UserManager.shared.fcmTokenValue)
+                    } else {
+                        ClodyToast.show(message: "설정 > 알림에서 허용해주세요.")
+                    }
+                })
             })
             .disposed(by: disposeBag)
     }
@@ -147,7 +154,16 @@ extension NotificationViewController: UITableViewDataSource {
             } else if indexPath.row == 2 {
                 self.alarmData.isReplyAlarm = isOn
             }
-            self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: self.alarmData.time, fcmToken: "")
+            
+            PermissionManager.shared.checkNotificationPermission(completion: { isAuth in
+                print(isAuth)
+                if isAuth {
+                    self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: self.alarmData.time, fcmToken: UserManager.shared.fcmTokenValue)
+                } else {
+                    ClodyToast.show(message: "설정 > 알림에서 허용해주세요.")
+                }
+            })
+
         }
         
         cell.selectionStyle = .none
