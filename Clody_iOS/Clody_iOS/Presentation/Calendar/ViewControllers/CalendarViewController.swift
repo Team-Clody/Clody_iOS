@@ -101,6 +101,9 @@ private extension CalendarViewController {
                 self.rootView.calendarButton.backgroundColor = buttonColor
                 self.rootView.calendarButton.setTitleColor(UIColor(named: textColor), for: .normal)
                 self.rootView.calendarButton.isEnabled = isEnabled
+                
+                self.rootView.dailyDiaryCollectionView.reloadData()
+                self.rootView.mainCalendarView.reloadData()
             })
             .disposed(by: disposeBag)
         
