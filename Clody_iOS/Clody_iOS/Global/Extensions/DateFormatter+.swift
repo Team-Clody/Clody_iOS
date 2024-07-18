@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 extension DateFormatter {
     static func string(from date: Date, format: String = "yyyy-MM-dd") -> String {
         let formatter = DateFormatter()
@@ -19,5 +20,28 @@ extension DateFormatter {
         formatter.dateFormat = format
         return formatter.date(from: string)
     }
-}
 
+    static func convertToDoubleDigitMonth(from monthString: String) -> String? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "M"
+        
+        guard let date = formatter.date(from: monthString) else {
+            return nil
+        }
+        
+        formatter.dateFormat = "MM"
+        return formatter.string(from: date)
+    }
+    
+    static func convertToDoubleDigitDay(from dayString: String) -> String? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d"
+        
+        guard let date = formatter.date(from: dayString) else {
+            return nil
+        }
+        
+        formatter.dateFormat = "dd"
+        return formatter.string(from: date)
+    }
+}

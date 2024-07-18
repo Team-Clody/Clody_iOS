@@ -182,7 +182,7 @@ private extension CalendarViewController {
                 let date = viewModel.selectedDateRelay.value
                 if viewModel.dailyDiaryDataRelay.value.diaries.count != 0 {
                     var isNew = false
-                    let dateIndex = Int(DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "d")) ?? 1
+                    let dateIndex = Int(DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "dd")) ?? 1
                     let diaries = viewModel.monthlyCalendarDataRelay.value.diaries
 
                     let replyStatus: String
@@ -225,7 +225,7 @@ private extension CalendarViewController {
                         
                         let year = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "yyyy")
                         let month = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "MM")
-                        let day = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "d")
+                        let day = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "dd")
                         self.viewModel.deleteDiary(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
                         self.hideAlert()
                     })
@@ -374,7 +374,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
         let isToday = Calendar.current.isDateInToday(date)
         let isSelected = Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value)
-        let date = DateFormatter.string(from: date, format: "d")
+        let date = DateFormatter.string(from: date, format: "dd")
         
         let dayString = String(day + 1)
         

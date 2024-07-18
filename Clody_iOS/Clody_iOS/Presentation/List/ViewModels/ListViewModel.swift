@@ -44,7 +44,7 @@ final class ListViewModel: ViewModelType {
                 guard let self = self else { return }
                 let today = Date()
                 let year = DateFormatter.string(from: today, format: "yyyy")
-                let month = DateFormatter.string(from: today, format: "M")
+                let month = DateFormatter.string(from: today, format: "MM")
                 self.getListData(year: Int(year) ?? 0, month: Int(month) ?? 0)
                 self.selectedMonthRelay.accept([year, month])
             })

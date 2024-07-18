@@ -17,7 +17,7 @@ final class NotificationBottomSheetView: UIView {
     let titleLabel = UILabel()
     let closeButton = UIButton()
     var pickerView = ClodyPickerView(type: .notification)
-    let doneButton = UIButton()
+    let doneButton = ClodyBottomButton(title: "완료")
 
     // MARK: - Initializers
 
@@ -43,16 +43,7 @@ final class NotificationBottomSheetView: UIView {
         }
         
         closeButton.do {
-            let attributedTitle = UIFont.pretendardString(text: "x", style: .body1_medium)
-            $0.setAttributedTitle(attributedTitle, for: .normal)
-            $0.setTitleColor(.grey01, for: .normal)
-        }
-
-        doneButton.do {
-            $0.setTitle("완료", for: .normal)
-            $0.backgroundColor = .mainYellow
-            $0.setTitleColor(.grey01, for: .normal)
-            $0.layer.cornerRadius = 10
+            $0.setImage(.icX, for: .normal)
         }
 
         addSubviews(titleLabel, closeButton, pickerView, doneButton)
@@ -70,7 +61,7 @@ final class NotificationBottomSheetView: UIView {
 
         pickerView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(17)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(180)
         }
 

@@ -25,7 +25,7 @@ final class AuthInterceptor: RequestInterceptor {
         if let accessToken = UserManager.shared.accessToken {
             adaptedRequest.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         }
-//        
+     
         completion(.success(adaptedRequest))
     }
     
@@ -51,13 +51,6 @@ final class AuthInterceptor: RequestInterceptor {
                     if let tokenData = data.data {
                         UserManager.shared.updateToken(tokenData.accessToken, tokenData.refreshToken)
                         print("🪄토큰 재발급에 성공했습니다🪄")
-                        
-                        // 새 토큰으로 원래 요청을 다시 시도
-                        var adaptedRequest = request.request
-                        adaptedRequest?.setValue("Bearer \(tokenData.accessToken)", forHTTPHeaderField: "Authorization")
-                        if let adaptedRequest = adaptedRequest {
-                            session.request(adaptedRequest).resume()
-                        }
                         completion(.retry)
                     } else {
                         print("🚨토큰 데이터가 없습니다🚨")
@@ -65,11 +58,11 @@ final class AuthInterceptor: RequestInterceptor {
                     }
                 } else {
                     print("🚨토큰 재발급에 실패했습니다🚨")
-//                    self.handleTokenRefreshFailure(completion: completion, error: error)
+                    self.handleTokenRefreshFailure(completion: completion, error: error)
                 }
             case .failure(let moyaError):
                 print("🚨토큰 재발급 중 오류 발생: \(moyaError)🚨")
-//                self.handleTokenRefreshFailure(completion: completion, error: moyaError)
+                self.handleTokenRefreshFailure(completion: completion, error: moyaError)
             }
         }
     }
