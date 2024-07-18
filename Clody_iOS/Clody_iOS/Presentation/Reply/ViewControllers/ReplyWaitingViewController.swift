@@ -104,7 +104,7 @@ private extension ReplyWaitingViewController {
         
         viewModel.getReply(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(date) ?? 0) { data in
             self.navigationController?.pushViewController(
-                ReplyDetailViewController(data: data),
+                ReplyDetailViewController(data: data, isNew: self.isNew),
                 animated: false
             )
         }

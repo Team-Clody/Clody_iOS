@@ -62,7 +62,16 @@ final class NotificationViewController: UIViewController {
                 self.alarmData.time = convertedTime
                 let timeText = "\(timePeriods) \(hour)시 \(minute)분"
                 
-                self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: convertedTime, fcmToken: "")
+                PermissionManager.shared.checkNotificationPermission(completion: { isAuth in
+                    print(isAuth)
+                    if isAuth {
+                        self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: convertedTime, fcmToken: UserManager.shared.fcmTokenValue)
+                    } else {
+                        DispatchQueue.main.async {
+                            ClodyToast.show(message: "설정 > 알림 > 클로디에서 알림을 켜주세요.")
+                        }
+                    }
+                })
             })
             .disposed(by: disposeBag)
     }
@@ -136,8 +145,9 @@ extension NotificationViewController: UITableViewDataSource {
         if indexPath.row == 1 {
             cell.arrowImageView.isUserInteractionEnabled = true
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.arrowImageViewTapped))
-            cell.arrowImageView.addGestureRecognizer(tapGesture)
+            cell.addGestureRecognizer(tapGesture)
         }
+    
         cell.configure(with: alarmData, indexPath: indexPath.row)
         
         cell.switchValueChanged = { [weak self] isOn in
@@ -147,8 +157,19 @@ extension NotificationViewController: UITableViewDataSource {
             } else if indexPath.row == 2 {
                 self.alarmData.isReplyAlarm = isOn
             }
-            self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: self.alarmData.time, fcmToken: "")
+            
+            PermissionManager.shared.checkNotificationPermission(completion: { isAuth in
+                print(isAuth)
+                if isAuth {
+                    self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: self.alarmData.time, fcmToken: UserManager.shared.fcmTokenValue)
+                } else {
+                    ClodyToast.show(message: "설정 > 알림 > 클로디에서 알림을 켜주세요.")
+                }
+            })
+
         }
+        
+        cell.selectionStyle = .none
 
         return cell
     }

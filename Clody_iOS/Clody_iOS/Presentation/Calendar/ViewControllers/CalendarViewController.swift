@@ -182,7 +182,17 @@ private extension CalendarViewController {
                 let date = viewModel.selectedDateRelay.value
                 if viewModel.dailyDiaryDataRelay.value.diaries.count != 0 {
                     // isNew 처리 필요
-                    self.navigationController?.pushViewController(ReplyWaitingViewController(date: date, isNew: true), animated: true)
+                    var isNew = false
+                    let dateIndex = DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "d")
+                    let replyStatus = viewModel.monthlyCalendarDataRelay.value.diaries[(Int(dateIndex) ?? 1) - 1].replyStatus
+                    
+                    if replyStatus == "READY_NOT_READ" {
+                        isNew = true
+                    } else {
+                        isNew = false
+                    }
+                    
+                    self.navigationController?.pushViewController(ReplyWaitingViewController(date: date, isNew: isNew), animated: true)
                 } else {
                     self.navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
                 }
