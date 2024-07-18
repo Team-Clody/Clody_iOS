@@ -91,6 +91,7 @@ private extension ReplyWaitingViewController {
                 self.viewModel.getWritingTime(year: dateTuple.0, month: dateTuple.1, date: dateTuple.2) { data in
                     let createdTime = (data.HH * 3600) + (data.MM * 60) + data.SS
                     let remainingTime = (createdTime + 60) - Date().currentTimeSeconds()
+                    self.totalSeconds = remainingTime
                     if remainingTime <= 0 {
                         self.totalSeconds = 0
                     }
