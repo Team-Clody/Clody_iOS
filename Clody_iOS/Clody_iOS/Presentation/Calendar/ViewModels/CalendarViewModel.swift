@@ -195,6 +195,8 @@ extension CalendarViewModel {
         provider.request(target: .deleteDiary(year: year, month: month, date: date), instance: BaseResponse<EmptyResponseDTO>.self, completion: { data in
             guard let data = data.data else { return }
             
+            self.getMonthlyCalendar(year: year, month: month)
+            self.getDailyCalendarData(year: year, month: month, date: date)
         })
     }
 }
