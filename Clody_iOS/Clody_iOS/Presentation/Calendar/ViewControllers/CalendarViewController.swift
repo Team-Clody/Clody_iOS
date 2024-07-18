@@ -374,7 +374,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
         let isToday = Calendar.current.isDateInToday(date)
         let isSelected = Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value)
-        let date = DateFormatter.string(from: date, format: "dd")
+        let date = DateFormatter.string(from: date, format: "d")
         
         let dayString = String(day + 1)
         

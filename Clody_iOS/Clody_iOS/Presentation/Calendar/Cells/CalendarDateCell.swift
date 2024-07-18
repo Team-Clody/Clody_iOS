@@ -125,5 +125,7 @@ extension CalendarDateCell {
             backgroundSelectView.isHidden = false
             clendarDateLabel.textColor = .white
         }
+        
+        self.clendarDateLabel.text = date
     }
 }

@@ -22,10 +22,10 @@ final class AuthInterceptor: RequestInterceptor {
         print("---adapter 진입----")
         
         var adaptedRequest = urlRequest
+        let isSignIn: Bool = urlRequest.url?.path.contains("/signin") ?? false
+        let isSignUp: Bool = urlRequest.url?.path.contains("/signup") ?? false
         
-        if let isSignIn = urlRequest.url?.path.contains("/signin") {
-            adaptedRequest.setValue(APIConstants.Bearer + APIConstants.authCode, forHTTPHeaderField: APIConstants.auth)
-        } else if let isSignUp = urlRequest.url?.path.contains("/signup") {
+        if isSignIn || isSignUp {
             adaptedRequest.setValue(APIConstants.Bearer + APIConstants.authCode, forHTTPHeaderField: APIConstants.auth)
         } else {
             if let accessToken = UserManager.shared.accessToken {
