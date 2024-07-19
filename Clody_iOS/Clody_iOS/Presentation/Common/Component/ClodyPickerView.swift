@@ -34,6 +34,7 @@ final class ClodyPickerView: UIPickerView {
         
         setStyle()
         setDelegate()
+        setDefaultInitialValues()
     }
     
     required init?(coder: NSCoder) {
@@ -50,6 +51,22 @@ final class ClodyPickerView: UIPickerView {
         self.delegate = self
         self.dataSource = self
     }
+    
+    private func setDefaultInitialValues() {
+        switch type {
+        case .notification:
+            selectRow(1, inComponent: 0, animated: false)
+            selectRow(8, inComponent: 1, animated: false)
+            selectRow(3, inComponent: 2, animated: false)
+        case .calendar:
+            let currentYear = Calendar.current.component(.year, from: Date())
+            let currentMonth = Calendar.current.component(.month, from: Date())
+            if let yearIndex = years.firstIndex(of: currentYear) {
+                selectRow(yearIndex, inComponent: 0, animated: false)
+            }
+            selectRow(currentMonth - 1, inComponent: 1, animated: false)
+        }
+    }
 }
 
 // MARK: - Extensions
@@ -57,7 +74,12 @@ final class ClodyPickerView: UIPickerView {
 extension ClodyPickerView: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-        return 70
+        switch type {
+        case .notification:
+            return 65
+        case .calendar:
+            return 90
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
@@ -65,25 +87,23 @@ extension ClodyPickerView: UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        var label: UILabel
-        if let reusedView = view as? UILabel {
-            label = reusedView
+        let label: UILabel
+        if let reusedLabel = view as? UILabel {
+            label = reusedLabel
         } else {
             label = UILabel()
         }
         
-        label.do {
-            $0.textAlignment = .center
-            $0.textColor = .grey01
-        }
-        
+        var text = ""
         switch type {
-        case .calendar:
-            label.attributedText = UIFont.pretendardString(text: dataOfRowsInCalendar(component: component, row: row), style: .head3_medium)
         case .notification:
-            label.attributedText = UIFont.pretendardString(text: dataOfRowsInNotification(component: component, row: row), style: .head3_medium)
+            text = dataOfRowsInNotification(component: component, row: row)
+        case .calendar:
+            text = dataOfRowsInCalendar(component: component, row: row)
         }
         
+        label.attributedText = UIFont.pretendardString(text: text, style: .head3_medium, color: .grey01)
+        label.textAlignment = .center
         return label
     }
 }
