@@ -76,7 +76,11 @@ final class OnBoardingDetailView: BaseView {
             lineHeightMultiple: 1.5,
             align: .center
         )
-        subTitleLabel.attributedText = UIFont.pretendardString(text: type.subTitle, style: .body1_medium)
+        subTitleLabel.attributedText = UIFont.pretendardString(
+            text: type.subTitle,
+            style: .body1_medium,
+            align: .center
+        )
         imageView.image = type.image
     }
     
@@ -117,7 +121,7 @@ final class OnBoardingDetailView: BaseView {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(113))
+            $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(113))
             $0.centerX.equalToSuperview()
         }
         

@@ -42,7 +42,7 @@ final class CalendarViewModel: ViewModelType {
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
-    let monthlyCalendarDataRelay = BehaviorRelay<CalendarMonthlyResponseDTO>(value: CalendarMonthlyResponseDTO(totalMonthlyCount: 0, diaries: [MonthlyDiary(diaryCount: 0, replyStatus: "")]))
+    let monthlyCalendarDataRelay = BehaviorRelay<CalendarMonthlyResponseDTO>(value: CalendarMonthlyResponseDTO(totalCloverCount: 0, diaries: [MonthlyDiary(diaryCount: 0, replyStatus: "")]))
     let dailyDiaryDataRelay = BehaviorRelay<GetDiaryResponseDTO>(value: GetDiaryResponseDTO(diaries: []))
     let selectedMonthRelay = BehaviorRelay<[String]>(value: ["0", "0"])
     let currentPageRelay = BehaviorRelay<Date>(value: Date())
@@ -109,7 +109,7 @@ final class CalendarViewModel: ViewModelType {
             .asDriver(onErrorJustReturn: [])
         
         let cloverCount = monthlyCalendarDataRelay
-            .map { $0.totalMonthlyCount }
+            .map { $0.totalCloverCount }
             .asDriver(onErrorJustReturn: 0)
         
         let changeToList = input.tapListButton.asSignal()

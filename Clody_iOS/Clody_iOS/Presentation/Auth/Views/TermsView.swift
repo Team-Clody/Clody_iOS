@@ -129,7 +129,7 @@ final class TermsView: BaseView {
         }
         
         introLabel.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(40)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(40))
             $0.leading.equalToSuperview().inset(24)
         }
         

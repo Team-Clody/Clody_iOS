@@ -148,6 +148,7 @@
 		95310FC42C45A31700023C7B /* DiaryNotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */; };
 		95310FC62C45ACD000023C7B /* OnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */; };
 		95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A89E762C36EE4100E07ABC /* BaseView.swift */; };
+		95FB8ABA2C4A5B940060C042 /* ChangeNicknameBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FB8AB92C4A5B940060C042 /* ChangeNicknameBottomSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -280,6 +281,7 @@
 		95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryNotificationViewModel.swift; sourceTree = "<group>"; };
 		95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewModel.swift; sourceTree = "<group>"; };
 		95A89E762C36EE4100E07ABC /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		95FB8AB92C4A5B940060C042 /* ChangeNicknameBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNicknameBottomSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -773,6 +775,7 @@
 				0B72DA2F2C46C16000292173 /* NotificationView.swift */,
 				0B72DA312C46C17800292173 /* SettingNotificationTimeView.swift */,
 				0B72DA352C46C1B800292173 /* NotificationBottomSheetView.swift */,
+				95FB8AB92C4A5B940060C042 /* ChangeNicknameBottomSheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1076,6 +1079,7 @@
 				95310F982C40777C00023C7B /* OnBoardingView.swift in Sources */,
 				0B4A1BDA2C45636300E31EC4 /* SignUpRequestDTO.swift in Sources */,
 				95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */,
+				95FB8ABA2C4A5B940060C042 /* ChangeNicknameBottomSheet.swift in Sources */,
 				0BE7E9F92C4659F9000C5358 /* DiaryRouter.swift in Sources */,
 				0BE7EA0D2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift in Sources */,
 				0BE7E9F52C4656EB000C5358 /* PostDiaryRequestDTO.swift in Sources */,

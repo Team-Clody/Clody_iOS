@@ -32,7 +32,7 @@ final class ListViewModel: ViewModelType {
         let showDelete: Signal<Void>
     }
     
-    let listDataRelay = BehaviorRelay<CalendarListResponseDTO>(value: CalendarListResponseDTO(totalMonthlyCount: 0, diaries: []))
+    let listDataRelay = BehaviorRelay<CalendarListResponseDTO>(value: CalendarListResponseDTO(totalCloverCount: 0, diaries: []))
     let selectedMonthRelay = BehaviorRelay<[String]>(value: ["", ""])
     let selectedDateRelay = BehaviorRelay<String?>(value: nil)
     

@@ -8,7 +8,7 @@
 import Foundation
 
 struct CalendarMonthlyResponseDTO: Codable {
-    let totalMonthlyCount: Int
+    let totalCloverCount: Int
     let diaries: [MonthlyDiary]
 }
 

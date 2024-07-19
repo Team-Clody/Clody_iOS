@@ -83,9 +83,9 @@ final class AccountView: BaseView {
     override func setLayout() {
         
         navigationBar.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide.snp.top)
+            $0.height.equalTo(44)
+            $0.top.equalTo(safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(52)
         }
         
         profileImageView.snp.makeConstraints {

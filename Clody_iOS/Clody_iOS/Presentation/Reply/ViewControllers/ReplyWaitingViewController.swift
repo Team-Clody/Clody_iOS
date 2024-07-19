@@ -17,7 +17,7 @@ final class ReplyWaitingViewController: UIViewController {
     
     private let viewModel = ReplyWaitingViewModel()
     private let disposeBag = DisposeBag()
-    private var totalSeconds = 60
+    private var totalSeconds = 30
     private var date: Date
     private var isNew: Bool
     private let isHomeBackButton: Bool
@@ -90,7 +90,8 @@ private extension ReplyWaitingViewController {
                 
                 self.viewModel.getWritingTime(year: dateTuple.0, month: dateTuple.1, date: dateTuple.2) { data in
                     let createdTime = (data.HH * 3600) + (data.MM * 60) + data.SS
-                    let remainingTime = (createdTime + 60) - Date().currentTimeSeconds()
+                    let remainingTime = (createdTime + 30) - Date().currentTimeSeconds()
+                    self.totalSeconds = remainingTime
                     if remainingTime <= 0 {
                         self.totalSeconds = 0
                     }

@@ -8,7 +8,6 @@
 import Foundation
 
 struct GetAlarmResponseDTO: Codable {
-    let fcmToken: String
     let isDiaryAlarm: Bool
     let isReplyAlarm: Bool
     let time: String

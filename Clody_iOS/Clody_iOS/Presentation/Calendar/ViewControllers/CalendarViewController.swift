@@ -207,6 +207,7 @@ private extension CalendarViewController {
                     self.navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
                 }
             })
+            .disposed(by: disposeBag)
         
         output.showDelete
             .emit(onNext: { [weak self] index in
