@@ -17,6 +17,9 @@ final class ClodyToastView: BaseView {
     let toastContainerView = UIView()
     let alertImage = UIImageView()
     let textLabel = UILabel()
+    var toastType = ToastType.needToWriteAll
+    var titleText = ""
+    let stackView = UIStackView()
     
     override func setStyle() {
         toastContainerView.do {
@@ -31,18 +34,25 @@ final class ClodyToastView: BaseView {
         
         textLabel.do {
             $0.textColor = .white
-            $0.attributedText = UIFont.pretendardString(text: "모든 감사 일기 작성이 필요해요.", style: .body4_semibold)
+            $0.attributedText = UIFont.pretendardString(text: titleText, style: .body4_semibold)
+        }
+        
+        stackView.do {
+            $0.axis = .horizontal
+            $0.spacing = ScreenUtils.getWidth(12)
+            $0.alignment = .center
+            $0.distribution = .fill
         }
     }
     
     override func setHierarchy() {
         self.addSubview(toastContainerView)
-        
-        toastContainerView.addSubviews(alertImage, textLabel)
+        toastContainerView.addSubview(stackView)
+        stackView.addArrangedSubview(alertImage)
+        stackView.addArrangedSubview(textLabel)
     }
     
     override func setLayout() {
-        
         self.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getHeight(46))
         }
@@ -50,23 +60,48 @@ final class ClodyToastView: BaseView {
         toastContainerView.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(ScreenUtils.getWidth(229))
         }
         
         alertImage.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(18))
             $0.size.equalTo(ScreenUtils.getWidth(18))
         }
         
-        textLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalTo(alertImage.snp.trailing).offset(ScreenUtils.getWidth(12))
+        stackView.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
     }
     
-    func bindData(message: String) {
-        textLabel.text = message
+    func updateConstraint() {
+        toastContainerView.snp.remakeConstraints {
+            $0.verticalEdges.equalToSuperview()
+            $0.centerX.equalToSuperview()
+            switch toastType {
+            case .needToWriteAll:
+                $0.width.equalTo(ScreenUtils.getWidth(229))
+            case .limitFive:
+                $0.width.equalTo(ScreenUtils.getWidth(250))
+            case .alarm:
+                $0.width.equalTo(ScreenUtils.getWidth(290))
+            }
+        }
+    }
+    
+    func bindData(toastType: ToastType) {
+        self.toastType = toastType
+        
+        switch toastType {
+        case .needToWriteAll:
+            titleText = "모든 감사 일기 작성이 필요해요."
+        case .limitFive:
+            titleText = "일기는 5개까지만 작성할 수 있어요."
+        case .alarm:
+            titleText = "설정 > 알림 > 클로디에서 알림을 켜주세요."
+        }
+        
+        textLabel.attributedText = UIFont.pretendardString(text: titleText, style: .body4_semibold)
+        
+        updateConstraint()
+
+        self.layoutIfNeeded()
     }
 }
-

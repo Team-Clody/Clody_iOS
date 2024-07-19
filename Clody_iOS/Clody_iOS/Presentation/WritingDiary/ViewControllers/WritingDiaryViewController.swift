@@ -96,7 +96,7 @@ private extension WritingDiaryViewController {
         output.isAddButtonEnabled
             .drive(onNext: { [weak self] isEnabled in
                 if !isEnabled {
-                    ClodyToast.show(message: "일기는 5개 까지만 작성할 수 있어요.")
+                    ClodyToast.show(toastType: .limitFive)
                 }
                 let image = isEnabled ? "addButton" : "addButtonOff"
                 self?.rootView.addButton.setImage(UIImage(named: image), for: .normal)
@@ -105,7 +105,7 @@ private extension WritingDiaryViewController {
         
         output.showSaveErrorToast
             .emit(onNext: {
-                ClodyToast.show(message: "모든 감사 일기 작성이 필요해요.")
+                ClodyToast.show(toastType: .alarm)
             })
             .disposed(by: disposeBag)
         
