@@ -17,6 +17,7 @@ final class NicknameViewController: UIViewController {
     
     private let viewModel = NicknameViewModel()
     private let disposeBag = DisposeBag()
+    private let maxLength = 10
     
     // MARK: - UI Components
      
@@ -60,6 +61,12 @@ private extension NicknameViewController {
         )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
+        clodyTextField.textField.rx.text
+            .orEmpty
+            .map { String($0.prefix(self.maxLength)) }
+            .bind(to: self.clodyTextField.textField.rx.text)
+            .disposed(by: disposeBag)
+
         output.charCountDidChange
             .drive(onNext: { text in
                 self.clodyTextField.count = text.count
