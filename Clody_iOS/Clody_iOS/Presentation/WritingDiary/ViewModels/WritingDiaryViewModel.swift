@@ -94,6 +94,7 @@ final class WritingDiaryViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         input.updateKebobRelay
+            .observe(on: MainScheduler.asyncInstance)
             .bind(to: deleteIndexRelay)
             .disposed(by: disposeBag)
         
@@ -105,6 +106,7 @@ final class WritingDiaryViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         let items = diariesRelay
+            .observe(on: MainScheduler.asyncInstance)
             .map { diaries in
                 [WritingDiarySection(header: "Diary Header", items: diaries)]
             }
