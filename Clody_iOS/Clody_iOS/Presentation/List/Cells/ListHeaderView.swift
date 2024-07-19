@@ -94,7 +94,7 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         dayLabel.snp.makeConstraints {
-            $0.centerY.equalTo(cloverImageView)
+            $0.bottom.equalTo(dateLabel)
             $0.leading.equalTo(dateLabel.snp.trailing).offset(2)
         }
         
@@ -113,8 +113,7 @@ final class ListHeaderView: UICollectionReusableView {
         kebabButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(4)
             $0.centerY.equalTo(dateLabel)
-            $0.width.equalTo(28)
-            $0.height.equalTo(28)
+            $0.size.equalTo(28)
         }
     }
     
@@ -130,8 +129,9 @@ final class ListHeaderView: UICollectionReusableView {
             newImageView.isHidden = false
         }
         
-        let dayOfContent = DateFormatter.date(from: diary.date)
-        dayLabel.text = dayOfContent?.koreanDayOfWeek()
+        let dateOfContent = DateFormatter.date(from: diary.date)
+        guard let dayOfContent = dateOfContent?.koreanDayOfWeek() else { return }
+        dayLabel.text = "/\(dayOfContent)"
         if let date = DateFormatter.date(from: diary.date) {
             let formattedDate = DateFormatter.string(from: date, format: "dd")
             dateLabel.text = "\(formattedDate)일"
