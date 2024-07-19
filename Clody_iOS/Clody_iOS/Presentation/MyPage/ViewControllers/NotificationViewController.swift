@@ -65,10 +65,15 @@ final class NotificationViewController: UIViewController {
                 PermissionManager.shared.checkNotificationPermission(completion: { isAuth in
                     print(isAuth)
                     if isAuth {
-                        self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: convertedTime, fcmToken: UserManager.shared.fcmTokenValue)
+                        self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: convertedTime, fcmToken: UserManager.shared.fcmTokenValue, completion: { data in
+                            guard let response = data.data else { return }
+                            
+                            self.alarmData = AlarmModel(isDiaryAlarm: response.isDiaryAlarm, isReplyAlarm: response.isReplyAlarm, time: response.time)
+                            self.rootView.tableView.reloadData()
+                        })
                     } else {
                         DispatchQueue.main.async {
-                            ClodyToast.show(message: "설정 > 알림 > 클로디에서 알림을 켜주세요.")
+                            ClodyToast.show(toastType: .alarm)
                         }
                     }
                 })
@@ -161,9 +166,14 @@ extension NotificationViewController: UITableViewDataSource {
             PermissionManager.shared.checkNotificationPermission(completion: { isAuth in
                 print(isAuth)
                 if isAuth {
-                    self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: self.alarmData.time, fcmToken: UserManager.shared.fcmTokenValue)
+                    self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: self.alarmData.time, fcmToken: UserManager.shared.fcmTokenValue, completion: { data in
+                        guard let response = data.data else { return }
+                        
+                        self.alarmData = AlarmModel(isDiaryAlarm: response.isDiaryAlarm, isReplyAlarm: response.isReplyAlarm, time: response.time)
+                        self.rootView.tableView.reloadData()
+                    })
                 } else {
-                    ClodyToast.show(message: "설정 > 알림 > 클로디에서 알림을 켜주세요.")
+                    ClodyToast.show(toastType: .alarm)
                 }
             })
 

@@ -9,10 +9,12 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
 
 final class ListCollectionViewCell: UICollectionViewCell {
     
     // MARK: - UI Components
+    var cellDisposeBag = DisposeBag()
     
     let listContainerView = UIView()
     private let listNumberLabel = UILabel()
@@ -24,6 +26,11 @@ final class ListCollectionViewCell: UICollectionViewCell {
         setStyle()
         setHierarchy()
         setLayout()
+    }
+    
+    override func prepareForReuse() {
+            super.prepareForReuse()
+            self.cellDisposeBag = DisposeBag()
     }
     
     @available(*, unavailable)
@@ -39,7 +46,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         
         listNumberLabel.do {
             $0.attributedText = UIFont.pretendardString(text: "1.", style: .body2_semibold, lineHeightMultiple: 1.5)
-            $0.textColor = .grey02
+            $0.textColor = .grey01
         }
         
         diaryTextLabel.do {
@@ -64,7 +71,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         
         listNumberLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(17)
-            $0.leading.equalToSuperview().inset(16)
+            $0.leading.equalToSuperview().inset(20)
         }
         
         diaryTextLabel.snp.makeConstraints {

@@ -60,9 +60,9 @@ final class NotificationBottomSheetView: UIView {
         }
 
         pickerView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(17)
-            $0.leading.trailing.equalToSuperview().inset(24)
-            $0.height.equalTo(180)
+            $0.horizontalEdges.equalTo(doneButton)
+            $0.bottom.equalTo(doneButton.snp.top).offset(8)
+            $0.height.equalTo(223)
         }
 
         doneButton.snp.makeConstraints {

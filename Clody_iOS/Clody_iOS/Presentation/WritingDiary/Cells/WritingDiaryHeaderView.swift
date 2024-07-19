@@ -52,8 +52,8 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
     }
     
     func bindData(dateData: Date) {
-        let month = DateFormatter.string(from: dateData, format: "MM")
-        let date = DateFormatter.string(from: dateData, format: "dd")
+        let month = DateFormatter.string(from: dateData, format: "M")
+        let date = DateFormatter.string(from: dateData, format: "d")
         let dateString = DateFormatter.string(from: dateData, format: "yyyy-MM-dd")
         let dayOfContent = DateFormatter.date(from: dateString)
         

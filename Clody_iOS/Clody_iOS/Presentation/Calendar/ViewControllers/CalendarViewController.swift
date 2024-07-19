@@ -41,6 +41,10 @@ final class CalendarViewController: UIViewController {
         view = rootView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel.fetchData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

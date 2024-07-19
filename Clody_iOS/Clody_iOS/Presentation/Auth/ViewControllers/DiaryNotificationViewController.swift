@@ -87,6 +87,12 @@ private extension DiaryNotificationViewController {
             })
             .disposed(by: disposeBag)
         
+        timePickerView.cancelIcon.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissPickerView(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+        
         output.showBottomSheet
             .drive(onNext: {
                 self.presentBottomSheet()

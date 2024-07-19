@@ -111,6 +111,8 @@ extension ClodyTextField {
     
     private func setStyle() {
         textField.do {
+            $0.autocorrectionType = .no
+            $0.spellCheckingType = .no
             $0.backgroundColor = .clear
             $0.font = .pretendard(.body1_medium)
             $0.textColor = .grey03

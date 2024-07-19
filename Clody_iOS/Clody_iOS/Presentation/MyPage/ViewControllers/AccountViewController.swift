@@ -58,7 +58,6 @@ final class AccountViewController: UIViewController {
             .bind(to: rootView.logoutButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
-        /// 텍스트필드 글자수 변경
         changeNicknameBottomSheet.textField.textField.rx.text
             .orEmpty
             .map { $0.count }
@@ -67,7 +66,6 @@ final class AccountViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        /// 텍스트필드 입력시 '변경하기' 버튼 활성화 상태 변경
         changeNicknameBottomSheet.textField.textField.rx.text
             .orEmpty
             .map { !$0.isEmpty }
