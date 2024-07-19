@@ -118,8 +118,8 @@ final class WritingDiaryViewModel: ViewModelType {
         
         let popToCalendar = input.tapBackButton.asSignal()
         
-        let isAddButtonEnabled = diariesRelay
-            .map { $0.count < 5 }
+        let isAddButtonEnabled = Observable.combineLatest(input.tapAddButton.asObservable(), diariesRelay.asObservable())
+            .map { _, diaries in diaries.count < 5 }
             .asDriver(onErrorJustReturn: true)
         
         let showSaveErrorToast = showSaveErrorToastRelay.asSignal()
