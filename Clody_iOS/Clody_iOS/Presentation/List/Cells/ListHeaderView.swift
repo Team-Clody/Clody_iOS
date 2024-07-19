@@ -9,10 +9,12 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
 
 final class ListHeaderView: UICollectionReusableView {
     
     // MARK: - UI Components
+    var cellDisposeBag = DisposeBag()
     
     private let cloverImageView = UIImageView()
     private let dateLabel = UILabel()
@@ -27,6 +29,11 @@ final class ListHeaderView: UICollectionReusableView {
         setStyle()
         setHierarchy()
         setLayout()
+    }
+    
+    override func prepareForReuse() {
+            super.prepareForReuse()
+            self.cellDisposeBag = DisposeBag()
     }
 
     @available(*, unavailable)

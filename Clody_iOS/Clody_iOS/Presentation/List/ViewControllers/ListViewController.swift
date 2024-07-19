@@ -60,7 +60,7 @@ private extension ListViewController {
     
     func bindViewModel() {
         let input = ListViewModel.Input(
-            viewDidLoad: Observable.just(()),
+            viewDidLoad: Observable.just(()), 
             tapReplyButton: tapReplyRelay.asSignal(),
             tapKebabButton: tapKebobRelay.asSignal(),
             tapCalendarButton: rootView.navigationBarView.calendarButton.rx.tap.asSignal(),
@@ -302,7 +302,7 @@ extension ListViewController: UICollectionViewDataSource {
             header.replyButton.rx.tap
                 .map { diaryDate }
                 .bind(to: tapReplyRelay)
-                .disposed(by: disposeBag)
+                .disposed(by: header.cellDisposeBag)
             
             header.kebabButton.rx.tap
                 .map { diaryDate }

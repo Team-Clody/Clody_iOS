@@ -9,10 +9,12 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
 
 final class ListCollectionViewCell: UICollectionViewCell {
     
     // MARK: - UI Components
+    var cellDisposeBag = DisposeBag()
     
     let listContainerView = UIView()
     private let listNumberLabel = UILabel()
@@ -24,6 +26,11 @@ final class ListCollectionViewCell: UICollectionViewCell {
         setStyle()
         setHierarchy()
         setLayout()
+    }
+    
+    override func prepareForReuse() {
+            super.prepareForReuse()
+            self.cellDisposeBag = DisposeBag()
     }
     
     @available(*, unavailable)
