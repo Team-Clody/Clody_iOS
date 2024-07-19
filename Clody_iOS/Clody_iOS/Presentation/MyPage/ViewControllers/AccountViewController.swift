@@ -12,6 +12,7 @@ final class AccountViewController: UIViewController {
     
     private let viewModel = AccountViewModel()
     private let disposeBag = DisposeBag()
+    private let maxLength = 10
     
     // MARK: - UI Components
     
@@ -52,6 +53,12 @@ final class AccountViewController: UIViewController {
             .drive(onNext: {
                 self.navigationController?.popViewController(animated: true)
             })
+            .disposed(by: disposeBag)
+        
+        changeNicknameBottomSheet.textField.textField.rx.text
+            .orEmpty
+            .map { String($0.prefix(self.maxLength)) }
+            .bind(to: self.changeNicknameBottomSheet.textField.textField.rx.text)
             .disposed(by: disposeBag)
         
         viewModel.isLogoutButtonEnabled
