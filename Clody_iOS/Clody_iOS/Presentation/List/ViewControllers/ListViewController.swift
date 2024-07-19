@@ -38,6 +38,10 @@ final class ListViewController: UIViewController {
         view = rootView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel.fetchData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,7 +60,7 @@ private extension ListViewController {
     
     func bindViewModel() {
         let input = ListViewModel.Input(
-            viewDidLoad: Observable.just(()),
+            viewDidLoad: Observable.just(()), 
             tapReplyButton: tapReplyRelay.asSignal(),
             tapKebabButton: tapKebobRelay.asSignal(),
             tapCalendarButton: rootView.navigationBarView.calendarButton.rx.tap.asSignal(),
@@ -108,7 +112,10 @@ private extension ListViewController {
                 self.presentPickerView()
                 
                 let date = viewModel.selectedMonthRelay.value
-                let selectedMonth = "\(date[0])년 \(date[1])월"
+                let year = date[0]
+                let month = DateFormatter.convertToDoubleDigitMonth(from: date[1])
+                
+                let selectedMonth = "\(year)년 \(month ?? "")월"
                 rootView.navigationBarView.dateText = selectedMonth
             })
             .disposed(by: disposeBag)
@@ -295,7 +302,7 @@ extension ListViewController: UICollectionViewDataSource {
             header.replyButton.rx.tap
                 .map { diaryDate }
                 .bind(to: tapReplyRelay)
-                .disposed(by: disposeBag)
+                .disposed(by: header.cellDisposeBag)
             
             header.kebabButton.rx.tap
                 .map { diaryDate }

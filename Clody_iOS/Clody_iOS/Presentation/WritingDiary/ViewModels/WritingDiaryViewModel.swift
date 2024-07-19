@@ -94,6 +94,7 @@ final class WritingDiaryViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         input.updateKebobRelay
+            .observe(on: MainScheduler.asyncInstance)
             .bind(to: deleteIndexRelay)
             .disposed(by: disposeBag)
         
@@ -105,6 +106,7 @@ final class WritingDiaryViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         let items = diariesRelay
+            .observe(on: MainScheduler.asyncInstance)
             .map { diaries in
                 [WritingDiarySection(header: "Diary Header", items: diaries)]
             }
@@ -118,8 +120,8 @@ final class WritingDiaryViewModel: ViewModelType {
         
         let popToCalendar = input.tapBackButton.asSignal()
         
-        let isAddButtonEnabled = diariesRelay
-            .map { $0.count < 5 }
+        let isAddButtonEnabled = Observable.combineLatest(input.tapAddButton.asObservable(), diariesRelay.asObservable())
+            .map { _, diaries in diaries.count < 5 }
             .asDriver(onErrorJustReturn: true)
         
         let showSaveErrorToast = showSaveErrorToastRelay.asSignal()

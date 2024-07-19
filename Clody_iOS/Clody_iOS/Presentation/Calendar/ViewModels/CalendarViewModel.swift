@@ -52,15 +52,7 @@ final class CalendarViewModel: ViewModelType {
         input.viewDidLoad
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                let today = Date()
-                self.selectedDateRelay.accept(today)
-                
-                let year = DateFormatter.string(from: selectedDateRelay.value, format: "yyyy")
-                let month = DateFormatter.string(from: selectedDateRelay.value, format: "MM")
-                let day = DateFormatter.string(from: selectedDateRelay.value, format: "dd")
-                
-                self.selectedMonthRelay.accept([year, month])
-                self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
+                fetchData()
             })
             .disposed(by: disposeBag)
         
@@ -130,7 +122,9 @@ final class CalendarViewModel: ViewModelType {
         
         let changeNavigationDate = selectedMonthRelay
             .map { date -> String in
-                let dateSelected = "\(date[0])년 \(date[1])월"
+                let year = date[0]
+                guard let month = DateFormatter.convertToDoubleDigitMonth(from: date[1]) else { return ""}
+                let dateSelected = "\(year)년 \(month)월"
                 return dateSelected
             }
             .asDriver(onErrorJustReturn: "Error")
@@ -197,5 +191,17 @@ extension CalendarViewModel {
             self.getMonthlyCalendar(year: year, month: month)
             self.getDailyCalendarData(year: year, month: month, date: date)
         })
+    }
+    
+    func fetchData() {
+        let today = Date()
+        self.selectedDateRelay.accept(today)
+        
+        let year = DateFormatter.string(from: selectedDateRelay.value, format: "yyyy")
+        let month = DateFormatter.string(from: selectedDateRelay.value, format: "MM")
+        let day = DateFormatter.string(from: selectedDateRelay.value, format: "dd")
+        
+        self.selectedMonthRelay.accept([year, month])
+        self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
     }
 }

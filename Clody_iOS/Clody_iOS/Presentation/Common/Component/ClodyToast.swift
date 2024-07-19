@@ -11,13 +11,15 @@ import SnapKit
 
 @frozen
 enum ToastType {
-
+    case needToWriteAll
+    case limitFive
+    case alarm
 }
 
 final class ClodyToast {
-    static func show (message: String, duration: TimeInterval = 1, isTabBar: Bool = true, completion: (() -> Void)? = nil) {
+    static func show (toastType: ToastType, duration: TimeInterval = 1, completion: (() -> Void)? = nil) {
         let toastView = ClodyToastView()
-        toastView.bindData(message: message)
+        toastView.bindData(toastType: toastType)
         
         guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) else { return }
 
@@ -28,8 +30,7 @@ final class ClodyToast {
         
         toastView.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(120)
-            
-            $0.leading.trailing.equalToSuperview().inset(25)
+            $0.horizontalEdges.equalToSuperview()
         }
         
         window.layoutSubviews()

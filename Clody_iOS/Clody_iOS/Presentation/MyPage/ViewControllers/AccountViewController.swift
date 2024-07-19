@@ -177,8 +177,7 @@ final class AccountViewController: UIViewController {
         }
         
         let closeButton = UIButton().then {
-            $0.setTitle("x", for: .normal)
-            $0.setTitleColor(.grey01, for: .normal)
+            $0.setImage(.icX, for: .normal)
             $0.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
         }
         

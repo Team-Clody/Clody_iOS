@@ -42,11 +42,7 @@ final class ListViewModel: ViewModelType {
             .observe(on: MainScheduler.asyncInstance)  
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                let today = Date()
-                let year = DateFormatter.string(from: today, format: "yyyy")
-                let month = DateFormatter.string(from: today, format: "MM")
-                self.getListData(year: Int(year) ?? 0, month: Int(month) ?? 0)
-                self.selectedMonthRelay.accept([year, month])
+                fetchData()
             })
             .disposed(by: disposeBag)
         
@@ -79,7 +75,10 @@ final class ListViewModel: ViewModelType {
                 let month = self.selectedMonthRelay.value[1]
 
                 self.getListData(year: Int(year) ?? 0, month: Int(month) ?? 0)
-                let dateSelected = "\(date[0])년 \(date[1])월"
+                
+                let convertYear = date[0]
+                guard let convertMonth = DateFormatter.convertToDoubleDigitMonth(from: date[1]) else { return "" }
+                let dateSelected = "\(convertYear)년 \(convertMonth)월"
                 return dateSelected
             }
             .asDriver(onErrorJustReturn: "Error")
@@ -99,6 +98,14 @@ final class ListViewModel: ViewModelType {
 }
 
 extension ListViewModel {
+    
+    func fetchData() {
+        let today = Date()
+        let year = DateFormatter.string(from: today, format: "yyyy")
+        let month = DateFormatter.string(from: today, format: "MM")
+        self.getListData(year: Int(year) ?? 0, month: Int(month) ?? 0)
+        self.selectedMonthRelay.accept([year, month])
+    }
     
     func getListData(year: Int, month: Int) {
         let provider = Providers.calendarProvider

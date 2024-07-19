@@ -72,6 +72,8 @@ final class ReplyDetailView: BaseView {
             )
             $0.isScrollEnabled = true
             $0.showsVerticalScrollIndicator = false
+            $0.autocorrectionType = .no
+            $0.spellCheckingType = .no
         }
     }
     

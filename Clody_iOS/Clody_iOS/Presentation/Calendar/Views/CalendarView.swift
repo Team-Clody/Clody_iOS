@@ -17,6 +17,7 @@ final class CalendarView: BaseView {
     
     private let scrollView = UIScrollView()
     let calendarNavigationView = ClodyNavigationBar(type: .calendar, date: "2024년 00월")
+    private let dividerView = UIView()
     private let contentView = UIView()
     private let cloverBackgroundView = UIView()
     let cloverLabel = UILabel()
@@ -53,6 +54,10 @@ final class CalendarView: BaseView {
         cloverLabel.do {
             $0.attributedText = UIFont.pretendardString(text: "클로버 23개", style: .detail1_semibold)
             $0.textColor = .darkGreen
+        }
+        
+        dividerView.do {
+            $0.backgroundColor = .grey08
         }
         
         mainCalendarView.do {
@@ -115,7 +120,8 @@ final class CalendarView: BaseView {
             dayLabel,
             kebabButton,
             dailyDiaryCollectionView,
-            emptyDiaryView
+            emptyDiaryView,
+            dividerView
         )
         
         emptyDiaryView.addSubview(emptyDiaryLabel)
@@ -170,6 +176,12 @@ final class CalendarView: BaseView {
             $0.height.equalTo(399)
         }
         
+        dividerView.snp.makeConstraints {
+            $0.top.equalTo(mainCalendarView.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(6)
+        }
+        
         calendarButton.snp.makeConstraints {
             $0.bottom.equalTo(safeAreaLayoutGuide).inset(5)
             $0.centerX.equalToSuperview()
@@ -178,7 +190,7 @@ final class CalendarView: BaseView {
         }
         
         dateLabel.snp.makeConstraints {
-            $0.top.equalTo(mainCalendarView.snp.bottom).offset(20)
+            $0.top.equalTo(dividerView.snp.bottom).offset(20)
             $0.leading.equalTo(mainCalendarView)
         }
         

@@ -9,10 +9,12 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
 
 final class ListHeaderView: UICollectionReusableView {
     
     // MARK: - UI Components
+    var cellDisposeBag = DisposeBag()
     
     private let cloverImageView = UIImageView()
     private let dateLabel = UILabel()
@@ -27,6 +29,11 @@ final class ListHeaderView: UICollectionReusableView {
         setStyle()
         setHierarchy()
         setLayout()
+    }
+    
+    override func prepareForReuse() {
+            super.prepareForReuse()
+            self.cellDisposeBag = DisposeBag()
     }
 
     @available(*, unavailable)
@@ -61,6 +68,7 @@ final class ListHeaderView: UICollectionReusableView {
         
         newImageView.do {
             $0.image = .new
+            $0.isHidden = true
         }
         
         kebabButton.do {
@@ -93,7 +101,7 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         dayLabel.snp.makeConstraints {
-            $0.centerY.equalTo(cloverImageView)
+            $0.bottom.equalTo(dateLabel)
             $0.leading.equalTo(dateLabel.snp.trailing).offset(2)
         }
         
@@ -112,21 +120,25 @@ final class ListHeaderView: UICollectionReusableView {
         kebabButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(4)
             $0.centerY.equalTo(dateLabel)
-            $0.width.equalTo(28)
-            $0.height.equalTo(28)
+            $0.size.equalTo(28)
         }
     }
     
     func bindData(diary: ListDiary) {
+        
+        if diary.replyStatus == "READY_READ" {
+            cloverImageView.image = UIImage(named: diary.diaryCount == 0 ? "clover0" : "clover\(diary.diaryCount)")
+        } else {
+            cloverImageView.image = .clover0
+        }
+            
         if diary.replyStatus == "READY_NOT_READ" {
             newImageView.isHidden = false
         }
         
-        cloverImageView.image = UIImage(named: diary.diaryCount == 0 ? "clover0" : "clover\(diary.diaryCount)")
-        newImageView.isHidden = diary.replyStatus != "not_read"
-        
-        let dayOfContent = DateFormatter.date(from: diary.date)
-        dayLabel.text = dayOfContent?.koreanDayOfWeek()
+        let dateOfContent = DateFormatter.date(from: diary.date)
+        guard let dayOfContent = dateOfContent?.koreanDayOfWeek() else { return }
+        dayLabel.text = "/\(dayOfContent)"
         if let date = DateFormatter.date(from: diary.date) {
             let formattedDate = DateFormatter.string(from: date, format: "dd")
             dateLabel.text = "\(formattedDate)일"
