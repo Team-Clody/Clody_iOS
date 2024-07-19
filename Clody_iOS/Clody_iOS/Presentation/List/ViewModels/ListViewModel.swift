@@ -75,7 +75,10 @@ final class ListViewModel: ViewModelType {
                 let month = self.selectedMonthRelay.value[1]
 
                 self.getListData(year: Int(year) ?? 0, month: Int(month) ?? 0)
-                let dateSelected = "\(date[0])년 \(date[1])월"
+                
+                let convertYear = date[0]
+                guard let convertMonth = DateFormatter.convertToDoubleDigitMonth(from: date[1]) else { return "" }
+                let dateSelected = "\(convertYear)년 \(convertMonth)월"
                 return dateSelected
             }
             .asDriver(onErrorJustReturn: "Error")

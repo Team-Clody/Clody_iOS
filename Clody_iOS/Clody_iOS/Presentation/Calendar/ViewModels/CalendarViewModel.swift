@@ -122,7 +122,9 @@ final class CalendarViewModel: ViewModelType {
         
         let changeNavigationDate = selectedMonthRelay
             .map { date -> String in
-                let dateSelected = "\(date[0])년 \(date[1])월"
+                let year = date[0]
+                guard let month = DateFormatter.convertToDoubleDigitMonth(from: date[1]) else { return ""}
+                let dateSelected = "\(year)년 \(month)월"
                 return dateSelected
             }
             .asDriver(onErrorJustReturn: "Error")

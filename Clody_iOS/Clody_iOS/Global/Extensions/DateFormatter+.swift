@@ -23,25 +23,25 @@ extension DateFormatter {
 
     static func convertToDoubleDigitMonth(from monthString: String) -> String? {
         let formatter = DateFormatter()
-        formatter.dateFormat = "M"
+        formatter.dateFormat = "MM"
         
         guard let date = formatter.date(from: monthString) else {
             return nil
         }
         
-        formatter.dateFormat = "MM"
+        formatter.dateFormat = "M"
         return formatter.string(from: date)
     }
     
     static func convertToDoubleDigitDay(from dayString: String) -> String? {
         let formatter = DateFormatter()
-        formatter.dateFormat = "d"
+        formatter.dateFormat = "dd"
         
         guard let date = formatter.date(from: dayString) else {
             return nil
         }
         
-        formatter.dateFormat = "dd"
+        formatter.dateFormat = "d"
         return formatter.string(from: date)
     }
 }

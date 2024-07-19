@@ -112,7 +112,10 @@ private extension ListViewController {
                 self.presentPickerView()
                 
                 let date = viewModel.selectedMonthRelay.value
-                let selectedMonth = "\(date[0])년 \(date[1])월"
+                let year = date[0]
+                let month = DateFormatter.convertToDoubleDigitMonth(from: date[1])
+                
+                let selectedMonth = "\(year)년 \(month ?? "")월"
                 rootView.navigationBarView.dateText = selectedMonth
             })
             .disposed(by: disposeBag)
