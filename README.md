@@ -68,6 +68,7 @@ feat - 각자 사용하는 브랜치
 [🚀 coding template 바로가기](https://github.com/Team-Clody/Clody_iOS/wiki/Clody_iOS_Coding-Template)
 
 ## 🔥 Trouble Shooting
+[🚀 트러블 슈팅 바로가기](https://github.com/Team-Clody/Clody_iOS/wiki/Clody_iOS_Coding-Template](https://kimseonwoo.notion.site/63191fca59ab40e3a75b392bb557e8dc?pvs=4)
 
 ## 🍀 Foldering
 
