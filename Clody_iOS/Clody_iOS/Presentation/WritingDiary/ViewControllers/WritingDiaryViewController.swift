@@ -137,7 +137,7 @@ private extension WritingDiaryViewController {
                         
                         let dateString = DateFormatter.string(
                             from: self.date,
-                            format: "yyyy-MM-d"
+                            format: "yyyy-MM-dd"
                         )
                         self.viewModel.postDiary(date: dateString, content: self.viewModel.diariesRelay.value, completion: {_ in
                             self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isNew: true, isHomeBackButton: true), animated: true)})
