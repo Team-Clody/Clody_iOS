@@ -38,7 +38,7 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
         }
         
         listNumberLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "1.", style: .body2_semibold, lineHeightMultiple: 1.5)
+            $0.attributedText = UIFont.pretendardString(text: "1.", style: .body2_medium, lineHeightMultiple: 1.5)
             $0.textColor = .grey02
         }
         
