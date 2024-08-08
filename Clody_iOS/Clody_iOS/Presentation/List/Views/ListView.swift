@@ -17,6 +17,7 @@ final class ListView: BaseView {
     let navigationBarView = ClodyNavigationBar(type: .list, date: "2024년 00월")
     private let topBackgroundView = UIView()
     lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: listCollectionViewLayout())
+    private let listEmptyView = ListEmptyView()
     
     override func setStyle() {
         self.backgroundColor = .grey08
@@ -24,6 +25,7 @@ final class ListView: BaseView {
         listCollectionView.do {
             $0.backgroundColor = .grey08
             $0.showsVerticalScrollIndicator = false
+            $0.isHidden = true
         }
         
         topBackgroundView.do {
@@ -33,7 +35,7 @@ final class ListView: BaseView {
     
     override func setHierarchy() {
         
-        self.addSubviews(navigationBarView, listCollectionView, topBackgroundView)
+        self.addSubviews(navigationBarView, listCollectionView, topBackgroundView, listEmptyView)
     }
     
     override func setLayout() {
@@ -52,6 +54,12 @@ final class ListView: BaseView {
         
         listCollectionView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.bottom.equalToSuperview()
+            $0.top.equalTo(navigationBarView.snp.bottom)
+        }
+        
+        listEmptyView.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
             $0.top.equalTo(navigationBarView.snp.bottom)
         }

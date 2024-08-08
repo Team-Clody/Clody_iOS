@@ -51,6 +51,7 @@
 		0B6C075D2C3E7D660054A0B0 /* WritingDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C075C2C3E7D660054A0B0 /* WritingDiaryView.swift */; };
 		0B6C075F2C3E7D8E0054A0B0 /* WritingDiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C075E2C3E7D8E0054A0B0 /* WritingDiaryCell.swift */; };
 		0B6C07612C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C07602C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift */; };
+		0B7222342C65243A005EB365 /* ListEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7222332C65243A005EB365 /* ListEmptyView.swift */; };
 		0B72DA2E2C46C13E00292173 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA2D2C46C13E00292173 /* NotificationViewModel.swift */; };
 		0B72DA302C46C16000292173 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA2F2C46C16000292173 /* NotificationView.swift */; };
 		0B72DA322C46C17800292173 /* SettingNotificationTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA312C46C17800292173 /* SettingNotificationTimeView.swift */; };
@@ -194,6 +195,7 @@
 		0B6C075C2C3E7D660054A0B0 /* WritingDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingDiaryView.swift; sourceTree = "<group>"; };
 		0B6C075E2C3E7D8E0054A0B0 /* WritingDiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingDiaryCell.swift; sourceTree = "<group>"; };
 		0B6C07602C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingDiaryHeaderView.swift; sourceTree = "<group>"; };
+		0B7222332C65243A005EB365 /* ListEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEmptyView.swift; sourceTree = "<group>"; };
 		0B72DA2D2C46C13E00292173 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		0B72DA2F2C46C16000292173 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		0B72DA312C46C17800292173 /* SettingNotificationTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingNotificationTimeView.swift; sourceTree = "<group>"; };
@@ -426,6 +428,7 @@
 			isa = PBXGroup;
 			children = (
 				0B6C07482C3DC2FC0054A0B0 /* ListView.swift */,
+				0B7222332C65243A005EB365 /* ListEmptyView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1069,6 +1072,7 @@
 				95310FB72C43B07100023C7B /* ReplyWaitingViewModel.swift in Sources */,
 				0B72DA322C46C17800292173 /* SettingNotificationTimeView.swift in Sources */,
 				95310F902C40705600023C7B /* NicknameViewController.swift in Sources */,
+				0B7222342C65243A005EB365 /* ListEmptyView.swift in Sources */,
 				95310FC22C45453F00023C7B /* NicknameViewModel.swift in Sources */,
 				0BE7EA0B2C46699F000C5358 /* GetAlarmResponseDTO.swift in Sources */,
 				95310FC62C45ACD000023C7B /* OnBoardingViewModel.swift in Sources */,
