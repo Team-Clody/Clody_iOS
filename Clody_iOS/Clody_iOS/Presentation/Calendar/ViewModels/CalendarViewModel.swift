@@ -72,7 +72,7 @@ final class CalendarViewModel: ViewModelType {
                 self.currentPageRelay.accept(date)
                 let year = date[0]
                 let month = date[1]
-         
+                
                 self.getMonthlyCalendar(year: Int(year) ?? 0, month: Int(month) ?? 0)
             })
             .disposed(by: disposeBag)
@@ -80,7 +80,7 @@ final class CalendarViewModel: ViewModelType {
         input.tapDeleteButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-
+                
             })
             .disposed(by: disposeBag)
         
@@ -123,7 +123,7 @@ final class CalendarViewModel: ViewModelType {
                 let year = date[0]
                 guard let month = DateFormatter.convertToDoubleDigitMonth(from: date[1]) else { return ""}
                 let dateSelected = "\(year)년 \(month)월"
-        
+                
                 return dateSelected
             }
             .asDriver(onErrorJustReturn: "Error")
@@ -135,20 +135,20 @@ final class CalendarViewModel: ViewModelType {
         let diaryDeleted = input.tapDeleteButton.asSignal()
         
         let showDelete = input.tapDeleteButton.asSignal()
-
+        
         return Output(
             dateLabel: dateLabel,
             selectedDate: selectedDate,
             diaryData: diaryData,
             calendarData: calendarData,
-            changeToList: changeToList, 
-            changeToSetting: changeToSetting, 
-            showDeleteBottomSheet: showDeleteBottomSheet, 
-            showPickerView: showPickerView, 
+            changeToList: changeToList,
+            changeToSetting: changeToSetting,
+            showDeleteBottomSheet: showDeleteBottomSheet,
+            showPickerView: showPickerView,
             changeNavigationDate: changeNavigationDate,
             cloverCount: cloverCount,
             currentPage: currentPage,
-            diaryDeleted: diaryDeleted, 
+            diaryDeleted: diaryDeleted,
             navigateToResponse: navigateToResponse,
             showDelete: showDelete
         )
@@ -156,10 +156,10 @@ final class CalendarViewModel: ViewModelType {
 }
 
 extension CalendarViewModel {
-
+    
     func getMonthlyCalendar(year: Int, month: Int) {
         let provider = Providers.calendarProvider
-
+        
         provider.request(target: .getMonthlyCalendar(year: year, month: month), instance: BaseResponse<CalendarMonthlyResponseDTO>.self, completion: { data in
             guard let data = data.data else { return }
             
@@ -171,7 +171,7 @@ extension CalendarViewModel {
     
     func getDailyCalendarData(year: Int, month: Int, date: Int) {
         let provider = Providers.diaryRouter
-
+        
         provider.request(target: .getDailyDiary(year: year, month: month, date: date), instance: BaseResponse<GetDiaryResponseDTO>.self, completion: { data in
             guard let data = data.data else { return }
             
@@ -181,7 +181,7 @@ extension CalendarViewModel {
     
     func deleteDiary(year: Int, month: Int, date: Int) {
         let provider = Providers.diaryRouter
-
+        
         provider.request(target: .deleteDiary(year: year, month: month, date: date), instance: BaseResponse<EmptyResponseDTO>.self, completion: { data in
             guard let data = data.data else { return }
             
@@ -191,8 +191,6 @@ extension CalendarViewModel {
     }
     
     func fetchData() {
-        print("🙇", currentPageRelay.value)
-        
         let dailyYear = DateFormatter.string(from: selectedDateRelay.value, format: "yyyy")
         let dailyMonth = DateFormatter.string(from: selectedDateRelay.value, format: "MM")
         let dailyDay = DateFormatter.string(from: selectedDateRelay.value, format: "dd")
