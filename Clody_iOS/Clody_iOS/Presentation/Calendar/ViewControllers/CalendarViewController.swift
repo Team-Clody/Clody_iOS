@@ -17,7 +17,7 @@ final class CalendarViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let viewModel = CalendarViewModel()
+    let viewModel = CalendarViewModel()
     private let disposeBag = DisposeBag()
     
     private let tapDateRelay = PublishRelay<Date>()
@@ -134,8 +134,7 @@ private extension CalendarViewController {
         output.changeToList
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                let listViewController = ListViewController()
-                self.navigationController?.pushViewController(listViewController, animated: true)
+                navigateToList()
             })
             .disposed(by: disposeBag)
         
@@ -188,14 +187,14 @@ private extension CalendarViewController {
                     var isNew = false
                     let dateIndex = Int(DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "dd")) ?? 1
                     let diaries = viewModel.monthlyCalendarDataRelay.value.diaries
-
+                    
                     let replyStatus: String
                     if diaries.indices.contains(dateIndex - 1) {
                         replyStatus = diaries[dateIndex - 1].replyStatus
                     } else {
                         replyStatus = "특정 값"
                     }
-
+                    
                     if replyStatus == "READY_NOT_READ" {
                         isNew = true
                     } else {
@@ -366,6 +365,18 @@ private extension CalendarViewController {
             completion?()
         }
     }
+    
+    private func navigateToList() {
+        let listViewController = ListViewController(month: viewModel.selectedMonthRelay.value)
+        
+        listViewController.selectedMonthCompletion = { data in
+            self.viewModel.selectedMonthRelay.accept(data)
+            print(self.viewModel.selectedMonthRelay)
+        }
+        
+        self.navigationController?.pushViewController(listViewController, animated: true)
+    }
+
 }
 
 

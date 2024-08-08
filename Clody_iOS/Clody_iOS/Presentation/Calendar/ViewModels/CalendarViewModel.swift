@@ -125,6 +125,7 @@ final class CalendarViewModel: ViewModelType {
                 let year = date[0]
                 guard let month = DateFormatter.convertToDoubleDigitMonth(from: date[1]) else { return ""}
                 let dateSelected = "\(year)년 \(month)월"
+                self.getMonthlyCalendar(year: Int(year) ?? 0, month: Int(month) ?? 0)
                 return dateSelected
             }
             .asDriver(onErrorJustReturn: "Error")

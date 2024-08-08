@@ -21,6 +21,7 @@ final class ListViewController: UIViewController {
     private let tapReplyRelay = PublishRelay<String>()
     private let tapKebobRelay = PublishRelay<String>()
     private let tabMonthRelay = PublishRelay<String>()
+    var selectedMonthCompletion: (([String]) -> Void)?
     
     // MARK: - UI Components
     
@@ -31,6 +32,18 @@ final class ListViewController: UIViewController {
     private lazy var dimmingView = UIView()
     
     // MARK: - Life Cycles
+    
+    init(month: [String]? = nil) {
+        if let month = month {
+            viewModel.selectedMonthRelay.accept(month)
+        }
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()
@@ -102,7 +115,8 @@ private extension ListViewController {
         output.changeToCalendar
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.navigationController?.popViewController(animated: true)
+                
+                popToCalendar()
             })
             .disposed(by: disposeBag)
         
@@ -269,6 +283,13 @@ private extension ListViewController {
             self.datePickerView.isHidden = true
             completion?()
         }
+    }
+    
+    private func popToCalendar() {
+        self.navigationController?.popViewController(animated: true)
+        let selectedMonth = viewModel.selectedMonthRelay.value
+        guard let selectedMonthCompletion else {return}
+        selectedMonthCompletion(selectedMonth)
     }
 }
 
