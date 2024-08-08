@@ -21,7 +21,7 @@ final class CalendarViewController: UIViewController {
     private let disposeBag = DisposeBag()
     
     private let tapDateRelay = PublishRelay<Date>()
-    private let currentPageRelay = PublishRelay<Date>()
+    private let currentPageRelay = PublishRelay<[String]>()
     private var calendarData: [MonthlyDiary] = [MonthlyDiary(diaryCount: 0, replyStatus: "")]
     
     private var alert: ClodyAlert?
@@ -156,7 +156,7 @@ private extension CalendarViewController {
         output.showPickerView
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                let date = viewModel.selectedMonthRelay.value
+                let date = viewModel.currentPageRelay.value
                 let selectedMonth = "\(date[0])년 \(date[1])월"
                 rootView.calendarNavigationView.dateText = selectedMonth
                 self.presentPickerView()
@@ -327,7 +327,7 @@ private extension CalendarViewController {
                     }
                     
                     let selectedMonthYear = ["\(selectedYear)", "\(selectedMonth)"]
-                    self?.viewModel.selectedMonthRelay.accept(selectedMonthYear)
+                    self?.viewModel.currentPageRelay.accept(selectedMonthYear)
                 })
             })
             .disposed(by: disposeBag)
@@ -367,11 +367,11 @@ private extension CalendarViewController {
     }
     
     private func navigateToList() {
-        let listViewController = ListViewController(month: viewModel.selectedMonthRelay.value)
+        let listViewController = ListViewController(month: viewModel.currentPageRelay.value)
         
         listViewController.selectedMonthCompletion = { data in
-            self.viewModel.selectedMonthRelay.accept(data)
-            print(self.viewModel.selectedMonthRelay)
+            self.viewModel.currentPageRelay.accept(data)
+//            self.viewModel.fetchData()
         }
         
         self.navigationController?.pushViewController(listViewController, animated: true)
@@ -403,8 +403,8 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        let currentPage = calendar.currentPage
-        currentPageRelay.accept(currentPage)
+        let currentPage = calendar.currentPage.dateToYearMonthDay()
+        currentPageRelay.accept([String(currentPage.0), String(currentPage.1)])
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
