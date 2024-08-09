@@ -22,7 +22,7 @@ final class ListEmptyView: BaseView {
         announceLabel.do {
             $0.textColor = .grey06
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.Auth.termsIntro,
+                text: I18N.List.emptyList,
                 style: .body2_semibold,
                 lineHeightMultiple: 1.5
             )
