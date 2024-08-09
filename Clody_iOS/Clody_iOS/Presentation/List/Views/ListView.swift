@@ -17,7 +17,7 @@ final class ListView: BaseView {
     let navigationBarView = ClodyNavigationBar(type: .list, date: "2024년 00월")
     private let topBackgroundView = UIView()
     lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: listCollectionViewLayout())
-    private let listEmptyView = ListEmptyView()
+    let listEmptyView = ListEmptyView()
     
     override func setStyle() {
         self.backgroundColor = .grey08

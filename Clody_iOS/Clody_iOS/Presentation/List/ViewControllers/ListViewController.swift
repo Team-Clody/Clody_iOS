@@ -40,6 +40,7 @@ final class ListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         viewModel.fetchData()
+        setContentView()
     }
     
     override func viewDidLoad() {
@@ -88,6 +89,7 @@ private extension ListViewController {
         output.listDataChanged
             .drive(onNext: { [weak self] date in
                 guard let self = self else { return }
+                self.setContentView()
                 rootView.listCollectionView.reloadData()
             })
             .disposed(by: disposeBag)
@@ -268,6 +270,16 @@ private extension ListViewController {
         datePickerView.animateHide {
             self.datePickerView.isHidden = true
             completion?()
+        }
+    }
+    
+    private func setContentView() {
+        if viewModel.listDataRelay.value.diaries.isEmpty {
+            rootView.listCollectionView.isHidden = true
+            rootView.listEmptyView.isHidden = false
+        } else {
+            rootView.listCollectionView.isHidden = false
+            rootView.listEmptyView.isHidden = true
         }
     }
 }
