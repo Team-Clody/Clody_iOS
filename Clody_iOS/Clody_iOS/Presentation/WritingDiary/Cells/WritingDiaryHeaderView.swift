@@ -15,10 +15,10 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
     // MARK: - UI Components
     
     private let dateLabel = UILabel()
-    private let infoImage = UIImageView()
-    private let helpMessageImage = UIImageView()
+    lazy var infoButton = UIButton()
+    let helpMessageImage = UIImageView()
     private let helpMessageLabel = UILabel()
-    private let cancelImage = UIImageView()
+    let cancelHelpButton = UIButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,7 +26,14 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
         setStyle()
         setHierarchy()
         setLayout()
+        cancelHelpButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+
     }
+    
+    @objc func cancelButtonTapped() {
+        print("Cancel button tapped")
+    }
+
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
@@ -41,13 +48,15 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
             $0.textColor = .grey02
         }
         
-        infoImage.do {
-            $0.image = .info
+        infoButton.do {
+            $0.setImage(.info, for: .normal)
             $0.contentMode = .scaleAspectFit
         }
         
         helpMessageImage.do {
             $0.image = .helpMessage
+            $0.isUserInteractionEnabled = true
+            $0.bringSubviewToFront(cancelHelpButton)
             $0.contentMode = .scaleAspectFit
         }
         
@@ -56,16 +65,16 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
             $0.textColor = .blueCustom
         }
         
-        cancelImage.do {
-            $0.image = .cancel
+        cancelHelpButton.do {
+            $0.setImage(.cancel, for: .normal)
             $0.contentMode = .scaleAspectFit
         }
     }
     
     func setHierarchy() {
         
-        self.addSubviews(dateLabel, infoImage, helpMessageImage)
-        helpMessageImage.addSubviews(helpMessageLabel, cancelImage)
+        self.addSubviews(dateLabel, infoButton, helpMessageImage)
+        helpMessageImage.addSubviews(helpMessageLabel, cancelHelpButton)
     }
     
     func setLayout() {
@@ -75,14 +84,14 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
             $0.top.equalToSuperview()
         }
         
-        infoImage.snp.makeConstraints {
+        infoButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
             $0.size.equalTo(28)
             $0.trailing.equalToSuperview()
         }
         
         helpMessageImage.snp.makeConstraints {
-            $0.bottom.equalTo(infoImage.snp.top)
+            $0.bottom.equalTo(infoButton.snp.top)
             $0.width.equalTo(228)
             $0.height.equalTo(36)
             $0.trailing.equalToSuperview()
@@ -93,7 +102,7 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
             $0.leading.equalToSuperview().inset(8)
         }
         
-        cancelImage.snp.makeConstraints {            
+        cancelHelpButton.snp.makeConstraints {            
             $0.size.equalTo(28)
             $0.trailing.equalToSuperview()
             $0.top.equalToSuperview()

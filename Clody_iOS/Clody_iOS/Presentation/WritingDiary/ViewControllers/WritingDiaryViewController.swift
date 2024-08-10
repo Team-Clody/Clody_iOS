@@ -77,7 +77,9 @@ private extension WritingDiaryViewController {
             tapDeleteButton: deleteBottomSheetView.deleteContainer.rx.tapGesture()
                 .when(.recognized)
                 .map { _ in }
-                .asSignal(onErrorJustReturn: ())
+                .asSignal(onErrorJustReturn: ()),
+            tapHelpInfoButton: rootView.headerView.infoButton.rx.tap.asSignal(),
+            tapCancelButton: rootView.headerView.cancelHelpButton.rx.tap.asSignal()
         )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
@@ -146,6 +148,12 @@ private extension WritingDiaryViewController {
                         self.hideAlert()
                     })
                     .disposed(by: self.disposeBag)
+            })
+            .disposed(by: disposeBag)
+        
+        output.showHelp
+            .drive(onNext: { [weak self] isHidden in
+                self?.rootView.headerView.helpMessageImage.isHidden = isHidden
             })
             .disposed(by: disposeBag)
     }
