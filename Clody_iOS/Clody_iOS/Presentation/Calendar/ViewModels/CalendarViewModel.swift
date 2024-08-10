@@ -42,8 +42,8 @@ final class CalendarViewModel: ViewModelType {
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
-    let monthlyCalendarDataRelay = BehaviorRelay<CalendarMonthlyResponseDTO>(value: CalendarMonthlyResponseDTO(totalCloverCount: 0, diaries: [MonthlyDiary(diaryCount: 0, replyStatus: "")]))
-    let dailyDiaryDataRelay = BehaviorRelay<GetDiaryResponseDTO>(value: GetDiaryResponseDTO(diaries: []))
+    let monthlyCalendarDataRelay = BehaviorRelay<CalendarMonthlyResponseDTO>(value: CalendarMonthlyResponseDTO(totalCloverCount: 0, diaries: [MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false)]))
+    let dailyDiaryDataRelay = BehaviorRelay<GetDiaryResponseDTO>(value: GetDiaryResponseDTO(diaries: [], isDeleted: false))
     let currentPageRelay = BehaviorRelay<[String]>(value: ["\(Date().dateToYearMonthDay().0)", "\(Date().dateToYearMonthDay().1)"])
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {

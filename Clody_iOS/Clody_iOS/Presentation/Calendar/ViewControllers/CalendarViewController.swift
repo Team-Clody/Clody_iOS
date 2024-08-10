@@ -22,7 +22,7 @@ final class CalendarViewController: UIViewController {
     
     private let tapDateRelay = PublishRelay<Date>()
     private let currentPageRelay = PublishRelay<[String]>()
-    private var calendarData: [MonthlyDiary] = [MonthlyDiary(diaryCount: 0, replyStatus: "")]
+    private var calendarData: [MonthlyDiary] = [MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false)]
     
     private var alert: ClodyAlert?
     private lazy var dimmingView = UIView()
@@ -403,7 +403,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
         let dayString = String(day + 1)
         
-        cell.configure(isToday: isToday, isSelected: isSelected, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: ""))
+        cell.configure(isToday: isToday, isSelected: isSelected, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
         return cell
     }
     
