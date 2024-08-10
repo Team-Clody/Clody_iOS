@@ -21,6 +21,7 @@ final class ListViewController: UIViewController {
     private let tapReplyRelay = PublishRelay<String>()
     private let tapKebobRelay = PublishRelay<String>()
     private let tapMonthRelay = PublishRelay<String>()
+    var selectedMonthCompletion: (([String]) -> Void)?
     
     // MARK: - UI Components
     
@@ -31,6 +32,18 @@ final class ListViewController: UIViewController {
     private lazy var dimmingView = UIView()
     
     // MARK: - Life Cycles
+    
+    init(month: [String]? = nil) {
+        if let month = month {
+            viewModel.selectedMonthRelay.accept(month)
+        }
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()
@@ -61,7 +74,7 @@ private extension ListViewController {
     
     func bindViewModel() {
         let input = ListViewModel.Input(
-            viewDidLoad: Observable.just(()), 
+            viewDidLoad: Observable.just(()),
             tapReplyButton: tapReplyRelay.asSignal(),
             tapKebabButton: tapKebobRelay.asSignal(),
             tapCalendarButton: rootView.navigationBarView.calendarButton.rx.tap.asSignal(),
@@ -104,7 +117,8 @@ private extension ListViewController {
         output.changeToCalendar
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.navigationController?.popViewController(animated: true)
+                
+                popToCalendar()
             })
             .disposed(by: disposeBag)
         
@@ -160,7 +174,7 @@ private extension ListViewController {
                     .disposed(by: self.disposeBag)
             })
             .disposed(by: disposeBag)
-
+        
     }
     
     func setDelegate() {
@@ -188,7 +202,7 @@ private extension ListViewController {
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissBottomSheet(animated: true, completion: {
-//                    self?.showClodyAlert(type: .deleteDiary, title: "정말 일기를 삭제할까요?", message: "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요.", rightButtonText: "삭제")
+                    //                    self?.showClodyAlert(type: .deleteDiary, title: "정말 일기를 삭제할까요?", message: "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요.", rightButtonText: "삭제")
                 })
             })
             .disposed(by: disposeBag)
@@ -281,6 +295,13 @@ private extension ListViewController {
             rootView.listCollectionView.isHidden = false
             rootView.listEmptyView.isHidden = true
         }
+    }
+    
+    private func popToCalendar() {
+        self.navigationController?.popViewController(animated: true)
+        let selectedMonth = viewModel.selectedMonthRelay.value
+        guard let selectedMonthCompletion else {return}
+        selectedMonthCompletion(selectedMonth)
     }
 }
 

@@ -115,7 +115,7 @@ extension CalendarDateCell {
             if data.diaryCount == 0 {
                 cloverImageView.image = .cloverToday
             } else {
-                cloverImageView.image = (data.replyStatus == "READY_READ") ? UIImage(named: "clover\(data.diaryCount)") : .clover0
+                cloverImageView.image = (data.replyStatus == "READY_READ") ? UIImage(named: "clover\(data.diaryCount)") : .cloverTodayDone
             }
             clendarDateLabel.textColor = .black
         }
