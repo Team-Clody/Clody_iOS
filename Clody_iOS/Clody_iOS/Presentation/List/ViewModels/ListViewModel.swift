@@ -100,11 +100,19 @@ final class ListViewModel: ViewModelType {
 extension ListViewModel {
     
     func fetchData() {
-        let today = Date()
-        let year = DateFormatter.string(from: today, format: "yyyy")
-        let month = DateFormatter.string(from: today, format: "MM")
-        self.getListData(year: Int(year) ?? 0, month: Int(month) ?? 0)
-        self.selectedMonthRelay.accept([year, month])
+        let selectedDate = selectedMonthRelay.value
+        let year = Int(selectedDate[0]) ?? {
+            let today = Date()
+            return Int(DateFormatter.string(from: today, format: "yyyy")) ?? 0
+        }()
+        
+        let month = Int(selectedDate[1]) ?? {
+            let today = Date()
+            return Int(DateFormatter.string(from: today, format: "MM")) ?? 0
+        }()
+        
+        self.getListData(year: year, month: month)
+        self.selectedMonthRelay.accept([String(year), String(month)])
     }
     
     func getListData(year: Int, month: Int) {
