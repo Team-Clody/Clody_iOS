@@ -18,6 +18,7 @@ final class WritingDiaryView: BaseView {
     lazy var writingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: writingCollectionViewLayout())
     lazy var saveButton = UIButton()
     lazy var addButton = UIButton()
+    let headerView = WritingDiaryHeaderView()
     
     // MARK: - Life Cycles
     
@@ -43,7 +44,7 @@ final class WritingDiaryView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(navigationBarView, writingCollectionView, saveButton, addButton)
+        self.addSubviews(navigationBarView, headerView, writingCollectionView, saveButton, addButton)
     }
     
     override func setLayout() {
@@ -54,10 +55,16 @@ final class WritingDiaryView: BaseView {
             $0.height.equalTo(44)
         }
         
+        headerView.snp.makeConstraints {
+            $0.top.equalTo(navigationBarView.snp.bottom)
+            $0.height.equalTo(46)
+            $0.horizontalEdges.equalToSuperview().inset(24)
+        }
+        
         writingCollectionView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(24)
             $0.bottom.equalTo(safeAreaLayoutGuide)
-            $0.top.equalTo(navigationBarView.snp.bottom)
+            $0.top.equalTo(headerView.snp.bottom)
         }
         
         saveButton.snp.makeConstraints{
@@ -83,13 +90,6 @@ final class WritingDiaryView: BaseView {
             
             let section = NSCollectionLayoutSection(group: group)
             
-            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(46))
-            let header = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: headerSize,
-                elementKind: UICollectionView.elementKindSectionHeader,
-                alignment: .top
-            )
-            section.boundarySupplementaryItems = [header]
             section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 30, trailing: 0)
             return section
         }
