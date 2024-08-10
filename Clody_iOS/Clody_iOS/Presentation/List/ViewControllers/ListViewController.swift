@@ -20,7 +20,7 @@ final class ListViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let tapReplyRelay = PublishRelay<String>()
     private let tapKebobRelay = PublishRelay<String>()
-    private let tabMonthRelay = PublishRelay<String>()
+    private let tapMonthRelay = PublishRelay<String>()
     
     // MARK: - UI Components
     
@@ -66,7 +66,7 @@ private extension ListViewController {
             tapKebabButton: tapKebobRelay.asSignal(),
             tapCalendarButton: rootView.navigationBarView.calendarButton.rx.tap.asSignal(),
             tapDateButton: rootView.navigationBarView.dateButton.rx.tap.asSignal(),
-            monthTap: tabMonthRelay.asSignal(),
+            monthTap: tapMonthRelay.asSignal(),
             tapDeleteButton: deleteBottomSheetView.deleteContainer.rx.tapGesture()
                 .when(.recognized)
                 .map { _ in }
