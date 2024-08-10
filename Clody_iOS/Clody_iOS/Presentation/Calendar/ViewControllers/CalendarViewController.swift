@@ -369,13 +369,23 @@ private extension CalendarViewController {
     private func navigateToList() {
         let listViewController = ListViewController(month: viewModel.currentPageRelay.value)
         
-        listViewController.selectedMonthCompletion = { data in
+        listViewController.selectedMonthCompletion = { [weak self] data in
+            guard let self = self else { return }
             self.viewModel.currentPageRelay.accept(data)
+            
+            var dateComponents = DateComponents()
+            dateComponents.year = Int(data[0])
+            dateComponents.month = Int(data[1])
+            dateComponents.day = 1 // 해당 월의 첫 번째 날로 설정
+            
+            if let date = Calendar.current.date(from: dateComponents) {
+                self.rootView.mainCalendarView.currentPage = date
+            }
         }
         
         self.navigationController?.pushViewController(listViewController, animated: true)
     }
-    
+
 }
 
 
