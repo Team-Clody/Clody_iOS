@@ -45,15 +45,15 @@ class NetworkProvider<Provider : TargetType> : MoyaProvider<Provider> {
             switch result {
                 /// 서버 통신 성공
             case .success(let response):
-                if (200..<300).contains(response.statusCode) {
+//                if (200..<300).contains(response.statusCode) {
                     if let decodeData = try? JSONDecoder().decode(instance, from: response.data) {
                         completion(decodeData)
                     } else{
                         print("🚨 decoding Error 발생")
                     }
-                } else {
-                    print("🚨 Client Error")
-                }
+//                } else {
+//                    print("🚨 Client Error")
+//                }
                 /// 서버 통신 실패
             case .failure(let error):
                 if let response = error.response {

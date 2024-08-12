@@ -63,24 +63,30 @@ final class NicknameViewModel: ViewModelType {
 
 extension NicknameViewModel {
     
-    func signUp(nickname: String, completion: @escaping () -> ()) {
+    func signUp(signUpInfo: SignUpInfoModel, completion: @escaping (Bool) -> ()) {
         Providers.authProvider.request(
             target: .signUp(
                 data: SignUpRequestDTO(
-                    platform: UserManager.shared.platformValue,
-                    email: "",
-                    name: nickname,
-                    id_token: ""
+                    platform: signUpInfo.platform,
+                    email: signUpInfo.email,
+                    name: signUpInfo.name,
+                    id_token: signUpInfo.id_token
                 )
             ),
             instance: BaseResponse<SignUpResponseDTO>.self
         ) { response in
-            guard let data = response.data else { return }
-            UserManager.shared.updateToken(
-                data.accessToken,
-                data.refreshToken
-            )
+            if response.status == 200 {
+                guard let data = response.data else { return }
+                UserManager.shared.updateToken(
+                    data.accessToken,
+                    data.refreshToken
+                )
+                completion(true)
+            } else if response.status == 400 {
+                completion(true)
+            } else {
+                completion(false)
+            }
         }
-        completion()
     }
 }

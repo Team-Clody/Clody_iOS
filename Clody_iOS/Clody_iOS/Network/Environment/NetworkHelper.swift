@@ -30,7 +30,7 @@ struct NetworkHelper {
         
         switch statusCode {
         case 200..<300: return .success(decodedData.data as Any)
-        case 400..<500: return .requestErr(decodedData.data as Any)
+        case 400..<500: return .success(decodedData.data as Any)
         case 500..<600: return .serverErr
         default: return .networkFail
         }

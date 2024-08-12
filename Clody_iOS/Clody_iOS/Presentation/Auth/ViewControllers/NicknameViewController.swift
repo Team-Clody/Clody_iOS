@@ -18,6 +18,7 @@ final class NicknameViewController: UIViewController {
     private let viewModel = NicknameViewModel()
     private let disposeBag = DisposeBag()
     private let maxLength = 10
+    private var signUpInfo: SignUpInfoModel
     
     // MARK: - UI Components
      
@@ -25,6 +26,15 @@ final class NicknameViewController: UIViewController {
     private lazy var clodyTextField = rootView.textField
     
     // MARK: - Life Cycles
+    
+    init(signUpInfo: SignUpInfoModel) {
+        self.signUpInfo = signUpInfo
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()
@@ -88,7 +98,8 @@ private extension NicknameViewController {
         output.pushViewController
             .drive(onNext: {
                 guard let nickname = self.clodyTextField.textField.text else { return }
-                self.signUp(nickname: nickname)
+                self.signUpInfo.name = nickname
+                self.signUp()
             })
             .disposed(by: disposeBag)
         
@@ -113,9 +124,13 @@ private extension NicknameViewController {
 
 extension NicknameViewController {
     
-    func signUp(nickname: String) {
-        viewModel.signUp(nickname: nickname) {
-            self.navigationController?.pushViewController(DiaryNotificationViewController(), animated: true)
+    func signUp() {
+        viewModel.signUp(signUpInfo: signUpInfo) { isSuccess in
+            if isSuccess {
+                self.navigationController?.pushViewController(DiaryNotificationViewController(), animated: true)
+            } else {
+                print("😵 회원가입에 실패했습니다.")
+            }
         }
     }
 }

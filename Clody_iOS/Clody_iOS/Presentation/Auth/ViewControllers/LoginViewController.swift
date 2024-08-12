@@ -19,6 +19,12 @@ final class LoginViewController: UIViewController {
     
     private let viewModel = LoginViewModel()
     private let disposeBag = DisposeBag()
+    private lazy var signUpInfo = SignUpInfoModel(
+        platform: "",
+        email: "",
+        name: "",
+        id_token: ""
+    )
     
     // MARK: - UI Components
     
@@ -89,8 +95,13 @@ private extension LoginViewController {
                     print("❗️유저 정보 가져오기 실패 - \(error)")
                 } else {
                     if let oauthToken = oauthToken {
-                        self.viewModel.signInWithKakao(oauthToken: oauthToken) {
-                            self.navigationController?.pushViewController(TermsViewController(), animated: true)
+                        self.viewModel.signInWithKakao(oauthToken: oauthToken) { isSuccess in
+                            if isSuccess {
+                                self.navigationController?.pushViewController(CalendarViewController(), animated: true)
+                            } else {
+                                self.signUpInfo.platform = UserManager.shared.platformValue
+                                self.navigationController?.pushViewController(TermsViewController(signUpInfo: self.signUpInfo), animated: true)
+                            }
                         }
                     }
                 }
@@ -101,7 +112,8 @@ private extension LoginViewController {
     func signInWithApple() {
         // TODO: 애플로그인
         self.viewModel.signInWithApple() {
-            self.navigationController?.pushViewController(EmailViewController(), animated: true)
+            self.signUpInfo.platform = UserManager.shared.platformValue
+            self.navigationController?.pushViewController(EmailViewController(signUpInfo: self.signUpInfo), animated: true)
         }
     }
 }

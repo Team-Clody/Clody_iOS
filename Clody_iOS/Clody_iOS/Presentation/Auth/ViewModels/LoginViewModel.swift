@@ -38,20 +38,24 @@ final class LoginViewModel: ViewModelType {
 
 extension LoginViewModel {
     
-    func signInWithKakao(oauthToken: OAuthToken, completion: @escaping () -> ()) {
+    func signInWithKakao(oauthToken: OAuthToken, completion: @escaping (Bool) -> ()) {
         UserManager.shared.platform = "kakao"
         APIConstants.authCode = oauthToken.accessToken
         Providers.authProvider.request(
             target: .signIn(data: LoginRequestDTO(platform: UserManager.shared.platformValue)),
             instance: BaseResponse<LoginResponseDTO>.self
         ) { response in
-            guard let data = response.data else { return }
-            UserManager.shared.updateToken(
-                data.accessToken,
-                data.refreshToken
-            )
+            if response.status == 200 {
+                guard let data = response.data else { return }
+                UserManager.shared.updateToken(
+                    data.accessToken,
+                    data.refreshToken
+                )
+                completion(true)
+            } else {
+                completion(false)
+            }
         }
-        completion()
     }
     
     func signInWithApple(completion: @escaping () -> ()) {
