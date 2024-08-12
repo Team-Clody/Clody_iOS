@@ -89,6 +89,7 @@ private extension CalendarViewController {
                 guard let self = self else { return }
                 let isNotEmpty = data.count != 0
                 let isToday = Calendar.current.isDateInToday(self.viewModel.selectedDateRelay.value)
+                let isDeleted = self.viewModel.dailyDiaryDataRelay.value.isDeleted && !isToday
                 
                 var buttonTitle = isNotEmpty ? "답장 확인" : "일기 쓰기"
                 var buttonColor = isNotEmpty ? UIColor(named: "grey01") : UIColor(named: "mainYellow")
@@ -98,6 +99,11 @@ private extension CalendarViewController {
                 if !isEnabled {
                     buttonColor = .lightYellow
                     textColor = "grey06"
+                }
+                
+                if isDeleted {
+//                    buttonColor =
+//                    textColor = 
                 }
                 
                 self.rootView.emptyDiaryView.isHidden = isNotEmpty

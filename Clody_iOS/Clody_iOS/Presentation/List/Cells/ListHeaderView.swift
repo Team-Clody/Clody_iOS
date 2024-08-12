@@ -126,6 +126,12 @@ final class ListHeaderView: UICollectionReusableView {
     
     func bindData(diary: ListDiary) {
         
+        if diary.isDeleted {
+            replyButton.backgroundColor = .grey08
+            replyButton.isEnabled = false
+            replyButton.setTitleColor(.grey06, for: .normal)
+        }
+        
         if diary.replyStatus == "READY_READ" {
             cloverImageView.image = UIImage(named: diary.diaryCount == 0 ? "clover0" : "clover\(diary.diaryCount)")
         } else {
