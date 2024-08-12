@@ -1,8 +1,8 @@
 //
-//  NicknameViewModel.swift
+//  EmailViewModel.swift
 //  Clody_iOS
 //
-//  Created by 김나연 on 7/15/24.
+//  Created by 김나연 on 8/12/24.
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-final class NicknameViewModel: ViewModelType {
+final class EmailViewModel: ViewModelType {
     
     struct Input {
         let textFieldInputEvent: Signal<String>
@@ -21,7 +21,6 @@ final class NicknameViewModel: ViewModelType {
     }
     
     struct Output {
-        let charCountDidChange: Driver<String>
         let isTextFieldFocused: Driver<Bool>
         let nextButtonIsEnabled: Driver<Bool>
         let pushViewController: Driver<Void>
@@ -29,9 +28,6 @@ final class NicknameViewModel: ViewModelType {
     }
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
-        let charCountDidChange = input.textFieldInputEvent
-            .asDriver(onErrorJustReturn: "")
-        
         let isTextFieldFocused = Signal
             .merge(
                 input.textFieldDidBeginEditing.map { true },
@@ -41,6 +37,7 @@ final class NicknameViewModel: ViewModelType {
         
         let nextButtonIsEnabled = input.textFieldInputEvent
             .map {
+                // TODO: 이메일 유효성 검사
                 return $0.count > 0
             }
             .asDriver(onErrorJustReturn: false)
@@ -52,35 +49,10 @@ final class NicknameViewModel: ViewModelType {
             .asDriver(onErrorJustReturn: ())
         
         return Output(
-            charCountDidChange: charCountDidChange,
             isTextFieldFocused: isTextFieldFocused,
             nextButtonIsEnabled: nextButtonIsEnabled,
             pushViewController: pushViewController,
             popViewController: popViewController
         )
-    }
-}
-
-extension NicknameViewModel {
-    
-    func signUp(nickname: String, completion: @escaping () -> ()) {
-        Providers.authProvider.request(
-            target: .signUp(
-                data: SignUpRequestDTO(
-                    platform: UserManager.shared.platformValue,
-                    email: "",
-                    name: nickname,
-                    id_token: ""
-                )
-            ),
-            instance: BaseResponse<SignUpResponseDTO>.self
-        ) { response in
-            guard let data = response.data else { return }
-            UserManager.shared.updateToken(
-                data.accessToken,
-                data.refreshToken
-            )
-        }
-        completion()
     }
 }

@@ -45,10 +45,13 @@ final class LoginViewController: UIViewController {
 private extension LoginViewController {
     
     func bindViewModel() {
-        let input = LoginViewModel.Input(kakaoLoginButtonTapEvent: rootView.kakaoLoginButton.rx.tap.asSignal())
+        let input = LoginViewModel.Input(
+            kakaoLoginButtonTapEvent: rootView.kakaoLoginButton.rx.tap.asSignal(),
+            appleLoginButtonTapEvent: rootView.appleLoginButton.rx.tap.asSignal()
+        )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
-        output.loginWithKakao
+        output.signInWithKakao
             .drive(onNext: {
                 if UserApi.isKakaoTalkLoginAvailable() {
                     UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
@@ -59,6 +62,12 @@ private extension LoginViewController {
                         self.signInWithKakao(error, oauthToken)
                     }
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        output.signInWithApple
+            .drive(onNext: {
+                self.signInWithApple()
             })
             .disposed(by: disposeBag)
     }
@@ -86,6 +95,13 @@ private extension LoginViewController {
                     }
                 }
             }
+        }
+    }
+    
+    func signInWithApple() {
+        // TODO: 애플로그인
+        self.viewModel.signInWithApple() {
+            self.navigationController?.pushViewController(EmailViewController(), animated: true)
         }
     }
 }

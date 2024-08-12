@@ -15,26 +15,34 @@ final class LoginViewModel: ViewModelType {
     
     struct Input {
         let kakaoLoginButtonTapEvent: Signal<Void>
+        let appleLoginButtonTapEvent: Signal<Void>
     }
     
     struct Output {
-        let loginWithKakao: Driver<Void>
+        let signInWithKakao: Driver<Void>
+        let signInWithApple: Driver<Void>
     }
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
-        let loginWithKakao = input.kakaoLoginButtonTapEvent
+        let signInWithKakao = input.kakaoLoginButtonTapEvent
             .asDriver(onErrorJustReturn: Void())
-        return Output(loginWithKakao: loginWithKakao)
+        let signInWithApple = input.appleLoginButtonTapEvent
+            .asDriver(onErrorJustReturn: Void())
+        
+        return Output(
+            signInWithKakao: signInWithKakao,
+            signInWithApple: signInWithApple
+        )
     }
 }
 
 extension LoginViewModel {
     
     func signInWithKakao(oauthToken: OAuthToken, completion: @escaping () -> ()) {
-        UserManager.shared.platForm = "kakao"
+        UserManager.shared.platform = "kakao"
         APIConstants.authCode = oauthToken.accessToken
         Providers.authProvider.request(
-            target: .signIn(data: LoginRequestDTO(platform: UserManager.shared.platFormValue)),
+            target: .signIn(data: LoginRequestDTO(platform: UserManager.shared.platformValue)),
             instance: BaseResponse<LoginResponseDTO>.self
         ) { response in
             guard let data = response.data else { return }
@@ -43,6 +51,11 @@ extension LoginViewModel {
                 data.refreshToken
             )
         }
+        completion()
+    }
+    
+    func signInWithApple(completion: @escaping () -> ()) {
+        UserManager.shared.platform = "apple"
         completion()
     }
 }

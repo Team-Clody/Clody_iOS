@@ -47,6 +47,7 @@ enum I18N {
         static let required = "(필수)"
         static let clodyTerms = "Clody 이용약관"
         static let privacy = "개인정보 처리방침"
+        static let emailIntro = "행운을 전하는 감사일기,\nClody예요"
         static let nickNameIntro = "만나서 반가워요!\n어떻게 불러드릴까요?"
         static let onboarding_1_title = "안녕하세요!\n저는 로디라고 해요"
         static let onboarding_1_sub = "여러분이 써준 감사일기를 받고,\n칭찬과 응원을 담아 답장을 쓴답니다"

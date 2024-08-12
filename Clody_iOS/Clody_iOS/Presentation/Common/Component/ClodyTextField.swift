@@ -111,6 +111,7 @@ extension ClodyTextField {
     
     private func setStyle() {
         textField.do {
+            $0.autocapitalizationType = .none 
             $0.autocorrectionType = .no
             $0.spellCheckingType = .no
             $0.backgroundColor = .clear
@@ -146,7 +147,7 @@ extension ClodyTextField {
     }
     
     func showErrorMessage(_ message: String) {
-        if type == .email {
+        if !includedComponents.contains(messageLabel) {
             self.includedComponents.append(messageLabel)
         }
         
