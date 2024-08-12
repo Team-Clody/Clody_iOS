@@ -173,6 +173,7 @@ extension CalendarViewModel {
         let provider = Providers.diaryRouter
         
         provider.request(target: .getDailyDiary(year: year, month: month, date: date), instance: BaseResponse<GetDiaryResponseDTO>.self, completion: { data in
+            
             guard let data = data.data else { return }
             
             self.dailyDiaryDataRelay.accept(data)

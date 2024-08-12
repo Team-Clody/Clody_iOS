@@ -94,16 +94,16 @@ private extension CalendarViewController {
                 var buttonTitle = isNotEmpty ? "답장 확인" : "일기 쓰기"
                 var buttonColor = isNotEmpty ? UIColor(named: "grey01") : UIColor(named: "mainYellow")
                 var textColor = isNotEmpty ? "white" : "grey02"
-                let isEnabled = isToday || isNotEmpty
+                let isEnabled = (isToday || (isNotEmpty && !isDeleted))
                 
                 if !isEnabled {
-                    buttonColor = .lightYellow
-                    textColor = "grey06"
-                }
-                
-                if isDeleted {
-//                    buttonColor =
-//                    textColor = 
+                    if isNotEmpty {
+                        buttonColor = .grey08
+                        textColor = "grey06"
+                    } else {
+                        buttonColor = .lightYellow
+                        textColor = "grey06"
+                    }
                 }
                 
                 self.rootView.emptyDiaryView.isHidden = isNotEmpty
