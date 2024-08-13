@@ -5,6 +5,7 @@
 //  Created by 김나연 on 7/11/24.
 //
 
+import AuthenticationServices
 import UIKit
 
 import KakaoSDKAuth
@@ -95,18 +96,8 @@ private extension LoginViewController {
                     print("❗️유저 정보 가져오기 실패 - \(error)")
                 } else {
                     if let oauthToken = oauthToken {
-                        self.viewModel.signInWithKakao(oauthToken: oauthToken) { statusCode in
-                            switch statusCode {
-                            case 200:
-                                /// 로그인 성공
-                                self.navigationController?.pushViewController(CalendarViewController(), animated: true)
-                            case 404:
-                                /// 존재하지 않는 유저
-                                self.signUpInfo.platform = UserManager.shared.platformValue
-                                self.navigationController?.pushViewController(TermsViewController(signUpInfo: self.signUpInfo), animated: true)
-                            default:
-                                print("😵 서버 에러 - 로그인에 실패했습니다.")
-                            }
+                        self.viewModel.signIn(platform: .kakao, authCode: oauthToken.accessToken) { statusCode in
+                            self.handleResultForStatus(statusCode: statusCode, platform: .kakao)
                         }
                     }
                 }
@@ -115,10 +106,67 @@ private extension LoginViewController {
     }
     
     func signInWithApple() {
-        // TODO: 애플로그인
-        self.viewModel.signInWithApple() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = []
+        
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+    
+    func handleResultForStatus(statusCode: Int, platform: LoginPlatformType, idToken: String? = nil) {
+        switch statusCode {
+        case 200:
+            /// 로그인 성공
+            self.navigationController?.pushViewController(CalendarViewController(), animated: true)
+        case 404:
+            /// 존재하지 않는 유저
             self.signUpInfo.platform = UserManager.shared.platformValue
-            self.navigationController?.pushViewController(EmailViewController(signUpInfo: self.signUpInfo), animated: true)
+            self.handleResultForPlatform(platform: platform, idToken: idToken)
+        default:
+            print("😵 서버 에러 - 로그인에 실패했습니다.")
         }
+    }
+    
+    func handleResultForPlatform(platform: LoginPlatformType, idToken: String?) {
+        switch platform {
+        case .apple:
+            self.signUpInfo.id_token = idToken!
+            self.navigationController?.pushViewController(EmailViewController(signUpInfo: self.signUpInfo), animated: true)
+        case .kakao:
+            self.navigationController?.pushViewController(TermsViewController(signUpInfo: self.signUpInfo), animated: true)
+        }
+    }
+}
+
+extension LoginViewController: ASAuthorizationControllerDelegate {
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
+              let authorizationCode = credential.authorizationCode,
+              let identityToken = credential.identityToken
+        else { return }
+        print("✅ 애플 로그인 성공")
+        
+        guard let authCode = String(data: authorizationCode, encoding: .utf8),
+              let idToken = String(data: identityToken, encoding: .utf8)
+        else { return }
+        
+        viewModel.signIn(platform: .apple, authCode: authCode) { statusCode in
+            self.handleResultForStatus(statusCode: statusCode, platform: .apple, idToken: idToken)
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("❗️Apple login failed - \(error.localizedDescription)")
+    }
+}
+
+extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
     }
 }

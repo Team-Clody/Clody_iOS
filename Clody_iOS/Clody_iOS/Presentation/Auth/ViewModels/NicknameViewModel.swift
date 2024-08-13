@@ -77,10 +77,7 @@ extension NicknameViewModel {
         ) { response in
             if response.status == 201 {
                 guard let data = response.data else { return }
-                UserManager.shared.updateToken(
-                    data.accessToken,
-                    data.refreshToken
-                )
+                UserManager.shared.updateToken(data.accessToken, data.refreshToken)
             }
             completion(response.status)
         }

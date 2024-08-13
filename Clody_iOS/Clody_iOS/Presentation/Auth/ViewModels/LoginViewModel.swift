@@ -11,6 +11,11 @@ import KakaoSDKAuth
 import RxCocoa
 import RxSwift
 
+enum LoginPlatformType: String {
+    case kakao = "kakao"
+    case apple = "apple"
+}
+
 final class LoginViewModel: ViewModelType {
     
     struct Input {
@@ -38,26 +43,20 @@ final class LoginViewModel: ViewModelType {
 
 extension LoginViewModel {
     
-    func signInWithKakao(oauthToken: OAuthToken, completion: @escaping (Int) -> ()) {
-        UserManager.shared.platform = "kakao"
-        APIConstants.authCode = oauthToken.accessToken
+    func signIn(platform: LoginPlatformType, authCode: String, completion: @escaping (Int) -> ()) {
+        UserManager.shared.platform = platform.rawValue
+        UserManager.shared.authCode = authCode
+        APIConstants.authCode = authCode
+        
         Providers.authProvider.request(
             target: .signIn(data: LoginRequestDTO(platform: UserManager.shared.platformValue)),
             instance: BaseResponse<LoginResponseDTO>.self
         ) { response in
             if response.status == 200 {
                 guard let data = response.data else { return }
-                UserManager.shared.updateToken(
-                    data.accessToken,
-                    data.refreshToken
-                )
+                UserManager.shared.updateToken(data.accessToken, data.refreshToken)
             }
             completion(response.status)
         }
-    }
-    
-    func signInWithApple(completion: @escaping () -> ()) {
-        UserManager.shared.platform = "apple"
-        completion()
     }
 }
