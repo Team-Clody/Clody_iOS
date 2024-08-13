@@ -39,6 +39,11 @@ enum I18N {
         static let delete = "삭제하기"
     }
     
+    enum TermsURL {
+        static let terms = "https://naver.com"
+        static let privacy = "https://youtube.com"
+    }
+    
     enum Auth {
         static let kakaoLogin = "카카오로 로그인"
         static let appleLogin = "Apple로 로그인"

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 import RxCocoa
 import RxSwift
@@ -70,7 +71,9 @@ private extension TermsViewController {
         let input = TermsViewModel.Input(
             allAgreeTextButtonTapEvent: allAgreeTextButtonTapEvent,
             allAgreeIconButtonTapEvent: allAgreeIconButtonTapEvent,
-            nextButtonTapEvent: rootView.nextButton.rx.tap.asSignal(), 
+            viewTermsDetailButtonTapEvent: rootView.viewTermsDetailButton.rx.tap.asSignal(),
+            viewPrivacyDetailButtonTapEvent: rootView.viewPrivacyDetailButton.rx.tap.asSignal(),
+            nextButtonTapEvent: rootView.nextButton.rx.tap.asSignal(),
             backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
@@ -115,6 +118,18 @@ private extension TermsViewController {
             })
             .disposed(by: disposeBag)
         
+        output.linkToTermsDetail
+            .drive(onNext: {
+                self.linkToURL(url: I18N.TermsURL.terms)
+            })
+            .disposed(by: disposeBag)
+        
+        output.linkToPrivacyDetail
+            .drive(onNext: {
+                self.linkToURL(url: I18N.TermsURL.privacy)
+            })
+            .disposed(by: disposeBag)
+        
         output.pushViewController
             .drive(onNext: { _ in
                 self.navigationController?.pushViewController(NicknameViewController(signUpInfo: self.signUpInfo), animated: true)
@@ -130,5 +145,12 @@ private extension TermsViewController {
 
     func setUI() {
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    func linkToURL(url: String) {
+        if let url = NSURL(string: url) {
+            let safariViewController: SFSafariViewController = SFSafariViewController(url: url as URL)
+            self.present(safariViewController, animated: true, completion: nil)
+        }
     }
 }

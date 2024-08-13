@@ -17,6 +17,8 @@ final class TermsViewModel: ViewModelType {
         let allAgreeIconButtonTapEvent: Signal<Bool>
         let agreeTermsButtonTapEvent = BehaviorRelay<Bool>(value: false)
         let agreePrivacyButtonTapEvent = BehaviorRelay<Bool>(value: false)
+        let viewTermsDetailButtonTapEvent: Signal<Void>
+        let viewPrivacyDetailButtonTapEvent: Signal<Void>
         let nextButtonTapEvent: Signal<Void>
         let backButtonTapEvent: Signal<Void>
     }
@@ -25,6 +27,8 @@ final class TermsViewModel: ViewModelType {
         let twoAgreeCombineEvent: Driver<Bool>
         let allAgreeButtonMergeEvent: Driver<Bool>
         let nextButtonIsEnabled: Driver<Bool>
+        let linkToTermsDetail: Driver<Void>
+        let linkToPrivacyDetail: Driver<Void>
         let pushViewController: Driver<Void>
         let popViewController: Driver<Void>
     }
@@ -54,6 +58,12 @@ final class TermsViewModel: ViewModelType {
             )
             .asDriver(onErrorJustReturn: false)
         
+        let linkToTermsDetail = input.viewTermsDetailButtonTapEvent
+            .asDriver(onErrorJustReturn: ())
+        
+        let linkToPrivacyDetail = input.viewPrivacyDetailButtonTapEvent
+            .asDriver(onErrorJustReturn: ())
+        
         let pushViewController = input.nextButtonTapEvent
             .asDriver(onErrorJustReturn: ())
         
@@ -64,6 +74,8 @@ final class TermsViewModel: ViewModelType {
             twoAgreeCombineEvent: twoAgreeCombineEvent,
             allAgreeButtonMergeEvent: allAgreeButtonMergeEvent,
             nextButtonIsEnabled: nextButtonIsEnabled,
+            linkToTermsDetail: linkToTermsDetail,
+            linkToPrivacyDetail: linkToPrivacyDetail,
             pushViewController: pushViewController,
             popViewController: popViewController
         )
