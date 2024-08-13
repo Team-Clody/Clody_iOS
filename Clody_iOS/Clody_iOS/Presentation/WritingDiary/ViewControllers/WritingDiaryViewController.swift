@@ -137,14 +137,23 @@ private extension WritingDiaryViewController {
                 
                 self.alert?.rightButton.rx.tap
                     .subscribe(onNext: {
-                        
+                        self.showLoadingIndicator()
                         let dateString = DateFormatter.string(
                             from: self.date,
                             format: "yyyy-MM-dd"
                         )
-                        self.viewModel.postDiary(date: dateString, content: self.viewModel.diariesRelay.value, completion: {_ in
-                            self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isNew: true, isHomeBackButton: true), animated: true)})
-  
+                        self.viewModel.postDiary(date: dateString, content: self.viewModel.diariesRelay.value, completion: {status in
+                            self.hideLoadingIndicator()
+                            switch status {
+                            case .success:
+                                self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isNew: true, isHomeBackButton: true), animated: true)
+                            case .network:
+                                self.showErrorView()
+                            case .unKnowned:
+                                self.showErrorView()
+                            }
+                        })
+                        
                         self.hideAlert()
                     })
                     .disposed(by: self.disposeBag)
@@ -236,11 +245,6 @@ private extension WritingDiaryViewController {
                 
                 return cell
             }
-//            configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
-//                let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: WritingDiaryHeaderView.description(), for: indexPath) as! WritingDiaryHeaderView
-//                header.bindData(dateData: self.date)
-//                return header
-//            }
         )
     }
     
@@ -307,6 +311,32 @@ private extension WritingDiaryViewController {
             })
             .disposed(by: disposeBag)
     }
+    
+    private func showLoadingIndicator() {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
+        rootView.dimView.backgroundColor = UIColor.black.withAlphaComponent(0.5) // 어둡게 딤처리된 배경색 설정
+        
+        rootView.loadingIndicator.startAnimating()
+        rootView.loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        rootView.addSubviews(rootView.dimView, rootView.loadingIndicator)
+        rootView.dimView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        rootView.loadingIndicator.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+    }
+    
+    private func hideLoadingIndicator() {
+            navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            
+        rootView.loadingIndicator.stopAnimating()
+        rootView.loadingIndicator.removeFromSuperview()
+        rootView.dimView.removeFromSuperview()
+        }
+    
+    func showErrorView() {}
 }
 
 /// Alert 관련 함수입니다.
