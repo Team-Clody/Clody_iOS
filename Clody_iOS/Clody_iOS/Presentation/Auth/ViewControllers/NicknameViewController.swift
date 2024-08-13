@@ -125,11 +125,16 @@ private extension NicknameViewController {
 extension NicknameViewController {
     
     func signUp() {
-        viewModel.signUp(signUpInfo: signUpInfo) { isSuccess in
-            if isSuccess {
+        viewModel.signUp(signUpInfo: signUpInfo) { statusCode in
+            switch statusCode {
+            case 201:
+                /// 회원가입 성공
                 self.navigationController?.pushViewController(DiaryNotificationViewController(), animated: true)
-            } else {
-                print("😵 회원가입에 실패했습니다.")
+            case 400:
+                /// 이미 가입된 유저
+                self.navigationController?.pushViewController(CalendarViewController(), animated: true)
+            default:
+                print("😵 서버 에러 - 회원가입에 실패했습니다.")
             }
         }
     }

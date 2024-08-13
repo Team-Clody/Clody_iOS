@@ -95,12 +95,17 @@ private extension LoginViewController {
                     print("❗️유저 정보 가져오기 실패 - \(error)")
                 } else {
                     if let oauthToken = oauthToken {
-                        self.viewModel.signInWithKakao(oauthToken: oauthToken) { isSuccess in
-                            if isSuccess {
+                        self.viewModel.signInWithKakao(oauthToken: oauthToken) { statusCode in
+                            switch statusCode {
+                            case 200:
+                                /// 로그인 성공
                                 self.navigationController?.pushViewController(CalendarViewController(), animated: true)
-                            } else {
+                            case 404:
+                                /// 존재하지 않는 유저
                                 self.signUpInfo.platform = UserManager.shared.platformValue
                                 self.navigationController?.pushViewController(TermsViewController(signUpInfo: self.signUpInfo), animated: true)
+                            default:
+                                print("😵 서버 에러 - 로그인에 실패했습니다.")
                             }
                         }
                     }

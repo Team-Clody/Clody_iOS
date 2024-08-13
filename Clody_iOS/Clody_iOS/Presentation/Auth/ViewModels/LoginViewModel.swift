@@ -38,7 +38,7 @@ final class LoginViewModel: ViewModelType {
 
 extension LoginViewModel {
     
-    func signInWithKakao(oauthToken: OAuthToken, completion: @escaping (Bool) -> ()) {
+    func signInWithKakao(oauthToken: OAuthToken, completion: @escaping (Int) -> ()) {
         UserManager.shared.platform = "kakao"
         APIConstants.authCode = oauthToken.accessToken
         Providers.authProvider.request(
@@ -51,10 +51,8 @@ extension LoginViewModel {
                     data.accessToken,
                     data.refreshToken
                 )
-                completion(true)
-            } else {
-                completion(false)
             }
+            completion(response.status)
         }
     }
     

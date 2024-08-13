@@ -18,7 +18,7 @@ struct ResponseData<Model: Codable> {
         case .success(let response):
             do {
                 // status code가 200...299인 경우만 success로 체크 (아니면 예외발생)
-                _ = try response.filter(statusCodes: 200...500)
+                _ = try response.filterSuccessfulStatusCodes()
 
                 let commonResponse = try JSONDecoder().decode(CommonResponse.self, from: response.data)
                 return .success(commonResponse.result)
