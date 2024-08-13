@@ -22,7 +22,7 @@ final class CalendarViewController: UIViewController {
     
     private let tapDateRelay = PublishRelay<Date>()
     private let currentPageRelay = PublishRelay<[String]>()
-    private var calendarData: [MonthlyDiary] = [MonthlyDiary(diaryCount: 0, replyStatus: "")]
+    private var calendarData: [MonthlyDiary] = [MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false)]
     
     private var alert: ClodyAlert?
     private lazy var dimmingView = UIView()
@@ -89,15 +89,21 @@ private extension CalendarViewController {
                 guard let self = self else { return }
                 let isNotEmpty = data.count != 0
                 let isToday = Calendar.current.isDateInToday(self.viewModel.selectedDateRelay.value)
+                let isDeleted = self.viewModel.dailyDiaryDataRelay.value.isDeleted && !isToday
                 
                 var buttonTitle = isNotEmpty ? "답장 확인" : "일기 쓰기"
                 var buttonColor = isNotEmpty ? UIColor(named: "grey01") : UIColor(named: "mainYellow")
                 var textColor = isNotEmpty ? "white" : "grey02"
-                let isEnabled = isToday || isNotEmpty
+                let isEnabled = (isToday || (isNotEmpty && !isDeleted))
                 
                 if !isEnabled {
-                    buttonColor = .lightYellow
-                    textColor = "grey06"
+                    if isNotEmpty {
+                        buttonColor = .grey08
+                        textColor = "grey06"
+                    } else {
+                        buttonColor = .lightYellow
+                        textColor = "grey06"
+                    }
                 }
                 
                 self.rootView.emptyDiaryView.isHidden = isNotEmpty
@@ -369,13 +375,23 @@ private extension CalendarViewController {
     private func navigateToList() {
         let listViewController = ListViewController(month: viewModel.currentPageRelay.value)
         
-        listViewController.selectedMonthCompletion = { data in
+        listViewController.selectedMonthCompletion = { [weak self] data in
+            guard let self = self else { return }
             self.viewModel.currentPageRelay.accept(data)
+            
+            var dateComponents = DateComponents()
+            dateComponents.year = Int(data[0])
+            dateComponents.month = Int(data[1])
+            dateComponents.day = 1 // 해당 월의 첫 번째 날로 설정
+            
+            if let date = Calendar.current.date(from: dateComponents) {
+                self.rootView.mainCalendarView.currentPage = date
+            }
         }
         
         self.navigationController?.pushViewController(listViewController, animated: true)
     }
-    
+
 }
 
 
@@ -393,7 +409,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
         let dayString = String(day + 1)
         
-        cell.configure(isToday: isToday, isSelected: isSelected, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: ""))
+        cell.configure(isToday: isToday, isSelected: isSelected, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
         return cell
     }
     
