@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SafariServices
 
 import RxCocoa
 import RxSwift
@@ -145,12 +144,5 @@ private extension TermsViewController {
 
     func setUI() {
         self.navigationController?.isNavigationBarHidden = true
-    }
-    
-    func linkToURL(url: String) {
-        if let url = NSURL(string: url) {
-            let safariViewController: SFSafariViewController = SFSafariViewController(url: url as URL)
-            self.present(safariViewController, animated: true, completion: nil)
-        }
     }
 }

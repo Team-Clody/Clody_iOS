@@ -119,6 +119,7 @@
 		952EB1922C6A309600D1E516 /* EmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952EB1912C6A309600D1E516 /* EmailView.swift */; };
 		952EB1942C6A30CC00D1E516 /* EmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952EB1932C6A30CC00D1E516 /* EmailViewModel.swift */; };
 		952EB1962C6A8DCD00D1E516 /* SignUpInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952EB1952C6A8DCD00D1E516 /* SignUpInfoModel.swift */; };
+		952EB1992C6BCF7E00D1E516 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952EB1982C6BCF7E00D1E516 /* UIViewController+.swift */; };
 		95310F722C3C39FE00023C7B /* ClodyNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F712C3C39FE00023C7B /* ClodyNavigationBar.swift */; };
 		95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F732C3C765C00023C7B /* ClodyTextField.swift */; };
 		95310F762C3C97A800023C7B /* ClodyBottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F752C3C97A800023C7B /* ClodyBottomButton.swift */; };
@@ -257,6 +258,7 @@
 		952EB1912C6A309600D1E516 /* EmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailView.swift; sourceTree = "<group>"; };
 		952EB1932C6A30CC00D1E516 /* EmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailViewModel.swift; sourceTree = "<group>"; };
 		952EB1952C6A8DCD00D1E516 /* SignUpInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpInfoModel.swift; sourceTree = "<group>"; };
+		952EB1982C6BCF7E00D1E516 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		95310F712C3C39FE00023C7B /* ClodyNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyNavigationBar.swift; sourceTree = "<group>"; };
 		95310F732C3C765C00023C7B /* ClodyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyTextField.swift; sourceTree = "<group>"; };
 		95310F752C3C97A800023C7B /* ClodyBottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyBottomButton.swift; sourceTree = "<group>"; };
@@ -569,6 +571,7 @@
 				2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */,
 				0B190F0A2C380F5300D46CFC /* DateFormatter+.swift */,
 				0B4EF9CE2C478AAF00CAF1F6 /* Date+.swift */,
+				952EB1982C6BCF7E00D1E516 /* UIViewController+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1148,6 +1151,7 @@
 				0BE7EA002C4664EC000C5358 /* LoginRequestDTO.swift in Sources */,
 				952EB1942C6A30CC00D1E516 /* EmailViewModel.swift in Sources */,
 				0B72DA362C46C1B800292173 /* NotificationBottomSheetView.swift in Sources */,
+				952EB1992C6BCF7E00D1E516 /* UIViewController+.swift in Sources */,
 				0B6C07432C3DC2DE0054A0B0 /* ListModel.swift in Sources */,
 				0B17F8052C368465008A9998 /* DailyCalendarCollectionViewCell.swift in Sources */,
 				0B190F0D2C38111500D46CFC /* CalendarDailyModel.swift in Sources */,

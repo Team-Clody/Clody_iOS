@@ -29,7 +29,7 @@ final class MyPageViewController: UIViewController {
         super.viewDidLoad()
         
         bindViewModel()
-        setStyle()
+        setUI()
         setDelegate()
     }
 }
@@ -44,16 +44,6 @@ private extension MyPageViewController {
                 self.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
-    }
-    
-    func setStyle() {
-        view.backgroundColor = .white
-        navigationController?.isNavigationBarHidden = true
-    }
-    
-    func setDelegate() {
-        rootView.tableView.delegate = self
-        rootView.tableView.dataSource = self
         
         rootView.navigationBar.backButton.rx.tap
             .subscribe(onNext: {
@@ -61,11 +51,22 @@ private extension MyPageViewController {
             })
             .disposed(by: disposeBag)
     }
+    
+    func setUI() {
+        view.backgroundColor = .white
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    func setDelegate() {
+        rootView.tableView.delegate = self
+        rootView.tableView.dataSource = self
+    }
 }
 
 // MARK: - UITableViewDataSource
 
 extension MyPageViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Setting.allCases.count
     }
@@ -93,6 +94,7 @@ extension MyPageViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 
 extension MyPageViewController: UITableViewDelegate {
+    
     func tableView(
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath
@@ -107,6 +109,10 @@ extension MyPageViewController: UITableViewDelegate {
             self.navigationController?.pushViewController(AccountViewController(), animated: true)
         case .notification:
             self.navigationController?.pushViewController(NotificationViewController(), animated: true)
+        case .terms:
+            self.linkToURL(url: I18N.TermsURL.terms)
+        case .privacy:
+            self.linkToURL(url: I18N.TermsURL.privacy)
         default:
             return
         }
