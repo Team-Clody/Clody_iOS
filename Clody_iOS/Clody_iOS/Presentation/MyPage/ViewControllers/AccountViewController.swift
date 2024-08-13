@@ -196,8 +196,9 @@ private extension AccountViewController {
     
     func showChangeNicknameBottomSheet() {
         setBottomSheet()
+        view.layoutIfNeeded()
         
-        self.changeNicknameBottomSheet.transform = CGAffineTransform(translationX: 0, y: self.changeNicknameBottomSheet.frame.height)
+        changeNicknameBottomSheet.transform = CGAffineTransform(translationX: 0, y: changeNicknameBottomSheet.frame.height)
         UIView.animate(withDuration: 0.3, animations: {
             self.dimmingView.alpha = 1
             self.changeNicknameBottomSheet.transform = .identity
@@ -215,9 +216,9 @@ private extension AccountViewController {
     }
     
     func setBottomSheet() {
-        self.dimmingView.alpha = 0
+        dimmingView.alpha = 0
         dimmingView.backgroundColor = .black.withAlphaComponent(0.4)
-        self.view.addSubviews(dimmingView, changeNicknameBottomSheet)
+        view.addSubviews(dimmingView, changeNicknameBottomSheet)
         
         dimmingView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -245,8 +246,9 @@ private extension AccountViewController {
     ) {
         self.alert = ClodyAlert(type: type, title: title, message: message, rightButtonText: rightButtonText)
         setAlert()
+        view.layoutIfNeeded()
         
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
             self.alert!.alpha = 1
         })
     }
@@ -264,7 +266,7 @@ private extension AccountViewController {
         alert!.alpha = 0
         dimmingView.alpha = 1
         dimmingView.backgroundColor = .black.withAlphaComponent(0.4)
-        self.view.addSubviews(dimmingView, alert!)
+        view.addSubviews(dimmingView, alert!)
         
         dimmingView.snp.makeConstraints {
             $0.edges.equalToSuperview()
