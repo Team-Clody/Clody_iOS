@@ -17,12 +17,12 @@ final class CalendarViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let viewModel = CalendarViewModel()
+    let viewModel = CalendarViewModel()
     private let disposeBag = DisposeBag()
     
     private let tapDateRelay = PublishRelay<Date>()
-    private let currentPageRelay = PublishRelay<Date>()
-    private var calendarData: [MonthlyDiary] = [MonthlyDiary(diaryCount: 0, replyStatus: "")]
+    private let currentPageRelay = PublishRelay<[String]>()
+    private var calendarData: [MonthlyDiary] = [MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false)]
     
     private var alert: ClodyAlert?
     private lazy var dimmingView = UIView()
@@ -89,15 +89,21 @@ private extension CalendarViewController {
                 guard let self = self else { return }
                 let isNotEmpty = data.count != 0
                 let isToday = Calendar.current.isDateInToday(self.viewModel.selectedDateRelay.value)
+                let isDeleted = self.viewModel.dailyDiaryDataRelay.value.isDeleted && !isToday
                 
                 var buttonTitle = isNotEmpty ? "답장 확인" : "일기 쓰기"
                 var buttonColor = isNotEmpty ? UIColor(named: "grey01") : UIColor(named: "mainYellow")
                 var textColor = isNotEmpty ? "white" : "grey02"
-                let isEnabled = isToday || isNotEmpty
+                let isEnabled = (isToday || (isNotEmpty && !isDeleted))
                 
                 if !isEnabled {
-                    buttonColor = .lightYellow
-                    textColor = "grey06"
+                    if isNotEmpty {
+                        buttonColor = .grey08
+                        textColor = "grey06"
+                    } else {
+                        buttonColor = .lightYellow
+                        textColor = "grey06"
+                    }
                 }
                 
                 self.rootView.emptyDiaryView.isHidden = isNotEmpty
@@ -134,8 +140,7 @@ private extension CalendarViewController {
         output.changeToList
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                let listViewController = ListViewController()
-                self.navigationController?.pushViewController(listViewController, animated: true)
+                navigateToList()
             })
             .disposed(by: disposeBag)
         
@@ -157,7 +162,7 @@ private extension CalendarViewController {
         output.showPickerView
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                let date = viewModel.selectedMonthRelay.value
+                let date = viewModel.currentPageRelay.value
                 let selectedMonth = "\(date[0])년 \(date[1])월"
                 rootView.calendarNavigationView.dateText = selectedMonth
                 self.presentPickerView()
@@ -188,14 +193,14 @@ private extension CalendarViewController {
                     var isNew = false
                     let dateIndex = Int(DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "dd")) ?? 1
                     let diaries = viewModel.monthlyCalendarDataRelay.value.diaries
-
+                    
                     let replyStatus: String
                     if diaries.indices.contains(dateIndex - 1) {
                         replyStatus = diaries[dateIndex - 1].replyStatus
                     } else {
                         replyStatus = "특정 값"
                     }
-
+                    
                     if replyStatus == "READY_NOT_READ" {
                         isNew = true
                     } else {
@@ -328,7 +333,7 @@ private extension CalendarViewController {
                     }
                     
                     let selectedMonthYear = ["\(selectedYear)", "\(selectedMonth)"]
-                    self?.viewModel.selectedMonthRelay.accept(selectedMonthYear)
+                    self?.viewModel.currentPageRelay.accept(selectedMonthYear)
                 })
             })
             .disposed(by: disposeBag)
@@ -366,6 +371,27 @@ private extension CalendarViewController {
             completion?()
         }
     }
+    
+    private func navigateToList() {
+        let listViewController = ListViewController(month: viewModel.currentPageRelay.value)
+        
+        listViewController.selectedMonthCompletion = { [weak self] data in
+            guard let self = self else { return }
+            self.viewModel.currentPageRelay.accept(data)
+            
+            var dateComponents = DateComponents()
+            dateComponents.year = Int(data[0])
+            dateComponents.month = Int(data[1])
+            dateComponents.day = 1 // 해당 월의 첫 번째 날로 설정
+            
+            if let date = Calendar.current.date(from: dateComponents) {
+                self.rootView.mainCalendarView.currentPage = date
+            }
+        }
+        
+        self.navigationController?.pushViewController(listViewController, animated: true)
+    }
+
 }
 
 
@@ -383,7 +409,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
         let dayString = String(day + 1)
         
-        cell.configure(isToday: isToday, isSelected: isSelected, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: ""))
+        cell.configure(isToday: isToday, isSelected: isSelected, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
         return cell
     }
     
@@ -392,8 +418,8 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        let currentPage = calendar.currentPage
-        currentPageRelay.accept(currentPage)
+        let currentPage = calendar.currentPage.dateToYearMonthDay()
+        currentPageRelay.accept([String(currentPage.0), String(currentPage.1)])
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {

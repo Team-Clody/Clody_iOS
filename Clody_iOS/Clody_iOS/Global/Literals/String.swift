@@ -70,4 +70,8 @@ enum I18N {
         static let goodLuckToYou = "님을 위한 행운 도착"
         static let getClover = "1개의 네잎클로버 획득"
     }
+    
+    enum List {
+        static let emptyList = "작성된 감사일기가 없어요"
+    }
 }

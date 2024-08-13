@@ -9,6 +9,7 @@ import Foundation
 
 struct GetDiaryResponseDTO: Codable {
     let diaries: [DailyDiary]
+    let isDeleted: Bool
 }
 
 struct DailyDiary: Codable {

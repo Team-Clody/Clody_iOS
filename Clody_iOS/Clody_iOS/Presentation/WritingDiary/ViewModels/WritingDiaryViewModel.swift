@@ -34,6 +34,8 @@ final class WritingDiaryViewModel: ViewModelType {
         let tapBackButton: Signal<Void>
         let updateKebobRelay: PublishRelay<Int>
         let tapDeleteButton: Signal<Void>
+        let tapHelpInfoButton: Signal<Void>
+        let tapCancelButton: Signal<Void>
     }
     
     struct Output {
@@ -45,6 +47,7 @@ final class WritingDiaryViewModel: ViewModelType {
         let showSaveErrorToast: Signal<Void>
         let showSaveAlert: Signal<Void>
         let showDelete: Signal<Void>
+        let showHelp: Driver<Bool>
     }
     let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: [""]))
     let diariesRelay = BehaviorRelay<[String]>(value: [""])
@@ -56,6 +59,7 @@ final class WritingDiaryViewModel: ViewModelType {
     private let showSaveAlertRelay = PublishRelay<Void>()
     private let showDeleteRelay = PublishRelay<Int>()
     private let deleteIndexRelay = BehaviorRelay<Int?>(value: nil)
+    let isHiddenHelpRelay = BehaviorRelay<Bool>(value: true)
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
@@ -105,6 +109,22 @@ final class WritingDiaryViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
+        input.tapHelpInfoButton
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                var isHiddenValue = isHiddenHelpRelay.value
+                isHiddenHelpRelay.accept(!isHiddenValue)
+            })
+            .disposed(by: disposeBag)
+        
+        input.tapCancelButton
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                isHiddenHelpRelay.accept(true)
+                // 터치 오류
+            })
+            .disposed(by: disposeBag)
+        
         let items = diariesRelay
             .observe(on: MainScheduler.asyncInstance)
             .map { diaries in
@@ -132,6 +152,8 @@ final class WritingDiaryViewModel: ViewModelType {
             .map { _ in }
             .asSignal(onErrorJustReturn: ())
         
+        let showHelp = isHiddenHelpRelay.asDriver(onErrorJustReturn: true)
+        
         return Output(
             items: items,
             statuses: statuses,
@@ -140,7 +162,8 @@ final class WritingDiaryViewModel: ViewModelType {
             isAddButtonEnabled: isAddButtonEnabled,
             showSaveErrorToast: showSaveErrorToast,
             showSaveAlert: showSaveAlert,
-            showDelete: showDelete
+            showDelete: showDelete, 
+            showHelp: showHelp
         )
     }
     

@@ -59,6 +59,7 @@ final class WritingDiaryViewController: UIViewController {
         setupGestureRecognizer()
         setupKeyboardHandling()
         setupDeleteBottomSheet()
+        configureHeader()
     }
 }
 
@@ -76,7 +77,9 @@ private extension WritingDiaryViewController {
             tapDeleteButton: deleteBottomSheetView.deleteContainer.rx.tapGesture()
                 .when(.recognized)
                 .map { _ in }
-                .asSignal(onErrorJustReturn: ())
+                .asSignal(onErrorJustReturn: ()),
+            tapHelpInfoButton: rootView.headerView.infoButton.rx.tap.asSignal(),
+            tapCancelButton: rootView.headerView.cancelHelpButton.rx.tap.asSignal()
         )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
@@ -147,6 +150,12 @@ private extension WritingDiaryViewController {
                     .disposed(by: self.disposeBag)
             })
             .disposed(by: disposeBag)
+        
+        output.showHelp
+            .drive(onNext: { [weak self] isHidden in
+                self?.rootView.headerView.helpMessageImage.isHidden = isHidden
+            })
+            .disposed(by: disposeBag)
     }
     
     func setStyle() {
@@ -155,7 +164,10 @@ private extension WritingDiaryViewController {
     
     func registerCells() {
         rootView.writingCollectionView.register(WritingDiaryCell.self, forCellWithReuseIdentifier: WritingDiaryCell.description())
-        rootView.writingCollectionView.register(WritingDiaryHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: WritingDiaryHeaderView.description())
+    }
+    
+    func configureHeader() {
+        rootView.headerView.bindData(dateData: self.date)
     }
     
     func configureCollectionView() -> RxCollectionViewSectionedReloadDataSource<WritingDiarySection> {
@@ -223,12 +235,12 @@ private extension WritingDiaryViewController {
                     .disposed(by: cell.disposeBag)
                 
                 return cell
-            },
-            configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
-                let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: WritingDiaryHeaderView.description(), for: indexPath) as! WritingDiaryHeaderView
-                header.bindData(dateData: self.date)
-                return header
             }
+//            configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
+//                let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: WritingDiaryHeaderView.description(), for: indexPath) as! WritingDiaryHeaderView
+//                header.bindData(dateData: self.date)
+//                return header
+//            }
         )
     }
     

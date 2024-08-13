@@ -17,6 +17,7 @@ struct ListDiary: Codable {
     let replyStatus: String
     let date: String
     let diary: [ListDiaryContent]
+    let isDeleted: Bool
 }
 
 struct ListDiaryContent: Codable {

@@ -15,4 +15,5 @@ struct CalendarMonthlyResponseDTO: Codable {
 struct MonthlyDiary: Codable {
     let diaryCount: Int
     let replyStatus: String
+    let isDeleted: Bool
 }

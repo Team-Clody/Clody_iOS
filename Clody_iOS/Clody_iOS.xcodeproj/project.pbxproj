@@ -51,11 +51,13 @@
 		0B6C075D2C3E7D660054A0B0 /* WritingDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C075C2C3E7D660054A0B0 /* WritingDiaryView.swift */; };
 		0B6C075F2C3E7D8E0054A0B0 /* WritingDiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C075E2C3E7D8E0054A0B0 /* WritingDiaryCell.swift */; };
 		0B6C07612C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C07602C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift */; };
+		0B7222342C65243A005EB365 /* ListEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7222332C65243A005EB365 /* ListEmptyView.swift */; };
 		0B72DA2E2C46C13E00292173 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA2D2C46C13E00292173 /* NotificationViewModel.swift */; };
 		0B72DA302C46C16000292173 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA2F2C46C16000292173 /* NotificationView.swift */; };
 		0B72DA322C46C17800292173 /* SettingNotificationTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA312C46C17800292173 /* SettingNotificationTimeView.swift */; };
 		0B72DA342C46C18F00292173 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA332C46C18F00292173 /* NotificationCell.swift */; };
 		0B72DA362C46C1B800292173 /* NotificationBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA352C46C1B800292173 /* NotificationBottomSheetView.swift */; };
+		0B7B25D62C6276C200FCA10D /* waitingLody.json in Resources */ = {isa = PBXBuildFile; fileRef = 0B7B25D52C6276C200FCA10D /* waitingLody.json */; };
 		0BAAC64E2C43BFD900174A9D /* DeleteBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */; };
 		0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6522C43D74D00174A9D /* ClodyToast.swift */; };
 		0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */; };
@@ -83,7 +85,6 @@
 		0BE7EA112C466BB4000C5358 /* GetAccountResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA102C466BB4000C5358 /* GetAccountResponseDTO.swift */; };
 		0BE7EA132C466C91000C5358 /* PatchNicknameRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA122C466C91000C5358 /* PatchNicknameRequestDTO.swift */; };
 		0BE7EA152C466CC2000C5358 /* PatchNicknameResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA142C466CC2000C5358 /* PatchNicknameResponseDTO.swift */; };
-		0BE7EA172C46A71E000C5358 /* waitingLody.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BE7EA162C46A71E000C5358 /* waitingLody.json */; };
 		0BE7EA192C46AE25000C5358 /* replyLody.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BE7EA182C46AE25000C5358 /* replyLody.json */; };
 		0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A52C2E843C00B5E0DB /* FSCalendar */; };
 		0BFCC5A92C2E847300B5E0DB /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCC5A82C2E847300B5E0DB /* Moya */; };
@@ -198,11 +199,13 @@
 		0B6C075C2C3E7D660054A0B0 /* WritingDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingDiaryView.swift; sourceTree = "<group>"; };
 		0B6C075E2C3E7D8E0054A0B0 /* WritingDiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingDiaryCell.swift; sourceTree = "<group>"; };
 		0B6C07602C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingDiaryHeaderView.swift; sourceTree = "<group>"; };
+		0B7222332C65243A005EB365 /* ListEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEmptyView.swift; sourceTree = "<group>"; };
 		0B72DA2D2C46C13E00292173 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		0B72DA2F2C46C16000292173 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		0B72DA312C46C17800292173 /* SettingNotificationTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingNotificationTimeView.swift; sourceTree = "<group>"; };
 		0B72DA332C46C18F00292173 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		0B72DA352C46C1B800292173 /* NotificationBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBottomSheetView.swift; sourceTree = "<group>"; };
+		0B7B25D52C6276C200FCA10D /* waitingLody.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = waitingLody.json; sourceTree = "<group>"; };
 		0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBottomSheetView.swift; sourceTree = "<group>"; };
 		0BAAC6522C43D74D00174A9D /* ClodyToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToast.swift; sourceTree = "<group>"; };
 		0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToastView.swift; sourceTree = "<group>"; };
@@ -227,7 +230,6 @@
 		0BE7EA102C466BB4000C5358 /* GetAccountResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAccountResponseDTO.swift; sourceTree = "<group>"; };
 		0BE7EA122C466C91000C5358 /* PatchNicknameRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchNicknameRequestDTO.swift; sourceTree = "<group>"; };
 		0BE7EA142C466CC2000C5358 /* PatchNicknameResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchNicknameResponseDTO.swift; sourceTree = "<group>"; };
-		0BE7EA162C46A71E000C5358 /* waitingLody.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = waitingLody.json; sourceTree = "<group>"; };
 		0BE7EA182C46AE25000C5358 /* replyLody.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = replyLody.json; sourceTree = "<group>"; };
 		0BFCC5CE2C2E8DAE00B5E0DB /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
 		0BFCC5D92C2E8F0100B5E0DB /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 			isa = PBXGroup;
 			children = (
 				0B6C07482C3DC2FC0054A0B0 /* ListView.swift */,
+				0B7222332C65243A005EB365 /* ListEmptyView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -581,7 +584,7 @@
 		0BFCC5C32C2E8C4600B5E0DB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0BE7EA162C46A71E000C5358 /* waitingLody.json */,
+				0B7B25D52C6276C200FCA10D /* waitingLody.json */,
 				0BE7EA182C46AE25000C5358 /* replyLody.json */,
 				0BFCC5C62C2E8C9C00B5E0DB /* Font */,
 				0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */,
@@ -1038,8 +1041,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0BE7EA192C46AE25000C5358 /* replyLody.json in Resources */,
-				0BE7EA172C46A71E000C5358 /* waitingLody.json in Resources */,
 				0B20F3E62C2C4DAB00F8D62D /* Assets.xcassets in Resources */,
+				0B7B25D62C6276C200FCA10D /* waitingLody.json in Resources */,
 				0B20F3E92C2C4DAB00F8D62D /* Base in Resources */,
 				2CE3AB2F2C36E9F50042085A /* Pretendard-Regular.otf in Resources */,
 				2C0B3C862C30DD55002EB1A3 /* Pretendard-Medium.otf in Resources */,
@@ -1091,6 +1094,7 @@
 				95310FB72C43B07100023C7B /* ReplyWaitingViewModel.swift in Sources */,
 				0B72DA322C46C17800292173 /* SettingNotificationTimeView.swift in Sources */,
 				95310F902C40705600023C7B /* NicknameViewController.swift in Sources */,
+				0B7222342C65243A005EB365 /* ListEmptyView.swift in Sources */,
 				95310FC22C45453F00023C7B /* NicknameViewModel.swift in Sources */,
 				0BE7EA0B2C46699F000C5358 /* GetAlarmResponseDTO.swift in Sources */,
 				95310FC62C45ACD000023C7B /* OnBoardingViewModel.swift in Sources */,
