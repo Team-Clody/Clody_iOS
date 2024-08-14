@@ -208,7 +208,7 @@ extension WritingDiaryViewModel {
             var dataStatus = NetworkViewJudge.unKnowned
             switch data.status {
             case 200..<300: dataStatus = .success
-            case 500..<600: dataStatus = .network
+            case -1: dataStatus = .network
             default: dataStatus = .unKnowned
             }
             completion(dataStatus)
