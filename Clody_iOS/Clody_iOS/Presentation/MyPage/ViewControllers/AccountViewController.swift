@@ -163,10 +163,17 @@ final class AccountViewController: UIViewController {
                 
                 alert?.rightButton.rx.tap
                     .subscribe(onNext: {
-                        self.viewModel.withdraw() {
+                        self.viewModel.withdraw() { statusCode in
                             self.hideAlert()
-                            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                                sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
+                            
+                            switch statusCode {
+                            case 200:
+                                if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                                    sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
+                                }
+                            default:
+                                // TODO: Show Error Alert
+                                print("😵 서버 통신 실패 - 회원탈퇴에 실패했습니다.")
                             }
                         }
                         self.hideAlert()

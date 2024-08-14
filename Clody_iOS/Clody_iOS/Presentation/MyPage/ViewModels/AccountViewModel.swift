@@ -56,12 +56,12 @@ extension AccountViewModel {
         completion()
     }
 
-    func withdraw(completion: @escaping () -> ()) {
+    func withdraw(completion: @escaping (Int) -> ()) {
         Providers.authProvider.request(target: .revoke, instance: BaseResponse<EmptyResponseDTO>.self) { response in
-            if let data = response.data {
+            if response.status == 200 {
                 UserManager.shared.clearAll()
-                completion()
             }
+            completion(response.status)
         }
     }
 }
