@@ -23,7 +23,7 @@ final class DiaryNotificationViewController: UIViewController {
     // MARK: - UI Components
      
     private let rootView = DiaryNotificationView()
-    private let timePickerView = NotificationPickerView()
+    private let timePickerView = NotificationPickerView(title: I18N.BottomSheet.changeTime)
     
     // MARK: - Life Cycles
     
@@ -87,7 +87,7 @@ private extension DiaryNotificationViewController {
             })
             .disposed(by: disposeBag)
         
-        timePickerView.cancelIcon.rx.tap
+        timePickerView.closeButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissPickerView(animated: true, completion: nil)
             })
@@ -119,7 +119,12 @@ private extension DiaryNotificationViewController {
                     return
                 }
                 
-                let hour24 = timePeriods == "오전" ? hour : 12 + hour
+                let hour24: Int
+                if timePeriods == "오전" {
+                    hour24 = (hour == 12) ? 0 : hour
+                } else {
+                    hour24 = (hour == 12) ? 12 : hour + 12
+                }
                 let hourString = hour24 < 10 ? "0\(hour24)" : "\(hour24)"
                 let minuteString = minute < 10 ? "0\(minute)" : "\(minute)"
                 self.time = "\(hourString):\(minuteString)"

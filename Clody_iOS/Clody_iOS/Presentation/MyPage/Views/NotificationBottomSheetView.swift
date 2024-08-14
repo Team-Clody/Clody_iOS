@@ -54,9 +54,9 @@ final class NotificationBottomSheetView: UIView {
         }
 
         closeButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(14)
-            $0.right.equalToSuperview().inset(18)
-            $0.width.height.equalTo(24)
+            $0.centerY.equalTo(titleLabel)
+            $0.trailing.equalToSuperview().inset(18)
+            $0.size.equalTo(24)
         }
 
         pickerView.snp.makeConstraints {
@@ -67,7 +67,7 @@ final class NotificationBottomSheetView: UIView {
 
         doneButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
-            $0.bottom.equalToSuperview().inset(32)
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(5)
             $0.height.equalTo(48)
         }
     }

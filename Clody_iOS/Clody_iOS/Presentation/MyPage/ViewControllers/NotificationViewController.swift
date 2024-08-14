@@ -1,6 +1,7 @@
 import UIKit
 
 import RxCocoa
+import RxGesture
 import RxSwift
 import Then
 
@@ -19,33 +20,50 @@ final class NotificationViewController: UIViewController {
     // MARK: - UI Components
 
     private let rootView = NotificationView()
-    private var settingNotificationTimeView: SettingNotificationTimeView?
-    let closeButton = UIButton()
-    private let selectedTimeRelay = PublishRelay<[Any]>()
+    private let timePickerView = NotificationPickerView(title: I18N.BottomSheet.viewOtherTimes)
 
     // MARK: - Life Cycles
 
     override func loadView() {
         super.loadView()
+        
         view = rootView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        bindViewModel()
-        view.backgroundColor = .white
-        rootView.tableView.dataSource = self
         
+        fetchData()
+        bindViewModel()
+        setDelegate()
+        setupPickerView()
+    }
+}
+
+// MARK: - Extensions
+
+private extension NotificationViewController {
+    
+    func fetchData() {
         viewModel.getAlarmAPI() { data in
             self.alarmData = data
             self.rootView.tableView.reloadData()
         }
-        
-        bindSelectedTimeRelay()
     }
-    
-    private func bindSelectedTimeRelay() {
-        selectedTimeRelay
+
+    func bindViewModel() {
+        let input = NotificationViewModel.Input(
+            backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
+        )
+        let output = viewModel.transform(from: input, disposeBag: disposeBag)
+        
+        output.popViewController
+            .drive(onNext: { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        output.selectedTimeRelay
             .bind(onNext: { [weak self] values in
                 guard let self = self else { return }
                 guard let timePeriods = values[0] as? String,
@@ -54,23 +72,35 @@ final class NotificationViewController: UIViewController {
                     return
                 }
                 
-                let hour24 = (timePeriods == "오전" || hour == 12) ? hour : 12 + hour
+                let hour24: Int
+                if timePeriods == "오전" {
+                    hour24 = (hour == 12) ? 0 : hour
+                } else {
+                    hour24 = (hour == 12) ? 12 : hour + 12
+                }
                 let hourString = hour24 < 10 ? "0\(hour24)" : "\(hour24)"
                 let minuteString = minute < 10 ? "0\(minute)" : "\(minute)"
                 let convertedTime = "\(hourString):\(minuteString)"
                 
                 self.alarmData.time = convertedTime
-                let timeText = "\(timePeriods) \(hour)시 \(minute)분"
                 
                 PermissionManager.shared.checkNotificationPermission(completion: { isAuth in
                     print(isAuth)
                     if isAuth {
-                        self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: convertedTime, fcmToken: UserManager.shared.fcmTokenValue, completion: { data in
+                        self.viewModel.postAlarmChangeAPI(
+                            isDiaryAlarm: self.alarmData.isDiaryAlarm,
+                            isReplyAlarm: self.alarmData.isReplyAlarm,
+                            time: convertedTime
+                        ) { data in
                             guard let response = data.data else { return }
                             
-                            self.alarmData = AlarmModel(isDiaryAlarm: response.isDiaryAlarm, isReplyAlarm: response.isReplyAlarm, time: response.time)
+                            self.alarmData = AlarmModel(
+                                isDiaryAlarm: response.isDiaryAlarm,
+                                isReplyAlarm: response.isReplyAlarm,
+                                time: response.time
+                            )
                             self.rootView.tableView.reloadData()
-                        })
+                        }
                     } else {
                         DispatchQueue.main.async {
                             ClodyToast.show(toastType: .alarm)
@@ -79,63 +109,69 @@ final class NotificationViewController: UIViewController {
                 })
             })
             .disposed(by: disposeBag)
-    }
-
-    private func showPickerView() {
-        settingNotificationTimeView = SettingNotificationTimeView().then {
-            $0.closeHandler = { [weak self] in
-                self?.settingNotificationTimeView?.removeFromSuperview()
-                self?.settingNotificationTimeView = nil
-            }
-            $0.doneHandler = { [weak self] newTime in
+        
+        timePickerView.dimmedView.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissPickerView(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+        
+        timePickerView.closeButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismissPickerView(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+        
+        timePickerView.completeButton.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                
-                let timeComponents = newTime.split(separator: " ")
-                guard timeComponents.count == 3,
-                      let hour = Int(timeComponents[1].dropLast(1)),
-                      let minute = Int(timeComponents[2].dropLast(1)) else { return }
-                
-                self.selectedTimeRelay.accept([String(timeComponents[0]), hour, minute])
-                
-                self.settingNotificationTimeView?.removeFromSuperview()
-                self.settingNotificationTimeView = nil
-            }
-        }
-
-        guard let settingNotificationTimeView = settingNotificationTimeView else { return }
-        view.addSubview(settingNotificationTimeView)
-
-        settingNotificationTimeView.snp.makeConstraints {
+                self.dismissPickerView(animated: true) {
+                    let selectedTimePeriodsIndex = self.timePickerView.pickerView.selectedRow(inComponent: 0)
+                    let selectedHourIndex = self.timePickerView.pickerView.selectedRow(inComponent: 1)
+                    let selectedMinuteIndex = self.timePickerView.pickerView.selectedRow(inComponent: 2)
+                    
+                    let selectedTimePeriods = self.timePickerView.pickerView.timePeriods[selectedTimePeriodsIndex]
+                    let selectedHour = self.timePickerView.pickerView.hours[selectedHourIndex]
+                    let selectedMinute = self.timePickerView.pickerView.minutes[selectedMinuteIndex]
+                    
+                    let selectedTime = ["\(selectedTimePeriods)", selectedHour, selectedMinute]
+                    output.selectedTimeRelay.accept(selectedTime)
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func setDelegate() {
+        rootView.tableView.dataSource = self
+    }
+    
+    func presentBottomSheet() {
+        timePickerView.isHidden = false
+        timePickerView.dimmedView.alpha = 0.0
+        timePickerView.animateShow()
+    }
+    
+    func setupPickerView() {
+        timePickerView.isHidden = true
+        self.view.addSubview(timePickerView)
+        timePickerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
-}
-
-// MARK: - Extensions
-
-private extension NotificationViewController {
-
-    func bindViewModel() {
-        let input = NotificationViewModel.Input(
-            backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
-        )
-
-        let output = viewModel.transform(from: input, disposeBag: disposeBag)
-        bindOutput(output)
-    }
-
-    func bindOutput(_ output: NotificationViewModel.Output) {
-        output.popViewController
-            .drive(onNext: { [weak self] in
-                self?.navigationController?.popViewController(animated: true)
-            })
-            .disposed(by: disposeBag)
+    
+    func dismissPickerView(animated: Bool, completion: (() -> Void)?) {
+        timePickerView.animateHide {
+            self.timePickerView.isHidden = true
+            completion?()
+        }
     }
 
     // MARK: - Actions
 
     @objc func arrowImageViewTapped() {
-        showPickerView()
+        presentBottomSheet()
     }
 }
 
@@ -154,6 +190,7 @@ extension NotificationViewController: UITableViewDataSource {
         }
     
         cell.configure(with: alarmData, indexPath: indexPath.row)
+        cell.selectionStyle = .none
         
         cell.switchValueChanged = { [weak self] isOn in
             guard let self = self else { return }
@@ -166,21 +203,26 @@ extension NotificationViewController: UITableViewDataSource {
             PermissionManager.shared.checkNotificationPermission(completion: { isAuth in
                 print(isAuth)
                 if isAuth {
-                    self.viewModel.postAlarmChangeAPI(isDiaryAlarm: self.alarmData.isDiaryAlarm, isReplyAlarm: self.alarmData.isReplyAlarm, time: self.alarmData.time, fcmToken: UserManager.shared.fcmTokenValue, completion: { data in
+                    self.viewModel.postAlarmChangeAPI(
+                        isDiaryAlarm: self.alarmData.isDiaryAlarm,
+                        isReplyAlarm: self.alarmData.isReplyAlarm,
+                        time: self.alarmData.time,
+                        completion: { data in
                         guard let response = data.data else { return }
                         
-                        self.alarmData = AlarmModel(isDiaryAlarm: response.isDiaryAlarm, isReplyAlarm: response.isReplyAlarm, time: response.time)
+                        self.alarmData = AlarmModel(
+                            isDiaryAlarm: response.isDiaryAlarm,
+                            isReplyAlarm: response.isReplyAlarm,
+                            time: response.time
+                        )
                         self.rootView.tableView.reloadData()
                     })
                 } else {
                     ClodyToast.show(toastType: .alarm)
                 }
             })
-
         }
         
-        cell.selectionStyle = .none
-
         return cell
     }
 }
