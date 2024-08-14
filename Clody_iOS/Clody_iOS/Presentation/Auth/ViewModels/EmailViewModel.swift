@@ -10,6 +10,12 @@ import UIKit
 import RxCocoa
 import RxSwift
 
+enum EmailInputResult {
+    case empty
+    case error
+    case normal
+}
+
 final class EmailViewModel: ViewModelType {
     
     struct Input {
@@ -22,7 +28,8 @@ final class EmailViewModel: ViewModelType {
     
     struct Output {
         let isTextFieldFocused: Driver<Bool>
-        let nextButtonIsEnabled: Driver<Bool>
+        let nextButtonIsEnabled = BehaviorRelay<Bool>(value: false)
+        let errorMessage: Driver<EmailInputResult>
         let pushViewController: Driver<Void>
         let popViewController: Driver<Void>
     }
@@ -35,12 +42,18 @@ final class EmailViewModel: ViewModelType {
             )
             .asDriver(onErrorJustReturn: false)
         
-        let nextButtonIsEnabled = input.textFieldInputEvent
-            .map {
-                // TODO: 이메일 유효성 검사
-                return $0.count > 0
+        let errorMessage = input.textFieldInputEvent
+            .map { text in
+                if text.count == 0 { return EmailInputResult.empty }
+                
+                let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+                if let _ = text.range(of: emailRegEx, options: .regularExpression) {
+                    return EmailInputResult.normal
+                } else {
+                    return EmailInputResult.error
+                }
             }
-            .asDriver(onErrorJustReturn: false)
+            .asDriver(onErrorJustReturn: EmailInputResult.empty)
         
         let pushViewController = input.nextButtonTapEvent
             .asDriver(onErrorJustReturn: ())
@@ -50,7 +63,7 @@ final class EmailViewModel: ViewModelType {
         
         return Output(
             isTextFieldFocused: isTextFieldFocused,
-            nextButtonIsEnabled: nextButtonIsEnabled,
+            errorMessage: errorMessage,
             pushViewController: pushViewController,
             popViewController: popViewController
         )

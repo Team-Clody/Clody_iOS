@@ -69,9 +69,12 @@ final class ClodyTextField: UIView {
     private var includedComponents: [UIView] = []
     private var errorMessage: String? {
         didSet {
-            messageLabel.text = errorMessage
-            underline.backgroundColor  = .red
-            messageLabel.textColor = .red
+            messageLabel.attributedText = UIFont.pretendardString(
+                text: errorMessage!,
+                style: .detail1_regular,
+                color: .redCustom
+            )
+            underline.backgroundColor  = .redCustom
         }
     }
     var count: Int = 0 {
@@ -148,13 +151,33 @@ extension ClodyTextField {
     
     func showErrorMessage(_ message: String) {
         if !includedComponents.contains(messageLabel) {
-            self.includedComponents.append(messageLabel)
+            includedComponents.append(messageLabel)
         }
         
-        self.errorMessage = message
+        messageLabel.isHidden = false
+        errorMessage = message
+    }
+    
+    func hideErrorMessage() {
+        underline.backgroundColor = .mainYellow
+        
+        switch type {
+        case .email:
+            messageLabel.isHidden = true
+        case .nickname:
+            messageLabel.do {
+                $0.textColor = .grey04
+                $0.attributedText = UIFont.pretendardString(
+                    text: I18N.Common.nicknameCondition,
+                    style: .detail1_regular
+                )
+            }
+        }
     }
     
     func setFocusState(to isFocused: Bool) {
-        underline.backgroundColor = isFocused ? .mainYellow : .grey07
+        if underline.backgroundColor != UIColor.redCustom {
+            underline.backgroundColor = isFocused ? .mainYellow : .grey07
+        }
     }
 }

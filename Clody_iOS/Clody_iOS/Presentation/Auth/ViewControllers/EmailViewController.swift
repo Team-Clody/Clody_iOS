@@ -62,7 +62,7 @@ private extension EmailViewController {
             .asSignal(onErrorJustReturn: false)
         
         let input = EmailViewModel.Input(
-            textFieldInputEvent: clodyTextField.textField.rx.text.orEmpty.asSignal(onErrorJustReturn: ""),
+            textFieldInputEvent: clodyTextField.textField.rx.text.orEmpty.distinctUntilChanged().asSignal(onErrorJustReturn: ""),
             textFieldDidBeginEditing: clodyTextField.textField.rx.controlEvent(.editingDidBegin).asSignal(),
             textFieldDidEndEditing: textFieldDidEndEditing,
             nextButtonTapEvent: rootView.nextButton.rx.tap.asSignal(),
@@ -77,8 +77,24 @@ private extension EmailViewController {
             .disposed(by: disposeBag)
         
         output.nextButtonIsEnabled
-            .drive(onNext: { isEnabled in
+            .bind(onNext: { isEnabled in
                 self.rootView.nextButton.setEnabledState(to: isEnabled)
+            })
+            .disposed(by: disposeBag)
+        
+        output.errorMessage
+            .drive(onNext: { inputResult in
+                switch inputResult {
+                case .empty:
+                    self.clodyTextField.hideErrorMessage()
+                    output.nextButtonIsEnabled.accept(false)
+                case .error:
+                    self.clodyTextField.showErrorMessage(I18N.Common.emailError)
+                    output.nextButtonIsEnabled.accept(false)
+                case .normal:
+                    self.clodyTextField.hideErrorMessage()
+                    output.nextButtonIsEnabled.accept(true)
+                }
             })
             .disposed(by: disposeBag)
         
