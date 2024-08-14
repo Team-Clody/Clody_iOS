@@ -31,6 +31,7 @@ final class WritingDiaryViewController: UIViewController {
     private let tapGestureRecognizer = UITapGestureRecognizer()
     private var alert: ClodyAlert?
     private lazy var dimmingView = UIView()
+    private let alertView = ClodyErrorAlertView()
     
     // MARK: - Life Cycles
     
@@ -148,7 +149,7 @@ private extension WritingDiaryViewController {
                             case .success:
                                 self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isNew: true, isHomeBackButton: true), animated: true)
                             case .network:
-                                self.showErrorView()
+                                self.showErrorAlert()
                             case .unKnowned:
                                 self.showErrorView()
                             }
@@ -377,6 +378,14 @@ private extension WritingDiaryViewController {
         alert!.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
             $0.center.equalToSuperview()
+        }
+    }
+    
+    func showErrorAlert() {
+        self.view.addSubview(alertView)
+        
+        alertView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
 }

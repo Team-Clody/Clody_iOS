@@ -14,13 +14,19 @@ final class ClodyErrorAlertView: BaseView {
     
     // MARK: - UI Components
     
-    let alertContainerVIew = UIView()
+    let dimmedView = UIView()
+    let alertContainerView = UIView()
     let alertImage = UIImageView()
     let titleLabel = UILabel()
     lazy var errorConfirmButton = UIButton()
     
     override func setStyle() {
-        alertContainerVIew.do {
+        
+        dimmedView.do {
+            $0.backgroundColor = .black.withAlphaComponent(0.4)
+        }
+        
+        alertContainerView.do {
             $0.backgroundColor = .white
             $0.makeCornerRound(radius: 12)
         }
@@ -46,31 +52,46 @@ final class ClodyErrorAlertView: BaseView {
             $0.setTitleColor(.grey02, for: .normal)
             let attributedTitle = UIFont.pretendardString(text: "확인", style: .body2_semibold)
             $0.setAttributedTitle(attributedTitle, for: .normal)
+            $0.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         }
     }
     
     override func setHierarchy() {
-        self.addSubview(alertContainerVIew)
-        alertContainerVIew.addSubviews(alertImage, titleLabel, errorConfirmButton)
+        self.addSubviews(dimmedView)
+        dimmedView.addSubview(alertContainerView)
+        alertContainerView.addSubviews(alertImage, titleLabel, errorConfirmButton)
     }
     
     override func setLayout() {
-        alertContainerVIew.snp.makeConstraints {
-            $0.height.equalTo(ScreenUtils.getHeight(46))
-            $0.쟝
+        dimmedView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        alertContainerView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.height.equalTo(193)
+            $0.horizontalEdges.equalToSuperview().inset(24)
         }
         
         alertImage.snp.makeConstraints {
-            $0.verticalEdges.equalToSuperview()
+            $0.size.equalTo(38)
+            $0.top.equalToSuperview().inset(20)
             $0.centerX.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints {
-            $0.size.equalTo(ScreenUtils.getWidth(18))
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(alertImage.snp.bottom).offset(6)
         }
         
         errorConfirmButton.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(25)
+            $0.bottom.equalToSuperview().inset(20)
         }
+    }
+    
+    @objc func confirmButtonTapped() {
+        self.removeFromSuperview()
     }
 }
