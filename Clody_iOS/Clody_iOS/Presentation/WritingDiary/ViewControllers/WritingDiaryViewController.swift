@@ -316,7 +316,7 @@ private extension WritingDiaryViewController {
     private func showLoadingIndicator() {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
-        rootView.dimView.backgroundColor = UIColor.black.withAlphaComponent(0.5) // 어둡게 딤처리된 배경색 설정
+        rootView.dimView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         
         rootView.loadingIndicator.startAnimating()
         rootView.loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -330,7 +330,7 @@ private extension WritingDiaryViewController {
     }
     
     private func hideLoadingIndicator() {
-            navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             
         rootView.loadingIndicator.stopAnimating()
         rootView.loadingIndicator.removeFromSuperview()
