@@ -19,6 +19,8 @@ final class WritingDiaryView: BaseView {
     lazy var saveButton = UIButton()
     lazy var addButton = UIButton()
     let headerView = WritingDiaryHeaderView()
+    let loadingIndicator = UIActivityIndicatorView(style: .large)
+    var dimView = UIView()
     
     // MARK: - Life Cycles
     
