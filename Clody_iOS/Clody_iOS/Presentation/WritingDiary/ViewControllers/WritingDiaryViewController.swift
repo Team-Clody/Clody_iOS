@@ -149,9 +149,9 @@ private extension WritingDiaryViewController {
                             case .success:
                                 self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isNew: true, isHomeBackButton: true), animated: true)
                             case .network:
-                                self.showErrorAlert()
+                                self.showErrorAlert(isNetworkError: true)
                             case .unKnowned:
-                                self.showErrorView()
+                                self.showErrorAlert(isNetworkError: false)
                             }
                         })
                         
@@ -336,8 +336,6 @@ private extension WritingDiaryViewController {
         rootView.loadingIndicator.removeFromSuperview()
         rootView.dimView.removeFromSuperview()
         }
-    
-    func showErrorView() {}
 }
 
 /// Alert 관련 함수입니다.
@@ -381,7 +379,22 @@ private extension WritingDiaryViewController {
         }
     }
     
-    func showErrorAlert() {
+    func showErrorAlert(isNetworkError: Bool) {
+        
+        if isNetworkError {
+            alertView.titleLabel.attributedText = UIFont.pretendardString(
+                text: I18N.Error.network,
+                style: .body3_medium,
+                lineHeightMultiple: 1.5
+            )
+        } else {
+            alertView.titleLabel.attributedText = UIFont.pretendardString(
+                text: I18N.Error.unKnown,
+                style: .body3_medium,
+                lineHeightMultiple: 1.5
+            )
+        }
+        
         self.view.addSubview(alertView)
         
         alertView.snp.makeConstraints {
