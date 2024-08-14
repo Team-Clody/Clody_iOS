@@ -120,7 +120,9 @@ private extension LoginViewController {
         switch statusCode {
         case 200:
             /// 로그인 성공
-            self.navigationController?.pushViewController(CalendarViewController(), animated: true)
+            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                sceneDelegate.changeRootViewController(CalendarViewController(), animated: true)
+            }
         case 404:
             /// 존재하지 않는 유저
             self.signUpInfo.platform = UserManager.shared.platformValue

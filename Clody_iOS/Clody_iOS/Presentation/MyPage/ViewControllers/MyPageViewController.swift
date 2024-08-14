@@ -44,12 +44,6 @@ private extension MyPageViewController {
                 self.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
-        
-        rootView.navigationBar.backButton.rx.tap
-            .subscribe(onNext: {
-                self.navigationController?.popViewController(animated: true)
-            })
-            .disposed(by: disposeBag)
     }
     
     func setUI() {

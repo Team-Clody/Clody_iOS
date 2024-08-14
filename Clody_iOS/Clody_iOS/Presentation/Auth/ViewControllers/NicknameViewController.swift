@@ -132,7 +132,9 @@ extension NicknameViewController {
                 self.navigationController?.pushViewController(DiaryNotificationViewController(), animated: true)
             case 400:
                 /// 이미 가입된 유저
-                self.navigationController?.pushViewController(CalendarViewController(), animated: true)
+                if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                    sceneDelegate.changeRootViewController(CalendarViewController(), animated: true)
+                }
             default:
                 print("😵 서버 에러 - 회원가입에 실패했습니다.")
             }
