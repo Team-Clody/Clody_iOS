@@ -54,9 +54,7 @@
 		0B7222342C65243A005EB365 /* ListEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7222332C65243A005EB365 /* ListEmptyView.swift */; };
 		0B72DA2E2C46C13E00292173 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA2D2C46C13E00292173 /* NotificationViewModel.swift */; };
 		0B72DA302C46C16000292173 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA2F2C46C16000292173 /* NotificationView.swift */; };
-		0B72DA322C46C17800292173 /* SettingNotificationTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA312C46C17800292173 /* SettingNotificationTimeView.swift */; };
 		0B72DA342C46C18F00292173 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA332C46C18F00292173 /* NotificationCell.swift */; };
-		0B72DA362C46C1B800292173 /* NotificationBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA352C46C1B800292173 /* NotificationBottomSheetView.swift */; };
 		0B7B25D62C6276C200FCA10D /* waitingLody.json in Resources */ = {isa = PBXBuildFile; fileRef = 0B7B25D52C6276C200FCA10D /* waitingLody.json */; };
 		0BAAC64E2C43BFD900174A9D /* DeleteBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */; };
 		0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6522C43D74D00174A9D /* ClodyToast.swift */; };
@@ -203,9 +201,7 @@
 		0B7222332C65243A005EB365 /* ListEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEmptyView.swift; sourceTree = "<group>"; };
 		0B72DA2D2C46C13E00292173 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		0B72DA2F2C46C16000292173 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
-		0B72DA312C46C17800292173 /* SettingNotificationTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingNotificationTimeView.swift; sourceTree = "<group>"; };
 		0B72DA332C46C18F00292173 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
-		0B72DA352C46C1B800292173 /* NotificationBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBottomSheetView.swift; sourceTree = "<group>"; };
 		0B7B25D52C6276C200FCA10D /* waitingLody.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = waitingLody.json; sourceTree = "<group>"; };
 		0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBottomSheetView.swift; sourceTree = "<group>"; };
 		0BAAC6522C43D74D00174A9D /* ClodyToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToast.swift; sourceTree = "<group>"; };
@@ -787,8 +783,6 @@
 				2CC0CE742C3C0EE7001F3E6B /* MyPageView.swift */,
 				2CE6378C2C3D56A700B6EC6D /* AccountView.swift */,
 				0B72DA2F2C46C16000292173 /* NotificationView.swift */,
-				0B72DA312C46C17800292173 /* SettingNotificationTimeView.swift */,
-				0B72DA352C46C1B800292173 /* NotificationBottomSheetView.swift */,
 				95FB8AB92C4A5B940060C042 /* ChangeNicknameBottomSheet.swift */,
 			);
 			path = Views;
@@ -1095,7 +1089,6 @@
 				0B4EF9D12C48C39600CAF1F6 /* PermissionManager.swift in Sources */,
 				95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */,
 				95310FB72C43B07100023C7B /* ReplyWaitingViewModel.swift in Sources */,
-				0B72DA322C46C17800292173 /* SettingNotificationTimeView.swift in Sources */,
 				95310F902C40705600023C7B /* NicknameViewController.swift in Sources */,
 				0B7222342C65243A005EB365 /* ListEmptyView.swift in Sources */,
 				95310FC22C45453F00023C7B /* NicknameViewModel.swift in Sources */,
@@ -1150,7 +1143,6 @@
 				0B6C075B2C3E7D570054A0B0 /* WritingDiaryViewController.swift in Sources */,
 				0BE7EA002C4664EC000C5358 /* LoginRequestDTO.swift in Sources */,
 				952EB1942C6A30CC00D1E516 /* EmailViewModel.swift in Sources */,
-				0B72DA362C46C1B800292173 /* NotificationBottomSheetView.swift in Sources */,
 				952EB1992C6BCF7E00D1E516 /* UIViewController+.swift in Sources */,
 				0B6C07432C3DC2DE0054A0B0 /* ListModel.swift in Sources */,
 				0B17F8052C368465008A9998 /* DailyCalendarCollectionViewCell.swift in Sources */,
