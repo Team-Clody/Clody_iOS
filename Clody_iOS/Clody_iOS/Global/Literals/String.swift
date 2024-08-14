@@ -40,8 +40,8 @@ enum I18N {
     }
     
     enum TermsURL {
-        static let terms = "https://naver.com"
-        static let privacy = "https://youtube.com"
+        static let terms = "https://whispering-telephone-3a4.notion.site/38d38a167e8d4f319f9aa24038d7a3fc"
+        static let privacy = "https://whispering-telephone-3a4.notion.site/1b0e3624fbe64800a00c8d4ebca0e0bd?pvs=4"
     }
     
     enum Auth {

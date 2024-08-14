@@ -20,6 +20,7 @@ final class AccountViewController: UIViewController {
     private lazy var changeNicknameBottomSheet = ChangeNicknameBottomSheet()
     private var alert: ClodyAlert?
     private lazy var dimmingView = UIView()
+    private var tapGestureDisposable: Disposable?
     
     // MARK: - Life Cycles
     
@@ -206,6 +207,9 @@ private extension AccountViewController {
     }
     
     func hideChangeNicknameBottomSheet() {
+        tapGestureDisposable?.dispose()
+        tapGestureDisposable = nil
+        
         UIView.animate(withDuration: 0.3, animations: {
             self.dimmingView.alpha = 0
             self.changeNicknameBottomSheet.transform = CGAffineTransform(translationX: 0, y: self.changeNicknameBottomSheet.frame.height)
@@ -230,12 +234,12 @@ private extension AccountViewController {
             $0.bottom.equalToSuperview()
         }
         
-        dimmingView.rx.tapGesture()
+        tapGestureDisposable = dimmingView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.hideChangeNicknameBottomSheet()
             })
-            .disposed(by: disposeBag)
+        tapGestureDisposable!.disposed(by: disposeBag)
     }
     
     func showAlert(
@@ -248,7 +252,7 @@ private extension AccountViewController {
         setAlert()
         view.layoutIfNeeded()
         
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
             self.alert!.alpha = 1
         })
     }
