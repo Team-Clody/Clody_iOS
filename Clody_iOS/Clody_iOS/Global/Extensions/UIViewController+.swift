@@ -114,7 +114,21 @@ extension UIViewController {
         }
     }
     
-    func showRetryView(retryAction: @escaping () -> Void) {
+    func showRetryView(isNetworkError: Bool, retryAction: @escaping () -> Void) {
+        if isNetworkError {
+            errorAlertView.titleLabel.attributedText = UIFont.pretendardString(
+                text: I18N.Error.network,
+                style: .body2_semibold,
+                lineHeightMultiple: 1.5
+            )
+        } else {
+            errorAlertView.titleLabel.attributedText = UIFont.pretendardString(
+                text: I18N.Error.unKnown,
+                style: .body2_semibold,
+                lineHeightMultiple: 1.5
+            )
+        }
+
         self.view.addSubview(errorRetryView)
         
         errorRetryView.snp.makeConstraints {
