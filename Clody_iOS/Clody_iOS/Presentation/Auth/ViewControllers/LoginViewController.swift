@@ -155,6 +155,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         guard let authCode = String(data: authorizationCode, encoding: .utf8),
               let idToken = String(data: identityToken, encoding: .utf8)
         else { return }
+        print("🔑 authCode: \(authCode)\n💳 idToken: \(idToken)")
         
         viewModel.signIn(platform: .apple, authCode: authCode) { statusCode in
             self.handleResultForStatus(statusCode: statusCode, platform: .apple, idToken: idToken)

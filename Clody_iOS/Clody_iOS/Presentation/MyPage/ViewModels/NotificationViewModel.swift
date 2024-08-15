@@ -19,7 +19,7 @@ final class NotificationViewModel: ViewModelType {
     }
     
     struct Output {
-        let selectedTimeRelay = BehaviorRelay<[Any]>(value: ["오후", 9, 30])
+        let selectedTimeRelay = PublishRelay<[Any]>()
         let popViewController: Driver<Void>
     }
 
