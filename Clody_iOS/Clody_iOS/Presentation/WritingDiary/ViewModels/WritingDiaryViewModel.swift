@@ -200,14 +200,19 @@ extension WritingDiaryViewModel {
         self.isFirstRelay.accept(isFirst)
     }
     
-    func postDiary(date: String, content: [String], completion: @escaping (String) -> ()) {
+    func postDiary(date: String, content: [String], completion: @escaping (NetworkViewJudge) -> ()) {
         let provider = Providers.diaryRouter
         let data = PostDiaryRequestDTO(date: date, content: content)
         
         provider.request(target: .postDiary(data: data), instance: BaseResponse<PostDiaryResponseDTO>.self) { data in
+            var dataStatus = NetworkViewJudge.unKnowned
+            switch data.status {
+            case 200..<300: dataStatus = .success
+            case -1: dataStatus = .network
+            default: dataStatus = .unKnowned
+            }
+            completion(dataStatus)
             guard let data = data.data else { return }
-            completion(data.createdAt)
-            print(data)
         }
     }
 }
