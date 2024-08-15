@@ -31,7 +31,6 @@ final class WritingDiaryViewController: UIViewController {
     private let tapGestureRecognizer = UITapGestureRecognizer()
     private var alert: ClodyAlert?
     private lazy var dimmingView = UIView()
-    private let alertView = ClodyErrorAlertView()
     
     // MARK: - Life Cycles
     
@@ -312,30 +311,6 @@ private extension WritingDiaryViewController {
             })
             .disposed(by: disposeBag)
     }
-    
-    private func showLoadingIndicator() {
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        
-        rootView.dimView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
-        
-        rootView.loadingIndicator.startAnimating()
-        rootView.loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
-        rootView.addSubviews(rootView.dimView, rootView.loadingIndicator)
-        rootView.dimView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        rootView.loadingIndicator.snp.makeConstraints {
-            $0.center.equalToSuperview()
-        }
-    }
-    
-    private func hideLoadingIndicator() {
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        
-        rootView.loadingIndicator.stopAnimating()
-        rootView.loadingIndicator.removeFromSuperview()
-        rootView.dimView.removeFromSuperview()
-    }
 }
 
 /// Alert 관련 함수입니다.
@@ -376,29 +351,6 @@ private extension WritingDiaryViewController {
         alert!.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
             $0.center.equalToSuperview()
-        }
-    }
-    
-    func showErrorAlert(isNetworkError: Bool) {
-        
-        if isNetworkError {
-            alertView.titleLabel.attributedText = UIFont.pretendardString(
-                text: I18N.Error.network,
-                style: .body3_medium,
-                lineHeightMultiple: 1.5
-            )
-        } else {
-            alertView.titleLabel.attributedText = UIFont.pretendardString(
-                text: I18N.Error.unKnown,
-                style: .body3_medium,
-                lineHeightMultiple: 1.5
-            )
-        }
-        
-        self.view.addSubview(alertView)
-        
-        alertView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
         }
     }
 }
