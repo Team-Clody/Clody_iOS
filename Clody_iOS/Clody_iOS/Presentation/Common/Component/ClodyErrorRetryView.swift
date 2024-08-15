@@ -19,6 +19,8 @@ final class ClodyErrorRetryView: BaseView {
     lazy var retryButton = UIButton()
     
     override func setStyle() {
+        
+        self.backgroundColor = .white
                 
         errorImage.do {
             $0.image = .errorRetry
@@ -52,7 +54,7 @@ final class ClodyErrorRetryView: BaseView {
         errorImage.snp.makeConstraints {
             $0.width.equalTo(118)
             $0.height.equalTo(87)
-            $0.centerX.equalToSuperview()
+            $0.leading.equalTo(safeAreaLayoutGuide).inset(140)
             $0.top.equalTo(safeAreaLayoutGuide).inset(232)
         }
         

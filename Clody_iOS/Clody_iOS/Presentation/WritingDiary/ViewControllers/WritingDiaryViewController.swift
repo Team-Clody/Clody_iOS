@@ -150,7 +150,7 @@ private extension WritingDiaryViewController {
                                 self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isNew: true, isHomeBackButton: true), animated: true)
                             case .network:
                                 self.showErrorAlert(isNetworkError: true)
-                            case .unKnowned:
+                            case .unknowned:
                                 self.showErrorAlert(isNetworkError: false)
                             }
                         })
@@ -331,11 +331,11 @@ private extension WritingDiaryViewController {
     
     private func hideLoadingIndicator() {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-            
+        
         rootView.loadingIndicator.stopAnimating()
         rootView.loadingIndicator.removeFromSuperview()
         rootView.dimView.removeFromSuperview()
-        }
+    }
 }
 
 /// Alert 관련 함수입니다.
