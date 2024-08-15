@@ -15,6 +15,7 @@ extension UIViewController {
         static var dimmingView = "dimmingView"
         static var errorAlertView = "errorAlertView"
         static var errorRetryView = "errorRetryView"
+        static var retryAction = "retryAction"
     }
     
     private var loadingIndicator: UIActivityIndicatorView {
@@ -123,17 +124,17 @@ extension UIViewController {
         errorRetryView.retryButton.addTarget(self, action: #selector(retryButtonTapped), for: .touchUpInside)
         
         // Store the retry action
-        objc_setAssociatedObject(self, &AssociatedKeys.errorRetryView, retryAction, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+        objc_setAssociatedObject(self, &AssociatedKeys.retryAction, retryAction, .OBJC_ASSOCIATION_COPY_NONATOMIC)
     }
     
-    @objc private func retryButtonTapped() {
-        hideRetryView()
-        
-        // Execute the stored retry action
-        if let retryAction = objc_getAssociatedObject(self, &AssociatedKeys.errorRetryView) as? () -> Void {
-            retryAction()
-        }
+@objc private func retryButtonTapped() {
+    hideRetryView()
+    
+    // Execute the stored retry action
+    if let retryAction = objc_getAssociatedObject(self, &AssociatedKeys.retryAction) as? () -> Void {
+        retryAction()
     }
+}
     
     func hideRetryView() {
         errorRetryView.removeFromSuperview()

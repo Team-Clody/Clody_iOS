@@ -150,7 +150,10 @@ private extension WritingDiaryViewController {
                             case .network:
                                 self.showErrorAlert(isNetworkError: true)
                             case .unknowned:
-                                self.showErrorAlert(isNetworkError: false)
+//                                self.showErrorAlert(isNetworkError: false)
+                                self.showRetryView {
+                                    self.viewModel.postDiary(date: dateString, content: self.viewModel.diariesRelay.value, completion: {_ in })
+                                }
                             }
                         })
                         
