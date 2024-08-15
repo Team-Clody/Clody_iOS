@@ -31,7 +31,7 @@ final class ClodyErrorRetryView: BaseView {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(
                 text: I18N.Error.unKnown,
-                style: .body3_medium,
+                style: .body2_semibold,
                 lineHeightMultiple: 1.5
             )
             $0.numberOfLines = 2
