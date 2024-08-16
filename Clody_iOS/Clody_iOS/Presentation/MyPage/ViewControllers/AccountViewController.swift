@@ -207,6 +207,13 @@ final class AccountViewController: UIViewController {
                     .disposed(by: self.disposeBag)
             })
             .disposed(by: disposeBag)
+        
+        changeNicknameBottomSheet.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.view.endEditing(true)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setKeyboardNotifications() {
@@ -253,6 +260,12 @@ private extension AccountViewController {
     }
     
     func setBottomSheet() {
+        changeNicknameBottomSheet.do {
+            $0.clodyTextField.count = 0
+            $0.clodyTextField.hideErrorMessage()
+            $0.clodyTextField.setFocusState(to: false)
+            textField.text = nil
+        }
         dimmingView.alpha = 0
         dimmingView.backgroundColor = .black.withAlphaComponent(0.4)
         view.addSubviews(dimmingView, changeNicknameBottomSheet)
