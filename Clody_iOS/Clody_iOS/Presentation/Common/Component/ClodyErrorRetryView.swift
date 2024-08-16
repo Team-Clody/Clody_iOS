@@ -35,6 +35,7 @@ final class ClodyErrorRetryView: BaseView {
                 lineHeightMultiple: 1.5
             )
             $0.numberOfLines = 2
+            $0.textAlignment = .center
         }
         
         retryButton.do {
@@ -54,7 +55,7 @@ final class ClodyErrorRetryView: BaseView {
         errorImage.snp.makeConstraints {
             $0.width.equalTo(118)
             $0.height.equalTo(87)
-            $0.leading.equalTo(safeAreaLayoutGuide).inset(140)
+            $0.leading.equalTo(titleLabel.snp.leading).offset(36)
             $0.top.equalTo(safeAreaLayoutGuide).inset(232)
         }
         
