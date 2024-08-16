@@ -43,11 +43,27 @@ final class LoginViewModel: ViewModelType {
 
 extension LoginViewModel {
     
-    func signIn(platform: LoginPlatformType, authCode: String, completion: @escaping (Int) -> ()) {
-        UserManager.shared.platform = platform.rawValue
-        UserManager.shared.authCode = authCode
+    /// 카카오 로그인
+    func signIn(authCode: String, completion: @escaping (Int) -> ()) {
+        UserManager.shared.platform = LoginPlatformType.kakao.rawValue
         APIConstants.authCode = authCode
+            
+        signIn() { statusCode in
+            completion(statusCode)
+        }
+    }
+    
+    /// 애플 로그인
+    func signIn(idToken: String, completion: @escaping (Int) -> ()) {
+        UserManager.shared.platform = LoginPlatformType.apple.rawValue
+        APIConstants.authCode = idToken
         
+        signIn() { statusCode in
+            completion(statusCode)
+        }
+    }
+    
+    private func signIn(completion: @escaping (Int) -> ()) {
         Providers.authProvider.request(
             target: .signIn(data: LoginRequestDTO(platform: UserManager.shared.platformValue)),
             instance: BaseResponse<LoginResponseDTO>.self

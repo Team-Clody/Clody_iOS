@@ -11,5 +11,4 @@ struct SignUpInfoModel {
     var platform: String
     var email: String
     var name: String
-    var id_token: String
 }

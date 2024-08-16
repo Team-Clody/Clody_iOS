@@ -23,8 +23,7 @@ final class LoginViewController: UIViewController {
     private lazy var signUpInfo = SignUpInfoModel(
         platform: "",
         email: "",
-        name: "",
-        id_token: ""
+        name: ""
     )
     
     // MARK: - UI Components
@@ -96,7 +95,7 @@ private extension LoginViewController {
                     print("❗️유저 정보 가져오기 실패 - \(error)")
                 } else {
                     if let oauthToken = oauthToken {
-                        self.viewModel.signIn(platform: .kakao, authCode: oauthToken.accessToken) { statusCode in
+                        self.viewModel.signIn(authCode: oauthToken.accessToken) { statusCode in
                             self.handleResultForStatus(statusCode: statusCode, platform: .kakao)
                         }
                     }
@@ -116,7 +115,7 @@ private extension LoginViewController {
         authorizationController.performRequests()
     }
     
-    func handleResultForStatus(statusCode: Int, platform: LoginPlatformType, idToken: String? = nil) {
+    func handleResultForStatus(statusCode: Int, platform: LoginPlatformType) {
         switch statusCode {
         case 200:
             /// 로그인 성공
@@ -126,16 +125,15 @@ private extension LoginViewController {
         case 404:
             /// 존재하지 않는 유저
             self.signUpInfo.platform = UserManager.shared.platformValue
-            self.handleResultForPlatform(platform: platform, idToken: idToken)
+            self.handleResultForPlatform(platform: platform)
         default:
             print("😵 서버 에러 - 로그인에 실패했습니다.")
         }
     }
     
-    func handleResultForPlatform(platform: LoginPlatformType, idToken: String?) {
+    func handleResultForPlatform(platform: LoginPlatformType) {
         switch platform {
         case .apple:
-            self.signUpInfo.id_token = idToken!
             self.navigationController?.pushViewController(EmailViewController(signUpInfo: self.signUpInfo), animated: true)
         case .kakao:
             self.navigationController?.pushViewController(TermsViewController(signUpInfo: self.signUpInfo), animated: true)
@@ -147,18 +145,15 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
-              let authorizationCode = credential.authorizationCode,
               let identityToken = credential.identityToken
         else { return }
         print("✅ 애플 로그인 성공")
         
-        guard let authCode = String(data: authorizationCode, encoding: .utf8),
-              let idToken = String(data: identityToken, encoding: .utf8)
-        else { return }
-        print("🔑 authCode: \(authCode)\n💳 idToken: \(idToken)")
+        guard let idToken = String(data: identityToken, encoding: .utf8) else { return }
+        print("💳 idToken: \(idToken)")
         
-        viewModel.signIn(platform: .apple, authCode: authCode) { statusCode in
-            self.handleResultForStatus(statusCode: statusCode, platform: .apple, idToken: idToken)
+        viewModel.signIn(idToken: idToken) { statusCode in
+            self.handleResultForStatus(statusCode: statusCode, platform: .apple)
         }
     }
     

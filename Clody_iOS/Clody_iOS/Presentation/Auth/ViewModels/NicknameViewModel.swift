@@ -25,7 +25,7 @@ final class NicknameViewModel: ViewModelType {
         let isTextFieldFocused: Driver<Bool>
         let nextButtonIsEnabled = BehaviorRelay<Bool>(value: false)
         let errorMessage: Driver<TextFieldInputResult>
-        let pushViewController: Driver<Void>
+        let signUp: Driver<Void>
         let popViewController: Driver<Void>
     }
     
@@ -53,7 +53,7 @@ final class NicknameViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: TextFieldInputResult.empty)
         
-        let pushViewController = input.nextButtonTapEvent
+        let signUp = input.nextButtonTapEvent
             .asDriver(onErrorJustReturn: ())
         
         let popViewController = input.backButtonTapEvent
@@ -63,7 +63,7 @@ final class NicknameViewModel: ViewModelType {
             charCountDidChange: charCountDidChange,
             isTextFieldFocused: isTextFieldFocused,
             errorMessage: errorMessage,
-            pushViewController: pushViewController,
+            signUp: signUp,
             popViewController: popViewController
         )
     }
@@ -77,8 +77,7 @@ extension NicknameViewModel {
                 data: SignUpRequestDTO(
                     platform: signUpInfo.platform,
                     email: signUpInfo.email,
-                    name: signUpInfo.name,
-                    id_token: signUpInfo.id_token
+                    name: signUpInfo.name
                 )
             ),
             instance: BaseResponse<SignUpResponseDTO>.self

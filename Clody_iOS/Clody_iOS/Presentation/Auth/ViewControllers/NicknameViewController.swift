@@ -111,8 +111,7 @@ private extension NicknameViewController {
             })
             .disposed(by: disposeBag)
         
-        
-        output.pushViewController
+        output.signUp
             .drive(onNext: {
                 guard let nickname = self.clodyTextField.textField.text else { return }
                 self.signUpInfo.name = nickname

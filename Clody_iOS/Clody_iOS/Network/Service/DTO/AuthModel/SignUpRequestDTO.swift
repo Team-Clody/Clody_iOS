@@ -11,5 +11,4 @@ struct SignUpRequestDTO: Codable {
     let platform: String
     let email: String
     let name: String
-    let id_token: String
 }
