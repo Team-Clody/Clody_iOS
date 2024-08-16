@@ -117,6 +117,7 @@ extension ClodyTextField {
             $0.autocapitalizationType = .none 
             $0.autocorrectionType = .no
             $0.spellCheckingType = .no
+            $0.keyboardType = (type == .email) ? .emailAddress : .default
             $0.backgroundColor = .clear
             $0.font = .pretendard(.body1_medium)
             $0.textColor = .grey03
