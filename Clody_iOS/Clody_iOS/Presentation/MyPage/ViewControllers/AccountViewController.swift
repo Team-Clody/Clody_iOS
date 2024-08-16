@@ -18,6 +18,7 @@ final class AccountViewController: UIViewController {
     
     private let rootView = AccountView()
     private lazy var changeNicknameBottomSheet = ChangeNicknameBottomSheet()
+    private lazy var textField = changeNicknameBottomSheet.clodyTextField.textField
     private var alert: ClodyAlert?
     private lazy var dimmingView = UIView()
     private var tapGestureDisposable: Disposable?
@@ -44,41 +45,70 @@ final class AccountViewController: UIViewController {
     // MARK: - Extensions
     
     private func bindViewModel() {
+        let textFieldDidEndEditing = textField.rx.controlEvent(.editingDidEnd)
+            .map {
+                guard let text = self.changeNicknameBottomSheet.clodyTextField.textField.text else { return false }
+                return !text.isEmpty
+            }
+            .asSignal(onErrorJustReturn: false)
+        
         let input = AccountViewModel.Input(
+            textFieldInputEvent: textField.rx.text.orEmpty.distinctUntilChanged().asSignal(onErrorJustReturn: ""),
+            textFieldDidBeginEditing: textField.rx.controlEvent(.editingDidBegin).asSignal(),
+            textFieldDidEndEditing: textFieldDidEndEditing, 
+            changeNicknameButtonTapEvent: changeNicknameBottomSheet.doneButton.rx.tap.asSignal(),
             backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
-        output.popViewController
-            .drive(onNext: {
-                self.navigationController?.popViewController(animated: true)
-            })
-            .disposed(by: disposeBag)
-        
-        changeNicknameBottomSheet.textField.textField.rx.text
+        textField.rx.text
             .orEmpty
             .map { String($0.prefix(self.maxLength)) }
-            .bind(to: self.changeNicknameBottomSheet.textField.textField.rx.text)
+            .bind(to: self.textField.rx.text)
             .disposed(by: disposeBag)
         
-        viewModel.isLogoutButtonEnabled
-            .bind(to: rootView.logoutButton.rx.isEnabled)
-            .disposed(by: disposeBag)
-        
-        changeNicknameBottomSheet.textField.textField.rx.text
-            .orEmpty
-            .map { $0.count }
-            .subscribe(onNext: { [weak self] count in
-                self?.changeNicknameBottomSheet.textField.countLabel.text = "\(count)"
+        output.charCountDidChange
+            .drive(onNext: { text in
+                self.changeNicknameBottomSheet.clodyTextField.count = text.count
             })
             .disposed(by: disposeBag)
         
-        changeNicknameBottomSheet.textField.textField.rx.text
-            .orEmpty
-            .map { !$0.isEmpty }
-            .subscribe(onNext: { isEnabled in
+        output.isTextFieldFocused
+            .drive(onNext: { isFocused in
+                self.changeNicknameBottomSheet.clodyTextField.setFocusState(to: isFocused)
+            })
+            .disposed(by: disposeBag)
+        
+        output.isDoneButtonEnabled
+            .bind(onNext: { isEnabled in
                 self.changeNicknameBottomSheet.doneButton.setEnabledState(to: isEnabled)
+            })
+            .disposed(by: disposeBag)
+        
+        output.errorMessage
+            .drive(onNext: { inputResult in
+                switch inputResult {
+                case .empty:
+                    self.changeNicknameBottomSheet.clodyTextField.hideErrorMessage()
+                    output.isDoneButtonEnabled.accept(false)
+                case .error:
+                    self.changeNicknameBottomSheet.clodyTextField.showErrorMessage(I18N.Common.nicknameError)
+                    output.isDoneButtonEnabled.accept(false)
+                case .normal:
+                    self.changeNicknameBottomSheet.clodyTextField.hideErrorMessage()
+                    output.isDoneButtonEnabled.accept(true)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        output.changeNickname
+            .drive(onNext: {
+                self.hideChangeNicknameBottomSheet()
+                guard let nickname = self.textField.text else { return }
+                self.viewModel.patchNickNameChange(nickname: nickname) { nickname in
+                    self.rootView.nicknameLabel.attributedText = UIFont.pretendardString(text: nickname, style: .body1_semibold)
+                }
             })
             .disposed(by: disposeBag)
         
@@ -86,6 +116,12 @@ final class AccountViewController: UIViewController {
             self?.rootView.nicknameLabel.text = userInfo.name
             self?.rootView.emailLabel.text = userInfo.email
         }
+        
+        output.popViewController
+            .drive(onNext: {
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
         
         output.userInfo
             .drive(onNext: { [weak self] name, email in
@@ -103,16 +139,6 @@ final class AccountViewController: UIViewController {
         changeNicknameBottomSheet.navigationBar.xButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 self?.hideChangeNicknameBottomSheet()
-            })
-            .disposed(by: disposeBag)
-        
-        changeNicknameBottomSheet.doneButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.hideChangeNicknameBottomSheet()
-                guard let nickname = self?.changeNicknameBottomSheet.textField.textField.text else { return }
-                self?.viewModel.patchNickNameChange(nickname: nickname) { nickname in
-                    self?.rootView.nicknameLabel.attributedText = UIFont.pretendardString(text: nickname, style: .body1_semibold)
-                }
             })
             .disposed(by: disposeBag)
         
