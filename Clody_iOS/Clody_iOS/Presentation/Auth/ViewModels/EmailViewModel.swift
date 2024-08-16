@@ -10,7 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-enum EmailInputResult {
+enum TextFieldInputResult {
     case empty
     case error
     case normal
@@ -29,7 +29,7 @@ final class EmailViewModel: ViewModelType {
     struct Output {
         let isTextFieldFocused: Driver<Bool>
         let nextButtonIsEnabled = BehaviorRelay<Bool>(value: false)
-        let errorMessage: Driver<EmailInputResult>
+        let errorMessage: Driver<TextFieldInputResult>
         let pushViewController: Driver<Void>
         let popViewController: Driver<Void>
     }
@@ -44,16 +44,16 @@ final class EmailViewModel: ViewModelType {
         
         let errorMessage = input.textFieldInputEvent
             .map { text in
-                if text.count == 0 { return EmailInputResult.empty }
+                if text.count == 0 { return TextFieldInputResult.empty }
                 
                 let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
                 if let _ = text.range(of: emailRegEx, options: .regularExpression) {
-                    return EmailInputResult.normal
+                    return TextFieldInputResult.normal
                 } else {
-                    return EmailInputResult.error
+                    return TextFieldInputResult.error
                 }
             }
-            .asDriver(onErrorJustReturn: EmailInputResult.empty)
+            .asDriver(onErrorJustReturn: TextFieldInputResult.empty)
         
         let pushViewController = input.nextButtonTapEvent
             .asDriver(onErrorJustReturn: ())

@@ -23,7 +23,8 @@ final class NicknameViewModel: ViewModelType {
     struct Output {
         let charCountDidChange: Driver<String>
         let isTextFieldFocused: Driver<Bool>
-        let nextButtonIsEnabled: Driver<Bool>
+        let nextButtonIsEnabled = BehaviorRelay<Bool>(value: false)
+        let errorMessage: Driver<TextFieldInputResult>
         let pushViewController: Driver<Void>
         let popViewController: Driver<Void>
     }
@@ -39,11 +40,18 @@ final class NicknameViewModel: ViewModelType {
             )
             .asDriver(onErrorJustReturn: false)
         
-        let nextButtonIsEnabled = input.textFieldInputEvent
-            .map {
-                return $0.count > 0
+        let errorMessage = input.textFieldInputEvent
+            .map { text in
+                if text.count == 0 { return TextFieldInputResult.empty }
+                
+                let nicknameRegEx = "^[가-힣a-zA-Z0-9]+${1,10}"
+                if let _ = text.range(of: nicknameRegEx, options: .regularExpression) {
+                    return TextFieldInputResult.normal
+                } else {
+                    return TextFieldInputResult.error
+                }
             }
-            .asDriver(onErrorJustReturn: false)
+            .asDriver(onErrorJustReturn: TextFieldInputResult.empty)
         
         let pushViewController = input.nextButtonTapEvent
             .asDriver(onErrorJustReturn: ())
@@ -54,7 +62,7 @@ final class NicknameViewModel: ViewModelType {
         return Output(
             charCountDidChange: charCountDidChange,
             isTextFieldFocused: isTextFieldFocused,
-            nextButtonIsEnabled: nextButtonIsEnabled,
+            errorMessage: errorMessage,
             pushViewController: pushViewController,
             popViewController: popViewController
         )
