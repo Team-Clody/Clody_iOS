@@ -69,8 +69,7 @@ extension UIViewController {
     }
     
     func showLoadingIndicator() {
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        
+
         view.addSubviews(dimmingView, loadingIndicator)
         
         dimmingView.snp.makeConstraints {
@@ -85,7 +84,6 @@ extension UIViewController {
     }
     
     func hideLoadingIndicator() {
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         loadingIndicator.stopAnimating()
         loadingIndicator.removeFromSuperview()
