@@ -15,6 +15,8 @@
 		0B20F3E12C2C4DAA00F8D62D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B20F3E02C2C4DAA00F8D62D /* ViewController.swift */; };
 		0B20F3E62C2C4DAB00F8D62D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */; };
 		0B20F3E92C2C4DAB00F8D62D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 0B20F3E82C2C4DAB00F8D62D /* Base */; };
+		0B3DC0882C6CD77C0021AC61 /* ClodyErrorRetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3DC0872C6CD77C0021AC61 /* ClodyErrorRetryView.swift */; };
+		0B3DC08A2C6DA2D20021AC61 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3DC0892C6DA2D20021AC61 /* UIViewController+.swift */; };
 		0B4A1BB92C44E59B00E31EC4 /* DatePickeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BB82C44E59B00E31EC4 /* DatePickeView.swift */; };
 		0B4A1BBC2C453F8400E31EC4 /* AuthIntercepter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BBB2C453F8400E31EC4 /* AuthIntercepter.swift */; };
 		0B4A1BBE2C453F9600E31EC4 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BBD2C453F9600E31EC4 /* NetworkProvider.swift */; };
@@ -164,6 +166,8 @@
 		0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B20F3E82C2C4DAB00F8D62D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B20F3EA2C2C4DAB00F8D62D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B3DC0872C6CD77C0021AC61 /* ClodyErrorRetryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyErrorRetryView.swift; sourceTree = "<group>"; };
+		0B3DC0892C6DA2D20021AC61 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		0B4A1BB82C44E59B00E31EC4 /* DatePickeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickeView.swift; sourceTree = "<group>"; };
 		0B4A1BBB2C453F8400E31EC4 /* AuthIntercepter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthIntercepter.swift; sourceTree = "<group>"; };
 		0B4A1BBD2C453F9600E31EC4 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
@@ -563,6 +567,7 @@
 				2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */,
 				0B190F0A2C380F5300D46CFC /* DateFormatter+.swift */,
 				0B4EF9CE2C478AAF00CAF1F6 /* Date+.swift */,
+				0B3DC0892C6DA2D20021AC61 /* UIViewController+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -929,6 +934,7 @@
 				0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */,
 				95310FB82C43DFF300023C7B /* GetCloverAlertView.swift */,
 				0B72224A2C6B9B0C005EB365 /* ClodyErrorAlertView.swift */,
+				0B3DC0872C6CD77C0021AC61 /* ClodyErrorRetryView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1050,6 +1056,7 @@
 				95310FAB2C42D9EC00023C7B /* ReplyDetailViewController.swift in Sources */,
 				0B6C075D2C3E7D660054A0B0 /* WritingDiaryView.swift in Sources */,
 				0BE7EA152C466CC2000C5358 /* PatchNicknameResponseDTO.swift in Sources */,
+				0B3DC0882C6CD77C0021AC61 /* ClodyErrorRetryView.swift in Sources */,
 				0B4A1BC82C45402800E31EC4 /* NetworkResult.swift in Sources */,
 				2C0B3C822C30DB56002EB1A3 /* UIFont+.swift in Sources */,
 				95310F8E2C401BED00023C7B /* TermsViewController.swift in Sources */,
@@ -1152,6 +1159,7 @@
 				0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */,
 				0BE7EA0F2C466AEE000C5358 /* PostAlarmSetResponseDTO.swift in Sources */,
 				0B20F3DF2C2C4DAA00F8D62D /* SceneDelegate.swift in Sources */,
+				0B3DC08A2C6DA2D20021AC61 /* UIViewController+.swift in Sources */,
 				2CE6378D2C3D56A700B6EC6D /* AccountView.swift in Sources */,
 				2CC0CE732C3C0ED9001F3E6B /* MyPageTableViewCell.swift in Sources */,
 				0B72DA342C46C18F00292173 /* NotificationCell.swift in Sources */,
