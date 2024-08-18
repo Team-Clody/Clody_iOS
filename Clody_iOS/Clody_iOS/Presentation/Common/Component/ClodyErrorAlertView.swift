@@ -44,6 +44,7 @@ final class ClodyErrorAlertView: BaseView {
                 lineHeightMultiple: 1.5
             )
             $0.numberOfLines = 2
+            $0.textAlignment = .center
         }
         
         errorConfirmButton.do {
