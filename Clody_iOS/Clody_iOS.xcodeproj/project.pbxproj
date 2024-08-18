@@ -62,6 +62,7 @@
 		0BAAC64E2C43BFD900174A9D /* DeleteBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */; };
 		0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6522C43D74D00174A9D /* ClodyToast.swift */; };
 		0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */; };
+		0BABF7BE2C722313005A5CA1 /* AppVersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */; };
 		0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC373522C3FCC2600C45072 /* ViewModelType.swift */; };
 		0BC373562C3FCF0F00C45072 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 0BC373552C3FCF0F00C45072 /* RxKeyboard */; };
 		0BC373592C4003A900C45072 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 0BC373582C4003A900C45072 /* RxGesture */; };
@@ -207,6 +208,7 @@
 		0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBottomSheetView.swift; sourceTree = "<group>"; };
 		0BAAC6522C43D74D00174A9D /* ClodyToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToast.swift; sourceTree = "<group>"; };
 		0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToastView.swift; sourceTree = "<group>"; };
+		0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionManager.swift; sourceTree = "<group>"; };
 		0BC373522C3FCC2600C45072 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		0BCD4FA22C35B59C006390D2 /* Clody_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clody_iOS.entitlements; sourceTree = "<group>"; };
 		0BE7E9E92C45B0B8000C5358 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -503,6 +505,7 @@
 			children = (
 				0BE7E9E92C45B0B8000C5358 /* UserManager.swift */,
 				0B4EF9D02C48C39600CAF1F6 /* PermissionManager.swift */,
+				0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1075,6 +1078,7 @@
 				95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */,
 				95310FB72C43B07100023C7B /* ReplyWaitingViewModel.swift in Sources */,
 				0B72DA322C46C17800292173 /* SettingNotificationTimeView.swift in Sources */,
+				0BABF7BE2C722313005A5CA1 /* AppVersionManager.swift in Sources */,
 				95310F902C40705600023C7B /* NicknameViewController.swift in Sources */,
 				0B7222342C65243A005EB365 /* ListEmptyView.swift in Sources */,
 				95310FC22C45453F00023C7B /* NicknameViewModel.swift in Sources */,
