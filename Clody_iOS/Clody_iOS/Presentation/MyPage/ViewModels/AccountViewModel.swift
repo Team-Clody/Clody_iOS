@@ -94,12 +94,19 @@ extension AccountViewModel {
         completion()
     }
 
-    func withdraw(completion: @escaping (Int) -> ()) {
+    func withdraw(completion: @escaping (NetworkViewJudge) -> ()) {
         Providers.authProvider.request(target: .revoke, instance: BaseResponse<EmptyResponseDTO>.self) { response in
-            if response.status == 200 {
+            var dataStatus: NetworkViewJudge
+            
+            switch response.status {
+            case 200..<300: 
                 UserManager.shared.clearAll()
+                dataStatus = .success
+            case -1: dataStatus = .network
+            default: dataStatus = .unknowned
             }
-            completion(response.status)
+            
+            completion(dataStatus)
         }
     }
 }
