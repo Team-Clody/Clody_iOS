@@ -54,7 +54,7 @@ class AppVersionManager {
     }
     
     private func openAppStore() {
-        if let url = URL(string: "https://apps.apple.com/app/idYOUR_APP_ID") {
+        if let url = URL(string: "https://apps.apple.com/app/6511215518") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
