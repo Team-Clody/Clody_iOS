@@ -70,5 +70,5 @@ extension NetworkError {
 enum NetworkViewJudge {
     case success
     case network
-    case unKnowned
+    case unknowned
 }

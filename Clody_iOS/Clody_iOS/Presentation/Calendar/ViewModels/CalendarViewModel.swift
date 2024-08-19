@@ -39,12 +39,16 @@ final class CalendarViewModel: ViewModelType {
         let diaryDeleted: Signal<Void>
         let navigateToResponse: Signal<Void>
         let showDelete: Signal<Void>
+        let isLoading: Driver<Bool>
+        let errorStatus: Driver<String>
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
     let monthlyCalendarDataRelay = BehaviorRelay<CalendarMonthlyResponseDTO>(value: CalendarMonthlyResponseDTO(totalCloverCount: 0, diaries: [MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false)]))
     let dailyDiaryDataRelay = BehaviorRelay<GetDiaryResponseDTO>(value: GetDiaryResponseDTO(diaries: [], isDeleted: false))
     let currentPageRelay = BehaviorRelay<[String]>(value: ["\(Date().dateToYearMonthDay().0)", "\(Date().dateToYearMonthDay().1)"])
+    let isLoadingRelay = PublishRelay<Bool>()
+    let errorStatusRelay = PublishRelay<String>()
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
@@ -62,7 +66,7 @@ final class CalendarViewModel: ViewModelType {
                 let day = DateFormatter.string(from: date, format: "dd")
                 
                 self.selectedDateRelay.accept(date)
-                self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
+                self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0, completion: {})
             })
             .disposed(by: disposeBag)
         
@@ -73,7 +77,7 @@ final class CalendarViewModel: ViewModelType {
                 let year = date[0]
                 let month = date[1]
                 
-                self.getMonthlyCalendar(year: Int(year) ?? 0, month: Int(month) ?? 0)
+                self.getMonthlyCalendar(year: Int(year) ?? 0, month: Int(month) ?? 0, completion: {})
             })
             .disposed(by: disposeBag)
         
@@ -136,6 +140,11 @@ final class CalendarViewModel: ViewModelType {
         
         let showDelete = input.tapDeleteButton.asSignal()
         
+        let isLoading = isLoadingRelay.asDriver(onErrorJustReturn: false)
+        
+        let errorStatus = errorStatusRelay.asDriver(onErrorJustReturn: "")
+        
+        
         return Output(
             dateLabel: dateLabel,
             selectedDate: selectedDate,
@@ -150,44 +159,70 @@ final class CalendarViewModel: ViewModelType {
             currentPage: currentPage,
             diaryDeleted: diaryDeleted,
             navigateToResponse: navigateToResponse,
-            showDelete: showDelete
+            showDelete: showDelete,
+            isLoading: isLoading,
+            errorStatus: errorStatus
         )
     }
 }
 
 extension CalendarViewModel {
     
-    func getMonthlyCalendar(year: Int, month: Int) {
+    func getMonthlyCalendar(year: Int, month: Int, completion: @escaping () -> Void) {
+        isLoadingRelay.accept(true)
         let provider = Providers.calendarProvider
         
-        provider.request(target: .getMonthlyCalendar(year: year, month: month), instance: BaseResponse<CalendarMonthlyResponseDTO>.self, completion: { data in
-            guard let data = data.data else { return }
-            
-            self.monthlyCalendarDataRelay.accept(data)
-            
+        provider.request(target: .getMonthlyCalendar(year: year, month: month), instance: BaseResponse<CalendarMonthlyResponseDTO>.self) { [weak self] data in
+            guard let self = self else { return }
+            switch data.status {
+            case 200..<300:
+                guard let data = data.data else { return }
+                self.monthlyCalendarDataRelay.accept(data)
+                completion()
+            case -1:
+                self.errorStatusRelay.accept("networkView")
+            default:
+                self.errorStatusRelay.accept("unknownedView")
+            }
             self.currentPageRelay.accept([String(year), String(month)])
-        })
+            self.isLoadingRelay.accept(false)
+        }
     }
     
-    func getDailyCalendarData(year: Int, month: Int, date: Int) {
+    func getDailyCalendarData(year: Int, month: Int, date: Int, completion: @escaping () -> Void) {
+        isLoadingRelay.accept(true)
         let provider = Providers.diaryRouter
         
-        provider.request(target: .getDailyDiary(year: year, month: month, date: date), instance: BaseResponse<GetDiaryResponseDTO>.self, completion: { data in
-            
-            guard let data = data.data else { return }
-            
-            self.dailyDiaryDataRelay.accept(data)
-        })
+        provider.request(target: .getDailyDiary(year: year, month: month, date: date), instance: BaseResponse<GetDiaryResponseDTO>.self) { [weak self] data in
+            guard let self = self else { return }
+            switch data.status {
+            case 200..<300:
+                guard let data = data.data else { return }
+                self.dailyDiaryDataRelay.accept(data)
+            case -1:
+                self.errorStatusRelay.accept("networkAlert")
+            default:
+                self.errorStatusRelay.accept("unknownedAlert")
+            }
+            self.isLoadingRelay.accept(false)
+            completion()  
+        }
     }
     
     func deleteDiary(year: Int, month: Int, date: Int) {
+        isLoadingRelay.accept(true)
         let provider = Providers.diaryRouter
         
         provider.request(target: .deleteDiary(year: year, month: month, date: date), instance: BaseResponse<EmptyResponseDTO>.self, completion: { data in
-            guard let data = data.data else { return }
-            
-            self.getMonthlyCalendar(year: year, month: month)
-            self.getDailyCalendarData(year: year, month: month, date: date)
+            switch data.status {
+            case 200..<300:
+                self.fetchData()
+            case -1:
+                self.errorStatusRelay.accept("networkAlert")
+            default:
+                self.errorStatusRelay.accept("unknownedAlert")
+            }
+            self.isLoadingRelay.accept(false)
         })
     }
     
@@ -199,7 +234,8 @@ extension CalendarViewModel {
         let monthlyYear = currentPageRelay.value[0]
         let monthlyMonth = currentPageRelay.value[1]
         
-        self.getDailyCalendarData(year: Int(dailyYear) ?? 0, month: Int(dailyMonth) ?? 0, date: Int(dailyDay) ?? 0)
-        self.getMonthlyCalendar(year: Int(monthlyYear) ?? 0, month: Int(monthlyMonth) ?? 0)
+        self.getMonthlyCalendar(year: Int(monthlyYear) ?? 0, month: Int(monthlyMonth) ?? 0, completion: {
+            self.getDailyCalendarData(year: Int(dailyYear) ?? 0, month: Int(dailyMonth) ?? 0, date: Int(dailyDay) ?? 0, completion: {})
+        })
     }
 }

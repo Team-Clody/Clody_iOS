@@ -205,11 +205,11 @@ extension WritingDiaryViewModel {
         let data = PostDiaryRequestDTO(date: date, content: content)
         
         provider.request(target: .postDiary(data: data), instance: BaseResponse<PostDiaryResponseDTO>.self) { data in
-            var dataStatus = NetworkViewJudge.unKnowned
+            var dataStatus = NetworkViewJudge.unknowned
             switch data.status {
             case 200..<300: dataStatus = .success
             case -1: dataStatus = .network
-            default: dataStatus = .unKnowned
+            default: dataStatus = .unknowned
             }
             completion(dataStatus)
             guard let data = data.data else { return }
