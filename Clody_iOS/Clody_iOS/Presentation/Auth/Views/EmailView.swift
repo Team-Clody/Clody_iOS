@@ -1,8 +1,8 @@
 //
-//  NicknameView.swift
+//  EmailView.swift
 //  Clody_iOS
 //
-//  Created by 김나연 on 7/12/24.
+//  Created by 김나연 on 8/12/24.
 //
 
 import UIKit
@@ -10,13 +10,13 @@ import UIKit
 import SnapKit
 import Then
 
-final class NicknameView: BaseView {
+final class EmailView: BaseView {
     
     // MARK: - UI Components
     
     let navigationBar = ClodyNavigationBar(type: .normal)
     private let introLabel = UILabel()
-    let textField = ClodyTextField(type: .nickname)
+    let textField = ClodyTextField(type: .email)
     let nextButton = ClodyBottomButton(title: I18N.Common.next)
     
     // MARK: - Methods
@@ -27,7 +27,7 @@ final class NicknameView: BaseView {
         introLabel.do {
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.Auth.nickNameIntro,
+                text: I18N.Auth.emailIntro,
                 style: .head1,
                 lineHeightMultiple: 1.5
             )

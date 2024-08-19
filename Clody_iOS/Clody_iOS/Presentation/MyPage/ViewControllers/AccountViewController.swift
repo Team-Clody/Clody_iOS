@@ -18,8 +18,10 @@ final class AccountViewController: UIViewController {
     
     private let rootView = AccountView()
     private lazy var changeNicknameBottomSheet = ChangeNicknameBottomSheet()
+    private lazy var textField = changeNicknameBottomSheet.clodyTextField.textField
     private var alert: ClodyAlert?
     private lazy var dimmingView = UIView()
+    private var tapGestureDisposable: Disposable?
     
     // MARK: - Life Cycles
     
@@ -43,41 +45,70 @@ final class AccountViewController: UIViewController {
     // MARK: - Extensions
     
     private func bindViewModel() {
+        let textFieldDidEndEditing = textField.rx.controlEvent(.editingDidEnd)
+            .map {
+                guard let text = self.changeNicknameBottomSheet.clodyTextField.textField.text else { return false }
+                return !text.isEmpty
+            }
+            .asSignal(onErrorJustReturn: false)
+        
         let input = AccountViewModel.Input(
+            textFieldInputEvent: textField.rx.text.orEmpty.distinctUntilChanged().asSignal(onErrorJustReturn: ""),
+            textFieldDidBeginEditing: textField.rx.controlEvent(.editingDidBegin).asSignal(),
+            textFieldDidEndEditing: textFieldDidEndEditing, 
+            changeNicknameButtonTapEvent: changeNicknameBottomSheet.doneButton.rx.tap.asSignal(),
             backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
-        output.popViewController
-            .drive(onNext: {
-                self.navigationController?.popViewController(animated: true)
-            })
-            .disposed(by: disposeBag)
-        
-        changeNicknameBottomSheet.textField.textField.rx.text
+        textField.rx.text
             .orEmpty
             .map { String($0.prefix(self.maxLength)) }
-            .bind(to: self.changeNicknameBottomSheet.textField.textField.rx.text)
+            .bind(to: self.textField.rx.text)
             .disposed(by: disposeBag)
         
-        viewModel.isLogoutButtonEnabled
-            .bind(to: rootView.logoutButton.rx.isEnabled)
-            .disposed(by: disposeBag)
-        
-        changeNicknameBottomSheet.textField.textField.rx.text
-            .orEmpty
-            .map { $0.count }
-            .subscribe(onNext: { [weak self] count in
-                self?.changeNicknameBottomSheet.textField.countLabel.text = "\(count)"
+        output.charCountDidChange
+            .drive(onNext: { text in
+                self.changeNicknameBottomSheet.clodyTextField.count = text.count
             })
             .disposed(by: disposeBag)
         
-        changeNicknameBottomSheet.textField.textField.rx.text
-            .orEmpty
-            .map { !$0.isEmpty }
-            .subscribe(onNext: { isEnabled in
+        output.isTextFieldFocused
+            .drive(onNext: { isFocused in
+                self.changeNicknameBottomSheet.clodyTextField.setFocusState(to: isFocused)
+            })
+            .disposed(by: disposeBag)
+        
+        output.isDoneButtonEnabled
+            .bind(onNext: { isEnabled in
                 self.changeNicknameBottomSheet.doneButton.setEnabledState(to: isEnabled)
+            })
+            .disposed(by: disposeBag)
+        
+        output.errorMessage
+            .drive(onNext: { inputResult in
+                switch inputResult {
+                case .empty:
+                    self.changeNicknameBottomSheet.clodyTextField.hideErrorMessage()
+                    output.isDoneButtonEnabled.accept(false)
+                case .error:
+                    self.changeNicknameBottomSheet.clodyTextField.showErrorMessage(I18N.Common.nicknameError)
+                    output.isDoneButtonEnabled.accept(false)
+                case .normal:
+                    self.changeNicknameBottomSheet.clodyTextField.hideErrorMessage()
+                    output.isDoneButtonEnabled.accept(true)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        output.changeNickname
+            .drive(onNext: {
+                self.hideChangeNicknameBottomSheet()
+                guard let nickname = self.textField.text else { return }
+                self.viewModel.patchNickNameChange(nickname: nickname) { nickname in
+                    self.rootView.nicknameLabel.attributedText = UIFont.pretendardString(text: nickname, style: .body1_semibold)
+                }
             })
             .disposed(by: disposeBag)
         
@@ -85,6 +116,12 @@ final class AccountViewController: UIViewController {
             self?.rootView.nicknameLabel.text = userInfo.name
             self?.rootView.emailLabel.text = userInfo.email
         }
+        
+        output.popViewController
+            .drive(onNext: {
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
         
         output.userInfo
             .drive(onNext: { [weak self] name, email in
@@ -102,16 +139,6 @@ final class AccountViewController: UIViewController {
         changeNicknameBottomSheet.navigationBar.xButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 self?.hideChangeNicknameBottomSheet()
-            })
-            .disposed(by: disposeBag)
-        
-        changeNicknameBottomSheet.doneButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.hideChangeNicknameBottomSheet()
-                guard let nickname = self?.changeNicknameBottomSheet.textField.textField.text else { return }
-                self?.viewModel.patchNickNameChange(nickname: nickname) { nickname in
-                    self?.rootView.nicknameLabel.attributedText = UIFont.pretendardString(text: nickname, style: .body1_semibold)
-                }
             })
             .disposed(by: disposeBag)
         
@@ -162,15 +189,35 @@ final class AccountViewController: UIViewController {
                 
                 alert?.rightButton.rx.tap
                     .subscribe(onNext: {
-                        self.viewModel.withdraw() {
-                            self.hideAlert()
-                            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                                sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
+                        self.showLoadingIndicator()
+                        
+                        self.viewModel.withdraw() { status in
+                            switch status {
+                            case .success:
+                                if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                                    sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
+                                }
+                            case .network:
+                                self.showErrorAlert(isNetworkError: true)
+                                print("🛜 네트워크 오류 - 회원탈퇴에 실패했습니다.")
+                            case .unknowned:
+                                self.showErrorAlert(isNetworkError: false)
+                                print("😵 서버 통신 오류 - 회원탈퇴에 실패했습니다.")
                             }
+                            
+                            self.hideLoadingIndicator()
+                            self.hideAlert()
                         }
                         self.hideAlert()
                     })
                     .disposed(by: self.disposeBag)
+            })
+            .disposed(by: disposeBag)
+        
+        changeNicknameBottomSheet.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.view.endEditing(true)
             })
             .disposed(by: disposeBag)
     }
@@ -196,8 +243,9 @@ private extension AccountViewController {
     
     func showChangeNicknameBottomSheet() {
         setBottomSheet()
+        view.layoutIfNeeded()
         
-        self.changeNicknameBottomSheet.transform = CGAffineTransform(translationX: 0, y: self.changeNicknameBottomSheet.frame.height)
+        changeNicknameBottomSheet.transform = CGAffineTransform(translationX: 0, y: changeNicknameBottomSheet.frame.height)
         UIView.animate(withDuration: 0.3, animations: {
             self.dimmingView.alpha = 1
             self.changeNicknameBottomSheet.transform = .identity
@@ -205,6 +253,9 @@ private extension AccountViewController {
     }
     
     func hideChangeNicknameBottomSheet() {
+        tapGestureDisposable?.dispose()
+        tapGestureDisposable = nil
+        
         UIView.animate(withDuration: 0.3, animations: {
             self.dimmingView.alpha = 0
             self.changeNicknameBottomSheet.transform = CGAffineTransform(translationX: 0, y: self.changeNicknameBottomSheet.frame.height)
@@ -215,9 +266,15 @@ private extension AccountViewController {
     }
     
     func setBottomSheet() {
-        self.dimmingView.alpha = 0
+        changeNicknameBottomSheet.do {
+            $0.clodyTextField.count = 0
+            $0.clodyTextField.hideErrorMessage()
+            $0.clodyTextField.setFocusState(to: false)
+            textField.text = nil
+        }
+        dimmingView.alpha = 0
         dimmingView.backgroundColor = .black.withAlphaComponent(0.4)
-        self.view.addSubviews(dimmingView, changeNicknameBottomSheet)
+        view.addSubviews(dimmingView, changeNicknameBottomSheet)
         
         dimmingView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -229,12 +286,12 @@ private extension AccountViewController {
             $0.bottom.equalToSuperview()
         }
         
-        dimmingView.rx.tapGesture()
+        tapGestureDisposable = dimmingView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.hideChangeNicknameBottomSheet()
             })
-            .disposed(by: disposeBag)
+        tapGestureDisposable!.disposed(by: disposeBag)
     }
     
     func showAlert(
@@ -245,6 +302,7 @@ private extension AccountViewController {
     ) {
         self.alert = ClodyAlert(type: type, title: title, message: message, rightButtonText: rightButtonText)
         setAlert()
+        view.layoutIfNeeded()
         
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
             self.alert!.alpha = 1
@@ -264,7 +322,7 @@ private extension AccountViewController {
         alert!.alpha = 0
         dimmingView.alpha = 1
         dimmingView.backgroundColor = .black.withAlphaComponent(0.4)
-        self.view.addSubviews(dimmingView, alert!)
+        view.addSubviews(dimmingView, alert!)
         
         dimmingView.snp.makeConstraints {
             $0.edges.equalToSuperview()

@@ -11,38 +11,68 @@ import KakaoSDKAuth
 import RxCocoa
 import RxSwift
 
+enum LoginPlatformType: String {
+    case kakao = "kakao"
+    case apple = "apple"
+}
+
 final class LoginViewModel: ViewModelType {
     
     struct Input {
         let kakaoLoginButtonTapEvent: Signal<Void>
+        let appleLoginButtonTapEvent: Signal<Void>
     }
     
     struct Output {
-        let loginWithKakao: Driver<Void>
+        let signInWithKakao: Driver<Void>
+        let signInWithApple: Driver<Void>
     }
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
-        let loginWithKakao = input.kakaoLoginButtonTapEvent
+        let signInWithKakao = input.kakaoLoginButtonTapEvent
             .asDriver(onErrorJustReturn: Void())
-        return Output(loginWithKakao: loginWithKakao)
+        let signInWithApple = input.appleLoginButtonTapEvent
+            .asDriver(onErrorJustReturn: Void())
+        
+        return Output(
+            signInWithKakao: signInWithKakao,
+            signInWithApple: signInWithApple
+        )
     }
 }
 
 extension LoginViewModel {
     
-    func signInWithKakao(oauthToken: OAuthToken, completion: @escaping () -> ()) {
-        UserManager.shared.platForm = "kakao"
-        APIConstants.authCode = oauthToken.accessToken
+    /// 카카오 로그인
+    func signIn(authCode: String, completion: @escaping (Int) -> ()) {
+        UserManager.shared.platform = LoginPlatformType.kakao.rawValue
+        APIConstants.authCode = authCode
+            
+        signIn() { statusCode in
+            completion(statusCode)
+        }
+    }
+    
+    /// 애플 로그인
+    func signIn(idToken: String, completion: @escaping (Int) -> ()) {
+        UserManager.shared.platform = LoginPlatformType.apple.rawValue
+        APIConstants.authCode = idToken
+        
+        signIn() { statusCode in
+            completion(statusCode)
+        }
+    }
+    
+    private func signIn(completion: @escaping (Int) -> ()) {
         Providers.authProvider.request(
-            target: .signIn(data: LoginRequestDTO(platform: UserManager.shared.platFormValue)),
+            target: .signIn(data: LoginRequestDTO(platform: UserManager.shared.platformValue)),
             instance: BaseResponse<LoginResponseDTO>.self
         ) { response in
-            guard let data = response.data else { return }
-            UserManager.shared.updateToken(
-                data.accessToken,
-                data.refreshToken
-            )
+            if response.status == 200 {
+                guard let data = response.data else { return }
+                UserManager.shared.updateToken(data.accessToken, data.refreshToken)
+            }
+            completion(response.status)
         }
-        completion()
     }
 }

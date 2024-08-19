@@ -1,5 +1,5 @@
 //
-//  notificationPickerView.swift
+//  NotificationPickerView.swift
 //  Clody_iOS
 //
 //  Created by Seonwoo Kim on 7/16/24.
@@ -14,12 +14,26 @@ final class NotificationPickerView: BaseView {
     
     // MARK: - UI Components
     
+    private let title: String
+    
+    // MARK: - UI Components
+    
     let dimmedView = UIView()
     let backgroundView = UIView()
     let pickerView = ClodyPickerView(type: .notification)
-    let cancelIcon = UIButton()
+    let closeButton = UIButton()
     private let titleLabel = UILabel()
     lazy var completeButton = UIButton()
+    private let layoutGuide = UILayoutGuide()
+    
+    init(title: String) {
+        self.title = title
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func setStyle() {
         dimmedView.do {
@@ -35,10 +49,10 @@ final class NotificationPickerView: BaseView {
         
         titleLabel.do {
             $0.textColor = .grey01
-            $0.attributedText = UIFont.pretendardString(text: "발송 시간 변경", style: .body2_semibold)
+            $0.attributedText = UIFont.pretendardString(text: title, style: .body2_semibold)
         }
         
-        cancelIcon.do {
+        closeButton.do {
             $0.setImage(.icX, for: .normal)
         }
         
@@ -52,16 +66,23 @@ final class NotificationPickerView: BaseView {
     }
     
     override func setHierarchy() {
+        self.addLayoutGuide(layoutGuide)
         self.addSubviews(dimmedView, backgroundView)
         backgroundView.addSubviews(
             pickerView,
             titleLabel,
-            cancelIcon,
+            closeButton,
             completeButton
         )
     }
     
     override func setLayout() {
+        layoutGuide.snp.makeConstraints {
+            $0.top.equalTo(closeButton.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalTo(completeButton.snp.top)
+        }
+        
         dimmedView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -73,7 +94,7 @@ final class NotificationPickerView: BaseView {
         
         pickerView.snp.makeConstraints {
             $0.horizontalEdges.equalTo(completeButton)
-            $0.bottom.equalTo(completeButton.snp.top).offset(8)
+            $0.center.equalTo(layoutGuide)
             $0.height.equalTo(223)
         }
         
@@ -82,7 +103,7 @@ final class NotificationPickerView: BaseView {
             $0.top.equalToSuperview().inset(14)
         }
         
-        cancelIcon.snp.makeConstraints {
+        closeButton.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel)
             $0.trailing.equalToSuperview().inset(18)
             $0.size.equalTo(24)

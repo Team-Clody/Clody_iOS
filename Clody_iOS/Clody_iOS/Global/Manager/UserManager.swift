@@ -32,9 +32,9 @@ final class UserManager {
         set { keychain["idToken"] = newValue }
     }
     
-    var platForm: String? {
-        get { return keychain["platForm"] }
-        set { keychain["platForm"] = newValue }
+    var platform: String? {
+        get { return keychain["platform"] }
+        set { keychain["platform"] = newValue }
     }
     
     var fcmToken: String? {
@@ -47,7 +47,7 @@ final class UserManager {
     var refreshTokenValue: String { return self.refreshToken ?? "" }
     var authCodeValue: String { return self.authCode ?? "" }
     var idTokenValue: String { return self.idToken ?? "" }
-    var platFormValue: String { return self.platForm ?? "" }
+    var platformValue: String { return self.platform ?? "" }
     var fcmTokenValue: String { return self.fcmToken ?? "" }
 }
 
@@ -66,7 +66,6 @@ extension UserManager {
         self.refreshToken = nil
         self.fcmToken = nil
         self.idToken = nil
-        self.platForm = nil
+        self.platform = nil
     }
 }
-

@@ -1,8 +1,8 @@
 //
-//  NicknameViewModel.swift
+//  EmailViewModel.swift
 //  Clody_iOS
 //
-//  Created by 김나연 on 7/15/24.
+//  Created by 김나연 on 8/12/24.
 //
 
 import UIKit
@@ -10,7 +10,13 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-final class NicknameViewModel: ViewModelType {
+enum TextFieldInputResult {
+    case empty
+    case error
+    case normal
+}
+
+final class EmailViewModel: ViewModelType {
     
     struct Input {
         let textFieldInputEvent: Signal<String>
@@ -21,18 +27,14 @@ final class NicknameViewModel: ViewModelType {
     }
     
     struct Output {
-        let charCountDidChange: Driver<String>
         let isTextFieldFocused: Driver<Bool>
         let nextButtonIsEnabled = BehaviorRelay<Bool>(value: false)
         let errorMessage: Driver<TextFieldInputResult>
-        let signUp: Driver<Void>
+        let pushViewController: Driver<Void>
         let popViewController: Driver<Void>
     }
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
-        let charCountDidChange = input.textFieldInputEvent
-            .asDriver(onErrorJustReturn: "")
-        
         let isTextFieldFocused = Signal
             .merge(
                 input.textFieldDidBeginEditing.map { true },
@@ -44,8 +46,8 @@ final class NicknameViewModel: ViewModelType {
             .map { text in
                 if text.count == 0 { return TextFieldInputResult.empty }
                 
-                let nicknameRegEx = "^[가-힣a-zA-Z0-9]+${1,10}"
-                if let _ = text.range(of: nicknameRegEx, options: .regularExpression) {
+                let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+                if let _ = text.range(of: emailRegEx, options: .regularExpression) {
                     return TextFieldInputResult.normal
                 } else {
                     return TextFieldInputResult.error
@@ -53,40 +55,17 @@ final class NicknameViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: TextFieldInputResult.empty)
         
-        let signUp = input.nextButtonTapEvent
+        let pushViewController = input.nextButtonTapEvent
             .asDriver(onErrorJustReturn: ())
         
         let popViewController = input.backButtonTapEvent
             .asDriver(onErrorJustReturn: ())
         
         return Output(
-            charCountDidChange: charCountDidChange,
             isTextFieldFocused: isTextFieldFocused,
             errorMessage: errorMessage,
-            signUp: signUp,
+            pushViewController: pushViewController,
             popViewController: popViewController
         )
-    }
-}
-
-extension NicknameViewModel {
-    
-    func signUp(signUpInfo: SignUpInfoModel, completion: @escaping (Int) -> ()) {
-        Providers.authProvider.request(
-            target: .signUp(
-                data: SignUpRequestDTO(
-                    platform: signUpInfo.platform,
-                    email: signUpInfo.email,
-                    name: signUpInfo.name
-                )
-            ),
-            instance: BaseResponse<SignUpResponseDTO>.self
-        ) { response in
-            if response.status == 201 {
-                guard let data = response.data else { return }
-                UserManager.shared.updateToken(data.accessToken, data.refreshToken)
-            }
-            completion(response.status)
-        }
     }
 }

@@ -39,6 +39,16 @@ enum I18N {
         static let delete = "삭제하기"
     }
     
+    enum BottomSheet {
+        static let changeTime = "발송 시간 변경"
+        static let viewOtherTimes = "다른 시간 보기"
+    }
+    
+    enum TermsURL {
+        static let terms = "https://whispering-telephone-3a4.notion.site/38d38a167e8d4f319f9aa24038d7a3fc"
+        static let privacy = "https://whispering-telephone-3a4.notion.site/1b0e3624fbe64800a00c8d4ebca0e0bd?pvs=4"
+    }
+    
     enum Auth {
         static let kakaoLogin = "카카오로 로그인"
         static let appleLogin = "Apple로 로그인"
@@ -47,6 +57,7 @@ enum I18N {
         static let required = "(필수)"
         static let clodyTerms = "Clody 이용약관"
         static let privacy = "개인정보 처리방침"
+        static let emailIntro = "행운을 전하는 감사일기,\nClody예요"
         static let nickNameIntro = "만나서 반가워요!\n어떻게 불러드릴까요?"
         static let onboarding_1_title = "안녕하세요!\n저는 로디라고 해요"
         static let onboarding_1_sub = "여러분이 써준 감사일기를 받고,\n칭찬과 응원을 담아 답장을 쓴답니다"

@@ -15,7 +15,7 @@ final class ChangeNicknameBottomSheet: BaseView {
     // MARK: - UI Components
 
     let navigationBar = ClodyNavigationBar(type: .bottomSheet, title: "닉네임 변경")
-    let textField = ClodyTextField(type: .nickname)
+    let clodyTextField = ClodyTextField(type: .nickname)
     let doneButton = ClodyBottomButton(title: "변경하기")
 
     // MARK: - Methods
@@ -28,7 +28,7 @@ final class ChangeNicknameBottomSheet: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(navigationBar, textField, doneButton)
+        self.addSubviews(navigationBar, clodyTextField, doneButton)
     }
     
     override func setLayout() {
@@ -38,7 +38,7 @@ final class ChangeNicknameBottomSheet: BaseView {
             $0.horizontalEdges.equalToSuperview()
         }
 
-        textField.snp.makeConstraints {
+        clodyTextField.snp.makeConstraints {
             $0.height.equalTo(51)
             $0.top.equalTo(navigationBar.snp.bottom).offset(32)
             $0.horizontalEdges.equalToSuperview().inset(24)

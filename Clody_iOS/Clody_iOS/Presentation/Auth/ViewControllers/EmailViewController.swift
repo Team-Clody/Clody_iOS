@@ -1,8 +1,8 @@
 //
-//  NicknameViewController.swift
+//  EmailViewController.swift
 //  Clody_iOS
 //
-//  Created by 김나연 on 7/12/24.
+//  Created by 김나연 on 8/12/24.
 //
 
 import UIKit
@@ -11,18 +11,17 @@ import RxCocoa
 import RxSwift
 import Then
 
-final class NicknameViewController: UIViewController {
+final class EmailViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let viewModel = NicknameViewModel()
+    private let viewModel = EmailViewModel()
     private let disposeBag = DisposeBag()
-    private let maxLength = 10
     private var signUpInfo: SignUpInfoModel
     
     // MARK: - UI Components
      
-    private let rootView = NicknameView()
+    private let rootView = EmailView()
     private lazy var clodyTextField = rootView.textField
     
     // MARK: - Life Cycles
@@ -52,7 +51,7 @@ final class NicknameViewController: UIViewController {
 
 // MARK: - Extensions
 
-private extension NicknameViewController {
+private extension EmailViewController {
 
     func bindViewModel() {
         let textFieldDidEndEditing = clodyTextField.textField.rx.controlEvent(.editingDidEnd)
@@ -62,26 +61,14 @@ private extension NicknameViewController {
             }
             .asSignal(onErrorJustReturn: false)
         
-        let input = NicknameViewModel.Input(
+        let input = EmailViewModel.Input(
             textFieldInputEvent: clodyTextField.textField.rx.text.orEmpty.distinctUntilChanged().asSignal(onErrorJustReturn: ""),
             textFieldDidBeginEditing: clodyTextField.textField.rx.controlEvent(.editingDidBegin).asSignal(),
             textFieldDidEndEditing: textFieldDidEndEditing,
-            nextButtonTapEvent: rootView.nextButton.rx.tap.asSignal(), 
+            nextButtonTapEvent: rootView.nextButton.rx.tap.asSignal(),
             backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
-        
-        clodyTextField.textField.rx.text
-            .orEmpty
-            .map { String($0.prefix(self.maxLength)) }
-            .bind(to: self.clodyTextField.textField.rx.text)
-            .disposed(by: disposeBag)
-
-        output.charCountDidChange
-            .drive(onNext: { text in
-                self.clodyTextField.count = text.count
-            })
-            .disposed(by: disposeBag)
         
         output.isTextFieldFocused
             .drive(onNext: { isFocused in
@@ -102,7 +89,7 @@ private extension NicknameViewController {
                     self.clodyTextField.hideErrorMessage()
                     output.nextButtonIsEnabled.accept(false)
                 case .error:
-                    self.clodyTextField.showErrorMessage(I18N.Common.nicknameError)
+                    self.clodyTextField.showErrorMessage(I18N.Common.emailError)
                     output.nextButtonIsEnabled.accept(false)
                 case .normal:
                     self.clodyTextField.hideErrorMessage()
@@ -111,11 +98,11 @@ private extension NicknameViewController {
             })
             .disposed(by: disposeBag)
         
-        output.signUp
+        output.pushViewController
             .drive(onNext: {
-                guard let nickname = self.clodyTextField.textField.text else { return }
-                self.signUpInfo.name = nickname
-                self.signUp()
+                guard let email = self.clodyTextField.textField.text else { return }
+                self.signUpInfo.email = email
+                self.navigationController?.pushViewController(TermsViewController(signUpInfo: self.signUpInfo), animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -135,25 +122,5 @@ private extension NicknameViewController {
 
     func setUI() {
         self.navigationController?.isNavigationBarHidden = true
-    }
-}
-
-extension NicknameViewController {
-    
-    func signUp() {
-        viewModel.signUp(signUpInfo: signUpInfo) { statusCode in
-            switch statusCode {
-            case 201:
-                /// 회원가입 성공
-                self.navigationController?.pushViewController(DiaryNotificationViewController(), animated: true)
-            case 400:
-                /// 이미 가입된 유저
-                if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                    sceneDelegate.changeRootViewController(CalendarViewController(), animated: true)
-                }
-            default:
-                print("😵 서버 에러 - 회원가입에 실패했습니다.")
-            }
-        }
     }
 }

@@ -2,13 +2,22 @@
 //  UIViewController+.swift
 //  Clody_iOS
 //
-//  Created by Seonwoo Kim on 8/15/24.
+//  Created by 김나연 on 8/14/24.
 //
 
 import UIKit
+import SafariServices
+
 import SnapKit
 
 extension UIViewController {
+    
+    func linkToURL(url: String) {
+        if let url = NSURL(string: url) {
+            let safariViewController: SFSafariViewController = SFSafariViewController(url: url as URL)
+            self.present(safariViewController, animated: true, completion: nil)
+        }
+    }
     
     private struct AssociatedKeys {
         static var loadingIndicator = "loadingIndicator"
@@ -139,14 +148,15 @@ extension UIViewController {
         objc_setAssociatedObject(self, &AssociatedKeys.retryAction, retryAction, .OBJC_ASSOCIATION_COPY_NONATOMIC)
     }
     
-@objc private func retryButtonTapped() {
-    hideRetryView()
     
-    // Execute the stored retry action
-    if let retryAction = objc_getAssociatedObject(self, &AssociatedKeys.retryAction) as? () -> Void {
-        retryAction()
+    @objc private func retryButtonTapped() {
+        hideRetryView()
+        
+        // Execute the stored retry action
+        if let retryAction = objc_getAssociatedObject(self, &AssociatedKeys.retryAction) as? () -> Void {
+            retryAction()
+        }
     }
-}
     
     func hideRetryView() {
         errorRetryView.removeFromSuperview()

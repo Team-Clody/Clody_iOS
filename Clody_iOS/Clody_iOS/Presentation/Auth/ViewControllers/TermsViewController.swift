@@ -17,12 +17,22 @@ final class TermsViewController: UIViewController {
     
     private let viewModel = TermsViewModel()
     private let disposeBag = DisposeBag()
+    private var signUpInfo: SignUpInfoModel
     
     // MARK: - UI Components
      
     private let rootView = TermsView()
     
     // MARK: - Life Cycles
+    
+    init(signUpInfo: SignUpInfoModel) {
+        self.signUpInfo = signUpInfo
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()
@@ -60,7 +70,9 @@ private extension TermsViewController {
         let input = TermsViewModel.Input(
             allAgreeTextButtonTapEvent: allAgreeTextButtonTapEvent,
             allAgreeIconButtonTapEvent: allAgreeIconButtonTapEvent,
-            nextButtonTapEvent: rootView.nextButton.rx.tap.asSignal(), 
+            viewTermsDetailButtonTapEvent: rootView.viewTermsDetailButton.rx.tap.asSignal(),
+            viewPrivacyDetailButtonTapEvent: rootView.viewPrivacyDetailButton.rx.tap.asSignal(),
+            nextButtonTapEvent: rootView.nextButton.rx.tap.asSignal(),
             backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
@@ -105,9 +117,21 @@ private extension TermsViewController {
             })
             .disposed(by: disposeBag)
         
+        output.linkToTermsDetail
+            .drive(onNext: {
+                self.linkToURL(url: I18N.TermsURL.terms)
+            })
+            .disposed(by: disposeBag)
+        
+        output.linkToPrivacyDetail
+            .drive(onNext: {
+                self.linkToURL(url: I18N.TermsURL.privacy)
+            })
+            .disposed(by: disposeBag)
+        
         output.pushViewController
             .drive(onNext: { _ in
-                self.navigationController?.pushViewController(NicknameViewController(), animated: true)
+                self.navigationController?.pushViewController(NicknameViewController(signUpInfo: self.signUpInfo), animated: true)
             })
             .disposed(by: disposeBag)
         
