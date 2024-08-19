@@ -27,15 +27,18 @@ class NetworkProvider<Provider : TargetType> : MoyaProvider<Provider> {
                 /// 서버 통신 실패
             case .failure(let error):
                 if let response = error.response {
+                    var decodedResponse = BaseResponse<Model>(status: response.statusCode, message: "", data: nil)
                     if let responseData = String(data: response.data, encoding: .utf8) {
                         print(responseData)
                     } else {
                         print(error.localizedDescription)
                     }
+                    completion(decodedResponse)
                 } else {
+                    var decodedResponse = BaseResponse<Model>(status: -1, message: "", data: nil)
+                    completion(decodedResponse)
                     print(error.localizedDescription)
                 }
-//                viewController.view.showToast(message: )
             }
         }
     }
@@ -56,7 +59,6 @@ class NetworkProvider<Provider : TargetType> : MoyaProvider<Provider> {
                 }
                 /// 서버 통신 실패
             case .failure(let error):
-                print(error)
                 if let response = error.response {
                     var decodedResponse = BaseResponse<Model>(status: response.statusCode, message: "", data: nil)
                     if let responseData = String(data: response.data, encoding: .utf8) {
@@ -66,6 +68,8 @@ class NetworkProvider<Provider : TargetType> : MoyaProvider<Provider> {
                     }
                     completion(decodedResponse)
                 } else {
+                    var decodedResponse = BaseResponse<Model>(status: -1, message: "", data: nil)
+                    completion(decodedResponse)
                     print(error.localizedDescription)
                 }
             }

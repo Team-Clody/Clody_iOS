@@ -52,6 +52,7 @@
 		0B6C075F2C3E7D8E0054A0B0 /* WritingDiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C075E2C3E7D8E0054A0B0 /* WritingDiaryCell.swift */; };
 		0B6C07612C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C07602C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift */; };
 		0B7222342C65243A005EB365 /* ListEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7222332C65243A005EB365 /* ListEmptyView.swift */; };
+		0B72224B2C6B9B0C005EB365 /* ClodyErrorAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72224A2C6B9B0C005EB365 /* ClodyErrorAlertView.swift */; };
 		0B72DA2E2C46C13E00292173 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA2D2C46C13E00292173 /* NotificationViewModel.swift */; };
 		0B72DA302C46C16000292173 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA2F2C46C16000292173 /* NotificationView.swift */; };
 		0B72DA342C46C18F00292173 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA332C46C18F00292173 /* NotificationCell.swift */; };
@@ -199,6 +200,7 @@
 		0B6C075E2C3E7D8E0054A0B0 /* WritingDiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingDiaryCell.swift; sourceTree = "<group>"; };
 		0B6C07602C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingDiaryHeaderView.swift; sourceTree = "<group>"; };
 		0B7222332C65243A005EB365 /* ListEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEmptyView.swift; sourceTree = "<group>"; };
+		0B72224A2C6B9B0C005EB365 /* ClodyErrorAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyErrorAlertView.swift; sourceTree = "<group>"; };
 		0B72DA2D2C46C13E00292173 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		0B72DA2F2C46C16000292173 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		0B72DA332C46C18F00292173 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
@@ -943,6 +945,7 @@
 				0BAAC6522C43D74D00174A9D /* ClodyToast.swift */,
 				0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */,
 				95310FB82C43DFF300023C7B /* GetCloverAlertView.swift */,
+				0B72224A2C6B9B0C005EB365 /* ClodyErrorAlertView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1076,6 +1079,7 @@
 				0B72DA302C46C16000292173 /* NotificationView.swift in Sources */,
 				2CC0CE712C3C0ECD001F3E6B /* MyPageViewModel.swift in Sources */,
 				2C7FCF752C42DD6200F4E089 /* NotificationViewController.swift in Sources */,
+				0B72224B2C6B9B0C005EB365 /* ClodyErrorAlertView.swift in Sources */,
 				95310FB22C434E0B00023C7B /* ReplyWaitingView.swift in Sources */,
 				0B6C07592C3E7D480054A0B0 /* WritingDiaryViewModel.swift in Sources */,
 				0BE7E9F72C46578F000C5358 /* PostDiaryResponseDTO.swift in Sources */,

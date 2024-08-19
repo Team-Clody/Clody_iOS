@@ -84,4 +84,9 @@ enum I18N {
     enum List {
         static let emptyList = "작성된 감사일기가 없어요"
     }
+    
+    enum Error {
+        static let network = "서비스 접속이 원활하지 않아요.\n네트워크 연결을 확인해주세요."
+        static let unKnown = "일시적인 오류가 발생했어요.\n잠시 후 다시 시도해주세요."
+    }
 }
