@@ -7,7 +7,7 @@ final class AccountView: BaseView {
 
     // MARK: - UI Components
     
-    let navigationBar = ClodyNavigationBar(type: .setting, title: "프로필 및 계정 관리")
+    let navigationBar = ClodyNavigationBar(type: .setting, title: I18N.MyPage.profile)
     private let profileImageView = UIImageView()
     let nicknameLabel = UILabel()
     let changeProfileButton = UIButton()
@@ -51,19 +51,19 @@ final class AccountView: BaseView {
         }
         
         logoutButton.do {
-            let attributedTitle = UIFont.pretendardString(text: "로그아웃", style: .body4_medium)
+            let attributedTitle = UIFont.pretendardString(text: I18N.MyPage.logout, style: .body4_medium)
             $0.setAttributedTitle(attributedTitle, for: .normal)
             $0.setTitleColor(.grey05, for: .normal)
         }
         
         deleteAccountButton.do {
-            let attributedTitle = UIFont.pretendardString(text: "회원탈퇴", style: .body4_medium)
+            let attributedTitle = UIFont.pretendardString(text: I18N.MyPage.revoke, style: .body4_medium)
             $0.setAttributedTitle(attributedTitle, for: .normal)
             $0.setTitleColor(.grey05, for: .normal)
         }
         
         deleteConfirmationLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "계정을 삭제하시겠어요?", style: .body4_medium)
+            $0.attributedText = UIFont.pretendardString(text: I18N.MyPage.delete, style: .body4_medium)
             $0.textColor = .grey05
         }
         

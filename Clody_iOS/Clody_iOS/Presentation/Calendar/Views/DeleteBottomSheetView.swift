@@ -39,7 +39,7 @@ final class DeleteBottomSheetView: BaseView {
         
         deleteLabel.do {
             $0.textColor = .grey01
-            $0.attributedText = UIFont.pretendardString(text: "삭제하기", style: .body4_medium)
+            $0.attributedText = UIFont.pretendardString(text: I18N.Calendar.delete, style: .body4_medium)
         }
     }
     

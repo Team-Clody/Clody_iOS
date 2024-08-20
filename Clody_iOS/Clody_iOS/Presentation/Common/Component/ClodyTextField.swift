@@ -69,9 +69,12 @@ final class ClodyTextField: UIView {
     private var includedComponents: [UIView] = []
     private var errorMessage: String? {
         didSet {
-            messageLabel.text = errorMessage
-            underline.backgroundColor  = .red
-            messageLabel.textColor = .red
+            messageLabel.attributedText = UIFont.pretendardString(
+                text: errorMessage!,
+                style: .detail1_regular,
+                color: .redCustom
+            )
+            underline.backgroundColor  = .redCustom
         }
     }
     var count: Int = 0 {
@@ -111,8 +114,10 @@ extension ClodyTextField {
     
     private func setStyle() {
         textField.do {
+            $0.autocapitalizationType = .none 
             $0.autocorrectionType = .no
             $0.spellCheckingType = .no
+            $0.keyboardType = (type == .email) ? .emailAddress : .default
             $0.backgroundColor = .clear
             $0.font = .pretendard(.body1_medium)
             $0.textColor = .grey03
@@ -146,14 +151,34 @@ extension ClodyTextField {
     }
     
     func showErrorMessage(_ message: String) {
-        if type == .email {
-            self.includedComponents.append(messageLabel)
+        if !includedComponents.contains(messageLabel) {
+            includedComponents.append(messageLabel)
         }
         
-        self.errorMessage = message
+        messageLabel.isHidden = false
+        errorMessage = message
+    }
+    
+    func hideErrorMessage() {
+        underline.backgroundColor = .mainYellow
+        
+        switch type {
+        case .email:
+            messageLabel.isHidden = true
+        case .nickname:
+            messageLabel.do {
+                $0.textColor = .grey04
+                $0.attributedText = UIFont.pretendardString(
+                    text: I18N.Common.nicknameCondition,
+                    style: .detail1_regular
+                )
+            }
+        }
     }
     
     func setFocusState(to isFocused: Bool) {
-        underline.backgroundColor = isFocused ? .mainYellow : .grey07
+        if underline.backgroundColor != UIColor.redCustom {
+            underline.backgroundColor = isFocused ? .mainYellow : .grey07
+        }
     }
 }

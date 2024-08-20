@@ -19,6 +19,7 @@ final class NotificationViewModel: ViewModelType {
     }
     
     struct Output {
+        let selectedTimeRelay = PublishRelay<[Any]>()
         let popViewController: Driver<Void>
     }
 
@@ -58,12 +59,26 @@ final class NotificationViewModel: ViewModelType {
         return dateFormatter.string(from: date)
     }
     
-    func postAlarmChangeAPI(isDiaryAlarm: Bool, isReplyAlarm: Bool, time: String, fcmToken: String, completion: @escaping (BaseResponse<PostAlarmSetResponseDTO>) -> ()) {
+    func postAlarmChangeAPI(
+        isDiaryAlarm: Bool,
+        isReplyAlarm: Bool,
+        time: String,
+        completion: @escaping (BaseResponse<PostAlarmSetResponseDTO>) -> ()
+    ) {
         let provider = Providers.myPageProvider
         
-        provider.request(target: .postAlarmSet(data: PostAlarmSetRequestDTO(isDiaryAlarm: isDiaryAlarm, isReplyAlarm: isReplyAlarm, time: time, fcmToken: fcmToken)), instance: BaseResponse<PostAlarmSetResponseDTO>.self) { data in
-            print(data)
-            completion(data)
+        provider.request(
+            target: .postAlarmSet(
+                data: PostAlarmSetRequestDTO(
+                    isDiaryAlarm: isDiaryAlarm,
+                    isReplyAlarm: isReplyAlarm,
+                    time: time,
+                    fcmToken: UserManager.shared.fcmTokenValue
+                )
+            ),
+            instance: BaseResponse<PostAlarmSetResponseDTO>.self
+        ) { response in
+            completion(response)
         }
     }
 }

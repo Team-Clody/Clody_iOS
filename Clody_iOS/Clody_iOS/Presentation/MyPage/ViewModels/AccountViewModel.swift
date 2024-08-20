@@ -2,13 +2,21 @@ import RxCocoa
 import RxSwift
 
 final class AccountViewModel: ViewModelType {
-    let isLogoutButtonEnabled = BehaviorRelay<Bool>(value: true)
     
     struct Input {
+        let textFieldInputEvent: Signal<String>
+        let textFieldDidBeginEditing: Signal<Void>
+        let textFieldDidEndEditing: Signal<Bool>
+        let changeNicknameButtonTapEvent: Signal<Void>
         let backButtonTapEvent: Signal<Void>
     }
     
     struct Output {
+        let charCountDidChange: Driver<String>
+        let isTextFieldFocused: Driver<Bool>
+        let isDoneButtonEnabled = BehaviorRelay<Bool>(value: false)
+        let errorMessage: Driver<TextFieldInputResult>
+        let changeNickname: Driver<Void>
         let popViewController: Driver<Void>
         let userInfo: Driver<(String, String)>
     }
@@ -16,6 +24,32 @@ final class AccountViewModel: ViewModelType {
     private let userInfoSubject = PublishSubject<(String, String)>()
     
     func transform(from input: Input, disposeBag: RxSwift.DisposeBag) -> Output {
+        let charCountDidChange = input.textFieldInputEvent
+            .asDriver(onErrorJustReturn: "")
+        
+        let isTextFieldFocused = Signal
+            .merge(
+                input.textFieldDidBeginEditing.map { true },
+                input.textFieldDidEndEditing
+            )
+            .asDriver(onErrorJustReturn: false)
+        
+        let errorMessage = input.textFieldInputEvent
+            .map { text in
+                if text.count == 0 { return TextFieldInputResult.empty }
+                
+                let nicknameRegEx = "^[가-힣a-zA-Z0-9]+${1,10}"
+                if let _ = text.range(of: nicknameRegEx, options: .regularExpression) {
+                    return TextFieldInputResult.normal
+                } else {
+                    return TextFieldInputResult.error
+                }
+            }
+            .asDriver(onErrorJustReturn: TextFieldInputResult.empty)
+        
+        let changeNickname = input.changeNicknameButtonTapEvent
+            .asDriver(onErrorJustReturn: ())
+        
         let popViewController = input.backButtonTapEvent
             .asDriver(onErrorJustReturn: Void())
         
@@ -23,6 +57,10 @@ final class AccountViewModel: ViewModelType {
             .asDriver(onErrorJustReturn: ("", ""))
                 
         return Output(
+            charCountDidChange: charCountDidChange,
+            isTextFieldFocused: isTextFieldFocused,
+            errorMessage: errorMessage, 
+            changeNickname: changeNickname,
             popViewController: popViewController,
             userInfo: userInfo
         )
@@ -52,20 +90,23 @@ extension AccountViewModel {
     }
     
     func logout(completion: @escaping () -> ()) {
-        Providers.authProvider.request(target: .logout, instance: BaseResponse<EmptyResponseDTO>.self) { response in
-            if let data = response.data {
-                UserManager.shared.clearAll()
-                completion()
-            }
-        }
+        UserManager.shared.clearAll()
+        completion()
     }
 
-    func withdraw(completion: @escaping () -> ()) {
+    func withdraw(completion: @escaping (NetworkViewJudge) -> ()) {
         Providers.authProvider.request(target: .revoke, instance: BaseResponse<EmptyResponseDTO>.self) { response in
-            if let data = response.data {
+            var dataStatus: NetworkViewJudge
+            
+            switch response.status {
+            case 200..<300: 
                 UserManager.shared.clearAll()
-                completion()
+                dataStatus = .success
+            case -1: dataStatus = .network
+            default: dataStatus = .unknowned
             }
+            
+            completion(dataStatus)
         }
     }
 }

@@ -42,7 +42,7 @@ final class ClodyErrorRetryView: BaseView {
             $0.backgroundColor = .mainYellow
             $0.makeCornerRound(radius: 10)
             $0.setTitleColor(.grey02, for: .normal)
-            let attributedTitle = UIFont.pretendardString(text: "다시 시도", style: .body2_semibold)
+            let attributedTitle = UIFont.pretendardString(text: I18N.Alert.retry, style: .body2_semibold)
             $0.setAttributedTitle(attributedTitle, for: .normal)
         }
     }
