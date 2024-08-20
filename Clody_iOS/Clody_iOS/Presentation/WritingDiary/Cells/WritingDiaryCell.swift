@@ -69,7 +69,7 @@ final class WritingDiaryCell: UICollectionViewCell {
         
         textView.do {
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.WritingDiary.placeHolder
+                text: I18N.WritingDiary.placeHolder,
                 style: .body3_medium,
                 lineHeightMultiple: 1.5
             )
