@@ -18,8 +18,11 @@ final class ReplyDetailViewController: UIViewController {
     
     private let viewModel = ReplyDetailViewModel()
     private let disposeBag = DisposeBag()
-    private lazy var nickname: String = ""
-    private lazy var content: String = ""
+    private lazy var nickname: String = "" {
+        didSet {
+            getClodyAlertView.nickname = nickname
+        }
+    }
     private let year: Int
     private let month: Int
     private let day: Int
@@ -27,13 +30,8 @@ final class ReplyDetailViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private lazy var rootView = ReplyDetailView(
-        month: month,
-        day: day,
-        nickname: nickname,
-        content: content
-    )
-    private lazy var getClodyAlertView = GetCloverAlertView(nickname: nickname)
+    private lazy var rootView = ReplyDetailView(month: month, day: day)
+    private lazy var getClodyAlertView = GetCloverAlertView()
     private lazy var dimmingView = UIView()
     
     // MARK: - Life Cycles
@@ -176,6 +174,7 @@ private extension ReplyDetailViewController {
     func getReply() {
         viewModel.getReply(year: year, month: month, date: day) { data in
             self.hideLoadingIndicator()
+            self.nickname = data.nickname
             self.rootView.bindData(nickname: data.nickname, content: data.content)
             self.judgeIsAlert(isNew: self.isNew)
         }

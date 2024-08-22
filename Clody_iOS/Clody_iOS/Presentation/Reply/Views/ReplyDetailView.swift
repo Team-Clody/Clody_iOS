@@ -20,19 +20,12 @@ final class ReplyDetailView: BaseView {
     
     private let month: Int
     private let day: Int
-    private var nickname: String
-    private var content: String
+    private var nickname = ""
+    private var content = ""
     
-    init(
-        month: Int,
-        day: Int,
-        nickname: String,
-        content: String
-    ) {
+    init(month: Int, day: Int) {
         self.month = month
         self.day = day
-        self.nickname = nickname
-        self.content = content
         
         super.init(frame: .zero)
     }
