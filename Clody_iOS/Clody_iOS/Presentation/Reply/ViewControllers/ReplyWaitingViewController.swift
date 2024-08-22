@@ -88,8 +88,9 @@ private extension ReplyWaitingViewController {
         output.getWritingTime
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
+                showLoadingIndicator()
                 let dateTuple = date.dateToYearMonthDay()
-                self.getWritingTime(for: dateTuple)
+                getWritingTime(for: dateTuple)
             })
             .disposed(by: disposeBag)
         
@@ -143,6 +144,7 @@ private extension ReplyWaitingViewController {
     
     func getWritingTime(for date: (Int, Int, Int)) {
         viewModel.getWritingTime(year: date.0, month: date.1, date: date.2) { data in
+            self.hideLoadingIndicator()
             
             let todayYear = Date().dateToYearMonthDay().0
             let todayMonth = Date().dateToYearMonthDay().1

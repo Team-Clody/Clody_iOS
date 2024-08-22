@@ -29,6 +29,8 @@ final class NicknameViewModel: ViewModelType {
         let popViewController: Driver<Void>
     }
     
+    let errorStatus = PublishRelay<NetworkViewJudge>()
+    
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         let charCountDidChange = input.textFieldInputEvent
             .asDriver(onErrorJustReturn: "")
@@ -82,10 +84,17 @@ extension NicknameViewModel {
             ),
             instance: BaseResponse<SignUpResponseDTO>.self
         ) { response in
-            if response.status == 201 {
+            switch response.status {
+            case 200..<300:
                 guard let data = response.data else { return }
                 UserManager.shared.updateToken(data.accessToken, data.refreshToken)
+                self.errorStatus.accept(.success)
+            case -1:
+                self.errorStatus.accept(.network)
+            default:
+                self.errorStatus.accept(.unknowned)
             }
+            
             completion(response.status)
         }
     }
