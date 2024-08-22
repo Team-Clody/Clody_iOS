@@ -79,11 +79,7 @@ extension UIViewController {
     
     func showLoadingIndicator() {
 
-        view.addSubviews(dimmingView, loadingIndicator)
-        
-        dimmingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        view.addSubviews(loadingIndicator)
         
         loadingIndicator.snp.makeConstraints {
             $0.center.equalToSuperview()

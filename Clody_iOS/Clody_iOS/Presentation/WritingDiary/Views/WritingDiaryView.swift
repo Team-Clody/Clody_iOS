@@ -36,7 +36,7 @@ final class WritingDiaryView: BaseView {
             $0.backgroundColor = .mainYellow
             $0.makeCornerRound(radius: 10)
             $0.setTitleColor(.grey01, for: .normal)
-            let attributedTitle = UIFont.pretendardString(text: "저장", style: .body2_semibold)
+            let attributedTitle = UIFont.pretendardString(text: I18N.WritingDiary.save, style: .body2_semibold)
             $0.setAttributedTitle(attributedTitle, for: .normal)
         }
         

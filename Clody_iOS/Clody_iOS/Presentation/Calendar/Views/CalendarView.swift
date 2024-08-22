@@ -104,7 +104,7 @@ final class CalendarView: BaseView {
         }
         
         emptyDiaryLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "아직 감사 일기가 없어요!", style: .body3_regular)
+            $0.attributedText = UIFont.pretendardString(text: I18N.Calendar.empty, style: .body3_regular)
             $0.textColor = .grey05
         }
     }

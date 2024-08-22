@@ -74,7 +74,7 @@ final class MyPageTableViewCell: UITableViewCell {
         textLabel?.textColor = .grey03
         
         if setting == .version {
-            configureVersionLabel(with: "최신 버전")
+            configureVersionLabel(with: I18N.MyPage.newVersion)
             arrowImageView.isHidden = true
         } else {
             latestVersionLabel?.isHidden = true

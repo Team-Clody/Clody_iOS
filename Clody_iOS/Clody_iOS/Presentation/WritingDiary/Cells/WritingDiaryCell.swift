@@ -45,7 +45,7 @@ final class WritingDiaryCell: UICollectionViewCell {
     }
     
     private func resetCellState() {
-        textView.text = "일상 속 작은 감사함을 적어보세요."
+        textView.text = I18N.WritingDiary.placeHolder
         textInputLabel.text = "0"
         writingContainer.makeBorder(width: 0, color: .clear)
     }
@@ -69,7 +69,7 @@ final class WritingDiaryCell: UICollectionViewCell {
         
         textView.do {
             $0.attributedText = UIFont.pretendardString(
-                text: "일상 속 작은 감사함을 적어보세요.",
+                text: I18N.WritingDiary.placeHolder,
                 style: .body3_medium,
                 lineHeightMultiple: 1.5
             )
@@ -170,7 +170,7 @@ final class WritingDiaryCell: UICollectionViewCell {
         }
         
         if statuses {
-            textView.text = text.isEmpty ? "일상 속 작은 감사함을 적어보세요." : text
+            textView.text = text.isEmpty ? I18N.WritingDiary.placeHolder : text
             writingContainer.makeBorder(width: 0, color: .clear)
         } else {
             writingContainer.makeBorder(width: 1, color: .red)
