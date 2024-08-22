@@ -82,6 +82,10 @@ final class ClodyToastView: BaseView {
                 $0.width.equalTo(ScreenUtils.getWidth(250))
             case .alarm:
                 $0.width.equalTo(ScreenUtils.getWidth(290))
+            case .editComplete:
+                $0.width.equalTo(ScreenUtils.getWidth(162))
+            case .alarmSetComplete:
+                $0.width.equalTo(ScreenUtils.getWidth(213))
             }
         }
     }
@@ -96,6 +100,10 @@ final class ClodyToastView: BaseView {
             titleText = I18N.Toast.limitFive
         case .alarm:
             titleText = I18N.Toast.alarm
+        case .editComplete:
+            titleText = I18N.Toast.editComplete
+        case .alarmSetComplete:
+            titleText = I18N.Toast.alarmSetComplete
         }
         
         textLabel.attributedText = UIFont.pretendardString(text: titleText, style: .body4_semibold)

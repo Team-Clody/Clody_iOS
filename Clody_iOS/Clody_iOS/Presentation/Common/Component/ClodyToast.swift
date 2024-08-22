@@ -14,6 +14,8 @@ enum ToastType {
     case needToWriteAll
     case limitFive
     case alarm
+    case editComplete
+    case alarmSetComplete
 }
 
 final class ClodyToast {

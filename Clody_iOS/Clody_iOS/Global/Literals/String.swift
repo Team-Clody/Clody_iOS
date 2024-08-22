@@ -46,6 +46,8 @@ enum I18N {
         static let needToWriteAll = "모든 감사 일기 작성이 필요해요."
         static let limitFive = "일기는 5개까지만 작성할 수 있어요."
         static let alarm = "설정 > 알림 > 클로디에서 알림을 켜주세요."
+        static let editComplete = "변경을 완료했어요."
+        static let alarmSetComplete = "알림 시간 설정을 완료했어요."
     }
     
     enum BottomSheet {
