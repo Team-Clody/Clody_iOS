@@ -18,17 +18,18 @@ final class ReplyDetailViewController: UIViewController {
     
     private let viewModel = ReplyDetailViewModel()
     private let disposeBag = DisposeBag()
-    private let nickname: String
-    private let content: String
+    private lazy var nickname: String = ""
+    private lazy var content: String = ""
+    private let year: Int
     private let month: Int
-    private let date: Int
+    private let day: Int
     private let isNew: Bool
     
     // MARK: - UI Components
     
     private lazy var rootView = ReplyDetailView(
         month: month,
-        date: date,
+        day: day,
         nickname: nickname,
         content: content
     )
@@ -37,11 +38,10 @@ final class ReplyDetailViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(data: GetReplyResponseDTO, isNew: Bool) {
-        self.nickname = data.nickname
-        self.content = data.content
-        self.month = data.month
-        self.date = data.date
+    init(year: Int, month: Int, day: Int, isNew: Bool) {
+        self.year = year
+        self.month = month
+        self.day = day
         self.isNew = isNew
         super.init(nibName: nil, bundle: nil)
     }
@@ -62,12 +62,6 @@ final class ReplyDetailViewController: UIViewController {
         bindViewModel()
         setUI()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        judgeIsAlert(isNew: isNew)
-    }
 }
 
 // MARK: - Extensions
@@ -76,20 +70,45 @@ private extension ReplyDetailViewController {
 
     func bindViewModel() {
         let input = ReplyDetailViewModel.Input(
+            viewDidLoad: Observable.just(()).asSignal(onErrorJustReturn: ()),
             okButtonTapEvent: getClodyAlertView.okButton.rx.tap.asSignal(),
             backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
+        output.getReply
+            .drive(onNext: {
+                self.showLoadingIndicator()
+                self.getReply()
+            })
+            .disposed(by: disposeBag)
+        
         output.dismissAlert
-            .drive(onNext: { [weak self] in
-                self?.hideAlert()
+            .drive(onNext: {
+                self.hideAlert()
             })
             .disposed(by: disposeBag)
         
         output.popViewController
             .drive(onNext: {
                 self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.errorStatus
+            .bind(onNext: { networkViewJudge in
+                switch networkViewJudge {
+                case .network:
+                    self.showRetryView(isNetworkError: true) {
+                        self.getReply()
+                    }
+                case .unknowned:
+                    self.showRetryView(isNetworkError: false) {
+                        self.getReply()
+                    }
+                default:
+                    return
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -148,6 +167,17 @@ private extension ReplyDetailViewController {
         }) { _ in
             self.dimmingView.removeFromSuperview()
             self.getClodyAlertView.removeFromSuperview()
+        }
+    }
+}
+
+private extension ReplyDetailViewController {
+    
+    func getReply() {
+        viewModel.getReply(year: year, month: month, date: day) { data in
+            self.hideLoadingIndicator()
+            self.rootView.bindData(nickname: data.nickname, content: data.content)
+            self.judgeIsAlert(isNew: self.isNew)
         }
     }
 }

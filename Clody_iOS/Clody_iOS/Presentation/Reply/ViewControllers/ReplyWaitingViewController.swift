@@ -17,7 +17,7 @@ final class ReplyWaitingViewController: UIViewController {
     
     private let viewModel = ReplyWaitingViewModel()
     private let disposeBag = DisposeBag()
-    private var totalSeconds = 30
+    private var totalSeconds = 60
     private var date: Date
     private var isNew: Bool
     private let isHomeBackButton: Bool
@@ -109,10 +109,10 @@ private extension ReplyWaitingViewController {
             })
             .disposed(by: disposeBag)
         
-        output.getReply
+        output.pushViewController
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.getReply(date: self.date)
+                self.pushViewController(date: self.date)
             })
             .disposed(by: disposeBag)
         
@@ -157,7 +157,9 @@ private extension ReplyWaitingViewController {
                 let createdTime = (data.HH * 3600) + (data.MM * 60) + data.SS
                 let remainingTime = (createdTime + self.secondsToWaitForNormalReply) - Date().currentTimeSeconds()
                 self.totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
-            } else {
+            } else if date.0 == todayYear,
+                      date.1 == todayMonth,
+                      date.2 == todayDay - 1 {
                 // 어제 작성한 일기라면
                 let calendar = Calendar.current
                 let yesterdayDate = calendar.date(byAdding: .day, value: -1, to: Date())!
@@ -166,19 +168,24 @@ private extension ReplyWaitingViewController {
                 
                 let remainingTime = Int(twelveHoursLater.timeIntervalSinceNow)
                 self.totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
+            } else {
+                self.totalSeconds = 0
             }
         }
     }
     
-    func getReply(date: Date) {
-        
-        let year = DateFormatter.string(from: date, format: "yyyy")
-        let month = DateFormatter.string(from: date, format: "MM")
-        let date = DateFormatter.string(from: date, format: "dd")
-        
-        viewModel.getReply(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(date) ?? 0) { data in
+    func pushViewController(date: Date) {
+        if let year = Int(DateFormatter.string(from: date, format: "yyyy")),
+           let month = Int(DateFormatter.string(from: date, format: "MM")),
+           let day = Int(DateFormatter.string(from: date, format: "dd")) {
+            
             self.navigationController?.pushViewController(
-                ReplyDetailViewController(data: data, isNew: self.isNew),
+                ReplyDetailViewController(
+                    year: year,
+                    month: month,
+                    day: day,
+                    isNew: self.isNew
+                ),
                 animated: true
             )
         }
