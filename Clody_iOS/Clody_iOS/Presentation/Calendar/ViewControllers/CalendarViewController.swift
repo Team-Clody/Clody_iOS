@@ -272,9 +272,13 @@ private extension CalendarViewController {
                         self?.viewModel.fetchData()
                     }
                 case "networkAlert":
-                    self?.showErrorAlert(isNetworkError: true)
+                    self?.showRetryView(isNetworkError: true) {
+                        self?.viewModel.fetchData()
+                    }
                 default:
-                    self?.showErrorAlert(isNetworkError: false)
+                    self?.showRetryView(isNetworkError: false) {
+                        self?.viewModel.fetchData()
+                    }
                 }
             })
             .disposed(by: disposeBag)
