@@ -45,7 +45,7 @@ final class DiaryNotificationViewModel: ViewModelType {
 
 extension DiaryNotificationViewModel {
     
-    func setupNotification(time: String, completion: @escaping () -> ()) {
+    func setupNotification(time: String, completion: @escaping (NetworkViewJudge) -> ()) {
         Providers.myPageProvider.request(
             target: .postAlarmSet(
                 data: PostAlarmSetRequestDTO(
@@ -57,9 +57,15 @@ extension DiaryNotificationViewModel {
             ),
             instance: BaseResponse<PostAlarmSetResponseDTO>.self
         ) { response in
-            if let data = response.data {
-                completion()
+            var dataStatus: NetworkViewJudge
+            
+            switch response.status {
+            case 200..<300: dataStatus = .success
+            case -1: dataStatus = .network
+            default: dataStatus = .unknowned
             }
+            
+            completion(dataStatus)
         }
     }
 }

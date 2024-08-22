@@ -101,6 +101,7 @@ private extension DiaryNotificationViewController {
         
         output.setupNotification
             .drive(onNext: {
+                self.showLoadingIndicator()
                 self.setupNotification()
             })
             .disposed(by: disposeBag)
@@ -173,8 +174,17 @@ private extension DiaryNotificationViewController {
 extension DiaryNotificationViewController {
     
     func setupNotification() {
-        viewModel.setupNotification(time: time) {
-            self.navigationController?.pushViewController(OnBoardingViewController(), animated: true)
+        viewModel.setupNotification(time: time) { dataStatus in 
+            self.hideLoadingIndicator()
+            
+            switch dataStatus {
+            case .success:
+                self.navigationController?.pushViewController(OnBoardingViewController(), animated: true)
+            case .network:
+                self.showErrorAlert(isNetworkError: true)
+            case .unknowned:
+                self.showErrorAlert(isNetworkError: false)
+            }
         }
     }
 }
