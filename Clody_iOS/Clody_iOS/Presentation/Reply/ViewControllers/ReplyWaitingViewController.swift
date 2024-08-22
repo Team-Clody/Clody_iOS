@@ -21,6 +21,8 @@ final class ReplyWaitingViewController: UIViewController {
     private var date: Date
     private var isNew: Bool
     private let isHomeBackButton: Bool
+    private let secondsToWaitForFirstReply = 60
+    private let secondsToWaitForNormalReply = 12 * 60 * 60
     
     // MARK: - UI Components
      
@@ -87,27 +89,7 @@ private extension ReplyWaitingViewController {
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
                 let dateTuple = date.dateToYearMonthDay()
-                
-                self.viewModel.getWritingTime(year: dateTuple.0, month: dateTuple.1, date: dateTuple.2) { data in
-                    
-                    let todayYear = Date().dateToYearMonthDay().0
-                    let todayMonth = Date().dateToYearMonthDay().1
-                    let todayDay = Date().dateToYearMonthDay().2
-                    
-                    // 오늘 일기라면
-                    if todayYear == dateTuple.0,
-                       todayMonth == dateTuple.1,
-                       todayDay == dateTuple.2 {
-                        let createdTime = (data.HH * 3600) + (data.MM * 60) + data.SS
-                        let remainingTime = (createdTime + 30) - Date().currentTimeSeconds()
-                        self.totalSeconds = remainingTime
-                        if remainingTime <= 0 {
-                            self.totalSeconds = 0
-                        }
-                    } else {
-                        self.totalSeconds = 0
-                    }
-                }
+                self.getWritingTime(for: dateTuple)
             })
             .disposed(by: disposeBag)
         
@@ -141,12 +123,41 @@ private extension ReplyWaitingViewController {
 }
 
 private extension ReplyWaitingViewController {
+    
+    func getWritingTime(for date: (Int, Int, Int)) {
+        viewModel.getWritingTime(year: date.0, month: date.1, date: date.2) { data in
+            
+            let todayYear = Date().dateToYearMonthDay().0
+            let todayMonth = Date().dateToYearMonthDay().1
+            let todayDay = Date().dateToYearMonthDay().2
+            
+            // TODO: 최초 1회 답장인지 분기 처리
+            
+            if date.0 == todayYear,
+               date.1 == todayMonth,
+               date.2 == todayDay {
+                // 오늘 작성한 일기라면
+                let createdTime = (data.HH * 3600) + (data.MM * 60) + data.SS
+                let remainingTime = (createdTime + self.secondsToWaitForNormalReply) - Date().currentTimeSeconds()
+                self.totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
+            } else {
+                // 어제 작성한 일기라면
+                let calendar = Calendar.current
+                let yesterdayDate = calendar.date(byAdding: .day, value: -1, to: Date())!
+                let writingTime = calendar.date(bySettingHour: data.HH, minute: data.MM, second: data.SS, of: yesterdayDate)!
+                let twelveHoursLater = writingTime.addingTimeInterval(Double(self.secondsToWaitForNormalReply))
+                
+                let remainingTime = Int(twelveHoursLater.timeIntervalSinceNow)
+                self.totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
+            }
+        }
+    }
+    
     func getReply(date: Date) {
         
         let year = DateFormatter.string(from: date, format: "yyyy")
         let month = DateFormatter.string(from: date, format: "MM")
         let date = DateFormatter.string(from: date, format: "dd")
-        
         
         viewModel.getReply(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(date) ?? 0) { data in
             self.navigationController?.pushViewController(

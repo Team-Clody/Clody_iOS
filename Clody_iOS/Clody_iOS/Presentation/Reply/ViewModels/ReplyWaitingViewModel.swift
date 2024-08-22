@@ -73,9 +73,15 @@ extension ReplyWaitingViewModel {
             target: .getReply(year: year, month: month, date: date),
             instance: BaseResponse<GetReplyResponseDTO>.self
         ) { response in
-            if let data = response.data {
-                completion(data)
-            }
+//            switch data.status {
+//            case 200..<300:
+//                guard let data = response.data else { return }
+//                completion(data)
+//            case -1:
+//                
+//            default:
+//                
+//            }
         }
     }
     
@@ -84,9 +90,15 @@ extension ReplyWaitingViewModel {
             target: .getWritingTime(year: year, month: month, date: date),
             instance: BaseResponse<GetWritingTimeDTO>.self
         ) { response in
-            if let data = response.data {
+//            switch data.status {
+//            case 200..<300:
+                guard let data = response.data else { return }
                 completion(data)
-            }
+//            case -1:
+//                
+//            default:
+//                
+//            }
         }
     }
 }
