@@ -175,6 +175,33 @@ private extension ListViewController {
             })
             .disposed(by: disposeBag)
         
+        output.isLoading
+            .drive(onNext: { [weak self] isLoading in
+                if isLoading {
+                    self?.showLoadingIndicator()
+                } else {
+                    self?.hideLoadingIndicator()
+                }
+            })
+            .disposed(by: disposeBag)
+
+        output.errorStatus
+            .drive(onNext: { [weak self] errorStatus in
+                switch errorStatus {
+                case "networkView":
+                    self?.showRetryView(isNetworkError: true) {
+                        self?.viewModel.fetchData()
+                    }
+                case "unknownedView":
+                    self?.showRetryView(isNetworkError: false) {
+                        self?.viewModel.fetchData()
+                    }
+                default:
+                    self?.showErrorAlert(isNetworkError: false)
+                }
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     func setDelegate() {

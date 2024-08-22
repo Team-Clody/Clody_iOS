@@ -6,7 +6,7 @@ import Then
 final class MyPageView: BaseView {
     
     let tableView = UITableView()
-    let navigationBar = ClodyNavigationBar(type: .setting, title: "설정")
+    let navigationBar = ClodyNavigationBar(type: .setting, title: I18N.MyPage.setting)
     
     override func setStyle() {
         tableView.do {

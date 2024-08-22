@@ -61,7 +61,7 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
         }
         
         helpMessageLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "신조어, 비속어, 이모지 작성은 불가능해요", style: .detail1_medium, lineHeightMultiple: 1.5)
+            $0.attributedText = UIFont.pretendardString(text: I18N.WritingDiary.helpMessage, style: .detail1_medium, lineHeightMultiple: 1.5)
             $0.textColor = .blueCustom
         }
         

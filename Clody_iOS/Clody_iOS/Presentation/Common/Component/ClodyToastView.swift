@@ -91,11 +91,11 @@ final class ClodyToastView: BaseView {
         
         switch toastType {
         case .needToWriteAll:
-            titleText = "모든 감사 일기 작성이 필요해요."
+            titleText = I18N.Toast.needToWriteAll
         case .limitFive:
-            titleText = "일기는 5개까지만 작성할 수 있어요."
+            titleText = I18N.Toast.limitFive
         case .alarm:
-            titleText = "설정 > 알림 > 클로디에서 알림을 켜주세요."
+            titleText = I18N.Toast.alarm
         }
         
         textLabel.attributedText = UIFont.pretendardString(text: titleText, style: .body4_semibold)

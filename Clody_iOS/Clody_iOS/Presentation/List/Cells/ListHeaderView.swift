@@ -62,7 +62,7 @@ final class ListHeaderView: UICollectionReusableView {
              $0.backgroundColor = .lightBlue
              $0.makeCornerRound(radius: 10)
              $0.setTitleColor(.blueCustom, for: .normal)
-             let attributedTitle = UIFont.pretendardString(text: "답장 확인", style: .detail1_semibold)
+            let attributedTitle = UIFont.pretendardString(text: I18N.WritingDiary.replyButton, style: .detail1_semibold)
              $0.setAttributedTitle(attributedTitle, for: .normal)
          }
         

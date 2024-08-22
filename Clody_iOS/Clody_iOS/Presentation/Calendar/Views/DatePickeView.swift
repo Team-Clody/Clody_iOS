@@ -35,7 +35,7 @@ final class DatePickeView: BaseView {
         
         titleLabel.do {
             $0.textColor = .grey01
-            $0.attributedText = UIFont.pretendardString(text: "다른 날짜 보기", style: .body2_semibold)
+            $0.attributedText = UIFont.pretendardString(text: I18N.Calendar.otherDay, style: .body2_semibold)
         }
         
         cancelIcon.do {
@@ -46,7 +46,7 @@ final class DatePickeView: BaseView {
             $0.backgroundColor = .mainYellow
             $0.makeCornerRound(radius: 10)
             $0.setTitleColor(.grey01, for: .normal)
-            let attributedTitle = UIFont.pretendardString(text: "완료", style: .body2_semibold)
+            let attributedTitle = UIFont.pretendardString(text: I18N.Calendar.complete, style: .body2_semibold)
             $0.setAttributedTitle(attributedTitle, for: .normal)
         }
     }
