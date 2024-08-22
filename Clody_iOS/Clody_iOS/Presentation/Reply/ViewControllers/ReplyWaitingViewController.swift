@@ -115,6 +115,23 @@ private extension ReplyWaitingViewController {
                 self.getReply(date: self.date)
             })
             .disposed(by: disposeBag)
+        
+        viewModel.errorStatus
+            .bind(onNext: { networkViewJudge in
+                switch networkViewJudge {
+                case .network:
+                    self.showRetryView(isNetworkError: true) {
+                        self.getWritingTime(for: self.date.dateToYearMonthDay())                        
+                    }
+                case .unknowned:
+                    self.showRetryView(isNetworkError: false) {
+                        self.getWritingTime(for: self.date.dateToYearMonthDay())
+                    }
+                default:
+                    return
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
     func setUI() {

@@ -25,6 +25,8 @@ final class ReplyWaitingViewModel: ViewModelType {
         let getReply: Driver<Void>
     }
     
+    let errorStatus = PublishRelay<NetworkViewJudge>()
+    
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         let getWritingTime = input.viewDidLoad
             .asDriver(onErrorJustReturn: ())
@@ -73,7 +75,7 @@ extension ReplyWaitingViewModel {
             target: .getReply(year: year, month: month, date: date),
             instance: BaseResponse<GetReplyResponseDTO>.self
         ) { response in
-//            switch data.status {
+//            switch response.status {
 //            case 200..<300:
 //                guard let data = response.data else { return }
 //                completion(data)
@@ -90,15 +92,16 @@ extension ReplyWaitingViewModel {
             target: .getWritingTime(year: year, month: month, date: date),
             instance: BaseResponse<GetWritingTimeDTO>.self
         ) { response in
-//            switch data.status {
-//            case 200..<300:
+            switch response.status {
+            case 200..<300:
                 guard let data = response.data else { return }
+                self.errorStatus.accept(.success)
                 completion(data)
-//            case -1:
-//                
-//            default:
-//                
-//            }
+            case -1:
+                self.errorStatus.accept(.network)
+            default:
+                self.errorStatus.accept(.unknowned)
+            }
         }
     }
 }
