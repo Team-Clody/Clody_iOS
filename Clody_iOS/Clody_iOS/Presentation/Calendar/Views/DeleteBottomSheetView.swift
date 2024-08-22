@@ -38,7 +38,7 @@ final class DeleteBottomSheetView: BaseView {
         }
         
         deleteLabel.do {
-            $0.textColor = .grey01
+            $0.textColor = .grey03
             $0.attributedText = UIFont.pretendardString(text: I18N.Calendar.delete, style: .body4_medium)
         }
     }
@@ -68,7 +68,7 @@ final class DeleteBottomSheetView: BaseView {
         deleteIcon.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(24)
-            $0.size.equalTo(CGSize(width: 24, height: 24))
+            $0.size.equalTo(34)
         }
         
         deleteLabel.snp.makeConstraints {
