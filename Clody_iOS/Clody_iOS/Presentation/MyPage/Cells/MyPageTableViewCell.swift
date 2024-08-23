@@ -55,13 +55,13 @@ final class MyPageTableViewCell: UITableViewCell {
         separatorLine.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
-            $0.height.equalTo(8)
+            $0.height.equalTo(ScreenUtils.getHeight(8))
         }
         
         arrowImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(14)
-            $0.size.equalTo(25)
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(14))
+            $0.size.equalTo(ScreenUtils.getWidth(25))
         }
     }
     

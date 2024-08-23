@@ -83,36 +83,36 @@ final class AccountView: BaseView {
     override func setLayout() {
         
         navigationBar.snp.makeConstraints {
-            $0.height.equalTo(44)
+            $0.height.equalTo(ScreenUtils.getHeight(44))
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
         }
         
         profileImageView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(30)
-            $0.left.equalToSuperview().inset(24)
-            $0.width.height.equalTo(20)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(30))
+            $0.left.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.width.height.equalTo(ScreenUtils.getWidth(20))
         }
         
         nicknameLabel.snp.makeConstraints {
             $0.centerY.equalTo(profileImageView)
-            $0.left.equalTo(profileImageView.snp.right).offset(10)
+            $0.left.equalTo(profileImageView.snp.right).offset(ScreenUtils.getWidth(10))
         }
         
         changeProfileButton.snp.makeConstraints {
             $0.centerY.equalTo(profileImageView)
-            $0.right.equalToSuperview().inset(23)
+            $0.right.equalToSuperview().inset(ScreenUtils.getWidth(23))
         }
 
         emailImageView.snp.makeConstraints {
-            $0.top.equalTo(profileImageView.snp.bottom).offset(20)
+            $0.top.equalTo(profileImageView.snp.bottom).offset(ScreenUtils.getHeight(20))
             $0.left.equalTo(profileImageView)
-            $0.width.height.equalTo(20)
+            $0.width.height.equalTo(ScreenUtils.getWidth(20))
         }
         
         emailLabel.snp.makeConstraints {
             $0.centerY.equalTo(emailImageView)
-            $0.left.equalTo(emailImageView.snp.right).offset(10)
+            $0.left.equalTo(emailImageView.snp.right).offset(ScreenUtils.getWidth(10))
         }
         
         logoutButton.snp.makeConstraints {
@@ -121,14 +121,14 @@ final class AccountView: BaseView {
         }
 
         separatorLine.snp.makeConstraints {
-            $0.top.equalTo(emailLabel.snp.bottom).offset(22)
+            $0.top.equalTo(emailLabel.snp.bottom).offset(ScreenUtils.getHeight(22))
             $0.width.equalToSuperview()
-            $0.height.equalTo(8)
+            $0.height.equalTo(ScreenUtils.getHeight(8))
         }
         
         deleteConfirmationLabel.snp.makeConstraints {
-            $0.top.equalTo(separatorLine.snp.bottom).offset(22)
-            $0.left.equalToSuperview().inset(26)
+            $0.top.equalTo(separatorLine.snp.bottom).offset(ScreenUtils.getHeight(22))
+            $0.left.equalToSuperview().inset(ScreenUtils.getWidth(26))
         }
         
         deleteAccountButton.snp.makeConstraints {
@@ -137,7 +137,7 @@ final class AccountView: BaseView {
         }
         
         nicknameTextField.snp.makeConstraints {
-            $0.top.equalTo(changeProfileButton.snp.bottom).offset(20)
+            $0.top.equalTo(changeProfileButton.snp.bottom).offset(ScreenUtils.getHeight(20))
             $0.left.right.equalToSuperview()
         }
     }
