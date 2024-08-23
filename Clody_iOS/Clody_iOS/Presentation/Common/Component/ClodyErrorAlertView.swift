@@ -87,7 +87,7 @@ final class ClodyErrorAlertView: BaseView {
         
         errorConfirmButton.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.top.equalTo(titleLabel.snp.bottom).offset(25)
+            $0.height.equalTo(42)
             $0.bottom.equalToSuperview().inset(20)
         }
     }
