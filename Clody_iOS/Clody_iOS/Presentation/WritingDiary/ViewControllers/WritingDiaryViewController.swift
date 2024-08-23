@@ -222,6 +222,7 @@ private extension WritingDiaryViewController {
                         self.viewModel.isFirstRelay.accept(isFirst)
                         cell.writingListNumberLabel.textColor = .grey02
                         cell.textView.textColor = .grey03
+                        cell.writingContainer.backgroundColor = .clear
                         
                         cell.textView.rx.text.orEmpty
                             .map { "\($0.count)" }
@@ -236,6 +237,7 @@ private extension WritingDiaryViewController {
                         var status = self.viewModel.textViewIsEmptyRelay.value
                         status[indexPath.item] = !cell.textView.text.isEmpty
                         self.viewModel.textViewIsEmptyRelay.accept(status)
+                        cell.writingContainer.backgroundColor = .grey09
                         
                         var items = self.viewModel.diariesRelay.value
                         items[indexPath.item] = cell.textView.text
