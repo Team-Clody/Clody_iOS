@@ -91,25 +91,25 @@ final class ListHeaderView: UICollectionReusableView {
     func setLayout() {
         
         cloverImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(30)
-            $0.leading.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(30))
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(20))
         }
         
         dateLabel.snp.makeConstraints {
             $0.centerY.equalTo(cloverImageView)
-            $0.leading.equalTo(cloverImageView.snp.trailing).offset(6)
+            $0.leading.equalTo(cloverImageView.snp.trailing).offset(ScreenUtils.getWidth(6))
         }
         
         dayLabel.snp.makeConstraints {
             $0.bottom.equalTo(dateLabel)
-            $0.leading.equalTo(dateLabel.snp.trailing).offset(2)
+            $0.leading.equalTo(dateLabel.snp.trailing).offset(ScreenUtils.getWidth(2))
         }
         
         replyButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
-            $0.trailing.equalTo(kebabButton.snp.leading).offset(-4)
-            $0.width.equalTo(64)
-            $0.height.equalTo(28)
+            $0.trailing.equalTo(kebabButton.snp.leading).offset(-ScreenUtils.getWidth(4))
+            $0.width.equalTo(ScreenUtils.getWidth(64))
+            $0.height.equalTo(ScreenUtils.getHeight(28))
         }
         
         newImageView.snp.makeConstraints {
@@ -118,11 +118,12 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         kebabButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(4)
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(4))
             $0.centerY.equalTo(dateLabel)
-            $0.size.equalTo(28)
+            $0.size.equalTo(ScreenUtils.getWidth(28))
         }
     }
+
     
     func bindData(diary: ListDiary) {
         

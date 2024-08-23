@@ -39,7 +39,7 @@ final class ListEmptyView: BaseView {
         
         announceLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(307)
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(307))
         }
     }
 }

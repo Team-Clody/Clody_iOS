@@ -70,17 +70,18 @@ final class ListCollectionViewCell: UICollectionViewCell {
         }
         
         listNumberLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(17)
-            $0.leading.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(17))
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(20))
         }
         
         diaryTextLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(35)
-            $0.trailing.equalToSuperview().inset(18)
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(35))
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(18))
             $0.top.equalTo(listNumberLabel)
             $0.bottom.equalToSuperview()
         }
     }
+
     
     func bindData(diaryContent: String, index: Int) {
         listNumberLabel.text = "\(index + 1)."

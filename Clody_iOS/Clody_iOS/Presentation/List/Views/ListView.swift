@@ -49,11 +49,11 @@ final class ListView: BaseView {
         navigationBarView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(44)
+            $0.height.equalTo(ScreenUtils.getHeight(44))
         }
         
         listCollectionView.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
             $0.bottom.equalToSuperview()
             $0.top.equalTo(navigationBarView.snp.bottom)
         }
@@ -64,6 +64,7 @@ final class ListView: BaseView {
             $0.top.equalTo(navigationBarView.snp.bottom)
         }
     }
+
     
     func listCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionNumber, environment) -> NSCollectionLayoutSection? in
