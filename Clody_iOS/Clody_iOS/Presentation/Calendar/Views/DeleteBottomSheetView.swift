@@ -55,8 +55,7 @@ final class DeleteBottomSheetView: BaseView {
         }
         
         bottomSheetView.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalTo(safeAreaLayoutGuide)
+            $0.horizontalEdges.bottom.equalToSuperview()
             $0.height.equalTo(ScreenUtils.getHeight(94))
         }
         

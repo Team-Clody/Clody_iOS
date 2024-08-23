@@ -72,8 +72,8 @@ final class DatePickeView: BaseView {
         }
         
         pickerView.snp.makeConstraints {
-            $0.horizontalEdges.equalTo(completeButton).inset(ScreenUtils.getWidth(24))
-            $0.bottom.equalTo(completeButton.snp.top).offset(-ScreenUtils.getHeight(8))
+            $0.horizontalEdges.equalTo(completeButton)
+            $0.bottom.equalTo(completeButton.snp.top).offset(ScreenUtils.getHeight(8))
             $0.height.equalTo(ScreenUtils.getHeight(223))
         }
         
