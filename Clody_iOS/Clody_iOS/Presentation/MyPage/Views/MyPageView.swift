@@ -13,7 +13,7 @@ final class MyPageView: BaseView {
             $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.identifier)
             $0.tableFooterView = UIView()
             $0.rowHeight = UITableView.automaticDimension
-            $0.estimatedRowHeight = 100
+            $0.estimatedRowHeight = ScreenUtils.getHeight(100)
             $0.separatorStyle = .none
             $0.backgroundColor = .white
         }

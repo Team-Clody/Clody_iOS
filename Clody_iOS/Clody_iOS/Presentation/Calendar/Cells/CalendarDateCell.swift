@@ -72,28 +72,29 @@ final class CalendarDateCell: FSCalendarCell {
     func setLayout() {
         cloverImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview()
-            $0.width.equalTo(26)
-            $0.height.equalTo(25)
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(10))
+            $0.width.equalTo(ScreenUtils.getWidth(26))
+            $0.height.equalTo(ScreenUtils.getHeight(25))
         }
         
         newImageView.snp.makeConstraints {
-            $0.centerY.equalTo(cloverImageView.snp.bottom)
-            $0.centerX.equalTo(cloverImageView.snp.trailing)
-            $0.size.equalTo(12)
+            $0.centerY.equalTo(cloverImageView.snp.bottom).offset(ScreenUtils.getHeight(4))
+            $0.centerX.equalTo(cloverImageView.snp.trailing).offset(ScreenUtils.getWidth(6))
+            $0.size.equalTo(ScreenUtils.getWidth(12))
         }
         
         backgroundSelectView.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(6)
+            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(6))
             $0.centerX.equalTo(cloverImageView)
             $0.horizontalEdges.equalTo(cloverImageView)
-            $0.height.equalTo(16)
+            $0.height.equalTo(ScreenUtils.getHeight(16))
         }
         
         clendarDateLabel.snp.makeConstraints {
             $0.center.equalTo(backgroundSelectView)
         }
     }
+
 }
 
 extension CalendarDateCell {

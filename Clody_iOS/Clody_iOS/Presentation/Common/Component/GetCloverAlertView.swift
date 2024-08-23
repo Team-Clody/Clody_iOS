@@ -75,25 +75,25 @@ final class GetCloverAlertView: BaseView {
     
     override func setLayout() {
         cloverImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(19)
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(19))
             $0.centerX.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(cloverImageView.snp.bottom).offset(22)
-            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.top.equalTo(cloverImageView.snp.bottom).offset(ScreenUtils.getHeight(22))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         contentLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(4))
             $0.centerX.equalToSuperview()
         }
         
         okButton.snp.makeConstraints {
-            $0.height.equalTo(40)
-            $0.top.equalTo(contentLabel.snp.bottom).offset(21.5)
-            $0.horizontalEdges.equalToSuperview().inset(11)
-            $0.bottom.equalToSuperview().inset(11.5)
+            $0.height.equalTo(ScreenUtils.getHeight(40))
+            $0.top.equalTo(contentLabel.snp.bottom).offset(ScreenUtils.getHeight(21.5))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(11))
+            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(11.5))
         }
     }
 }

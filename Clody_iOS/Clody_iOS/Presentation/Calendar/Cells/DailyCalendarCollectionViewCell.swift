@@ -57,23 +57,24 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
     
     func setLayout() {
         listContainerView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(8))
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
         
         listNumberLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(17)
-            $0.leading.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(17))
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(16))
         }
         
         diaryTextLabel.snp.makeConstraints {
             $0.top.equalTo(listNumberLabel.snp.top)
-            $0.leading.equalToSuperview().inset(35)
-            $0.trailing.equalToSuperview().inset(18)
-            $0.bottom.equalToSuperview().inset(17)
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(35))
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(18))
+            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(17))
         }
     }
+
     
     func bindData(data: String, index: String) {
         listNumberLabel.text = index

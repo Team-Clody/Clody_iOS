@@ -55,27 +55,29 @@ final class DeleteBottomSheetView: BaseView {
         }
         
         bottomSheetView.snp.makeConstraints {
-            $0.horizontalEdges.bottom.equalToSuperview()
-            $0.height.equalTo(94)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalTo(safeAreaLayoutGuide)
+            $0.height.equalTo(ScreenUtils.getHeight(94))
         }
         
         deleteContainer.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(safeAreaLayoutGuide)
-            $0.height.equalTo(50)
+            $0.height.equalTo(ScreenUtils.getHeight(50))
         }
         
         deleteIcon.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(24)
-            $0.size.equalTo(34)
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.size.equalTo(ScreenUtils.getWidth(34))
         }
         
         deleteLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(deleteIcon.snp.trailing).offset(8)
+            $0.leading.equalTo(deleteIcon.snp.trailing).offset(ScreenUtils.getWidth(8))
         }
     }
+
     
     func animateShow() {
         self.bottomSheetView.transform = CGAffineTransform(translationX: 0, y: self.bottomSheetView.frame.height)
