@@ -116,38 +116,39 @@ final class WritingDiaryCell: UICollectionViewCell {
     }
     
     private func setLayout() {
-        
+
+        writingListNumberLabel.snp.makeConstraints {
+            $0.top.leading.equalToSuperview().inset(ScreenUtils.getHeight(16))
+        }
+
         textView.snp.makeConstraints {
             $0.top.equalTo(writingListNumberLabel)
-            $0.leading.equalToSuperview().inset(34)
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(34))
             $0.trailing.equalTo(kebabButton.snp.leading)
         }
-        
-        writingListNumberLabel.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().inset(16)
-        }
-        
+
         writingContainer.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
-            $0.verticalEdges.equalTo(textView).inset(-14)
+            $0.verticalEdges.equalTo(textView).inset(ScreenUtils.getHeight(-14))
         }
-        
+
         textInputLabel.snp.makeConstraints {
             $0.centerY.equalTo(limitTextLabel)
-            $0.trailing.equalTo(limitTextLabel.snp.leading).offset(-2)
+            $0.trailing.equalTo(limitTextLabel.snp.leading).offset(ScreenUtils.getWidth(-2))
         }
-        
+
         limitTextLabel.snp.makeConstraints {
-            $0.top.equalTo(writingContainer.snp.bottom).offset(6)
-            $0.trailing.equalToSuperview().inset(8)
+            $0.top.equalTo(writingContainer.snp.bottom).offset(ScreenUtils.getHeight(6))
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(8))
         }
-        
+
         kebabButton.snp.makeConstraints {
-            $0.size.equalTo(28)
-            $0.top.equalToSuperview().inset(11)
-            $0.trailing.equalToSuperview().inset(6)
+            $0.size.equalTo(ScreenUtils.getWidth(28))
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(11))
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(6))
         }
     }
+
     
     private func setDelegate() {
         textView.delegate = self

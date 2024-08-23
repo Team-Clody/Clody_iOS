@@ -78,37 +78,37 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
     }
     
     func setLayout() {
-        
+
         dateLabel.snp.makeConstraints {
             $0.leading.equalToSuperview()
             $0.top.equalToSuperview()
         }
-        
+
         infoButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
-            $0.size.equalTo(28)
+            $0.size.equalTo(ScreenUtils.getWidth(28))
             $0.trailing.equalToSuperview()
         }
-        
+
         helpMessageImage.snp.makeConstraints {
             $0.bottom.equalTo(infoButton.snp.top)
-            $0.width.equalTo(228)
-            $0.height.equalTo(36)
+            $0.width.equalTo(ScreenUtils.getWidth(228))
+            $0.height.equalTo(ScreenUtils.getHeight(36))
             $0.trailing.equalToSuperview()
         }
-        
+
         helpMessageLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(16)
-            $0.leading.equalToSuperview().inset(8)
+            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(16))
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(8))
         }
-        
-        cancelHelpButton.snp.makeConstraints {            
-            $0.size.equalTo(28)
+
+        cancelHelpButton.snp.makeConstraints {
+            $0.size.equalTo(ScreenUtils.getWidth(28))
             $0.trailing.equalToSuperview()
             $0.top.equalToSuperview()
         }
     }
-    
+
     func bindData(dateData: Date) {
         let month = DateFormatter.string(from: dateData, format: "M")
         let date = DateFormatter.string(from: dateData, format: "d")
