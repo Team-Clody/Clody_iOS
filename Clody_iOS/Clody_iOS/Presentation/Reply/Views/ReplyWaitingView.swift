@@ -51,7 +51,7 @@ final class ReplyWaitingView: BaseView {
     
     override func setLayout() {
         navigationBar.snp.makeConstraints {
-            $0.height.equalTo(44)
+            $0.height.equalTo(ScreenUtils.getHeight(44))
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.horizontalEdges.equalToSuperview()
         }
@@ -76,9 +76,9 @@ final class ReplyWaitingView: BaseView {
         }
         
         openButton.snp.makeConstraints {
-            $0.height.equalTo(48)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(5)
+            $0.height.equalTo(ScreenUtils.getHeight(48))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(5))
         }
     }
 }

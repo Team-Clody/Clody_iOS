@@ -52,25 +52,25 @@ final class LoginView: BaseView {
         }
         
         introImageView.snp.makeConstraints {
-            $0.top.equalTo(symbolImageView.snp.bottom).offset(21)
+            $0.top.equalTo(symbolImageView.snp.bottom).offset(ScreenUtils.getHeight(21))
             $0.centerX.equalToSuperview()
         }
         
         clodyLogoImageView.snp.makeConstraints {
-            $0.top.equalTo(introImageView.snp.bottom).offset(11)
+            $0.top.equalTo(introImageView.snp.bottom).offset(ScreenUtils.getHeight(11))
             $0.centerX.equalToSuperview()
         }
         
         kakaoLoginButton.snp.makeConstraints {
-            $0.height.equalTo(48)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.bottom.equalTo(appleLoginButton.snp.top).offset(-12)
+            $0.height.equalTo(ScreenUtils.getHeight(48))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.bottom.equalTo(appleLoginButton.snp.top).offset(ScreenUtils.getHeight(-12))
         }
         
         appleLoginButton.snp.makeConstraints {
-            $0.height.equalTo(48)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(43)
+            $0.height.equalTo(ScreenUtils.getHeight(48))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(43))
         }
     }
 }

@@ -46,26 +46,26 @@ final class NicknameView: BaseView {
     
     override func setLayout() {
         navigationBar.snp.makeConstraints {
-            $0.height.equalTo(44)
+            $0.height.equalTo(ScreenUtils.getHeight(44))
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.horizontalEdges.equalToSuperview()
         }
         
         introLabel.snp.makeConstraints {
             $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(40))
-            $0.leading.equalToSuperview().inset(24)
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         textField.snp.makeConstraints {
-            $0.height.equalTo(51)
+            $0.height.equalTo(ScreenUtils.getHeight(51))
             $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(40))
-            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         nextButton.snp.makeConstraints {
-            $0.height.equalTo(48)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(5)
+            $0.height.equalTo(ScreenUtils.getHeight(48))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(5))
         }
     }
 }
