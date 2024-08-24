@@ -53,6 +53,7 @@ final class AccountViewController: UIViewController {
             .asSignal(onErrorJustReturn: false)
         
         let input = AccountViewModel.Input(
+            viewDidLoad: Observable.just(()).asSignal(onErrorJustReturn: ()),
             textFieldInputEvent: textField.rx.text.orEmpty.distinctUntilChanged().asSignal(onErrorJustReturn: ""),
             textFieldDidBeginEditing: textField.rx.controlEvent(.editingDidBegin).asSignal(),
             textFieldDidEndEditing: textFieldDidEndEditing, 
@@ -66,6 +67,13 @@ final class AccountViewController: UIViewController {
             .orEmpty
             .map { String($0.prefix(self.maxLength)) }
             .bind(to: self.textField.rx.text)
+            .disposed(by: disposeBag)
+        
+        output.getUserInfo
+            .drive(onNext: {
+                self.showLoadingIndicator()
+                self.getUserInfo()
+            })
             .disposed(by: disposeBag)
         
         output.charCountDidChange
@@ -107,26 +115,14 @@ final class AccountViewController: UIViewController {
                 self.hideChangeNicknameBottomSheet()
                 guard let nickname = self.textField.text else { return }
                 self.viewModel.patchNickNameChange(nickname: nickname) { nickname in
-                    self.rootView.nicknameLabel.attributedText = UIFont.pretendardString(text: nickname, style: .body1_semibold)
+                    self.rootView.nickname = nickname
                 }
             })
             .disposed(by: disposeBag)
         
-        viewModel.getUserInfoAPI { [weak self] userInfo in
-            self?.rootView.nicknameLabel.text = userInfo.name
-            self?.rootView.emailLabel.text = userInfo.email
-        }
-        
         output.popViewController
             .drive(onNext: {
                 self.navigationController?.popViewController(animated: true)
-            })
-            .disposed(by: disposeBag)
-        
-        output.userInfo
-            .drive(onNext: { [weak self] name, email in
-                self?.rootView.nicknameLabel.text = name
-                self?.rootView.emailLabel.text = email
             })
             .disposed(by: disposeBag)
         
@@ -220,6 +216,23 @@ final class AccountViewController: UIViewController {
                 self?.view.endEditing(true)
             })
             .disposed(by: disposeBag)
+        
+        viewModel.errorStatus
+            .bind(onNext: { networkViewJudge in
+                switch networkViewJudge {
+                case .network:
+                    self.showRetryView(isNetworkError: true) {
+                        self.getUserInfo()
+                    }
+                case .unknowned:
+                    self.showRetryView(isNetworkError: false) {
+                        self.getUserInfo()
+                    }
+                default:
+                    return
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setKeyboardNotifications() {
@@ -236,6 +249,19 @@ final class AccountViewController: UIViewController {
 
     @objc private func keyboardWillHide(_ notification: Notification) {
         view.frame.origin.y = 0
+    }
+}
+
+private extension AccountViewController {
+    
+    func getUserInfo() {
+        viewModel.getUserInfo { userInfo in
+            self.hideLoadingIndicator()
+            
+            self.rootView.nickname = userInfo.name
+            self.rootView.email = userInfo.email
+            self.rootView.loginPlatform = (userInfo.platform == LoginPlatformType.apple.rawValue) ? .apple : .kakao
+        }
     }
 }
 
