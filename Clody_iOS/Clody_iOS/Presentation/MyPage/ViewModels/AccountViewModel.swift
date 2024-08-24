@@ -22,7 +22,8 @@ final class AccountViewModel: ViewModelType {
         let popViewController: Driver<Void>
     }
     
-    let errorStatus = PublishRelay<NetworkViewJudge>()
+    let getUserInfoErrorStatus = PublishRelay<NetworkViewJudge>()
+    let patchNicknameErrorStatus = PublishRelay<NetworkViewJudge>()
     
     func transform(from input: Input, disposeBag: RxSwift.DisposeBag) -> Output {
         let getUserInfo = input.viewDidLoad
@@ -75,21 +76,29 @@ extension AccountViewModel {
             switch response.status {
             case 200..<300:
                 guard let data = response.data else { return }
-                self.errorStatus.accept(.success)
+                self.getUserInfoErrorStatus.accept(.success)
                 completion(data)
             case -1:
-                self.errorStatus.accept(.network)
+                self.getUserInfoErrorStatus.accept(.network)
             default:
-                self.errorStatus.accept(.unknowned)
+                self.getUserInfoErrorStatus.accept(.unknowned)
             }
         }
     }
     
-    func patchNickNameChange(nickname: String, completion: @escaping (String) -> ()) {
-        Providers.myPageProvider.request(target: .patchNickname(data: PatchNicknameRequestDTO(name: nickname)), instance: BaseResponse<PatchNicknameResponseDTO>.self, completion: { response in
-            guard let data = response.data else { return }
-            completion(data.name)
-        })
+    func patchNickName(nickname: String, completion: @escaping (PatchNicknameResponseDTO) -> ()) {
+        Providers.myPageProvider.request(target: .patchNickname(data: PatchNicknameRequestDTO(name: nickname)), instance: BaseResponse<PatchNicknameResponseDTO>.self) { response in
+            switch response.status {
+            case 200..<300:
+                guard let data = response.data else { return }
+                self.patchNicknameErrorStatus.accept(.success)
+                completion(data)
+            case -1:
+                self.patchNicknameErrorStatus.accept(.network)
+            default:
+                self.patchNicknameErrorStatus.accept(.unknowned)
+            }
+        }
     }
     
     func logout(completion: @escaping () -> ()) {
@@ -99,17 +108,15 @@ extension AccountViewModel {
 
     func withdraw(completion: @escaping (NetworkViewJudge) -> ()) {
         Providers.authProvider.request(target: .revoke, instance: BaseResponse<EmptyResponseDTO>.self) { response in
-            var dataStatus: NetworkViewJudge
-            
             switch response.status {
             case 200..<300: 
                 UserManager.shared.clearAll()
-                dataStatus = .success
-            case -1: dataStatus = .network
-            default: dataStatus = .unknowned
+                completion(.success)
+            case -1:
+                completion(.network)
+            default:
+                completion(.unknowned)
             }
-            
-            completion(dataStatus)
         }
     }
 }
