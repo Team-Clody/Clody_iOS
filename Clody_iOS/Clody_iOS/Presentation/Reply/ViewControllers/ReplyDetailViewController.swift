@@ -95,6 +95,8 @@ private extension ReplyDetailViewController {
         
         viewModel.errorStatus
             .bind(onNext: { networkViewJudge in
+                self.hideLoadingIndicator()
+                
                 switch networkViewJudge {
                 case .network:
                     self.showRetryView(isNetworkError: true) {
