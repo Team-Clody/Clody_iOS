@@ -260,6 +260,7 @@ private extension AccountViewController {
         viewModel.patchNickName(nickname: nickname) { data in
             self.hideChangeNicknameBottomSheet()
             self.hideLoadingIndicator()
+            ClodyToast.show(toastType: .changeComplete)
             
             self.rootView.nickname = data.name
         }
