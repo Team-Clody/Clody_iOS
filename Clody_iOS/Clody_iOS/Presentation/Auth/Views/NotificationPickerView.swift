@@ -134,4 +134,9 @@ final class NotificationPickerView: BaseView {
     }
 }
 
-
+extension NotificationPickerView {
+    
+    func setTime(_ time: String) {
+        pickerView.setTime(time)
+    }
+}

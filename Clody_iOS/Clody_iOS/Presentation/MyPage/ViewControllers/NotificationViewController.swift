@@ -247,6 +247,7 @@ extension NotificationViewController: UITableViewDataSource {
             cell.arrowImageView.isUserInteractionEnabled = true
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.arrowImageViewTapped))
             cell.addGestureRecognizer(tapGesture)
+            timePickerView.setTime(alarmData.time)
         }
     
         cell.configure(with: alarmData, indexPath: indexPath.row)

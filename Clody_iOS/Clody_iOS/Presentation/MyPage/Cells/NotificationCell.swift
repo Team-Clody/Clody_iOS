@@ -121,7 +121,7 @@ final class NotificationCell: UITableViewCell {
             return time
         }
         
-        dateFormatter.dateFormat = "a h:mm"
+        dateFormatter.dateFormat = "a h시 mm분"
         dateFormatter.locale = Locale(identifier: "ko_KR")
         return dateFormatter.string(from: date)
     }
