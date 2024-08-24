@@ -83,7 +83,11 @@ extension ClodyAlert {
         
         messageLabel.do {
             $0.textColor = .grey04
-            $0.attributedText = UIFont.pretendardString(text: message, style: .body3_regular)
+            $0.attributedText = UIFont.pretendardString(
+                text: message,
+                style: .body3_regular,
+                lineHeightMultiple: 1.5
+            )
             $0.textAlignment = .center
             $0.numberOfLines = 0
         }
@@ -114,7 +118,7 @@ extension ClodyAlert {
         
         messageLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(9)
-            $0.horizontalEdges.greaterThanOrEqualToSuperview().inset(20)
+            $0.horizontalEdges.greaterThanOrEqualToSuperview().inset(ScreenUtils.getWidth(58))
             $0.centerX.equalToSuperview()
         }
         
