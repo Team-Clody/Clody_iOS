@@ -45,8 +45,10 @@ enum I18N {
     }
     
     enum TermsURL {
-        static let terms = "https://whispering-telephone-3a4.notion.site/38d38a167e8d4f319f9aa24038d7a3fc"
-        static let privacy = "https://whispering-telephone-3a4.notion.site/1b0e3624fbe64800a00c8d4ebca0e0bd?pvs=4"
+        static let terms = "https://phrygian-open-50e.notion.site/4b8254c57c124f37afe3302ca7dd33c2?pvs=4"
+        static let privacy = "https://phrygian-open-50e.notion.site/21cb8d6027404b2aa05741bcf67a4503?pvs=4"
+        static let announcement = "https://phrygian-open-50e.notion.site/800f9d9e139740409ec1ebc6da0339e0?pvs=4"
+        static let contactUs = "https://docs.google.com/forms/d/e/1FAIpQLSeCS3Z9ctFyqHZH7qkryOEQYQdhvNCMPT6QJ3J2GQw86WId4Q/viewform"
     }
     
     enum Auth {
