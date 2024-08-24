@@ -99,7 +99,7 @@ final class CalendarDateCell: FSCalendarCell {
 
 extension CalendarDateCell {
     
-    func configure(isToday: Bool, isSelected: Bool, date: String, data: MonthlyDiary) {
+    func configure(isToday: Bool, isSelected: Bool, isDeleted: Bool, date: String, data: MonthlyDiary) {
         // 기본 설정
         cloverImageView.image = UIImage(named: "clover\(data.diaryCount)")
         clendarDateLabel.textColor = .grey05
@@ -111,12 +111,20 @@ extension CalendarDateCell {
             newImageView.isHidden = true
         }
         
+        if isDeleted {
+            cloverImageView.image = .clover0
+        }
+        
         // 오늘 날짜 처리
         if isToday {
             if data.diaryCount == 0 {
                 cloverImageView.image = .cloverToday
             } else {
-                cloverImageView.image = (data.replyStatus == "READY_READ") ? UIImage(named: "clover\(data.diaryCount)") : .cloverTodayDone
+                if isDeleted {
+                    cloverImageView.image = .cloverTodayDone
+                } else {
+                    cloverImageView.image = (data.replyStatus == "READY_READ") ? UIImage(named: "clover\(data.diaryCount)") : .cloverTodayDone
+                }
             }
             clendarDateLabel.textColor = .black
         }

@@ -438,11 +438,12 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
         let isToday = Calendar.current.isDateInToday(date)
         let isSelected = Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value)
+        let isDeleted = data?.isDeleted ?? false
         let date = DateFormatter.string(from: date, format: "d")
         
         let dayString = String(day + 1)
         
-        cell.configure(isToday: isToday, isSelected: isSelected, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
+        cell.configure(isToday: isToday, isSelected: isSelected, isDeleted: isDeleted, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
         return cell
     }
     
