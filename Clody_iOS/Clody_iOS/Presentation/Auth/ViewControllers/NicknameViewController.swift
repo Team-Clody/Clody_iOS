@@ -135,6 +135,8 @@ private extension NicknameViewController {
         
         viewModel.errorStatus
             .bind(onNext: { networkViewJudge in
+                self.hideLoadingIndicator()
+                
                 switch networkViewJudge {
                 case .network:
                     self.showErrorAlert(isNetworkError: true)

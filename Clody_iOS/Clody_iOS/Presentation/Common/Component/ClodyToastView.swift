@@ -82,6 +82,10 @@ final class ClodyToastView: BaseView {
                 $0.width.equalTo(ScreenUtils.getWidth(250))
             case .alarm:
                 $0.width.equalTo(ScreenUtils.getWidth(290))
+            case .changeComplete:
+                $0.width.equalTo(ScreenUtils.getWidth(162))
+            case .notificationTimeChangeComplete:
+                $0.width.equalTo(ScreenUtils.getWidth(213))
             }
         }
     }
@@ -96,6 +100,10 @@ final class ClodyToastView: BaseView {
             titleText = "일기는 5개까지만 작성할 수 있어요."
         case .alarm:
             titleText = "설정 > 알림 > 클로디에서 알림을 켜주세요."
+        case .changeComplete:
+            titleText = "변경을 완료했어요."
+        case .notificationTimeChangeComplete:
+            titleText = "알림 시간 설정을 완료했어요."
         }
         
         textLabel.attributedText = UIFont.pretendardString(text: titleText, style: .body4_semibold)

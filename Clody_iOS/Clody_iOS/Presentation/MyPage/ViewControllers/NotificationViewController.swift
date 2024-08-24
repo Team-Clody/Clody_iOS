@@ -16,6 +16,8 @@ final class NotificationViewController: UIViewController {
         isReplyAlarm: false,
         time: ""
     )
+    private let diaryAlarmSwitchEvent = PublishRelay<Bool>()
+    private let replyAlarmSwitchEvent = PublishRelay<Bool>()
 
     // MARK: - UI Components
 
@@ -119,10 +121,21 @@ private extension NotificationViewController {
             })
             .disposed(by: disposeBag)
         
+        diaryAlarmSwitchEvent
+            .subscribe(onNext: { isOn in
+                print("☀️")
+            })
+            .disposed(by: disposeBag)
+        
+        replyAlarmSwitchEvent
+            .subscribe(onNext: { isOn in
+                print("❄️")
+            })
+            .disposed(by: disposeBag)
+        
         viewModel.getAlarmInfoErrorStatus
             .bind(onNext: { networkViewJudge in
                 self.hideLoadingIndicator()
-                self.rootView.tableView.reloadData()
                 
                 switch networkViewJudge {
                 case .network:
@@ -142,7 +155,6 @@ private extension NotificationViewController {
         viewModel.postAlarmSettingErrorStatus
             .bind(onNext: { networkViewJudge in
                 self.hideLoadingIndicator()
-                self.rootView.tableView.reloadData()
                 
                 switch networkViewJudge {
                 case .network:
@@ -215,12 +227,21 @@ private extension NotificationViewController {
                     isDiaryAlarm: (isDiaryAlarm != nil) ? isDiaryAlarm! : self.alarmData.isDiaryAlarm,
                     isReplyAlarm: (isReplyAlarm != nil) ? isReplyAlarm! : self.alarmData.isReplyAlarm,
                     time: (time != nil) ? time! : self.alarmData.time
-                ) { data in
-                    self.alarmData = AlarmModel(
-                        isDiaryAlarm: data.isDiaryAlarm,
-                        isReplyAlarm: data.isReplyAlarm,
-                        time: data.time
-                    )
+                ) { response in
+                    if let data = response.data {
+                        ClodyToast.show(toastType: (time != nil) ? .notificationTimeChangeComplete : .changeComplete)
+                        
+                        self.alarmData = AlarmModel(
+                            isDiaryAlarm: data.isDiaryAlarm,
+                            isReplyAlarm: data.isReplyAlarm,
+                            time: data.time
+                        )
+                        
+//                        self.diaryAlarmSwitchEvent.accept(data.isDiaryAlarm)
+//                        self.replyAlarmSwitchEvent.accept(data.isReplyAlarm)
+                    } else {
+                        
+                    }
                     self.rootView.tableView.reloadData()
                 }
             } else {
@@ -252,17 +273,25 @@ extension NotificationViewController: UITableViewDataSource {
         if indexPath.row == 0 {
             cell.switchControl.rx.isOn
                 .changed
-                .subscribe(onNext: { isOn in
+                .map { isOn in
+                    print("⭐️ diary")
                     self.showLoadingIndicator()
                     self.changeAlarmSetting(isDiaryAlarm: isOn)
+                }
+                .subscribe(onNext: {
+                    
                 })
                 .disposed(by: disposeBag)
         } else if indexPath.row == 2 {
             cell.switchControl.rx.isOn
                 .changed
-                .subscribe(onNext: { isOn in
+                .map { isOn in
+                    print("💧 reply")
                     self.showLoadingIndicator()
                     self.changeAlarmSetting(isReplyAlarm: isOn)
+                }
+                .subscribe(onNext: {
+                    
                 })
                 .disposed(by: disposeBag)
         }
