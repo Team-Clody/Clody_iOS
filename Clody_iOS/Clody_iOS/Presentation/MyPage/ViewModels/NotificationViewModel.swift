@@ -75,7 +75,7 @@ extension NotificationViewModel {
         isDiaryAlarm: Bool,
         isReplyAlarm: Bool,
         time: String,
-        completion: @escaping (BaseResponse<PostAlarmSetResponseDTO>) -> ()
+        completion: @escaping (PostAlarmSetResponseDTO) -> ()
     ) {
         Providers.myPageProvider.request(
             target: .postAlarmSet(
@@ -90,8 +90,9 @@ extension NotificationViewModel {
         ) { response in
             switch response.status {
             case 200..<300:
+                guard let data = response.data else { return }
                 self.postAlarmSettingErrorStatus.accept(.success)
-                completion(response)
+                completion(data)
             case -1:
                 self.postAlarmSettingErrorStatus.accept(.network)
             default:

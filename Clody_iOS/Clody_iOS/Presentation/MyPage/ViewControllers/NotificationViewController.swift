@@ -16,8 +16,6 @@ final class NotificationViewController: UIViewController {
         isReplyAlarm: false,
         time: ""
     )
-    private let diaryAlarmSwitchEvent = PublishRelay<Bool>()
-    private let replyAlarmSwitchEvent = PublishRelay<Bool>()
 
     // MARK: - UI Components
 
@@ -121,18 +119,6 @@ private extension NotificationViewController {
             })
             .disposed(by: disposeBag)
         
-        diaryAlarmSwitchEvent
-            .subscribe(onNext: { isOn in
-                print("☀️")
-            })
-            .disposed(by: disposeBag)
-        
-        replyAlarmSwitchEvent
-            .subscribe(onNext: { isOn in
-                print("❄️")
-            })
-            .disposed(by: disposeBag)
-        
         viewModel.getAlarmInfoErrorStatus
             .bind(onNext: { networkViewJudge in
                 self.hideLoadingIndicator()
@@ -158,8 +144,10 @@ private extension NotificationViewController {
                 
                 switch networkViewJudge {
                 case .network:
+                    self.rootView.tableView.reloadData()
                     self.showErrorAlert(isNetworkError: true)
                 case .unknowned:
+                    self.rootView.tableView.reloadData()
                     self.showErrorAlert(isNetworkError: false)
                 default:
                     return
@@ -227,21 +215,15 @@ private extension NotificationViewController {
                     isDiaryAlarm: (isDiaryAlarm != nil) ? isDiaryAlarm! : self.alarmData.isDiaryAlarm,
                     isReplyAlarm: (isReplyAlarm != nil) ? isReplyAlarm! : self.alarmData.isReplyAlarm,
                     time: (time != nil) ? time! : self.alarmData.time
-                ) { response in
-                    if let data = response.data {
-                        ClodyToast.show(toastType: (time != nil) ? .notificationTimeChangeComplete : .changeComplete)
-                        
-                        self.alarmData = AlarmModel(
-                            isDiaryAlarm: data.isDiaryAlarm,
-                            isReplyAlarm: data.isReplyAlarm,
-                            time: data.time
-                        )
-                        
-//                        self.diaryAlarmSwitchEvent.accept(data.isDiaryAlarm)
-//                        self.replyAlarmSwitchEvent.accept(data.isReplyAlarm)
-                    } else {
-                        
-                    }
+                ) { data in
+                    ClodyToast.show(toastType: (time != nil) ? .notificationTimeChangeComplete : .changeComplete)
+                    
+                    self.alarmData = AlarmModel(
+                        isDiaryAlarm: data.isDiaryAlarm,
+                        isReplyAlarm: data.isReplyAlarm,
+                        time: data.time
+                    )
+                    
                     self.rootView.tableView.reloadData()
                 }
             } else {
@@ -268,33 +250,17 @@ extension NotificationViewController: UITableViewDataSource {
         }
     
         cell.configure(with: alarmData, indexPath: indexPath.row)
-        cell.selectionStyle = .none
-        
-        if indexPath.row == 0 {
-            cell.switchControl.rx.isOn
-                .changed
-                .map { isOn in
-                    print("⭐️ diary")
-                    self.showLoadingIndicator()
-                    self.changeAlarmSetting(isDiaryAlarm: isOn)
-                }
-                .subscribe(onNext: {
-                    
-                })
-                .disposed(by: disposeBag)
-        } else if indexPath.row == 2 {
-            cell.switchControl.rx.isOn
-                .changed
-                .map { isOn in
-                    print("💧 reply")
-                    self.showLoadingIndicator()
-                    self.changeAlarmSetting(isReplyAlarm: isOn)
-                }
-                .subscribe(onNext: {
-                    
-                })
-                .disposed(by: disposeBag)
+        cell.switchValueChanged = { [weak self] isOn in
+            guard let self = self else { return }
+            if indexPath.row == 0 {
+                showLoadingIndicator()
+                changeAlarmSetting(isDiaryAlarm: isOn)
+            } else if indexPath.row == 2 {
+                showLoadingIndicator()
+                changeAlarmSetting(isReplyAlarm: isOn)
+            }
         }
+        cell.selectionStyle = .none
         
         return cell
     }
