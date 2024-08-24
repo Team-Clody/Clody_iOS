@@ -16,12 +16,10 @@ final class NotificationCell: UITableViewCell {
     lazy var detailLabel: UILabel = UILabel()
     lazy var arrowImageView: UIImageView = UIImageView()
     lazy var switchControl: UISwitch = UISwitch()
-    var switchValueChanged: ((Bool) -> Void)?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUI()
-        bindSwitch()
     }
 
     required init?(coder: NSCoder) {
@@ -33,15 +31,6 @@ final class NotificationCell: UITableViewCell {
         setHierarchy()
         setLayout()
     }
-    
-    private func bindSwitch() {
-        switchControl.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
-    }
-
-    @objc private func switchChanged() {
-        switchValueChanged?(switchControl.isOn)
-    }
-
 
     private func setStyle() {
         self.backgroundColor = .white

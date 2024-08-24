@@ -33,7 +33,6 @@ final class NotificationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchData()
         bindViewModel()
         setDelegate()
         setupPickerView()
@@ -44,18 +43,19 @@ final class NotificationViewController: UIViewController {
 
 private extension NotificationViewController {
     
-    func fetchData() {
-        viewModel.getAlarmAPI() { data in
-            self.alarmData = data
-            self.rootView.tableView.reloadData()
-        }
-    }
-
     func bindViewModel() {
         let input = NotificationViewModel.Input(
+            viewDidLoad: Observable.just(()).asSignal(onErrorJustReturn: ()),
             backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
+        
+        output.getAlarmInfo
+            .drive(onNext: {
+                self.showLoadingIndicator()
+                self.getAlarmInfo()
+            })
+            .disposed(by: disposeBag)
         
         output.popViewController
             .drive(onNext: { [weak self] in
@@ -82,31 +82,8 @@ private extension NotificationViewController {
                 let minuteString = minute < 10 ? "0\(minute)" : "\(minute)"
                 let convertedTime = "\(hourString):\(minuteString)"
                 
-                self.alarmData.time = convertedTime
-                
-                PermissionManager.shared.checkNotificationPermission(completion: { isAuth in
-                    print(isAuth)
-                    if isAuth {
-                        self.viewModel.postAlarmChangeAPI(
-                            isDiaryAlarm: self.alarmData.isDiaryAlarm,
-                            isReplyAlarm: self.alarmData.isReplyAlarm,
-                            time: convertedTime
-                        ) { data in
-                            guard let response = data.data else { return }
-                            
-                            self.alarmData = AlarmModel(
-                                isDiaryAlarm: response.isDiaryAlarm,
-                                isReplyAlarm: response.isReplyAlarm,
-                                time: response.time
-                            )
-                            self.rootView.tableView.reloadData()
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            ClodyToast.show(toastType: .alarm)
-                        }
-                    }
-                })
+                self.showLoadingIndicator()
+                self.changeAlarmSetting(time: convertedTime)
             })
             .disposed(by: disposeBag)
         
@@ -138,6 +115,42 @@ private extension NotificationViewController {
                     
                     let selectedTime = ["\(selectedTimePeriods)", selectedHour, selectedMinute]
                     output.selectedTimeRelay.accept(selectedTime)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.getAlarmInfoErrorStatus
+            .bind(onNext: { networkViewJudge in
+                self.hideLoadingIndicator()
+                self.rootView.tableView.reloadData()
+                
+                switch networkViewJudge {
+                case .network:
+                    self.showRetryView(isNetworkError: true) {
+                        self.getAlarmInfo()
+                    }
+                case .unknowned:
+                    self.showRetryView(isNetworkError: false) {
+                        self.getAlarmInfo()
+                    }
+                default:
+                    return
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.postAlarmSettingErrorStatus
+            .bind(onNext: { networkViewJudge in
+                self.hideLoadingIndicator()
+                self.rootView.tableView.reloadData()
+                
+                switch networkViewJudge {
+                case .network:
+                    self.showErrorAlert(isNetworkError: true)
+                case .unknowned:
+                    self.showErrorAlert(isNetworkError: false)
+                default:
+                    return
                 }
             })
             .disposed(by: disposeBag)
@@ -175,6 +188,50 @@ private extension NotificationViewController {
     }
 }
 
+private extension NotificationViewController {
+    
+    func getAlarmInfo() {
+        viewModel.getAlarmInfo() { data in
+            self.hideLoadingIndicator()
+            
+            self.alarmData = AlarmModel(
+                isDiaryAlarm: data.isDiaryAlarm,
+                isReplyAlarm: data.isReplyAlarm,
+                time: data.time
+            )
+            self.rootView.tableView.reloadData()
+        }
+    }
+    
+    func changeAlarmSetting(
+        isDiaryAlarm: Bool? = nil,
+        isReplyAlarm: Bool? = nil,
+        time: String? = nil
+    ) {
+        PermissionManager.shared.checkNotificationPermission() { isAuth in
+            print(isAuth)
+            if isAuth {
+                self.viewModel.postAlarmSetting(
+                    isDiaryAlarm: (isDiaryAlarm != nil) ? isDiaryAlarm! : self.alarmData.isDiaryAlarm,
+                    isReplyAlarm: (isReplyAlarm != nil) ? isReplyAlarm! : self.alarmData.isReplyAlarm,
+                    time: (time != nil) ? time! : self.alarmData.time
+                ) { data in
+                    self.alarmData = AlarmModel(
+                        isDiaryAlarm: data.isDiaryAlarm,
+                        isReplyAlarm: data.isReplyAlarm,
+                        time: data.time
+                    )
+                    self.rootView.tableView.reloadData()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    ClodyToast.show(toastType: .alarm)
+                }
+            }
+        }
+    }
+}
+
 extension NotificationViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -192,35 +249,22 @@ extension NotificationViewController: UITableViewDataSource {
         cell.configure(with: alarmData, indexPath: indexPath.row)
         cell.selectionStyle = .none
         
-        cell.switchValueChanged = { [weak self] isOn in
-            guard let self = self else { return }
-            if indexPath.row == 0 {
-                self.alarmData.isDiaryAlarm = isOn
-            } else if indexPath.row == 2 {
-                self.alarmData.isReplyAlarm = isOn
-            }
-            
-            PermissionManager.shared.checkNotificationPermission(completion: { isAuth in
-                print(isAuth)
-                if isAuth {
-                    self.viewModel.postAlarmChangeAPI(
-                        isDiaryAlarm: self.alarmData.isDiaryAlarm,
-                        isReplyAlarm: self.alarmData.isReplyAlarm,
-                        time: self.alarmData.time,
-                        completion: { data in
-                        guard let response = data.data else { return }
-                        
-                        self.alarmData = AlarmModel(
-                            isDiaryAlarm: response.isDiaryAlarm,
-                            isReplyAlarm: response.isReplyAlarm,
-                            time: response.time
-                        )
-                        self.rootView.tableView.reloadData()
-                    })
-                } else {
-                    ClodyToast.show(toastType: .alarm)
-                }
-            })
+        if indexPath.row == 0 {
+            cell.switchControl.rx.isOn
+                .changed
+                .subscribe(onNext: { isOn in
+                    self.showLoadingIndicator()
+                    self.changeAlarmSetting(isDiaryAlarm: isOn)
+                })
+                .disposed(by: disposeBag)
+        } else if indexPath.row == 2 {
+            cell.switchControl.rx.isOn
+                .changed
+                .subscribe(onNext: { isOn in
+                    self.showLoadingIndicator()
+                    self.changeAlarmSetting(isReplyAlarm: isOn)
+                })
+                .disposed(by: disposeBag)
         }
         
         return cell

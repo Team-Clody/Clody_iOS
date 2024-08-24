@@ -15,36 +15,30 @@ final class NotificationViewModel: ViewModelType {
     private let provider = MoyaProvider<MyPageRouter>()
 
     struct Input {
+        let viewDidLoad: Signal<Void>
         let backButtonTapEvent: Signal<Void>
     }
     
     struct Output {
+        let getAlarmInfo: Driver<Void>
         let selectedTimeRelay = PublishRelay<[Any]>()
         let popViewController: Driver<Void>
     }
+    
+    let getAlarmInfoErrorStatus = PublishRelay<NetworkViewJudge>()
+    let postAlarmSettingErrorStatus = PublishRelay<NetworkViewJudge>()
 
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
+        let getAlarmInfo = input.viewDidLoad
+            .asDriver(onErrorJustReturn: ())
+        
         let popViewController = input.backButtonTapEvent
             .asDriver(onErrorJustReturn: Void())
         
         return Output(
+            getAlarmInfo: getAlarmInfo,
             popViewController: popViewController
         )
-    }
-
-    func getAlarmAPI(completion: @escaping (AlarmModel) -> ()) {
-        let provider = Providers.myPageProvider
-        
-        provider.request(target: .getAlarmSet, instance: BaseResponse<GetAlarmResponseDTO>.self) { data in
-            guard let response = data.data else { return }
-    
-            let alarmModel = AlarmModel(isDiaryAlarm: response.isDiaryAlarm, isReplyAlarm: response.isReplyAlarm, time: response.time)
-            completion(alarmModel)
-        }
-    }
-    
-    func updateNotificationTime(_ time: String) {
-        
     }
     
     private func convertTo12HourFormat(_ time: String) -> String {
@@ -58,16 +52,32 @@ final class NotificationViewModel: ViewModelType {
         dateFormatter.locale = Locale(identifier: "ko_KR")
         return dateFormatter.string(from: date)
     }
+}
+
+extension NotificationViewModel {
     
-    func postAlarmChangeAPI(
+    func getAlarmInfo(completion: @escaping (GetAlarmResponseDTO) -> ()) {
+        Providers.myPageProvider.request(target: .getAlarmSet, instance: BaseResponse<GetAlarmResponseDTO>.self) { response in
+            switch response.status {
+            case 200..<300:
+                guard let data = response.data else { return }
+                self.getAlarmInfoErrorStatus.accept(.success)
+                completion(data)
+            case -1:
+                self.getAlarmInfoErrorStatus.accept(.network)
+            default:
+                self.getAlarmInfoErrorStatus.accept(.unknowned)
+            }
+        }
+    }
+    
+    func postAlarmSetting(
         isDiaryAlarm: Bool,
         isReplyAlarm: Bool,
         time: String,
-        completion: @escaping (BaseResponse<PostAlarmSetResponseDTO>) -> ()
+        completion: @escaping (PostAlarmSetResponseDTO) -> ()
     ) {
-        let provider = Providers.myPageProvider
-        
-        provider.request(
+        Providers.myPageProvider.request(
             target: .postAlarmSet(
                 data: PostAlarmSetRequestDTO(
                     isDiaryAlarm: isDiaryAlarm,
@@ -78,7 +88,16 @@ final class NotificationViewModel: ViewModelType {
             ),
             instance: BaseResponse<PostAlarmSetResponseDTO>.self
         ) { response in
-            completion(response)
+            switch response.status {
+            case 200..<300:
+                guard let data = response.data else { return }
+                self.postAlarmSettingErrorStatus.accept(.success)
+                completion(data)
+            case -1:
+                self.postAlarmSettingErrorStatus.accept(.network)
+            default:
+                self.postAlarmSettingErrorStatus.accept(.unknowned)
+            }
         }
     }
 }
