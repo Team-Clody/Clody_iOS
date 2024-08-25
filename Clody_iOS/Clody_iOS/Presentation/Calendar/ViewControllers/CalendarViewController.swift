@@ -87,32 +87,38 @@ private extension CalendarViewController {
         output.diaryData
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
-                let isNotEmpty = data.count != 0
+                
+                let isNotEmpty = !data.isEmpty
                 let isToday = Calendar.current.isDateInToday(self.viewModel.selectedDateRelay.value)
-                let isDeleted = self.viewModel.dailyDiaryDataRelay.value.isDeleted && !isToday
+                let isDeleted = self.viewModel.dailyDiaryDataRelay.value.isDeleted
                 
+                // 기본값 설정
                 var buttonTitle = isNotEmpty ? I18N.Calendar.reply : I18N.Calendar.writing
-                var buttonColor = isNotEmpty ? UIColor(named: "grey01") : UIColor(named: "mainYellow")
-                var textColor = isNotEmpty ? "white" : "grey02"
-                let isEnabled = (isToday || (isNotEmpty && !isDeleted))
+                var buttonColor: UIColor? = isNotEmpty ? UIColor(named: "grey01") : UIColor(named: "mainYellow")
+                var textColor: UIColor? = UIColor(named: isNotEmpty ? "white" : "grey02")
+                var isEnabled = true
                 
-                if !isEnabled {
-                    if isNotEmpty {
-                        buttonColor = .grey08
-                        textColor = "grey06"
-                    } else {
-                        buttonColor = .lightYellow
-                        textColor = "grey06"
-                    }
+                // 버튼 상태 및 색상 결정
+                if (isToday && isNotEmpty && isDeleted) || (!isToday && (isDeleted || !isNotEmpty)) {
+                    isEnabled = false
+                    buttonColor = isNotEmpty ? UIColor(named: "grey07") : UIColor(named: "lightYellow")
+                    textColor = UIColor(named: isNotEmpty ? "grey04" : "grey06")
                 }
                 
+                // UI 업데이트
                 self.rootView.emptyDiaryView.isHidden = isNotEmpty
-                self.rootView.calendarButton.setAttributedTitle(UIFont.pretendardString(text: buttonTitle, style: .body1_semibold), for: .normal)
+                self.rootView.calendarButton.setAttributedTitle(
+                    UIFont.pretendardString(text: buttonTitle, style: .body1_semibold),
+                    for: .normal
+                )
                 self.rootView.calendarButton.backgroundColor = buttonColor
-                self.rootView.calendarButton.setTitleColor(UIColor(named: textColor), for: .normal)
+                self.rootView.calendarButton.setTitleColor(textColor, for: .normal)
                 self.rootView.calendarButton.isEnabled = isEnabled
+                
+                print(isEnabled, "🍀")
             })
             .disposed(by: disposeBag)
+
         
         output.diaryData
             .drive(rootView.dailyDiaryCollectionView.rx.items(cellIdentifier: DailyCalendarCollectionViewCell.description(), cellType: DailyCalendarCollectionViewCell.self)) { index, model, cell in

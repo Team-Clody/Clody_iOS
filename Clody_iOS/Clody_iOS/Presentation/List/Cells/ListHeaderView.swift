@@ -141,6 +141,8 @@ final class ListHeaderView: UICollectionReusableView {
             
         if diary.replyStatus == "READY_NOT_READ" {
             newImageView.isHidden = false
+        } else {
+            newImageView.isHidden = true
         }
         
         let dateOfContent = DateFormatter.date(from: diary.date)
