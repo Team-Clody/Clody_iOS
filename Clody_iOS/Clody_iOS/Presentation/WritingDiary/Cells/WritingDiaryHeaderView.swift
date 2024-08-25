@@ -57,7 +57,7 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
             $0.image = .helpMessage
             $0.isUserInteractionEnabled = true
             $0.bringSubviewToFront(cancelHelpButton)
-            $0.contentMode = .scaleAspectFit
+            $0.contentMode = .scaleAspectFill
         }
         
         helpMessageLabel.do {
@@ -72,9 +72,9 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
     }
     
     func setHierarchy() {
-        
+
         self.addSubviews(dateLabel, infoButton, helpMessageImage)
-        helpMessageImage.addSubviews(helpMessageLabel, cancelHelpButton)
+        helpMessageImage.addSubviews(cancelHelpButton, helpMessageLabel)
     }
     
     func setLayout() {
@@ -98,7 +98,7 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
         }
 
         helpMessageLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(16))
+            $0.centerY.equalTo(cancelHelpButton)
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(8))
         }
 

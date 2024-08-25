@@ -56,7 +56,7 @@ final class CalendarDateCell: FSCalendarCell {
         
         backgroundSelectView.do {
             $0.backgroundColor = .grey02
-            $0.layer.cornerRadius = 8
+            $0.layer.cornerRadius = ScreenUtils.getHeight(8)
         }
     }
     
