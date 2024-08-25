@@ -111,13 +111,13 @@ extension ClodyAlert {
     
     private func setLayout() {
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(27))
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(20))
             $0.horizontalEdges.greaterThanOrEqualToSuperview().inset(ScreenUtils.getWidth(20))
             $0.centerX.equalToSuperview()
         }
         
         messageLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(9))
+            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(8))
             $0.horizontalEdges.greaterThanOrEqualToSuperview().inset(ScreenUtils.getWidth(58))
             $0.centerX.equalToSuperview()
         }
@@ -125,7 +125,7 @@ extension ClodyAlert {
         leftButton.snp.makeConstraints {
             $0.width.equalTo(rightButton)
             $0.height.equalTo(ScreenUtils.getHeight(42))
-            $0.top.equalTo(messageLabel.snp.bottom).offset(ScreenUtils.getHeight(34))
+            $0.top.equalTo(messageLabel.snp.bottom).offset(ScreenUtils.getHeight(25))
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(20))
             $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(20))
         }
