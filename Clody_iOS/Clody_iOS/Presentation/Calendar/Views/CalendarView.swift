@@ -209,7 +209,7 @@ final class CalendarView: BaseView {
         
         dailyDiaryCollectionView.snp.makeConstraints {
             $0.horizontalEdges.equalTo(mainCalendarView)
-            $0.top.equalTo(dayLabel.snp.bottom).offset(ScreenUtils.getHeight(14))
+            $0.top.equalTo(dayLabel.snp.bottom).offset(ScreenUtils.getHeight(16))
             $0.bottom.equalToSuperview()
         }
         
