@@ -145,22 +145,27 @@ private extension ReplyWaitingViewController {
 private extension ReplyWaitingViewController {
     
     func getWritingTime(for date: (Int, Int, Int)) {
-        viewModel.getWritingTime(year: date.0, month: date.1, date: date.2) { data in
-            self.hideLoadingIndicator()
+        viewModel.getWritingTime(year: date.0, month: date.1, date: date.2) { [weak self] data in
+            guard let self = self else { return }
+            hideLoadingIndicator()
+            
+            // 첫 답장이라면
+            if data.isFirst {
+                totalSeconds = secondsToWaitForFirstReply
+                return
+            }
             
             let todayYear = Date().dateToYearMonthDay().0
             let todayMonth = Date().dateToYearMonthDay().1
             let todayDay = Date().dateToYearMonthDay().2
-            
-            // TODO: 최초 1회 답장인지 분기 처리
             
             if date.0 == todayYear,
                date.1 == todayMonth,
                date.2 == todayDay {
                 // 오늘 작성한 일기라면
                 let createdTime = (data.HH * 3600) + (data.MM * 60) + data.SS
-                let remainingTime = (createdTime + self.secondsToWaitForNormalReply) - Date().currentTimeSeconds()
-                self.totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
+                let remainingTime = (createdTime + secondsToWaitForNormalReply) - Date().currentTimeSeconds()
+                totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
             } else if date.0 == todayYear,
                       date.1 == todayMonth,
                       date.2 == todayDay - 1 {
@@ -168,12 +173,12 @@ private extension ReplyWaitingViewController {
                 let calendar = Calendar.current
                 let yesterdayDate = calendar.date(byAdding: .day, value: -1, to: Date())!
                 let writingTime = calendar.date(bySettingHour: data.HH, minute: data.MM, second: data.SS, of: yesterdayDate)!
-                let twelveHoursLater = writingTime.addingTimeInterval(Double(self.secondsToWaitForNormalReply))
+                let twelveHoursLater = writingTime.addingTimeInterval(Double(secondsToWaitForNormalReply))
                 
                 let remainingTime = Int(twelveHoursLater.timeIntervalSinceNow)
-                self.totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
+                totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
             } else {
-                self.totalSeconds = 0
+                totalSeconds = 0
             }
         }
     }
