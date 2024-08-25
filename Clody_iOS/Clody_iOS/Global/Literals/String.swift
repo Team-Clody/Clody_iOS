@@ -103,7 +103,7 @@ enum I18N {
     
     enum MyPage {
         static let newVersion = "최신 버전"
-        static let setting = "설장"
+        static let setting = "설정"
         static let profile = "프로필 및 계정 관리"
         static let logout = "로그아웃"
         static let revoke = "회원탈퇴"
