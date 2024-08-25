@@ -182,7 +182,7 @@ final class CalendarView: BaseView {
         }
         
         dividerView.snp.makeConstraints {
-            $0.top.equalTo(mainCalendarView.snp.bottom).offset(ScreenUtils.getHeight(20))
+            $0.top.equalTo(mainCalendarView.snp.bottom).offset(ScreenUtils.getHeight(16))
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(ScreenUtils.getHeight(6))
         }
@@ -217,13 +217,13 @@ final class CalendarView: BaseView {
         
         emptyDiaryView.snp.makeConstraints {
             $0.horizontalEdges.equalTo(mainCalendarView)
-            $0.top.equalTo(dayLabel.snp.bottom).offset(ScreenUtils.getHeight(14))
-            $0.bottom.equalToSuperview()
+            $0.top.equalTo(dayLabel.snp.bottom)
+            $0.bottom.equalTo(calendarButton.snp.top).offset(ScreenUtils.getHeight(6))
         }
         
         emptyDiaryLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(ScreenUtils.getHeight(59))
+            $0.centerY.equalToSuperview()
         }
     }
 
