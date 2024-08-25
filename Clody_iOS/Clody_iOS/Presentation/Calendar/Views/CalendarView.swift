@@ -165,7 +165,7 @@ final class CalendarView: BaseView {
         }
         
         cloverBackgroundView.snp.makeConstraints {
-            $0.top.equalTo(calendarNavigationView.snp.bottom).offset(ScreenUtils.getHeight(12))
+            $0.top.equalTo(calendarNavigationView.snp.bottom).offset(ScreenUtils.getHeight(4))
             $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(24))
             $0.width.equalTo(ScreenUtils.getWidth(83))
             $0.height.equalTo(ScreenUtils.getHeight(26))
@@ -182,7 +182,7 @@ final class CalendarView: BaseView {
         }
         
         dividerView.snp.makeConstraints {
-            $0.top.equalTo(mainCalendarView.snp.bottom)
+            $0.top.equalTo(mainCalendarView.snp.bottom).offset(ScreenUtils.getHeight(20))
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(ScreenUtils.getHeight(6))
         }
