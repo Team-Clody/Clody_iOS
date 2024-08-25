@@ -142,11 +142,15 @@ private extension WritingDiaryViewController {
                             from: self.date,
                             format: "yyyy-MM-dd"
                         )
-                        self.viewModel.postDiary(date: dateString, content: self.viewModel.diariesRelay.value, completion: {status in
+                        self.viewModel.postDiary(date: dateString, content: self.viewModel.diariesRelay.value, completion: {statusCode,type  in
                             self.hideLoadingIndicator()
-                            switch status {
+                            switch statusCode {
                             case .success:
-                                self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isNew: true, isHomeBackButton: true), animated: true)
+                                if type == "NO_REPLY" {
+                                    self.navigationController?.popViewController(animated: true)
+                                } else {
+                                    self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isNew: true, isHomeBackButton: true), animated: true)
+                                }
                             case .network:
                                 self.showErrorAlert(isNetworkError: true)
                             case .unknowned:
