@@ -107,6 +107,10 @@ extension MyPageViewController: UITableViewDelegate {
             self.linkToURL(url: I18N.TermsURL.terms)
         case .privacy:
             self.linkToURL(url: I18N.TermsURL.privacy)
+        case .announcement:
+            self.linkToURL(url: I18N.TermsURL.announcement)
+        case .contactUs:
+            self.linkToURL(url: I18N.TermsURL.contactUs)
         default:
             return
         }

@@ -4,6 +4,7 @@ import RxSwift
 final class AccountViewModel: ViewModelType {
     
     struct Input {
+        let viewDidLoad: Signal<Void>
         let textFieldInputEvent: Signal<String>
         let textFieldDidBeginEditing: Signal<Void>
         let textFieldDidEndEditing: Signal<Bool>
@@ -12,18 +13,22 @@ final class AccountViewModel: ViewModelType {
     }
     
     struct Output {
+        let getUserInfo: Driver<Void>
         let charCountDidChange: Driver<String>
         let isTextFieldFocused: Driver<Bool>
         let isDoneButtonEnabled = BehaviorRelay<Bool>(value: false)
         let errorMessage: Driver<TextFieldInputResult>
         let changeNickname: Driver<Void>
         let popViewController: Driver<Void>
-        let userInfo: Driver<(String, String)>
     }
     
-    private let userInfoSubject = PublishSubject<(String, String)>()
+    let getUserInfoErrorStatus = PublishRelay<NetworkViewJudge>()
+    let patchNicknameErrorStatus = PublishRelay<NetworkViewJudge>()
     
     func transform(from input: Input, disposeBag: RxSwift.DisposeBag) -> Output {
+        let getUserInfo = input.viewDidLoad
+            .asDriver(onErrorJustReturn: ())
+        
         let charCountDidChange = input.textFieldInputEvent
             .asDriver(onErrorJustReturn: "")
         
@@ -52,41 +57,48 @@ final class AccountViewModel: ViewModelType {
         
         let popViewController = input.backButtonTapEvent
             .asDriver(onErrorJustReturn: Void())
-        
-        let userInfo = userInfoSubject
-            .asDriver(onErrorJustReturn: ("", ""))
                 
         return Output(
+            getUserInfo: getUserInfo,
             charCountDidChange: charCountDidChange,
             isTextFieldFocused: isTextFieldFocused,
-            errorMessage: errorMessage, 
+            errorMessage: errorMessage,
             changeNickname: changeNickname,
-            popViewController: popViewController,
-            userInfo: userInfo
+            popViewController: popViewController
         )
     }
 }
 
 extension AccountViewModel {
     
-    func getUserInfoAPI(completion: @escaping (GetAccountResponseDTO) -> ()) {
-        let provider = Providers.myPageProvider
-
-        provider.request(target: .getAccount, instance: BaseResponse<GetAccountResponseDTO>.self, completion: { response in
-            guard let data = response.data else { return }
-            
-            let accountModel = GetAccountResponseDTO(email: data.email, name: data.name, platform: data.platform)
-            completion(accountModel)
-        })
+    func getUserInfo(completion: @escaping (GetAccountResponseDTO) -> ()) {
+        Providers.myPageProvider.request(target: .getAccount, instance: BaseResponse<GetAccountResponseDTO>.self) { response in
+            switch response.status {
+            case 200..<300:
+                guard let data = response.data else { return }
+                self.getUserInfoErrorStatus.accept(.success)
+                completion(data)
+            case -1:
+                self.getUserInfoErrorStatus.accept(.network)
+            default:
+                self.getUserInfoErrorStatus.accept(.unknowned)
+            }
+        }
     }
     
-    func patchNickNameChange(nickname: String, completion: @escaping (String) -> ()) {
-        let provider = Providers.myPageProvider
-
-        provider.request(target: .patchNickname(data: PatchNicknameRequestDTO(name: nickname)), instance: BaseResponse<PatchNicknameResponseDTO>.self, completion: { response in
-            guard let data = response.data else { return }
-            completion(data.name)
-        })
+    func patchNickName(nickname: String, completion: @escaping (PatchNicknameResponseDTO) -> ()) {
+        Providers.myPageProvider.request(target: .patchNickname(data: PatchNicknameRequestDTO(name: nickname)), instance: BaseResponse<PatchNicknameResponseDTO>.self) { response in
+            switch response.status {
+            case 200..<300:
+                guard let data = response.data else { return }
+                self.patchNicknameErrorStatus.accept(.success)
+                completion(data)
+            case -1:
+                self.patchNicknameErrorStatus.accept(.network)
+            default:
+                self.patchNicknameErrorStatus.accept(.unknowned)
+            }
+        }
     }
     
     func logout(completion: @escaping () -> ()) {
@@ -96,17 +108,15 @@ extension AccountViewModel {
 
     func withdraw(completion: @escaping (NetworkViewJudge) -> ()) {
         Providers.authProvider.request(target: .revoke, instance: BaseResponse<EmptyResponseDTO>.self) { response in
-            var dataStatus: NetworkViewJudge
-            
             switch response.status {
             case 200..<300: 
                 UserManager.shared.clearAll()
-                dataStatus = .success
-            case -1: dataStatus = .network
-            default: dataStatus = .unknowned
+                completion(.success)
+            case -1:
+                completion(.network)
+            default:
+                completion(.unknowned)
             }
-            
-            completion(dataStatus)
         }
     }
 }

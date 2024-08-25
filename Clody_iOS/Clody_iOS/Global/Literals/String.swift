@@ -34,7 +34,7 @@ enum I18N {
         static let saveDiaryMessage = "저장한 일기는 수정이 어려워요."
         static let deleteDiaryTitle = "정말 일기를 삭제할까요?"
         static let deleteDiaryMessage = "삭제한 일기는 복원이 어려워요."
-        static let cancel = "취소"
+        static let cancel = "아니요"
         static let logout = "로그아웃"
         static let withdraw = "탈퇴할래요"
         static let save = "저장하기"
@@ -46,8 +46,8 @@ enum I18N {
         static let needToWriteAll = "모든 감사 일기 작성이 필요해요."
         static let limitFive = "일기는 5개까지만 작성할 수 있어요."
         static let alarm = "설정 > 알림 > 클로디에서 알림을 켜주세요."
-        static let editComplete = "변경을 완료했어요."
-        static let alarmSetComplete = "알림 시간 설정을 완료했어요."
+        static let changeComplete = "변경을 완료했어요."
+        static let notificationTimeChangeComplete = "알림 시간 설정을 완료했어요."
     }
     
     enum BottomSheet {
@@ -56,8 +56,10 @@ enum I18N {
     }
     
     enum TermsURL {
-        static let terms = "https://whispering-telephone-3a4.notion.site/38d38a167e8d4f319f9aa24038d7a3fc"
-        static let privacy = "https://whispering-telephone-3a4.notion.site/1b0e3624fbe64800a00c8d4ebca0e0bd?pvs=4"
+        static let terms = "https://phrygian-open-50e.notion.site/4b8254c57c124f37afe3302ca7dd33c2?pvs=4"
+        static let privacy = "https://phrygian-open-50e.notion.site/21cb8d6027404b2aa05741bcf67a4503?pvs=4"
+        static let announcement = "https://phrygian-open-50e.notion.site/800f9d9e139740409ec1ebc6da0339e0?pvs=4"
+        static let contactUs = "https://docs.google.com/forms/d/e/1FAIpQLSeCS3Z9ctFyqHZH7qkryOEQYQdhvNCMPT6QJ3J2GQw86WId4Q/viewform"
     }
     
     enum Auth {

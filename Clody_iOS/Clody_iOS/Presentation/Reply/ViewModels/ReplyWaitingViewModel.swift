@@ -22,8 +22,10 @@ final class ReplyWaitingViewModel: ViewModelType {
         let getWritingTime: Driver<Void>
         let timeLabelDidChange: Driver<String>
         let replyArrivalEvent: Driver<Void>
-        let getReply: Driver<Void>
+        let pushViewController: Driver<Void>
     }
+    
+    let errorStatus = PublishRelay<NetworkViewJudge>()
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         let getWritingTime = input.viewDidLoad
@@ -54,38 +56,34 @@ final class ReplyWaitingViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: ())
         
-        let getReply = input.openButtonTapEvent
+        let pushViewController = input.openButtonTapEvent
             .asDriver(onErrorJustReturn: ())
         
         return Output(
             getWritingTime: getWritingTime,
             timeLabelDidChange: timeLabelDidChange,
             replyArrivalEvent: replyArrivalEvent,
-            getReply: getReply
+            pushViewController: pushViewController
         )
     }
 }
 
 extension ReplyWaitingViewModel {
     
-    func getReply(year: Int, month: Int, date: Int, completion: @escaping (GetReplyResponseDTO) -> ()) {
-        Providers.diaryRouter.request(
-            target: .getReply(year: year, month: month, date: date),
-            instance: BaseResponse<GetReplyResponseDTO>.self
-        ) { response in
-            if let data = response.data {
-                completion(data)
-            }
-        }
-    }
-    
     func getWritingTime(year: Int, month: Int, date: Int, completion: @escaping (GetWritingTimeDTO) -> ()) {
         Providers.diaryRouter.request(
             target: .getWritingTime(year: year, month: month, date: date),
             instance: BaseResponse<GetWritingTimeDTO>.self
         ) { response in
-            if let data = response.data {
+            switch response.status {
+            case 200..<300:
+                guard let data = response.data else { return }
+                self.errorStatus.accept(.success)
                 completion(data)
+            case -1:
+                self.errorStatus.accept(.network)
+            default:
+                self.errorStatus.accept(.unknowned)
             }
         }
     }

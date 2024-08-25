@@ -53,6 +53,7 @@ final class AccountViewController: UIViewController {
             .asSignal(onErrorJustReturn: false)
         
         let input = AccountViewModel.Input(
+            viewDidLoad: Observable.just(()).asSignal(onErrorJustReturn: ()),
             textFieldInputEvent: textField.rx.text.orEmpty.distinctUntilChanged().asSignal(onErrorJustReturn: ""),
             textFieldDidBeginEditing: textField.rx.controlEvent(.editingDidBegin).asSignal(),
             textFieldDidEndEditing: textFieldDidEndEditing, 
@@ -66,6 +67,13 @@ final class AccountViewController: UIViewController {
             .orEmpty
             .map { String($0.prefix(self.maxLength)) }
             .bind(to: self.textField.rx.text)
+            .disposed(by: disposeBag)
+        
+        output.getUserInfo
+            .drive(onNext: {
+                self.showLoadingIndicator()
+                self.getUserInfo()
+            })
             .disposed(by: disposeBag)
         
         output.charCountDidChange
@@ -104,29 +112,15 @@ final class AccountViewController: UIViewController {
         
         output.changeNickname
             .drive(onNext: {
-                self.hideChangeNicknameBottomSheet()
+                self.showLoadingIndicator()
                 guard let nickname = self.textField.text else { return }
-                self.viewModel.patchNickNameChange(nickname: nickname) { nickname in
-                    self.rootView.nicknameLabel.attributedText = UIFont.pretendardString(text: nickname, style: .body1_semibold)
-                }
+                self.changeNickname(nickname)
             })
             .disposed(by: disposeBag)
-        
-        viewModel.getUserInfoAPI { [weak self] userInfo in
-            self?.rootView.nicknameLabel.text = userInfo.name
-            self?.rootView.emailLabel.text = userInfo.email
-        }
         
         output.popViewController
             .drive(onNext: {
                 self.navigationController?.popViewController(animated: true)
-            })
-            .disposed(by: disposeBag)
-        
-        output.userInfo
-            .drive(onNext: { [weak self] name, email in
-                self?.rootView.nicknameLabel.text = name
-                self?.rootView.emailLabel.text = email
             })
             .disposed(by: disposeBag)
         
@@ -160,12 +154,7 @@ final class AccountViewController: UIViewController {
                 
                 alert?.rightButton.rx.tap
                     .subscribe(onNext: {
-                        self.viewModel.logout() {
-                            self.hideAlert()
-                            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                                sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
-                            }
-                        }
+                        self.logout()
                     })
                     .disposed(by: self.disposeBag)
             })
@@ -190,25 +179,7 @@ final class AccountViewController: UIViewController {
                 alert?.rightButton.rx.tap
                     .subscribe(onNext: {
                         self.showLoadingIndicator()
-                        
-                        self.viewModel.withdraw() { status in
-                            switch status {
-                            case .success:
-                                if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                                    sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
-                                }
-                            case .network:
-                                self.showErrorAlert(isNetworkError: true)
-                                print("🛜 네트워크 오류 - 회원탈퇴에 실패했습니다.")
-                            case .unknowned:
-                                self.showErrorAlert(isNetworkError: false)
-                                print("😵 서버 통신 오류 - 회원탈퇴에 실패했습니다.")
-                            }
-                            
-                            self.hideLoadingIndicator()
-                            self.hideAlert()
-                        }
-                        self.hideAlert()
+                        self.withdraw()
                     })
                     .disposed(by: self.disposeBag)
             })
@@ -218,6 +189,40 @@ final class AccountViewController: UIViewController {
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.view.endEditing(true)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.getUserInfoErrorStatus
+            .bind(onNext: { networkViewJudge in
+                self.hideLoadingIndicator()
+                
+                switch networkViewJudge {
+                case .network:
+                    self.showRetryView(isNetworkError: true) {
+                        self.getUserInfo()
+                    }
+                case .unknowned:
+                    self.showRetryView(isNetworkError: false) {
+                        self.getUserInfo()
+                    }
+                default:
+                    return
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.patchNicknameErrorStatus
+            .bind(onNext: { networkViewJudge in
+                self.hideLoadingIndicator()
+                
+                switch networkViewJudge {
+                case .network:
+                    self.showErrorAlert(isNetworkError: true)
+                case .unknowned:
+                    self.showErrorAlert(isNetworkError: false)
+                default:
+                    return
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -236,6 +241,59 @@ final class AccountViewController: UIViewController {
 
     @objc private func keyboardWillHide(_ notification: Notification) {
         view.frame.origin.y = 0
+    }
+}
+
+private extension AccountViewController {
+    
+    func getUserInfo() {
+        viewModel.getUserInfo { userInfo in
+            self.hideLoadingIndicator()
+            
+            self.rootView.nickname = userInfo.name
+            self.rootView.email = userInfo.email
+            self.rootView.loginPlatform = (userInfo.platform == LoginPlatformType.apple.rawValue) ? .apple : .kakao
+        }
+    }
+    
+    func changeNickname(_ nickname: String) {
+        viewModel.patchNickName(nickname: nickname) { data in
+            self.hideChangeNicknameBottomSheet()
+            self.hideLoadingIndicator()
+            ClodyToast.show(toastType: .changeComplete)
+            
+            self.rootView.nickname = data.name
+        }
+    }
+    
+    func logout() {
+        self.viewModel.logout() {
+            self.hideAlert()
+            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
+            }
+        }
+    }
+    
+    func withdraw() {
+        self.hideAlert()
+        
+        viewModel.withdraw() { status in
+            self.hideLoadingIndicator()
+            
+            switch status {
+            case .success:
+                if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                    sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
+                }
+            case .network:
+                self.showErrorAlert(isNetworkError: true)
+                print("🛜 네트워크 오류 - 회원탈퇴에 실패했습니다.")
+            case .unknowned:
+                self.showErrorAlert(isNetworkError: false)
+                print("😵 서버 통신 오류 - 회원탈퇴에 실패했습니다.")
+            }
+        }
     }
 }
 

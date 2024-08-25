@@ -83,7 +83,11 @@ extension ClodyAlert {
         
         messageLabel.do {
             $0.textColor = .grey04
-            $0.attributedText = UIFont.pretendardString(text: message, style: .body3_regular)
+            $0.attributedText = UIFont.pretendardString(
+                text: message,
+                style: .body3_regular,
+                lineHeightMultiple: 1.5
+            )
             $0.textAlignment = .center
             $0.numberOfLines = 0
         }
@@ -107,21 +111,21 @@ extension ClodyAlert {
     
     private func setLayout() {
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(27))
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(20))
             $0.horizontalEdges.greaterThanOrEqualToSuperview().inset(ScreenUtils.getWidth(20))
             $0.centerX.equalToSuperview()
         }
         
         messageLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(9))
-            $0.horizontalEdges.greaterThanOrEqualToSuperview().inset(ScreenUtils.getWidth(20))
+            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(8))
+            $0.horizontalEdges.greaterThanOrEqualToSuperview().inset(ScreenUtils.getWidth(58))
             $0.centerX.equalToSuperview()
         }
         
         leftButton.snp.makeConstraints {
             $0.width.equalTo(rightButton)
             $0.height.equalTo(ScreenUtils.getHeight(42))
-            $0.top.equalTo(messageLabel.snp.bottom).offset(ScreenUtils.getHeight(34))
+            $0.top.equalTo(messageLabel.snp.bottom).offset(ScreenUtils.getHeight(25))
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(20))
             $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(20))
         }
@@ -133,5 +137,4 @@ extension ClodyAlert {
             $0.centerY.equalTo(leftButton)
         }
     }
-
 }

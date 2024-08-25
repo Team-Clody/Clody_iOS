@@ -12,27 +12,20 @@ import Then
 
 final class ReplyDetailView: BaseView {
     
-    lazy var navigationBar = ClodyNavigationBar(type: .reply, title: "\(month)월 \(date)일")
+    lazy var navigationBar = ClodyNavigationBar(type: .reply, title: "\(month)월 \(day)일")
     private let backgroundView = UIView()
     private let rodyImageView = UIImageView()
     private lazy var titleLabel = UILabel()
     private lazy var replyTextView = UITextView()
     
     private let month: Int
-    private let date: Int
-    private let nickname: String
-    private let content: String
+    private let day: Int
+    private var nickname = ""
+    private var content = ""
     
-    init(
-        month: Int,
-        date: Int,
-        nickname: String,
-        content: String
-    ) {
+    init(month: Int, day: Int) {
         self.month = month
-        self.date = date
-        self.nickname = nickname
-        self.content = content
+        self.day = day
         
         super.init(frame: .zero)
     }
@@ -52,27 +45,6 @@ final class ReplyDetailView: BaseView {
         rodyImageView.do {
             $0.image = .imgReplyRody
             $0.contentMode = .scaleAspectFit
-        }
-        
-        titleLabel.do {
-            let title = nickname + I18N.Reply.luckyReplyForYou
-            $0.textColor = .grey01
-            $0.attributedText = UIFont.pretendardString(text: title, style: .body2_semibold)
-            $0.numberOfLines = 0
-            $0.textAlignment = .center
-        }
-        
-        replyTextView.do {
-            $0.backgroundColor = .clear
-            $0.textColor = .grey02
-            $0.attributedText = UIFont.pretendardString(
-                text: content,
-                style: .letter_medium,
-                lineHeightMultiple: 1.9
-            )
-            $0.isScrollEnabled = true
-            $0.showsVerticalScrollIndicator = false
-            $0.isEditable = false
         }
     }
     
@@ -110,6 +82,38 @@ final class ReplyDetailView: BaseView {
             $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(17))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
             $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(ScreenUtils.getHeight(40)))
+        }
+    }
+}
+
+extension ReplyDetailView {
+    
+    func bindData(nickname: String, content: String) {
+        self.nickname = nickname
+        self.content = content
+        setStyleForData()
+    }
+    
+    func setStyleForData() {
+        titleLabel.do {
+            let title = nickname + I18N.Reply.luckyReplyForYou
+            $0.textColor = .grey01
+            $0.attributedText = UIFont.pretendardString(text: title, style: .body2_semibold)
+            $0.numberOfLines = 0
+            $0.textAlignment = .center
+        }
+        
+        replyTextView.do {
+            $0.backgroundColor = .clear
+            $0.textColor = .grey02
+            $0.attributedText = UIFont.pretendardString(
+                text: content,
+                style: .letter_medium,
+                lineHeightMultiple: 1.9
+            )
+            $0.isScrollEnabled = true
+            $0.showsVerticalScrollIndicator = false
+            $0.isEditable = false
         }
     }
 }

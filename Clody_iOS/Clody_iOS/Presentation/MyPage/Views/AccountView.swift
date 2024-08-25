@@ -4,49 +4,55 @@ import SnapKit
 import Then
 
 final class AccountView: BaseView {
-
-    // MARK: - UI Components
     
     let navigationBar = ClodyNavigationBar(type: .setting, title: I18N.MyPage.profile)
     private let profileImageView = UIImageView()
-    let nicknameLabel = UILabel()
+    private let nicknameLabel = UILabel()
     let changeProfileButton = UIButton()
     private let emailImageView = UIImageView()
-    let emailLabel = UILabel()
+    private let emailLabel = UILabel()
     let logoutButton = UIButton()
     let deleteAccountButton = UIButton()
     private let deleteConfirmationLabel = UILabel()
     private let separatorLine = UIView()
-    let nicknameTextField = ClodyTextField(type: .nickname)
     
-    // MARK: - Setup
+    var nickname = "" {
+        didSet {
+            nicknameLabel.do {
+                $0.attributedText = UIFont.pretendardString(text: nickname, style: .body1_semibold)
+                $0.textColor = .black
+            }
+        }
+    }
+    var email = "" {
+        didSet {
+            emailLabel.do {
+                $0.attributedText = UIFont.pretendardString(text: email, style: .body1_semibold)
+                $0.textColor = .black
+            }
+        }
+    }
+    var loginPlatform: LoginPlatformType = .apple {
+        didSet {
+            emailImageView.do {
+                $0.image = (loginPlatform == .apple) ? .icAppleProfile : .icKakaoProfile
+                $0.contentMode = .scaleAspectFit
+            }
+        }
+    }
     
     override func setStyle() {
         backgroundColor = .white
         
         profileImageView.do {
-            $0.image = .clover
-            $0.clipsToBounds = true
-        }
-        
-        nicknameLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "로디님", style: .body1_semibold)
-            $0.textColor = .black
+            $0.image = .icClover
+            $0.contentMode = .scaleAspectFit
         }
         
         changeProfileButton.do {
             let attributedTitle = UIFont.pretendardString(text: "변경하기", style: .body4_medium)
             $0.setAttributedTitle(attributedTitle, for: .normal)
             $0.setTitleColor(.grey05, for: .normal)
-        }
-
-        emailImageView.do {
-            $0.tintColor = .black
-        }
-        
-        emailLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "clody@icloud.com", style: .body1_semibold)
-            $0.textColor = .black
         }
         
         logoutButton.do {
@@ -67,16 +73,12 @@ final class AccountView: BaseView {
         }
         
         separatorLine.do {
-            $0.backgroundColor = .grey07
-        }
-        
-        nicknameTextField.do {
-            $0.isHidden = true
+            $0.backgroundColor = .grey08
         }
     }
     
     override func setHierarchy() {
-        addSubviews(navigationBar, profileImageView, nicknameLabel, changeProfileButton, emailImageView, emailLabel, logoutButton, deleteAccountButton, deleteConfirmationLabel, separatorLine, nicknameTextField)
+        addSubviews(navigationBar, profileImageView, nicknameLabel, changeProfileButton, emailImageView, emailLabel, logoutButton, deleteAccountButton, deleteConfirmationLabel, separatorLine)
     }
     
     override func setLayout() {
@@ -88,57 +90,51 @@ final class AccountView: BaseView {
         }
         
         profileImageView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(30))
-            $0.left.equalToSuperview().inset(ScreenUtils.getWidth(24))
-            $0.width.height.equalTo(ScreenUtils.getWidth(20))
+            $0.size.equalTo(ScreenUtils.getWidth(20))
+            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(33))
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         nicknameLabel.snp.makeConstraints {
             $0.centerY.equalTo(profileImageView)
-            $0.left.equalTo(profileImageView.snp.right).offset(ScreenUtils.getWidth(10))
+            $0.leading.equalTo(profileImageView.snp.trailing).offset(ScreenUtils.getWidth(10))
         }
         
         changeProfileButton.snp.makeConstraints {
             $0.centerY.equalTo(profileImageView)
-            $0.right.equalToSuperview().inset(ScreenUtils.getWidth(23))
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(23))
         }
 
         emailImageView.snp.makeConstraints {
-            $0.top.equalTo(profileImageView.snp.bottom).offset(ScreenUtils.getHeight(20))
-            $0.left.equalTo(profileImageView)
-            $0.width.height.equalTo(ScreenUtils.getWidth(20))
+            $0.size.equalTo(ScreenUtils.getWidth(24))
+            $0.top.equalTo(profileImageView.snp.bottom).offset(ScreenUtils.getHeight(36))
+            $0.leading.equalTo(profileImageView)
         }
         
         emailLabel.snp.makeConstraints {
             $0.centerY.equalTo(emailImageView)
-            $0.left.equalTo(emailImageView.snp.right).offset(ScreenUtils.getWidth(10))
+            $0.leading.equalTo(emailImageView.snp.trailing).offset(ScreenUtils.getWidth(10))
         }
         
         logoutButton.snp.makeConstraints {
-            $0.centerY.equalTo(emailLabel)
-            $0.right.equalTo(changeProfileButton)
+            $0.centerY.equalTo(emailImageView)
+            $0.trailing.equalTo(changeProfileButton)
         }
 
         separatorLine.snp.makeConstraints {
-            $0.top.equalTo(emailLabel.snp.bottom).offset(ScreenUtils.getHeight(22))
-            $0.width.equalToSuperview()
             $0.height.equalTo(ScreenUtils.getHeight(8))
+            $0.width.equalToSuperview()
+            $0.top.equalTo(emailLabel.snp.bottom).offset(ScreenUtils.getHeight(22))
         }
         
         deleteConfirmationLabel.snp.makeConstraints {
             $0.top.equalTo(separatorLine.snp.bottom).offset(ScreenUtils.getHeight(22))
-            $0.left.equalToSuperview().inset(ScreenUtils.getWidth(26))
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(26))
         }
         
         deleteAccountButton.snp.makeConstraints {
             $0.centerY.equalTo(deleteConfirmationLabel)
-            $0.right.equalTo(logoutButton)
-        }
-        
-        nicknameTextField.snp.makeConstraints {
-            $0.top.equalTo(changeProfileButton.snp.bottom).offset(ScreenUtils.getHeight(20))
-            $0.left.right.equalToSuperview()
+            $0.trailing.equalTo(logoutButton)
         }
     }
-    
 }

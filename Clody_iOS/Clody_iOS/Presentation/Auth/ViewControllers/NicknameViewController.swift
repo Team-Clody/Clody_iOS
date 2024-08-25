@@ -114,6 +114,7 @@ private extension NicknameViewController {
         output.signUp
             .drive(onNext: {
                 guard let nickname = self.clodyTextField.textField.text else { return }
+                self.showLoadingIndicator()
                 self.signUpInfo.name = nickname
                 self.signUp()
             })
@@ -131,6 +132,21 @@ private extension NicknameViewController {
                 self?.view.endEditing(true)
             })
             .disposed(by: disposeBag)
+        
+        viewModel.errorStatus
+            .bind(onNext: { networkViewJudge in
+                self.hideLoadingIndicator()
+                
+                switch networkViewJudge {
+                case .network:
+                    self.showErrorAlert(isNetworkError: true)
+                case .unknowned:
+                    self.showErrorAlert(isNetworkError: false)
+                default:
+                    return
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
     func setUI() {
@@ -142,15 +158,12 @@ extension NicknameViewController {
     
     func signUp() {
         viewModel.signUp(signUpInfo: signUpInfo) { statusCode in
+            self.hideLoadingIndicator()
+            
             switch statusCode {
             case 201:
                 /// 회원가입 성공
                 self.navigationController?.pushViewController(DiaryNotificationViewController(), animated: true)
-            case 400:
-                /// 이미 가입된 유저
-                if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                    sceneDelegate.changeRootViewController(CalendarViewController(), animated: true)
-                }
             default:
                 print("😵 서버 에러 - 회원가입에 실패했습니다.")
             }

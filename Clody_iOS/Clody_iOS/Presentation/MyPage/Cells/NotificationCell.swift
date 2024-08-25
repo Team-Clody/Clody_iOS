@@ -33,15 +33,6 @@ final class NotificationCell: UITableViewCell {
         setHierarchy()
         setLayout()
     }
-    
-    private func bindSwitch() {
-        switchControl.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
-    }
-
-    @objc private func switchChanged() {
-        switchValueChanged?(switchControl.isOn)
-    }
-
 
     private func setStyle() {
         self.backgroundColor = .white
@@ -56,9 +47,8 @@ final class NotificationCell: UITableViewCell {
         }
 
         arrowImageView.do {
-            $0.image = .icNext
+            $0.image = .icArrowRightGrey
             $0.contentMode = .scaleAspectFit
-            $0.tintColor = .grey05
         }
 
         switchControl.do {
@@ -130,9 +120,17 @@ final class NotificationCell: UITableViewCell {
             return time
         }
         
-        dateFormatter.dateFormat = "a h:mm"
+        dateFormatter.dateFormat = "a h시 mm분"
         dateFormatter.locale = Locale(identifier: "ko_KR")
         return dateFormatter.string(from: date)
+    }
+    
+    private func bindSwitch() {
+        switchControl.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
+    }
+
+    @objc private func switchChanged() {
+        switchValueChanged?(switchControl.isOn)
     }
 }
 
