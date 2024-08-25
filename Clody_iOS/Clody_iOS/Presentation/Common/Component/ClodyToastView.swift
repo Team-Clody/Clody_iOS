@@ -24,9 +24,9 @@ final class ClodyToastView: BaseView {
     override func setStyle() {
         toastContainerView.do {
             $0.backgroundColor = .grey04
-            $0.makeCornerRound(radius: 25)
+            $0.makeCornerRound(radius: ScreenUtils.getHeight(23))
         }
-        
+            
         alertImage.do {
             $0.image = .toastAlert
             $0.contentMode = .scaleAspectFit
@@ -54,7 +54,7 @@ final class ClodyToastView: BaseView {
     
     override func setLayout() {
         self.snp.makeConstraints {
-            $0.height.equalTo(ScreenUtils.getHeight(46))
+            $0.height.equalTo(ScreenUtils.getHeight(48))
         }
         
         toastContainerView.snp.makeConstraints {
