@@ -108,7 +108,7 @@ private extension WritingDiaryViewController {
         
         output.showSaveErrorToast
             .emit(onNext: {
-                ClodyToast.show(toastType: .needToWriteAll)
+                ClodyToast.show(toastType: .editComplete)
             })
             .disposed(by: disposeBag)
         
@@ -228,6 +228,20 @@ private extension WritingDiaryViewController {
                             .map { "\($0.count)" }
                             .bind(to: cell.textInputLabel.rx.text)
                             .disposed(by: cell.disposeBag)
+                        
+                        cell.textView.rx.text.orEmpty
+                            .skip(1)
+                            .map { $0.count != 50 }
+                            .subscribe(onNext: { isHidden in
+                                cell.limeErrorLabel.isHidden = isHidden
+                                if !isHidden {
+                                    cell.writingContainer.makeBorder(width: 1, color: .redCustom)
+                                } else {
+                                    cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
+                                }
+                            })
+                            .disposed(by: cell.disposeBag)
+
                     })
                     .disposed(by: cell.disposeBag)
                 
@@ -242,6 +256,8 @@ private extension WritingDiaryViewController {
                         var items = self.viewModel.diariesRelay.value
                         items[indexPath.item] = cell.textView.text
                         self.viewModel.diariesRelay.accept(items)
+                        
+                        cell.limeErrorLabel.isHidden = true
                     })
                     .disposed(by: cell.disposeBag)
                 

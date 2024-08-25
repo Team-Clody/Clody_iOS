@@ -23,6 +23,7 @@ final class WritingDiaryCell: UICollectionViewCell {
     lazy var kebabButton = UIButton()
     let textInputLabel = UILabel()
     let limitTextLabel = UILabel()
+    let limeErrorLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -102,6 +103,16 @@ final class WritingDiaryCell: UICollectionViewCell {
             )
             $0.textColor = .grey06
         }
+        
+        limeErrorLabel.do {
+            $0.attributedText = UIFont.pretendardString(
+                text: "숫자 2~50자 까지 입력할 수 있어요.",
+                style: .detail1_medium,
+                lineHeightMultiple: 1.5
+            )
+            $0.textColor = .redCustom
+            $0.isHidden = true
+        }
     }
     
     private func setHierarchy() {
@@ -111,7 +122,8 @@ final class WritingDiaryCell: UICollectionViewCell {
             textInputLabel,
             limitTextLabel,
             writingListNumberLabel,
-            kebabButton
+            kebabButton,
+            limeErrorLabel
         )
     }
     
@@ -146,6 +158,11 @@ final class WritingDiaryCell: UICollectionViewCell {
             $0.size.equalTo(ScreenUtils.getWidth(28))
             $0.top.equalToSuperview().inset(ScreenUtils.getHeight(11))
             $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(6))
+        }
+        
+        limeErrorLabel.snp.makeConstraints {
+            $0.leading.equalTo(writingContainer.snp.leading).offset(ScreenUtils.getWidth(8))
+            $0.top.equalTo(writingContainer.snp.bottom).offset(ScreenUtils.getHeight(6))
         }
     }
 
