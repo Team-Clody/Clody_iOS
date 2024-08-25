@@ -25,8 +25,18 @@ extension UIViewController {
         static var errorAlertView = "errorAlertView"
         static var errorRetryView = "errorRetryView"
         static var retryAction = "retryAction"
+        static var retryCount = "retryCount"
     }
     
+    private var retryCount: Int {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.retryCount) as? Int ?? 0
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.retryCount, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+        
     private var loadingIndicator: UIActivityIndicatorView {
         get {
             if let indicator = objc_getAssociatedObject(self, &AssociatedKeys.loadingIndicator) as? UIActivityIndicatorView {
@@ -146,11 +156,15 @@ extension UIViewController {
     
     
     @objc private func retryButtonTapped() {
-        hideRetryView()
         
-        // Execute the stored retry action
-        if let retryAction = objc_getAssociatedObject(self, &AssociatedKeys.retryAction) as? () -> Void {
-            retryAction()
+        retryCount += 1
+        
+        if retryCount < 4 {
+            hideRetryView()
+            
+            if let retryAction = objc_getAssociatedObject(self, &AssociatedKeys.retryAction) as? () -> Void {
+                retryAction()
+            }
         }
     }
     

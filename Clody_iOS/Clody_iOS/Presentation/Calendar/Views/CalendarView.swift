@@ -23,7 +23,7 @@ final class CalendarView: BaseView {
     let cloverLabel = UILabel()
     let mainCalendarView = FSCalendar()
     let dateLabel = UILabel()
-    let  dayLabel = UILabel()
+    let dayLabel = UILabel()
     lazy var kebabButton = UIButton()
     lazy var dailyDiaryCollectionView = UICollectionView(
         frame: .zero,
@@ -139,8 +139,11 @@ final class CalendarView: BaseView {
         dailyDiaryCollectionView.collectionViewLayout.invalidateLayout()
         dailyDiaryCollectionView.layoutIfNeeded()
         
-        let contentHeight = dailyDiaryCollectionView.contentSize.height + 612
-        scrollView.contentSize = CGSize(width: scrollView.frame.width, height: contentHeight)
+        let contentHeight = dailyDiaryCollectionView.contentSize.height + ScreenUtils.getHeight(630)
+        scrollView.contentSize = CGSize(
+            width: scrollView.frame.width,
+            height: contentHeight
+        )
     }
     
     override func setLayout() {
@@ -150,20 +153,20 @@ final class CalendarView: BaseView {
         
         contentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(1400)
+            $0.height.equalTo(ScreenUtils.getHeight(1400))
         }
         
         calendarNavigationView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.width.equalToSuperview()
-            $0.height.equalTo(44)
+            $0.height.equalTo(ScreenUtils.getHeight(44))
         }
         
         cloverBackgroundView.snp.makeConstraints {
-            $0.top.equalTo(calendarNavigationView.snp.bottom).offset(12)
-            $0.trailing.equalToSuperview().inset(24)
-            $0.width.equalTo(83)
-            $0.height.equalTo(26)
+            $0.top.equalTo(calendarNavigationView.snp.bottom).offset(ScreenUtils.getHeight(4))
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.width.equalTo(ScreenUtils.getWidth(83))
+            $0.height.equalTo(ScreenUtils.getHeight(26))
         }
         
         cloverLabel.snp.makeConstraints {
@@ -171,32 +174,32 @@ final class CalendarView: BaseView {
         }
         
         mainCalendarView.snp.makeConstraints {
-            $0.top.equalTo(cloverBackgroundView.snp.bottom).offset(5)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.height.equalTo(399)
+            $0.top.equalTo(cloverBackgroundView.snp.bottom).offset(ScreenUtils.getHeight(5))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.height.equalTo(ScreenUtils.getHeight(399))
         }
         
         dividerView.snp.makeConstraints {
-            $0.top.equalTo(mainCalendarView.snp.bottom)
+            $0.top.equalTo(mainCalendarView.snp.bottom).offset(ScreenUtils.getHeight(16))
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(6)
+            $0.height.equalTo(ScreenUtils.getHeight(6))
         }
         
         calendarButton.snp.makeConstraints {
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(5)
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(5))
             $0.centerX.equalToSuperview()
             $0.horizontalEdges.equalTo(mainCalendarView)
-            $0.height.equalTo(48)
+            $0.height.equalTo(ScreenUtils.getHeight(48))
         }
         
         dateLabel.snp.makeConstraints {
-            $0.top.equalTo(dividerView.snp.bottom).offset(20)
+            $0.top.equalTo(dividerView.snp.bottom).offset(ScreenUtils.getHeight(20))
             $0.leading.equalTo(mainCalendarView)
         }
         
         dayLabel.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
-            $0.leading.equalTo(dateLabel.snp.trailing).offset(7)
+            $0.leading.equalTo(dateLabel.snp.trailing).offset(ScreenUtils.getWidth(7))
         }
         
         kebabButton.snp.makeConstraints {
@@ -206,31 +209,33 @@ final class CalendarView: BaseView {
         
         dailyDiaryCollectionView.snp.makeConstraints {
             $0.horizontalEdges.equalTo(mainCalendarView)
-            $0.top.equalTo(dayLabel.snp.bottom).offset(14)
+            $0.top.equalTo(dayLabel.snp.bottom).offset(ScreenUtils.getHeight(16))
             $0.bottom.equalToSuperview()
         }
         
         emptyDiaryView.snp.makeConstraints {
             $0.horizontalEdges.equalTo(mainCalendarView)
-            $0.top.equalTo(dayLabel.snp.bottom).offset(14)
-            $0.bottom.equalToSuperview()
+            $0.top.equalTo(dayLabel.snp.bottom)
+            $0.bottom.equalTo(calendarButton.snp.top).offset(ScreenUtils.getHeight(6))
         }
         
         emptyDiaryLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(59)
+            $0.centerY.equalToSuperview()
         }
     }
+
     
     func createCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionNumber, environment) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(66))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(ScreenUtils.getHeight(66)))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(66))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(ScreenUtils.getHeight(66)))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = ScreenUtils.getHeight(8)
             
             return section
         }

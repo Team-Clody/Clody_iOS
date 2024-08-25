@@ -74,7 +74,7 @@ final class DiaryNotificationView: BaseView {
     override func setLayout() {
         introLabel.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(84))
-            $0.leading.equalToSuperview().inset(24)
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         timeLabel.snp.makeConstraints {
@@ -83,28 +83,28 @@ final class DiaryNotificationView: BaseView {
         }
         
         downButton.snp.makeConstraints {
-            $0.size.equalTo(23)
+            $0.size.equalTo(ScreenUtils.getWidth(23))
             $0.centerY.equalTo(timeLabel)
             $0.trailing.equalToSuperview()
         }
         
         divider.snp.makeConstraints {
-            $0.height.equalTo(2)
-            $0.top.equalTo(timeLabel.snp.bottom).offset(1)
+            $0.height.equalTo(ScreenUtils.getHeight(2))
+            $0.top.equalTo(timeLabel.snp.bottom).offset(ScreenUtils.getHeight(1))
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
         
         timeSettingView.snp.makeConstraints {
-            $0.height.equalTo(27)
-            $0.top.equalTo(introLabel.snp.bottom).offset(49)
-            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.height.equalTo(ScreenUtils.getHeight(27))
+            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(49))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         completeButton.snp.makeConstraints {
-            $0.height.equalTo(48)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.bottom.equalTo(setNextButton.snp.top).offset(-6)
+            $0.height.equalTo(ScreenUtils.getHeight(48))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.bottom.equalTo(setNextButton.snp.top).offset(ScreenUtils.getHeight(-6))
         }
         
         setNextButton.snp.makeConstraints {
@@ -112,4 +112,5 @@ final class DiaryNotificationView: BaseView {
             $0.bottom.equalTo(safeAreaLayoutGuide)
         }
     }
+
 }

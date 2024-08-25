@@ -123,69 +123,69 @@ final class TermsView: BaseView {
     
     override func setLayout() {
         navigationBar.snp.makeConstraints {
-            $0.height.equalTo(44)
+            $0.height.equalTo(ScreenUtils.getWidth(44))
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.horizontalEdges.equalToSuperview()
         }
         
         introLabel.snp.makeConstraints {
             $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(40))
-            $0.leading.equalToSuperview().inset(24)
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         allAgreeTextButton.snp.makeConstraints {
-            $0.top.equalTo(introLabel.snp.bottom).offset(49)
-            $0.leading.equalToSuperview().inset(24)
+            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(49))
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         allAgreeIconButton.snp.makeConstraints {
-            $0.size.equalTo(25)
-            $0.trailing.equalToSuperview().inset(24)
+            $0.size.equalTo(ScreenUtils.getWidth(25))
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(24))
             $0.centerY.equalTo(allAgreeTextButton)
         }
         
         divider.snp.makeConstraints {
-            $0.height.equalTo(1)
-            $0.top.equalTo(allAgreeTextButton.snp.bottom).offset(15)
-            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.height.equalTo(ScreenUtils.getHeight(1))
+            $0.top.equalTo(allAgreeTextButton.snp.bottom).offset(ScreenUtils.getHeight(15))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         requiredTermsLabel.snp.makeConstraints {
-            $0.top.equalTo(divider.snp.bottom).offset(16)
-            $0.leading.equalToSuperview().inset(24)
+            $0.top.equalTo(divider.snp.bottom).offset(ScreenUtils.getHeight(16))
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         viewTermsDetailButton.snp.makeConstraints {
-            $0.leading.equalTo(requiredTermsLabel.snp.trailing).offset(8)
+            $0.leading.equalTo(requiredTermsLabel.snp.trailing).offset(ScreenUtils.getWidth(8))
             $0.centerY.equalTo(requiredTermsLabel)
         }
         
         agreeTermsIconButton.snp.makeConstraints {
-            $0.size.equalTo(23)
-            $0.trailing.equalToSuperview().inset(25)
+            $0.size.equalTo(ScreenUtils.getWidth(23))
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(25))
             $0.centerY.equalTo(requiredTermsLabel)
         }
         
         requiredPrivacyLabel.snp.makeConstraints {
-            $0.top.equalTo(requiredTermsLabel.snp.bottom).offset(20)
+            $0.top.equalTo(requiredTermsLabel.snp.bottom).offset(ScreenUtils.getHeight(20))
             $0.leading.equalTo(requiredTermsLabel)
         }
         
         viewPrivacyDetailButton.snp.makeConstraints {
-            $0.leading.equalTo(requiredPrivacyLabel.snp.trailing).offset(8)
+            $0.leading.equalTo(requiredPrivacyLabel.snp.trailing).offset(ScreenUtils.getWidth(8))
             $0.centerY.equalTo(requiredPrivacyLabel)
         }
         
         agreePrivacyIconButton.snp.makeConstraints {
-            $0.size.equalTo(23)
+            $0.size.equalTo(ScreenUtils.getWidth(23))
             $0.trailing.equalTo(agreeTermsIconButton)
             $0.centerY.equalTo(requiredPrivacyLabel)
         }
         
         nextButton.snp.makeConstraints {
-            $0.height.equalTo(48)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(5)
+            $0.height.equalTo(ScreenUtils.getHeight(48))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(5))
         }
     }
 }

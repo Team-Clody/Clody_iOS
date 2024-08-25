@@ -89,27 +89,27 @@ final class ReplyDetailView: BaseView {
         }
         
         backgroundView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(7)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(28)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(7))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(28))
         }
         
         rodyImageView.snp.makeConstraints {
             $0.size.equalTo(ScreenUtils.getHeight(95))
-            $0.top.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(20))
             $0.centerX.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(rodyImageView.snp.bottom).offset(22)
-            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.top.equalTo(rodyImageView.snp.bottom).offset(ScreenUtils.getHeight(22))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
             $0.centerX.equalToSuperview()
         }
         
         replyTextView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(17)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(40))
+            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(17))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(ScreenUtils.getHeight(40)))
         }
     }
 }

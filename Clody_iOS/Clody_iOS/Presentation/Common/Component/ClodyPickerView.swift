@@ -76,14 +76,14 @@ extension ClodyPickerView: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         switch type {
         case .notification:
-            return 65
+            return ScreenUtils.getWidth(65)
         case .calendar:
-            return 90
+            return ScreenUtils.getWidth(90)
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 35
+        return ScreenUtils.getHeight(35)
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {

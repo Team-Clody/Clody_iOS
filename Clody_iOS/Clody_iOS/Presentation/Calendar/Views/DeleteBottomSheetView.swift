@@ -18,7 +18,6 @@ final class DeleteBottomSheetView: BaseView {
     let bottomSheetView = UIView()
     let deleteIcon = UIImageView()
     private let deleteLabel = UILabel()
-    let deleteContainer = UIView()
     
     override func setStyle() {
         dimmedView.do {
@@ -38,15 +37,14 @@ final class DeleteBottomSheetView: BaseView {
         }
         
         deleteLabel.do {
-            $0.textColor = .grey01
+            $0.textColor = .grey03
             $0.attributedText = UIFont.pretendardString(text: I18N.Calendar.delete, style: .body4_medium)
         }
     }
     
     override func setHierarchy() {
         self.addSubviews(dimmedView, bottomSheetView)
-        bottomSheetView.addSubviews(deleteContainer)
-        deleteContainer.addSubviews(deleteIcon, deleteLabel)
+        bottomSheetView.addSubviews(deleteIcon, deleteLabel)
     }
     
     override func setLayout() {
@@ -56,26 +54,22 @@ final class DeleteBottomSheetView: BaseView {
         
         bottomSheetView.snp.makeConstraints {
             $0.horizontalEdges.bottom.equalToSuperview()
-            $0.height.equalTo(94)
-        }
-        
-        deleteContainer.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalTo(safeAreaLayoutGuide)
-            $0.height.equalTo(50)
+            $0.height.equalTo(ScreenUtils.getHeight(94))
+            $0.bottom.equalToSuperview()
         }
         
         deleteIcon.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(24)
-            $0.size.equalTo(CGSize(width: 24, height: 24))
+            $0.top.equalToSuperview().offset(ScreenUtils.getWidth(20))
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.size.equalTo(ScreenUtils.getWidth(34))
         }
         
         deleteLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalTo(deleteIcon.snp.trailing).offset(8)
+            $0.centerY.equalTo(deleteIcon)
+            $0.leading.equalTo(deleteIcon.snp.trailing).offset(ScreenUtils.getWidth(8))
         }
     }
+
     
     func animateShow() {
         self.bottomSheetView.transform = CGAffineTransform(translationX: 0, y: self.bottomSheetView.frame.height)

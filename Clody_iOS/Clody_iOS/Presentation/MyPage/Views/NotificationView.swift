@@ -27,7 +27,7 @@ final class NotificationView: BaseView {
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(52)
+            $0.height.equalTo(ScreenUtils.getHeight(52))
         }
         
         tableView.snp.makeConstraints {

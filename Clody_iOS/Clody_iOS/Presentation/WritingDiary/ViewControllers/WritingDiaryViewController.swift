@@ -74,7 +74,7 @@ private extension WritingDiaryViewController {
             tapAddButton: rootView.addButton.rx.tap.asSignal(),
             tapBackButton: rootView.navigationBarView.backButton.rx.tap.asSignal(),
             updateKebobRelay: kebabButtonTap,
-            tapDeleteButton: deleteBottomSheetView.deleteContainer.rx.tapGesture()
+            tapDeleteButton: deleteBottomSheetView.bottomSheetView.rx.tapGesture()
                 .when(.recognized)
                 .map { _ in }
                 .asSignal(onErrorJustReturn: ()),
@@ -222,11 +222,26 @@ private extension WritingDiaryViewController {
                         self.viewModel.isFirstRelay.accept(isFirst)
                         cell.writingListNumberLabel.textColor = .grey02
                         cell.textView.textColor = .grey03
+                        cell.writingContainer.backgroundColor = .clear
                         
                         cell.textView.rx.text.orEmpty
                             .map { "\($0.count)" }
                             .bind(to: cell.textInputLabel.rx.text)
                             .disposed(by: cell.disposeBag)
+                        
+                        cell.textView.rx.text.orEmpty
+                            .skip(1)
+                            .map { $0.count != 50 }
+                            .subscribe(onNext: { isHidden in
+                                cell.limeErrorLabel.isHidden = isHidden
+                                if !isHidden {
+                                    cell.writingContainer.makeBorder(width: 1, color: .redCustom)
+                                } else {
+                                    cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
+                                }
+                            })
+                            .disposed(by: cell.disposeBag)
+
                     })
                     .disposed(by: cell.disposeBag)
                 
@@ -236,10 +251,13 @@ private extension WritingDiaryViewController {
                         var status = self.viewModel.textViewIsEmptyRelay.value
                         status[indexPath.item] = !cell.textView.text.isEmpty
                         self.viewModel.textViewIsEmptyRelay.accept(status)
+                        cell.writingContainer.backgroundColor = .grey09
                         
                         var items = self.viewModel.diariesRelay.value
                         items[indexPath.item] = cell.textView.text
                         self.viewModel.diariesRelay.accept(items)
+                        
+                        cell.limeErrorLabel.isHidden = true
                     })
                     .disposed(by: cell.disposeBag)
                 
@@ -255,7 +273,7 @@ private extension WritingDiaryViewController {
         }
         deleteBottomSheetView.isHidden = true
         
-        deleteBottomSheetView.deleteContainer.rx.tapGesture()
+        deleteBottomSheetView.bottomSheetView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissBottomSheet(animated: true, completion: {
@@ -298,7 +316,7 @@ private extension WritingDiaryViewController {
         RxKeyboard.instance.visibleHeight
             .drive(onNext: { [weak self] keyboardVisibleHeight in
                 guard let self = self else { return }
-                let addButtonPadding = keyboardVisibleHeight > 0 ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + 20 : 76
+                let addButtonPadding = keyboardVisibleHeight > 0 ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + ScreenUtils.getHeight(20) : ScreenUtils.getHeight(76)
                 self.rootView.addButton.snp.updateConstraints {
                     $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(addButtonPadding)
                 }

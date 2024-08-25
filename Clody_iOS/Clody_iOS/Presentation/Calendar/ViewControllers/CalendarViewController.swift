@@ -71,7 +71,7 @@ private extension CalendarViewController {
             currentPageChanged: currentPageRelay.asSignal(),
             tapKebabButton:  rootView.kebabButton.rx.tap.asSignal(),
             tapDateButton: rootView.calendarNavigationView.dateButton.rx.tap.asSignal(),
-            tapDeleteButton: deleteBottomSheetView.deleteContainer.rx.tapGesture()
+            tapDeleteButton: deleteBottomSheetView.bottomSheetView.rx.tapGesture()
                 .when(.recognized)
                 .map { _ in }
                 .asSignal(onErrorJustReturn: ())
@@ -87,32 +87,38 @@ private extension CalendarViewController {
         output.diaryData
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
-                let isNotEmpty = data.count != 0
+                
+                let isNotEmpty = !data.isEmpty
                 let isToday = Calendar.current.isDateInToday(self.viewModel.selectedDateRelay.value)
-                let isDeleted = self.viewModel.dailyDiaryDataRelay.value.isDeleted && !isToday
+                let isDeleted = self.viewModel.dailyDiaryDataRelay.value.isDeleted
                 
+                // 기본값 설정
                 var buttonTitle = isNotEmpty ? I18N.Calendar.reply : I18N.Calendar.writing
-                var buttonColor = isNotEmpty ? UIColor(named: "grey01") : UIColor(named: "mainYellow")
-                var textColor = isNotEmpty ? "white" : "grey02"
-                let isEnabled = (isToday || (isNotEmpty && !isDeleted))
+                var buttonColor: UIColor? = isNotEmpty ? UIColor(named: "grey01") : UIColor(named: "mainYellow")
+                var textColor: UIColor? = UIColor(named: isNotEmpty ? "white" : "grey02")
+                var isEnabled = true
                 
-                if !isEnabled {
-                    if isNotEmpty {
-                        buttonColor = .grey08
-                        textColor = "grey06"
-                    } else {
-                        buttonColor = .lightYellow
-                        textColor = "grey06"
-                    }
+                // 버튼 상태 및 색상 결정
+                if (isToday && isNotEmpty && isDeleted) || (!isToday && (isDeleted || !isNotEmpty)) {
+                    isEnabled = false
+                    buttonColor = isNotEmpty ? UIColor(named: "grey07") : UIColor(named: "lightYellow")
+                    textColor = UIColor(named: isNotEmpty ? "grey04" : "grey06")
                 }
                 
+                // UI 업데이트
                 self.rootView.emptyDiaryView.isHidden = isNotEmpty
-                self.rootView.calendarButton.setAttributedTitle(UIFont.pretendardString(text: buttonTitle, style: .body1_semibold), for: .normal)
+                self.rootView.calendarButton.setAttributedTitle(
+                    UIFont.pretendardString(text: buttonTitle, style: .body1_semibold),
+                    for: .normal
+                )
                 self.rootView.calendarButton.backgroundColor = buttonColor
-                self.rootView.calendarButton.setTitleColor(UIColor(named: textColor), for: .normal)
+                self.rootView.calendarButton.setTitleColor(textColor, for: .normal)
                 self.rootView.calendarButton.isEnabled = isEnabled
+                
+                print(isEnabled, "🍀")
             })
             .disposed(by: disposeBag)
+
         
         output.diaryData
             .drive(rootView.dailyDiaryCollectionView.rx.items(cellIdentifier: DailyCalendarCollectionViewCell.description(), cellType: DailyCalendarCollectionViewCell.self)) { index, model, cell in
@@ -272,9 +278,13 @@ private extension CalendarViewController {
                         self?.viewModel.fetchData()
                     }
                 case "networkAlert":
-                    self?.showErrorAlert(isNetworkError: true)
+                    self?.showRetryView(isNetworkError: true) {
+                        self?.viewModel.fetchData()
+                    }
                 default:
-                    self?.showErrorAlert(isNetworkError: false)
+                    self?.showRetryView(isNetworkError: false) {
+                        self?.viewModel.fetchData()
+                    }
                 }
             })
             .disposed(by: disposeBag)
@@ -301,7 +311,7 @@ private extension CalendarViewController {
         }
         deleteBottomSheetView.isHidden = true
         
-        deleteBottomSheetView.deleteContainer.rx.tapGesture()
+        deleteBottomSheetView.bottomSheetView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissBottomSheet(animated: true, completion: {
@@ -434,11 +444,12 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
         let isToday = Calendar.current.isDateInToday(date)
         let isSelected = Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value)
+        let isDeleted = data?.isDeleted ?? false
         let date = DateFormatter.string(from: date, format: "d")
         
         let dayString = String(day + 1)
         
-        cell.configure(isToday: isToday, isSelected: isSelected, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
+        cell.configure(isToday: isToday, isSelected: isSelected, isDeleted: isDeleted, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
         return cell
     }
     

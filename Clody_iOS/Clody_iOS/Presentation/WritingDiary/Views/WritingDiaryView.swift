@@ -54,40 +54,40 @@ final class WritingDiaryView: BaseView {
         navigationBarView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(44)
+            $0.height.equalTo(ScreenUtils.getHeight(44))
         }
         
         headerView.snp.makeConstraints {
-            $0.top.equalTo(navigationBarView.snp.bottom)
-            $0.height.equalTo(46)
-            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.top.equalTo(navigationBarView.snp.bottom).offset(ScreenUtils.getHeight(8))
+            $0.height.equalTo(ScreenUtils.getHeight(46))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         writingCollectionView.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
             $0.bottom.equalTo(safeAreaLayoutGuide)
             $0.top.equalTo(headerView.snp.bottom)
         }
         
-        saveButton.snp.makeConstraints{
+        saveButton.snp.makeConstraints {
             $0.horizontalEdges.equalTo(writingCollectionView)
-            $0.height.equalTo(48)
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(5)
+            $0.height.equalTo(ScreenUtils.getHeight(48))
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(5))
         }
         
         addButton.snp.makeConstraints {
-            $0.size.equalTo(41)
-            $0.bottom.equalTo(safeAreaLayoutGuide).offset(-76)
+            $0.size.equalTo(ScreenUtils.getWidth(41))
+            $0.bottom.equalTo(safeAreaLayoutGuide).offset(-ScreenUtils.getHeight(76))
             $0.trailing.equalTo(saveButton)
         }
     }
-    
+
     func writingCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionNumber, environment) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(100))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(ScreenUtils.getHeight(100)))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(100))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(ScreenUtils.getHeight(100)))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)

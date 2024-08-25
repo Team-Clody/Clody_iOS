@@ -33,21 +33,21 @@ final class ChangeNicknameBottomSheet: BaseView {
     
     override func setLayout() {
         navigationBar.snp.makeConstraints {
-            $0.height.equalTo(60)
+            $0.height.equalTo(ScreenUtils.getHeight(60))
             $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
         }
 
         clodyTextField.snp.makeConstraints {
-            $0.height.equalTo(51)
-            $0.top.equalTo(navigationBar.snp.bottom).offset(32)
-            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.height.equalTo(ScreenUtils.getHeight(51))
+            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(32))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
 
         doneButton.snp.makeConstraints {
-            $0.height.equalTo(48)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(26)
+            $0.height.equalTo(ScreenUtils.getHeight(48))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(26))
         }
     }
 }
