@@ -139,12 +139,10 @@ final class CalendarView: BaseView {
         dailyDiaryCollectionView.collectionViewLayout.invalidateLayout()
         dailyDiaryCollectionView.layoutIfNeeded()
         
-        let contentHeight = dailyDiaryCollectionView.contentSize.height + 612
+        let contentHeight = dailyDiaryCollectionView.contentSize.height + ScreenUtils.getHeight(630)
         scrollView.contentSize = CGSize(
             width: scrollView.frame.width,
-            height: ScreenUtils.getHeight(
-                contentHeight
-            )
+            height: contentHeight
         )
     }
     
