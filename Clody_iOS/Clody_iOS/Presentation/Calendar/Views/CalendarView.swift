@@ -23,7 +23,7 @@ final class CalendarView: BaseView {
     let cloverLabel = UILabel()
     let mainCalendarView = FSCalendar()
     let dateLabel = UILabel()
-    let  dayLabel = UILabel()
+    let dayLabel = UILabel()
     lazy var kebabButton = UIButton()
     lazy var dailyDiaryCollectionView = UICollectionView(
         frame: .zero,
@@ -140,7 +140,12 @@ final class CalendarView: BaseView {
         dailyDiaryCollectionView.layoutIfNeeded()
         
         let contentHeight = dailyDiaryCollectionView.contentSize.height + 612
-        scrollView.contentSize = CGSize(width: scrollView.frame.width, height: contentHeight)
+        scrollView.contentSize = CGSize(
+            width: scrollView.frame.width,
+            height: ScreenUtils.getHeight(
+                contentHeight
+            )
+        )
     }
     
     override func setLayout() {

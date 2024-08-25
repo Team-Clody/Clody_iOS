@@ -63,15 +63,15 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
         }
         
         listNumberLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(17))
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(14))
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(16))
         }
         
         diaryTextLabel.snp.makeConstraints {
             $0.top.equalTo(listNumberLabel.snp.top)
-            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(35))
-            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(18))
-            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(17))
+            $0.leading.equalTo(listNumberLabel.snp.trailing).offset(ScreenUtils.getWidth(9))
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(16))
+            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(14))
         }
     }
 
