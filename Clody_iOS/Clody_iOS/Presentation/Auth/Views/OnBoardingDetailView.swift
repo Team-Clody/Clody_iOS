@@ -79,6 +79,7 @@ final class OnBoardingDetailView: BaseView {
         subTitleLabel.attributedText = UIFont.pretendardString(
             text: type.subTitle,
             style: .body1_medium,
+            lineHeightMultiple: 1.5,
             align: .center
         )
         imageView.image = type.image
