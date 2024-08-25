@@ -237,6 +237,7 @@ final class CalendarView: BaseView {
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = ScreenUtils.getHeight(8)
             
             return section
         }

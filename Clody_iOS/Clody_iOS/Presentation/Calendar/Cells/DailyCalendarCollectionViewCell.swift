@@ -50,22 +50,22 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
     }
     
     func setHierarchy() {
-        self.addSubview(listContainerView)
+        self.contentView.addSubview(listContainerView)
         
         listContainerView.addSubviews(listNumberLabel, diaryTextLabel)
     }
     
     func setLayout() {
         listContainerView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(8))
+            $0.verticalEdges.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
         }
         
         listNumberLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(ScreenUtils.getHeight(14))
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(16))
         }
+        listNumberLabel.setContentHuggingPriority(.required, for: .horizontal)
         
         diaryTextLabel.snp.makeConstraints {
             $0.top.equalTo(listNumberLabel.snp.top)
@@ -75,7 +75,6 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    
     func bindData(data: String, index: String) {
         listNumberLabel.text = index
         diaryTextLabel.text = data
