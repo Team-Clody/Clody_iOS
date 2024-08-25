@@ -74,7 +74,7 @@ private extension WritingDiaryViewController {
             tapAddButton: rootView.addButton.rx.tap.asSignal(),
             tapBackButton: rootView.navigationBarView.backButton.rx.tap.asSignal(),
             updateKebobRelay: kebabButtonTap,
-            tapDeleteButton: deleteBottomSheetView.deleteContainer.rx.tapGesture()
+            tapDeleteButton: deleteBottomSheetView.bottomSheetView.rx.tapGesture()
                 .when(.recognized)
                 .map { _ in }
                 .asSignal(onErrorJustReturn: ()),
@@ -257,7 +257,7 @@ private extension WritingDiaryViewController {
         }
         deleteBottomSheetView.isHidden = true
         
-        deleteBottomSheetView.deleteContainer.rx.tapGesture()
+        deleteBottomSheetView.bottomSheetView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissBottomSheet(animated: true, completion: {

@@ -80,7 +80,7 @@ private extension ListViewController {
             tapCalendarButton: rootView.navigationBarView.calendarButton.rx.tap.asSignal(),
             tapDateButton: rootView.navigationBarView.dateButton.rx.tap.asSignal(),
             monthTap: tapMonthRelay.asSignal(),
-            tapDeleteButton: deleteBottomSheetView.deleteContainer.rx.tapGesture()
+            tapDeleteButton: deleteBottomSheetView.bottomSheetView.rx.tapGesture()
                 .when(.recognized)
                 .map { _ in }
                 .asSignal(onErrorJustReturn: ())
@@ -225,7 +225,7 @@ private extension ListViewController {
         }
         deleteBottomSheetView.isHidden = true
         
-        deleteBottomSheetView.deleteContainer.rx.tapGesture()
+        deleteBottomSheetView.bottomSheetView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissBottomSheet(animated: true, completion: {

@@ -71,7 +71,7 @@ private extension CalendarViewController {
             currentPageChanged: currentPageRelay.asSignal(),
             tapKebabButton:  rootView.kebabButton.rx.tap.asSignal(),
             tapDateButton: rootView.calendarNavigationView.dateButton.rx.tap.asSignal(),
-            tapDeleteButton: deleteBottomSheetView.deleteContainer.rx.tapGesture()
+            tapDeleteButton: deleteBottomSheetView.bottomSheetView.rx.tapGesture()
                 .when(.recognized)
                 .map { _ in }
                 .asSignal(onErrorJustReturn: ())
@@ -311,7 +311,7 @@ private extension CalendarViewController {
         }
         deleteBottomSheetView.isHidden = true
         
-        deleteBottomSheetView.deleteContainer.rx.tapGesture()
+        deleteBottomSheetView.bottomSheetView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissBottomSheet(animated: true, completion: {
