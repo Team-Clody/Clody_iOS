@@ -47,9 +47,8 @@ final class NotificationCell: UITableViewCell {
         }
 
         arrowImageView.do {
-            $0.image = .icNext
+            $0.image = .icArrowRightGrey
             $0.contentMode = .scaleAspectFit
-            $0.tintColor = .grey05
         }
 
         switchControl.do {

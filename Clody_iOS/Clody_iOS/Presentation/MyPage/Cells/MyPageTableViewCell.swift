@@ -2,18 +2,13 @@ import UIKit
 
 import SnapKit
 
-struct Item {
-    let text: String
-    let detail: String?
-}
-
 final class MyPageTableViewCell: UITableViewCell {
     
     static let identifier = "MyPageTableViewCell"
     
     private let separatorLine = UIView()
     private var latestVersionLabel: UILabel?
-    private let arrowImageView = UIImageView() // arrowImageView를 클래스 프로퍼티로 선언
+    private let arrowImageView = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -27,7 +22,6 @@ final class MyPageTableViewCell: UITableViewCell {
     }
     
     private func setStyle() {
-        
         self.backgroundColor = .white
         
         separatorLine.do {
@@ -36,9 +30,8 @@ final class MyPageTableViewCell: UITableViewCell {
         }
         
         arrowImageView.do {
-            $0.tintColor = .grey05
             $0.contentMode = .scaleAspectFit
-            $0.image = .arrow
+            $0.image = .icArrowRightGrey
         }
         
         layoutMargins = UIEdgeInsets.zero
@@ -47,21 +40,20 @@ final class MyPageTableViewCell: UITableViewCell {
     }
     
     private func setHierarchy() {
-        contentView.addSubview(separatorLine)
-        contentView.addSubview(arrowImageView)
+        contentView.addSubviews(separatorLine, arrowImageView)
     }
     
     private func setLayout() {
         separatorLine.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(ScreenUtils.getHeight(8))
+            $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
-            $0.height.equalTo(8)
         }
         
         arrowImageView.snp.makeConstraints {
+            $0.size.equalTo(ScreenUtils.getHeight(25))
             $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(14)
-            $0.size.equalTo(25)
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(14))
         }
     }
     
@@ -91,7 +83,7 @@ final class MyPageTableViewCell: UITableViewCell {
             contentView.addSubview(latestVersionLabel!)
             latestVersionLabel!.snp.makeConstraints {
                 $0.centerY.equalToSuperview()
-                $0.trailing.equalToSuperview().offset(-23)
+                $0.trailing.equalToSuperview().inset(23)
             }
         } else {
             latestVersionLabel?.attributedText = UIFont.pretendardString(text: text, style: .body3_medium)
