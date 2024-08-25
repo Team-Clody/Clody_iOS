@@ -35,7 +35,7 @@ final class DatePickeView: BaseView {
         
         titleLabel.do {
             $0.textColor = .grey01
-            $0.attributedText = UIFont.pretendardString(text: "다른 날짜 보기", style: .body2_semibold)
+            $0.attributedText = UIFont.pretendardString(text: I18N.Calendar.otherDay, style: .body2_semibold)
         }
         
         cancelIcon.do {
@@ -46,7 +46,7 @@ final class DatePickeView: BaseView {
             $0.backgroundColor = .mainYellow
             $0.makeCornerRound(radius: 10)
             $0.setTitleColor(.grey01, for: .normal)
-            let attributedTitle = UIFont.pretendardString(text: "완료", style: .body2_semibold)
+            let attributedTitle = UIFont.pretendardString(text: I18N.Calendar.complete, style: .body2_semibold)
             $0.setAttributedTitle(attributedTitle, for: .normal)
         }
     }
@@ -68,33 +68,33 @@ final class DatePickeView: BaseView {
         
         backgroundView.snp.makeConstraints {
             $0.horizontalEdges.bottom.equalToSuperview()
-            $0.height.equalTo(360)
+            $0.height.equalTo(ScreenUtils.getHeight(360))
         }
         
         pickerView.snp.makeConstraints {
             $0.horizontalEdges.equalTo(completeButton)
-            $0.bottom.equalTo(completeButton.snp.top).offset(8)
-            $0.height.equalTo(223)
+            $0.bottom.equalTo(completeButton.snp.top).offset(ScreenUtils.getHeight(8))
+            $0.height.equalTo(ScreenUtils.getHeight(223))
         }
         
         titleLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(14)
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(14))
         }
         
         cancelIcon.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel)
-            $0.trailing.equalToSuperview().inset(18)
-            $0.size.equalTo(24)
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(18))
+            $0.size.equalTo(ScreenUtils.getWidth(24))
         }
         
         completeButton.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(5)
-            $0.height.equalTo(48)
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(5))
+            $0.height.equalTo(ScreenUtils.getHeight(48))
         }
     }
-    
+
     func animateShow() {
         self.backgroundView.transform = CGAffineTransform(translationX: 0, y: self.backgroundView.frame.height)
         UIView.animate(withDuration: 0.3, animations: {

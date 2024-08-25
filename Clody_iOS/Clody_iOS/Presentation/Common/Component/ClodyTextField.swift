@@ -33,7 +33,7 @@ final class ClodyTextField: UIView {
         .then {
             addSubview($0)
             $0.snp.makeConstraints {
-                $0.top.equalTo(underline.snp.bottom).offset(6)
+                $0.top.equalTo(underline.snp.bottom).offset(ScreenUtils.getHeight(6))
             }
         }
     
@@ -45,7 +45,7 @@ final class ClodyTextField: UIView {
         .then {
             addSubview($0)
             $0.snp.makeConstraints {
-                $0.trailing.equalTo(charLimitLabel.snp.leading).offset(-3)
+                $0.trailing.equalTo(charLimitLabel.snp.leading).offset(-ScreenUtils.getWidth(3))
                 $0.centerY.equalTo(charLimitLabel)
             }
         }
@@ -58,8 +58,8 @@ final class ClodyTextField: UIView {
         .then {
             addSubview($0)
             $0.snp.makeConstraints {
-                $0.top.equalTo(underline.snp.bottom).offset(4)
-                $0.trailing.equalToSuperview().inset(2)
+                $0.top.equalTo(underline.snp.bottom).offset(ScreenUtils.getHeight(4))
+                $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(2))
             }
         }
     
@@ -144,8 +144,8 @@ extension ClodyTextField {
         }
         
         underline.snp.makeConstraints {
-            $0.height.equalTo(2)
-            $0.top.equalTo(textField.snp.bottom).offset(4)
+            $0.height.equalTo(ScreenUtils.getHeight(2))
+            $0.top.equalTo(textField.snp.bottom).offset(ScreenUtils.getHeight(4))
             $0.horizontalEdges.equalTo(textField.snp.horizontalEdges)
         }
     }

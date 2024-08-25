@@ -5,7 +5,7 @@ import Then
 
 final class AccountView: BaseView {
     
-    let navigationBar = ClodyNavigationBar(type: .setting, title: "프로필 및 계정 관리")
+    let navigationBar = ClodyNavigationBar(type: .setting, title: I18N.MyPage.profile)
     private let profileImageView = UIImageView()
     private let nicknameLabel = UILabel()
     let changeProfileButton = UIButton()
@@ -56,19 +56,19 @@ final class AccountView: BaseView {
         }
         
         logoutButton.do {
-            let attributedTitle = UIFont.pretendardString(text: "로그아웃", style: .body4_medium)
+            let attributedTitle = UIFont.pretendardString(text: I18N.MyPage.logout, style: .body4_medium)
             $0.setAttributedTitle(attributedTitle, for: .normal)
             $0.setTitleColor(.grey05, for: .normal)
         }
         
         deleteAccountButton.do {
-            let attributedTitle = UIFont.pretendardString(text: "회원탈퇴", style: .body4_medium)
+            let attributedTitle = UIFont.pretendardString(text: I18N.MyPage.revoke, style: .body4_medium)
             $0.setAttributedTitle(attributedTitle, for: .normal)
             $0.setTitleColor(.grey05, for: .normal)
         }
         
         deleteConfirmationLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "계정을 삭제하시겠어요?", style: .body4_medium)
+            $0.attributedText = UIFont.pretendardString(text: I18N.MyPage.delete, style: .body4_medium)
             $0.textColor = .grey05
         }
         
@@ -84,36 +84,36 @@ final class AccountView: BaseView {
     override func setLayout() {
         
         navigationBar.snp.makeConstraints {
-            $0.height.equalTo(44)
+            $0.height.equalTo(ScreenUtils.getHeight(44))
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
         }
         
         profileImageView.snp.makeConstraints {
-            $0.size.equalTo(20)
-            $0.top.equalTo(navigationBar.snp.bottom).offset(33)
-            $0.leading.equalToSuperview().inset(24)
+            $0.size.equalTo(ScreenUtils.getWidth(20))
+            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(33))
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         nicknameLabel.snp.makeConstraints {
             $0.centerY.equalTo(profileImageView)
-            $0.leading.equalTo(profileImageView.snp.trailing).offset(10)
+            $0.leading.equalTo(profileImageView.snp.trailing).offset(ScreenUtils.getWidth(10))
         }
         
         changeProfileButton.snp.makeConstraints {
             $0.centerY.equalTo(profileImageView)
-            $0.trailing.equalToSuperview().inset(23)
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(23))
         }
 
         emailImageView.snp.makeConstraints {
-            $0.size.equalTo(24)
-            $0.top.equalTo(profileImageView.snp.bottom).offset(36)
+            $0.size.equalTo(ScreenUtils.getWidth(24))
+            $0.top.equalTo(profileImageView.snp.bottom).offset(ScreenUtils.getHeight(36))
             $0.leading.equalTo(profileImageView)
         }
         
         emailLabel.snp.makeConstraints {
             $0.centerY.equalTo(emailImageView)
-            $0.leading.equalTo(emailImageView.snp.trailing).offset(10)
+            $0.leading.equalTo(emailImageView.snp.trailing).offset(ScreenUtils.getWidth(10))
         }
         
         logoutButton.snp.makeConstraints {
@@ -122,14 +122,14 @@ final class AccountView: BaseView {
         }
 
         separatorLine.snp.makeConstraints {
-            $0.height.equalTo(8)
+            $0.height.equalTo(ScreenUtils.getHeight(8))
             $0.width.equalToSuperview()
-            $0.top.equalTo(emailLabel.snp.bottom).offset(22)
+            $0.top.equalTo(emailLabel.snp.bottom).offset(ScreenUtils.getHeight(22))
         }
         
         deleteConfirmationLabel.snp.makeConstraints {
-            $0.top.equalTo(separatorLine.snp.bottom).offset(22)
-            $0.leading.equalToSuperview().inset(26)
+            $0.top.equalTo(separatorLine.snp.bottom).offset(ScreenUtils.getHeight(22))
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(26))
         }
         
         deleteAccountButton.snp.makeConstraints {

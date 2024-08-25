@@ -30,16 +30,20 @@ final class ListViewModel: ViewModelType {
         let changeNavigationDate: Driver<String>
         let listDataChanged: Driver<[ListDiary]>
         let showDelete: Signal<Void>
+        let isLoading: Driver<Bool>
+        let errorStatus: Driver<String>
     }
     
     let listDataRelay = BehaviorRelay<CalendarListResponseDTO>(value: CalendarListResponseDTO(totalCloverCount: 0, diaries: []))
     let selectedMonthRelay = BehaviorRelay<[String]>(value: ["", ""])
     let selectedDateRelay = BehaviorRelay<String?>(value: nil)
+    let isLoadingRelay = PublishRelay<Bool>()
+    let errorStatusRelay = PublishRelay<String>()
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
         input.viewDidLoad
-            .observe(on: MainScheduler.asyncInstance)  
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 fetchData()
@@ -47,10 +51,10 @@ final class ListViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         input.tapKebabButton
-             .emit(onNext: { [weak self] date in
-                 self?.selectedDateRelay.accept(date)
-             })
-             .disposed(by: disposeBag)
+            .emit(onNext: { [weak self] date in
+                self?.selectedDateRelay.accept(date)
+            })
+            .disposed(by: disposeBag)
         
         let replyDate = input.tapReplyButton
             .asDriver(onErrorJustReturn: "")
@@ -69,11 +73,11 @@ final class ListViewModel: ViewModelType {
         let showPickerView = input.tapDateButton.asSignal()
         
         let changeNavigationDate = selectedMonthRelay
-            .observe(on: MainScheduler.asyncInstance)  
+            .observe(on: MainScheduler.asyncInstance)
             .map { date -> String in
                 let year = self.selectedMonthRelay.value[0]
                 let month = self.selectedMonthRelay.value[1]
-
+                
                 self.getListData(year: Int(year) ?? 0, month: Int(month) ?? 0)
                 
                 let convertYear = date[0]
@@ -85,14 +89,20 @@ final class ListViewModel: ViewModelType {
         
         let showDelete = input.tapDeleteButton.asSignal()
         
+        let isLoading = isLoadingRelay.asDriver(onErrorJustReturn: false)
+        
+        let errorStatus = errorStatusRelay.asDriver(onErrorJustReturn: "")
+        
         return Output(
             replyDate: replyDate,
             kebabDate: kebabDate,
             changeToCalendar: changeToCalendar,
             showPickerView: showPickerView,
-            changeNavigationDate: changeNavigationDate, 
+            changeNavigationDate: changeNavigationDate,
             listDataChanged: listDataChanged,
-            showDelete: showDelete
+            showDelete: showDelete,
+            isLoading: isLoading,
+            errorStatus: errorStatus
         )
     }
 }
@@ -116,21 +126,39 @@ extension ListViewModel {
     }
     
     func getListData(year: Int, month: Int) {
+        isLoadingRelay.accept(true)
         let provider = Providers.calendarProvider
-
+        
         provider.request(target: .getListCalendar(year: year, month: month), instance: BaseResponse<CalendarListResponseDTO>.self, completion: { data in
-            guard let data = data.data else { return }
-            
-            self.listDataRelay.accept(data)
+            switch data.status {
+            case 200..<300:
+                guard let data = data.data else { return }
+                self.listDataRelay.accept(data)
+            case -1:
+                self.errorStatusRelay.accept("networkView")
+            default:
+                self.errorStatusRelay.accept("unknownedView")
+            }
+            self.isLoadingRelay.accept(false)
         })
     }
     
     func deleteDiary(year: Int, month: Int, date: Int) {
+        isLoadingRelay.accept(true)
         let provider = Providers.diaryRouter
-
+        
         provider.request(target: .deleteDiary(year: year, month: month, date: date), instance: BaseResponse<EmptyResponseDTO>.self, completion: { data in
-            guard let data = data.data else { return }
-            self.getListData(year: year, month: month)
+            switch data.status {
+            case 200..<300:
+                guard let data = data.data else { return }
+                self.getListData(year: year, month: month)
+            case -1:
+                self.errorStatusRelay.accept("networkView")
+            default:
+                self.errorStatusRelay.accept("unknownedView")
+            }
+            self.isLoadingRelay.accept(false)
         })
     }
 }
+

@@ -70,27 +70,28 @@ final class ClodyErrorAlertView: BaseView {
         
         alertContainerView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.height.equalTo(193)
-            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.height.equalTo(ScreenUtils.getHeight(193))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         alertImage.snp.makeConstraints {
-            $0.size.equalTo(38)
-            $0.top.equalToSuperview().inset(20)
+            $0.size.equalTo(ScreenUtils.getWidth(38))
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(20))
             $0.centerX.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(alertImage.snp.bottom).offset(6)
+            $0.top.equalTo(alertImage.snp.bottom).offset(ScreenUtils.getHeight(6))
         }
         
         errorConfirmButton.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.top.equalTo(titleLabel.snp.bottom).offset(25)
-            $0.bottom.equalToSuperview().inset(20)
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(20))
+            $0.height.equalTo(ScreenUtils.getHeight(42))
+            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(20))
         }
     }
+
     
     @objc func confirmButtonTapped() {
         self.removeFromSuperview()

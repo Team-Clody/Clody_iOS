@@ -11,7 +11,7 @@ import KeychainAccess
 final class UserManager {
     static let shared = UserManager()
     
-    private let keychain = Keychain(service: "com.Clody.Clody")
+    private let keychain = Keychain(service: I18N.Common.bundleID)
 
     private init() {}
     

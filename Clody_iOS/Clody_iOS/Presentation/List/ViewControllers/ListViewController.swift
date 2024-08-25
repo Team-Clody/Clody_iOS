@@ -80,7 +80,7 @@ private extension ListViewController {
             tapCalendarButton: rootView.navigationBarView.calendarButton.rx.tap.asSignal(),
             tapDateButton: rootView.navigationBarView.dateButton.rx.tap.asSignal(),
             monthTap: tapMonthRelay.asSignal(),
-            tapDeleteButton: deleteBottomSheetView.deleteContainer.rx.tapGesture()
+            tapDeleteButton: deleteBottomSheetView.bottomSheetView.rx.tapGesture()
                 .when(.recognized)
                 .map { _ in }
                 .asSignal(onErrorJustReturn: ())
@@ -175,6 +175,33 @@ private extension ListViewController {
             })
             .disposed(by: disposeBag)
         
+        output.isLoading
+            .drive(onNext: { [weak self] isLoading in
+                if isLoading {
+                    self?.showLoadingIndicator()
+                } else {
+                    self?.hideLoadingIndicator()
+                }
+            })
+            .disposed(by: disposeBag)
+
+        output.errorStatus
+            .drive(onNext: { [weak self] errorStatus in
+                switch errorStatus {
+                case "networkView":
+                    self?.showRetryView(isNetworkError: true) {
+                        self?.viewModel.fetchData()
+                    }
+                case "unknownedView":
+                    self?.showRetryView(isNetworkError: false) {
+                        self?.viewModel.fetchData()
+                    }
+                default:
+                    self?.showErrorAlert(isNetworkError: false)
+                }
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     func setDelegate() {
@@ -198,7 +225,7 @@ private extension ListViewController {
         }
         deleteBottomSheetView.isHidden = true
         
-        deleteBottomSheetView.deleteContainer.rx.tapGesture()
+        deleteBottomSheetView.bottomSheetView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissBottomSheet(animated: true, completion: {

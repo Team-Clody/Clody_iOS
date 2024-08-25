@@ -57,11 +57,11 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
             $0.image = .helpMessage
             $0.isUserInteractionEnabled = true
             $0.bringSubviewToFront(cancelHelpButton)
-            $0.contentMode = .scaleAspectFit
+            $0.contentMode = .scaleAspectFill
         }
         
         helpMessageLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "신조어, 비속어, 이모지 작성은 불가능해요", style: .detail1_medium, lineHeightMultiple: 1.5)
+            $0.attributedText = UIFont.pretendardString(text: I18N.WritingDiary.helpMessage, style: .detail1_medium, lineHeightMultiple: 1.5)
             $0.textColor = .blueCustom
         }
         
@@ -72,43 +72,43 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
     }
     
     func setHierarchy() {
-        
+
         self.addSubviews(dateLabel, infoButton, helpMessageImage)
-        helpMessageImage.addSubviews(helpMessageLabel, cancelHelpButton)
+        helpMessageImage.addSubviews(cancelHelpButton, helpMessageLabel)
     }
     
     func setLayout() {
-        
+
         dateLabel.snp.makeConstraints {
             $0.leading.equalToSuperview()
             $0.top.equalToSuperview()
         }
-        
+
         infoButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
-            $0.size.equalTo(28)
+            $0.size.equalTo(ScreenUtils.getWidth(28))
             $0.trailing.equalToSuperview()
         }
-        
+
         helpMessageImage.snp.makeConstraints {
             $0.bottom.equalTo(infoButton.snp.top)
-            $0.width.equalTo(228)
-            $0.height.equalTo(36)
+            $0.width.equalTo(ScreenUtils.getWidth(228))
+            $0.height.equalTo(ScreenUtils.getHeight(36))
             $0.trailing.equalToSuperview()
         }
-        
+
         helpMessageLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(16)
-            $0.leading.equalToSuperview().inset(8)
+            $0.centerY.equalTo(cancelHelpButton)
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(8))
         }
-        
-        cancelHelpButton.snp.makeConstraints {            
-            $0.size.equalTo(28)
+
+        cancelHelpButton.snp.makeConstraints {
+            $0.size.equalTo(ScreenUtils.getWidth(28))
             $0.trailing.equalToSuperview()
             $0.top.equalToSuperview()
         }
     }
-    
+
     func bindData(dateData: Date) {
         let month = DateFormatter.string(from: dateData, format: "M")
         let date = DateFormatter.string(from: dateData, format: "d")

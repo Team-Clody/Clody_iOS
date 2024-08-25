@@ -56,7 +56,7 @@ final class CalendarDateCell: FSCalendarCell {
         
         backgroundSelectView.do {
             $0.backgroundColor = .grey02
-            $0.layer.cornerRadius = 8
+            $0.layer.cornerRadius = ScreenUtils.getHeight(8)
         }
     }
     
@@ -73,33 +73,34 @@ final class CalendarDateCell: FSCalendarCell {
         cloverImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview()
-            $0.width.equalTo(26)
-            $0.height.equalTo(25)
+            $0.width.equalTo(ScreenUtils.getWidth(26))
+            $0.height.equalTo(ScreenUtils.getHeight(25))
         }
         
         newImageView.snp.makeConstraints {
             $0.centerY.equalTo(cloverImageView.snp.bottom)
             $0.centerX.equalTo(cloverImageView.snp.trailing)
-            $0.size.equalTo(12)
+            $0.size.equalTo(ScreenUtils.getWidth(12))
         }
         
         backgroundSelectView.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(6)
+            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(6))
             $0.centerX.equalTo(cloverImageView)
             $0.horizontalEdges.equalTo(cloverImageView)
-            $0.height.equalTo(16)
+            $0.height.equalTo(ScreenUtils.getHeight(16))
         }
         
         clendarDateLabel.snp.makeConstraints {
             $0.center.equalTo(backgroundSelectView)
         }
     }
+    
 }
 
 extension CalendarDateCell {
     
-    func configure(isToday: Bool, isSelected: Bool, date: String, data: MonthlyDiary) {
-        // 기본 설정
+    func configure(isToday: Bool, isSelected: Bool, isDeleted: Bool, date: String, data: MonthlyDiary) {
+        // 캘린더 분기처리 로직
         cloverImageView.image = UIImage(named: "clover\(data.diaryCount)")
         clendarDateLabel.textColor = .grey05
         backgroundSelectView.isHidden = true
@@ -110,12 +111,26 @@ extension CalendarDateCell {
             newImageView.isHidden = true
         }
         
+        if data.replyStatus == "READY_READ" {
+            cloverImageView.image = UIImage(named: "clover\(data.diaryCount)")
+        } else {
+            cloverImageView.image = .clover0
+        }
+        
+        if isDeleted {
+            cloverImageView.image = .clover0
+        }
+        
         // 오늘 날짜 처리
         if isToday {
             if data.diaryCount == 0 {
                 cloverImageView.image = .cloverToday
             } else {
-                cloverImageView.image = (data.replyStatus == "READY_READ") ? UIImage(named: "clover\(data.diaryCount)") : .cloverTodayDone
+                if isDeleted {
+                    cloverImageView.image = .cloverTodayDone
+                } else {
+                    cloverImageView.image = (data.replyStatus == "READY_READ") ? UIImage(named: "clover\(data.diaryCount)") : .cloverTodayDone
+                }
             }
             clendarDateLabel.textColor = .black
         }

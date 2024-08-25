@@ -21,6 +21,8 @@ enum I18N {
         static let next = "다음"
         static let complete = "완료"
         static let ok = "확인"
+        static let bundleID = "com.Clody.Clody"
+        static let appLink = "https://apps.apple.com/app/6511215518"
     }
     
     enum Alert {
@@ -37,6 +39,15 @@ enum I18N {
         static let withdraw = "탈퇴할래요"
         static let save = "저장하기"
         static let delete = "삭제하기"
+        static let retry = "다시 시도"
+    }
+    
+    enum Toast {
+        static let needToWriteAll = "모든 감사 일기 작성이 필요해요."
+        static let limitFive = "일기는 5개까지만 작성할 수 있어요."
+        static let alarm = "설정 > 알림 > 클로디에서 알림을 켜주세요."
+        static let editComplete = "변경을 완료했어요."
+        static let alarmSetComplete = "알림 시간 설정을 완료했어요."
     }
     
     enum BottomSheet {
@@ -90,5 +101,33 @@ enum I18N {
     enum Error {
         static let network = "서비스 접속이 원활하지 않아요.\n네트워크 연결을 확인해주세요."
         static let unKnown = "일시적인 오류가 발생했어요.\n잠시 후 다시 시도해주세요."
+    }
+    
+    enum MyPage {
+        static let newVersion = "최신 버전"
+        static let setting = "설정"
+        static let profile = "프로필 및 계정 관리"
+        static let logout = "로그아웃"
+        static let revoke = "회원탈퇴"
+        static let delete = "계정을 삭제하시겠어요?"
+        static let alarmSet = "알림 설정"
+        static let nickNameEdit = "닉네임 변경"
+        static let edit = "변경하기"
+    }
+    
+    enum WritingDiary {
+        static let save = "저장"
+        static let placeHolder = "일상 속 작은 감사함을 적어보세요."
+        static let helpMessage = "신조어, 비속어, 이모지 작성은 불가능해요"
+        static let replyButton = "답장 확인"
+    }
+    
+    enum Calendar {
+        static let reply = "답장 확인"
+        static let writing = "일기 쓰기"
+        static let empty = "아직 감사 일기가 없어요!"
+        static let delete = "삭제하기"
+        static let otherDay = "다른 날짜 보기"
+        static let complete = "완료"
     }
 }

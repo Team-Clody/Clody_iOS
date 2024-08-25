@@ -62,7 +62,7 @@ final class ListHeaderView: UICollectionReusableView {
              $0.backgroundColor = .lightBlue
              $0.makeCornerRound(radius: 10)
              $0.setTitleColor(.blueCustom, for: .normal)
-             let attributedTitle = UIFont.pretendardString(text: "답장 확인", style: .detail1_semibold)
+            let attributedTitle = UIFont.pretendardString(text: I18N.WritingDiary.replyButton, style: .detail1_semibold)
              $0.setAttributedTitle(attributedTitle, for: .normal)
          }
         
@@ -91,25 +91,25 @@ final class ListHeaderView: UICollectionReusableView {
     func setLayout() {
         
         cloverImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(30)
-            $0.leading.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(30))
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(20))
         }
         
         dateLabel.snp.makeConstraints {
             $0.centerY.equalTo(cloverImageView)
-            $0.leading.equalTo(cloverImageView.snp.trailing).offset(6)
+            $0.leading.equalTo(cloverImageView.snp.trailing).offset(ScreenUtils.getWidth(6))
         }
         
         dayLabel.snp.makeConstraints {
             $0.bottom.equalTo(dateLabel)
-            $0.leading.equalTo(dateLabel.snp.trailing).offset(2)
+            $0.leading.equalTo(dateLabel.snp.trailing).offset(ScreenUtils.getWidth(2))
         }
         
         replyButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
-            $0.trailing.equalTo(kebabButton.snp.leading).offset(-4)
-            $0.width.equalTo(64)
-            $0.height.equalTo(28)
+            $0.trailing.equalTo(kebabButton.snp.leading).offset(-ScreenUtils.getWidth(4))
+            $0.width.equalTo(ScreenUtils.getWidth(64))
+            $0.height.equalTo(ScreenUtils.getHeight(28))
         }
         
         newImageView.snp.makeConstraints {
@@ -118,11 +118,12 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         kebabButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(4)
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(4))
             $0.centerY.equalTo(dateLabel)
-            $0.size.equalTo(28)
+            $0.size.equalTo(ScreenUtils.getWidth(28))
         }
     }
+
     
     func bindData(diary: ListDiary) {
         
@@ -140,6 +141,8 @@ final class ListHeaderView: UICollectionReusableView {
             
         if diary.replyStatus == "READY_NOT_READ" {
             newImageView.isHidden = false
+        } else {
+            newImageView.isHidden = true
         }
         
         let dateOfContent = DateFormatter.date(from: diary.date)

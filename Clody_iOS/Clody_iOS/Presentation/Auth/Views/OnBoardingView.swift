@@ -52,9 +52,9 @@ final class OnBoardingView: BaseView {
         }
         
         nextButton.snp.makeConstraints {
-            $0.height.equalTo(48)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(5)
+            $0.height.equalTo(ScreenUtils.getHeight(48))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(5))
         }
     }
 }

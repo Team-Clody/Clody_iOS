@@ -29,8 +29,8 @@ final class ClodyNavigationBar: UIView {
         .then {
             addSubview($0)
             $0.snp.makeConstraints {
-                $0.size.equalTo(30)
-                $0.leading.equalToSuperview().inset(12)
+                $0.size.equalTo(ScreenUtils.getWidth(30))
+                $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(12))
                 $0.centerY.equalToSuperview()
             }
         }
@@ -42,7 +42,7 @@ final class ClodyNavigationBar: UIView {
         .then {
             addSubview($0)
             $0.snp.makeConstraints {
-                $0.leading.equalToSuperview().inset(18)
+                $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(18))
                 $0.centerY.equalToSuperview()
             }
         }
@@ -54,7 +54,7 @@ final class ClodyNavigationBar: UIView {
         .then {
             addSubview($0)
             $0.snp.makeConstraints {
-                $0.leading.equalToSuperview().inset(18)
+                $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(18))
                 $0.centerY.equalToSuperview()
             }
         }
@@ -80,7 +80,7 @@ final class ClodyNavigationBar: UIView {
         .then {
             addSubview($0)
             $0.snp.makeConstraints {
-                $0.trailing.equalToSuperview().inset(18)
+                $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(18))
                 $0.centerY.equalToSuperview()
             }
         }
@@ -92,7 +92,7 @@ final class ClodyNavigationBar: UIView {
         .then {
             addSubview($0)
             $0.snp.makeConstraints {
-                $0.trailing.equalToSuperview().inset(18)
+                $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(18))
                 $0.centerY.equalToSuperview()
             }
         }

@@ -54,12 +54,12 @@ final class SplashViewController: UIViewController {
         }
         
         introImageView.snp.makeConstraints {
-            $0.top.equalTo(symbolImageView.snp.bottom).offset(21)
+            $0.top.equalTo(symbolImageView.snp.bottom).offset(ScreenUtils.getHeight(21))
             $0.centerX.equalToSuperview()
         }
         
         clodyLogoImageView.snp.makeConstraints {
-            $0.top.equalTo(introImageView.snp.bottom).offset(11)
+            $0.top.equalTo(introImageView.snp.bottom).offset(ScreenUtils.getHeight(11))
             $0.centerX.equalToSuperview()
         }
     }

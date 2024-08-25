@@ -42,7 +42,7 @@ final class ClodyErrorRetryView: BaseView {
             $0.backgroundColor = .mainYellow
             $0.makeCornerRound(radius: 10)
             $0.setTitleColor(.grey02, for: .normal)
-            let attributedTitle = UIFont.pretendardString(text: "다시 시도", style: .body2_semibold)
+            let attributedTitle = UIFont.pretendardString(text: I18N.Alert.retry, style: .body2_semibold)
             $0.setAttributedTitle(attributedTitle, for: .normal)
         }
     }
@@ -53,23 +53,24 @@ final class ClodyErrorRetryView: BaseView {
     
     override func setLayout() {
         errorImage.snp.makeConstraints {
-            $0.width.equalTo(118)
-            $0.height.equalTo(87)
-            $0.leading.equalTo(titleLabel.snp.leading).offset(36)
-            $0.top.equalTo(safeAreaLayoutGuide).inset(232)
+            $0.width.equalTo(ScreenUtils.getWidth(118))
+            $0.height.equalTo(ScreenUtils.getHeight(87))
+            $0.leading.equalTo(titleLabel.snp.leading).offset(ScreenUtils.getWidth(36))
+            $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(232))
         }
         
         titleLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(errorImage.snp.bottom).offset(30)
+            $0.top.equalTo(errorImage.snp.bottom).offset(ScreenUtils.getHeight(30))
         }
         
         retryButton.snp.makeConstraints {
-            $0.height.equalTo(48)
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(5)
-            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.height.equalTo(ScreenUtils.getHeight(48))
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(5))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
     }
+
     
     @objc func confirmButtonTapped() {
         self.removeFromSuperview()

@@ -24,9 +24,9 @@ final class ClodyToastView: BaseView {
     override func setStyle() {
         toastContainerView.do {
             $0.backgroundColor = .grey04
-            $0.makeCornerRound(radius: 25)
+            $0.makeCornerRound(radius: ScreenUtils.getHeight(23))
         }
-        
+            
         alertImage.do {
             $0.image = .toastAlert
             $0.contentMode = .scaleAspectFit
@@ -54,7 +54,7 @@ final class ClodyToastView: BaseView {
     
     override func setLayout() {
         self.snp.makeConstraints {
-            $0.height.equalTo(ScreenUtils.getHeight(46))
+            $0.height.equalTo(ScreenUtils.getHeight(48))
         }
         
         toastContainerView.snp.makeConstraints {
@@ -95,15 +95,15 @@ final class ClodyToastView: BaseView {
         
         switch toastType {
         case .needToWriteAll:
-            titleText = "모든 감사 일기 작성이 필요해요."
+            titleText = I18N.Toast.needToWriteAll
         case .limitFive:
-            titleText = "일기는 5개까지만 작성할 수 있어요."
+            titleText = I18N.Toast.limitFive
         case .alarm:
-            titleText = "설정 > 알림 > 클로디에서 알림을 켜주세요."
+            titleText = I18N.Toast.alarm
         case .changeComplete:
-            titleText = "변경을 완료했어요."
+            titleText = I18N.Toast.changeComplete
         case .notificationTimeChangeComplete:
-            titleText = "알림 시간 설정을 완료했어요."
+            titleText = I18N.Toast.notificationTimeChangeComplete
         }
         
         textLabel.attributedText = UIFont.pretendardString(text: titleText, style: .body4_semibold)
