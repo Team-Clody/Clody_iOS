@@ -41,7 +41,6 @@ final class AccountView: BaseView {
         }
 
         emailImageView.do {
-            $0.image = .profile
             $0.tintColor = .black
         }
         

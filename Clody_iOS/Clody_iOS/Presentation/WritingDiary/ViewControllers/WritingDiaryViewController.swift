@@ -108,7 +108,7 @@ private extension WritingDiaryViewController {
         
         output.showSaveErrorToast
             .emit(onNext: {
-                ClodyToast.show(toastType: .editComplete)
+                ClodyToast.show(toastType: .needToWriteAll)
             })
             .disposed(by: disposeBag)
         

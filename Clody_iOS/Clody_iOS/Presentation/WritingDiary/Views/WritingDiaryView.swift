@@ -58,7 +58,7 @@ final class WritingDiaryView: BaseView {
         }
         
         headerView.snp.makeConstraints {
-            $0.top.equalTo(navigationBarView.snp.bottom).offset(ScreenUtils.getWidth(8))
+            $0.top.equalTo(navigationBarView.snp.bottom).offset(ScreenUtils.getHeight(8))
             $0.height.equalTo(ScreenUtils.getHeight(46))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
