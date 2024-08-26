@@ -120,6 +120,7 @@ enum I18N {
         static let placeHolder = "일상 속 작은 감사함을 적어보세요."
         static let helpMessage = "신조어, 비속어, 이모지 작성은 불가능해요"
         static let replyButton = "답장 확인"
+        static let inputLimitError = "2~50자까지 입력할 수 있어요."
     }
     
     enum Calendar {
