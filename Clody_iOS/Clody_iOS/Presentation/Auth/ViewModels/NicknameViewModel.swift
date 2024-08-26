@@ -10,6 +10,12 @@ import UIKit
 import RxCocoa
 import RxSwift
 
+enum TextFieldInputResult {
+    case empty
+    case error
+    case normal
+}
+
 final class NicknameViewModel: ViewModelType {
     
     struct Input {

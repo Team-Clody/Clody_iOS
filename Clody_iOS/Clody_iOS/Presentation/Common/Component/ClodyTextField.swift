@@ -10,63 +10,18 @@ import UIKit
 import SnapKit
 import Then
 
-enum TextFieldType {
-    case nickname
-    case email
-}
-
-final class ClodyTextField: UIView {
+final class ClodyTextField: BaseView {
     
     // MARK: - UI Components
     
     let textField = UITextField()
     private let underline = UIView()
-    
-    private lazy var messageLabel = UILabel()
-        .then {
-            $0.textColor = .grey04
-            $0.attributedText = UIFont.pretendardString(
-                text: type == .nickname ? I18N.Common.nicknameCondition : "",
-                style: .detail1_regular
-            )
-        }
-        .then {
-            addSubview($0)
-            $0.snp.makeConstraints {
-                $0.top.equalTo(underline.snp.bottom).offset(ScreenUtils.getHeight(6))
-            }
-        }
-    
-    public lazy var countLabel = UILabel()
-        .then {
-            $0.textColor = .grey04
-            $0.attributedText = UIFont.pretendardString(text: "\(count)", style: .detail1_medium)
-        }
-        .then {
-            addSubview($0)
-            $0.snp.makeConstraints {
-                $0.trailing.equalTo(charLimitLabel.snp.leading).offset(-ScreenUtils.getWidth(3))
-                $0.centerY.equalTo(charLimitLabel)
-            }
-        }
-    
-    private lazy var charLimitLabel = UILabel()
-        .then {
-            $0.textColor = .grey06
-            $0.attributedText = UIFont.pretendardString(text: I18N.Common.charLimit, style: .detail1_medium)
-        }
-        .then {
-            addSubview($0)
-            $0.snp.makeConstraints {
-                $0.top.equalTo(underline.snp.bottom).offset(ScreenUtils.getHeight(4))
-                $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(2))
-            }
-        }
+    private let messageLabel = UILabel()
+    let countLabel = UILabel()
+    private let charLimitLabel = UILabel()
     
     // MARK: - Properties
     
-    let type: TextFieldType
-    private var includedComponents: [UIView] = []
     private var errorMessage: String? {
         didSet {
             messageLabel.attributedText = UIFont.pretendardString(
@@ -83,47 +38,19 @@ final class ClodyTextField: UIView {
         }
     }
     
-    // MARK: - Life Cycles
-    
-    init(type: TextFieldType) {
-        self.type = type
-        super.init(frame: .zero)
-        
-        setStyle()
-        setHierarchy()
-        setLayout()
-        
-        switch type {
-        case .nickname:
-            includedComponents = [textField, underline, messageLabel, countLabel, charLimitLabel]
-        case .email:
-            includedComponents = [textField, underline]
-        }
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-// MARK: - Extensions
-
-extension ClodyTextField {
-    
     // MARK: - Methods
     
-    private func setStyle() {
+    override func setStyle() {
         textField.do {
-            $0.autocapitalizationType = .none 
+            $0.autocapitalizationType = .none
             $0.autocorrectionType = .no
             $0.spellCheckingType = .no
-            $0.keyboardType = (type == .email) ? .emailAddress : .default
             $0.backgroundColor = .clear
             $0.font = .pretendard(.body1_medium)
             $0.textColor = .grey03
             $0.clearButtonMode = .always
             $0.attributedPlaceholder = NSAttributedString(
-                string: type == .nickname ? I18N.Common.enterNickname : I18N.Common.enterEmail,
+                string: I18N.Common.enterNickname,
                 attributes: [NSAttributedString.Key.foregroundColor : UIColor.grey05]
             )
         }
@@ -131,13 +58,31 @@ extension ClodyTextField {
         underline.do {
             $0.backgroundColor = .grey07
         }
+        
+        messageLabel.do {
+            $0.textColor = .grey04
+            $0.attributedText = UIFont.pretendardString(
+                text: I18N.Common.nicknameCondition,
+                style: .detail1_regular
+            )
+        }
+        
+        countLabel.do {
+            $0.textColor = .grey04
+            $0.attributedText = UIFont.pretendardString(text: "\(count)", style: .detail1_medium)
+        }
+        
+        charLimitLabel.do {
+            $0.textColor = .grey06
+            $0.attributedText = UIFont.pretendardString(text: I18N.Common.charLimit, style: .detail1_medium)
+        }
     }
     
-    private func setHierarchy() {
-        self.addSubviews(textField, underline)
+    override func setHierarchy() {
+        self.addSubviews(textField, underline, messageLabel, countLabel, charLimitLabel)
     }
     
-    private func setLayout() {
+    override func setLayout() {
         textField.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
@@ -148,13 +93,30 @@ extension ClodyTextField {
             $0.top.equalTo(textField.snp.bottom).offset(ScreenUtils.getHeight(4))
             $0.horizontalEdges.equalTo(textField.snp.horizontalEdges)
         }
-    }
-    
-    func showErrorMessage(_ message: String) {
-        if !includedComponents.contains(messageLabel) {
-            includedComponents.append(messageLabel)
+        
+        messageLabel.snp.makeConstraints {
+            $0.top.equalTo(underline.snp.bottom).offset(ScreenUtils.getHeight(3))
+            $0.leading.equalToSuperview()
+            $0.trailing.equalTo(countLabel.snp.leading).offset(-ScreenUtils.getWidth(16))
         }
         
+        countLabel.snp.makeConstraints {
+            $0.trailing.equalTo(charLimitLabel.snp.leading).offset(-ScreenUtils.getWidth(3))
+            $0.centerY.equalTo(charLimitLabel)
+        }
+        
+        charLimitLabel.snp.makeConstraints {
+            $0.top.equalTo(underline.snp.bottom).offset(ScreenUtils.getHeight(2))
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(2))
+        }
+    }
+}
+
+// MARK: - Extensions
+
+extension ClodyTextField {
+    
+    func showErrorMessage(_ message: String) {
         messageLabel.isHidden = false
         errorMessage = message
     }
@@ -162,17 +124,12 @@ extension ClodyTextField {
     func hideErrorMessage() {
         underline.backgroundColor = .mainYellow
         
-        switch type {
-        case .email:
-            messageLabel.isHidden = true
-        case .nickname:
-            messageLabel.do {
-                $0.textColor = .grey04
-                $0.attributedText = UIFont.pretendardString(
-                    text: I18N.Common.nicknameCondition,
-                    style: .detail1_regular
-                )
-            }
+        messageLabel.do {
+            $0.textColor = .grey04
+            $0.attributedText = UIFont.pretendardString(
+                text: I18N.Common.nicknameCondition,
+                style: .detail1_regular
+            )
         }
     }
     
