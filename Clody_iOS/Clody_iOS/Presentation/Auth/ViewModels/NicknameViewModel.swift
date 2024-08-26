@@ -73,13 +73,16 @@ final class NicknameViewModel: ViewModelType {
 
 extension NicknameViewModel {
     
-    func signUp(signUpInfo: SignUpInfoModel, completion: @escaping (Int) -> ()) {
+    func signUp(nickname: String, completion: @escaping (Int) -> ()) {
+        let platform = UserManager.shared.platformValue
+        let email = (platform == LoginPlatformType.apple.rawValue ? UserManager.shared.appleEmailValue : "")
+        
         Providers.authProvider.request(
             target: .signUp(
                 data: SignUpRequestDTO(
-                    platform: signUpInfo.platform,
-                    email: signUpInfo.email,
-                    name: signUpInfo.name
+                    platform: platform,
+                    email: email,
+                    name: nickname
                 )
             ),
             instance: BaseResponse<SignUpResponseDTO>.self

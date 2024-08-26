@@ -18,7 +18,6 @@ final class NicknameViewController: UIViewController {
     private let viewModel = NicknameViewModel()
     private let disposeBag = DisposeBag()
     private let maxLength = 10
-    private var signUpInfo: SignUpInfoModel
     
     // MARK: - UI Components
      
@@ -26,15 +25,6 @@ final class NicknameViewController: UIViewController {
     private lazy var clodyTextField = rootView.textField
     
     // MARK: - Life Cycles
-    
-    init(signUpInfo: SignUpInfoModel) {
-        self.signUpInfo = signUpInfo
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func loadView() {
         super.loadView()
@@ -115,8 +105,7 @@ private extension NicknameViewController {
             .drive(onNext: {
                 guard let nickname = self.clodyTextField.textField.text else { return }
                 self.showLoadingIndicator()
-                self.signUpInfo.name = nickname
-                self.signUp()
+                self.signUp(nickname: nickname)
             })
             .disposed(by: disposeBag)
         
@@ -156,8 +145,8 @@ private extension NicknameViewController {
 
 extension NicknameViewController {
     
-    func signUp() {
-        viewModel.signUp(signUpInfo: signUpInfo) { statusCode in
+    func signUp(nickname: String) {
+        viewModel.signUp(nickname: nickname) { statusCode in
             self.hideLoadingIndicator()
             
             switch statusCode {

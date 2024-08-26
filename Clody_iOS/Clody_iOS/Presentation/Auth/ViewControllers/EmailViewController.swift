@@ -17,7 +17,6 @@ final class EmailViewController: UIViewController {
     
     private let viewModel = EmailViewModel()
     private let disposeBag = DisposeBag()
-    private var signUpInfo: SignUpInfoModel
     
     // MARK: - UI Components
      
@@ -25,15 +24,6 @@ final class EmailViewController: UIViewController {
     private lazy var clodyTextField = rootView.textField
     
     // MARK: - Life Cycles
-    
-    init(signUpInfo: SignUpInfoModel) {
-        self.signUpInfo = signUpInfo
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func loadView() {
         super.loadView()
@@ -101,8 +91,7 @@ private extension EmailViewController {
         output.pushViewController
             .drive(onNext: {
                 guard let email = self.clodyTextField.textField.text else { return }
-                self.signUpInfo.email = email
-                self.navigationController?.pushViewController(TermsViewController(signUpInfo: self.signUpInfo), animated: true)
+                self.navigationController?.pushViewController(TermsViewController(), animated: true)
             })
             .disposed(by: disposeBag)
         
