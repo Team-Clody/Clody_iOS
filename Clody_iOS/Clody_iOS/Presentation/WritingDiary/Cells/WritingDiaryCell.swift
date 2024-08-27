@@ -106,7 +106,7 @@ final class WritingDiaryCell: UICollectionViewCell {
         
         limeErrorLabel.do {
             $0.attributedText = UIFont.pretendardString(
-                text: "숫자 2~50자 까지 입력할 수 있어요.",
+                text: I18N.WritingDiary.inputLimitError,
                 style: .detail1_medium,
                 lineHeightMultiple: 1.5
             )
