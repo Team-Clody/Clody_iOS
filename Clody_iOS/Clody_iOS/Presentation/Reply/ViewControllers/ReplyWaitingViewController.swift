@@ -149,12 +149,6 @@ private extension ReplyWaitingViewController {
             guard let self = self else { return }
             hideLoadingIndicator()
             
-            // 첫 답장이라면
-            if data.isFirst {
-                totalSeconds = secondsToWaitForFirstReply
-                return
-            }
-            
             let todayYear = Date().dateToYearMonthDay().0
             let todayMonth = Date().dateToYearMonthDay().1
             let todayDay = Date().dateToYearMonthDay().2
@@ -162,20 +156,20 @@ private extension ReplyWaitingViewController {
             if date.0 == todayYear,
                date.1 == todayMonth,
                date.2 == todayDay {
-                // 오늘 작성한 일기라면
+                /// 오늘 작성한 일기라면
                 let createdTime = (data.HH * 3600) + (data.MM * 60) + data.SS
-                let remainingTime = (createdTime + secondsToWaitForNormalReply) - Date().currentTimeSeconds()
+                let totalWaitingTime = createdTime + (data.isFirst ? secondsToWaitForFirstReply : secondsToWaitForNormalReply)
+                let remainingTime = totalWaitingTime - Date().currentTimeSeconds()
                 totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
             } else if date.0 == todayYear,
                       date.1 == todayMonth,
                       date.2 == todayDay - 1 {
-                // 어제 작성한 일기라면
+                /// 어제 작성한 일기라면
                 let calendar = Calendar.current
                 let yesterdayDate = calendar.date(byAdding: .day, value: -1, to: Date())!
-                let writingTime = calendar.date(bySettingHour: data.HH, minute: data.MM, second: data.SS, of: yesterdayDate)!
-                let twelveHoursLater = writingTime.addingTimeInterval(Double(secondsToWaitForNormalReply))
-                
-                let remainingTime = Int(twelveHoursLater.timeIntervalSinceNow)
+                let createdTime = calendar.date(bySettingHour: data.HH, minute: data.MM, second: data.SS, of: yesterdayDate)!
+                let totalWaitingTime = createdTime.addingTimeInterval(Double(data.isFirst ? secondsToWaitForFirstReply : secondsToWaitForNormalReply))
+                let remainingTime = Int(totalWaitingTime.timeIntervalSinceNow)
                 totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
             } else {
                 totalSeconds = 0

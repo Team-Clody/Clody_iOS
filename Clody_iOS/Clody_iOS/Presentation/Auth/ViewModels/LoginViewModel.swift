@@ -11,7 +11,7 @@ import KakaoSDKAuth
 import RxCocoa
 import RxSwift
 
-enum LoginPlatformType: String {
+enum LoginPlatformType: String, CaseIterable {
     case kakao = "kakao"
     case apple = "apple"
 }
@@ -54,7 +54,8 @@ extension LoginViewModel {
     }
     
     /// 애플 로그인
-    func signIn(idToken: String, completion: @escaping (Int) -> ()) {
+    func signIn(email: String?, idToken: String, completion: @escaping (Int) -> ()) {
+        if let email = email { UserManager.shared.appleEmail = email }
         UserManager.shared.platform = LoginPlatformType.apple.rawValue
         APIConstants.authCode = idToken
         

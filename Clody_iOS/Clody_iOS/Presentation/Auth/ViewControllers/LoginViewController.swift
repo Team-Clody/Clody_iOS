@@ -20,11 +20,6 @@ final class LoginViewController: UIViewController {
     
     private let viewModel = LoginViewModel()
     private let disposeBag = DisposeBag()
-    private lazy var signUpInfo = SignUpInfoModel(
-        platform: "",
-        email: "",
-        name: ""
-    )
     
     // MARK: - UI Components
     
@@ -96,7 +91,7 @@ private extension LoginViewController {
                 } else {
                     if let oauthToken = oauthToken {
                         self.viewModel.signIn(authCode: oauthToken.accessToken) { statusCode in
-                            self.handleResultForStatus(statusCode: statusCode, platform: .kakao)
+                            self.handleResultForStatus(statusCode: statusCode)
                         }
                     }
                 }
@@ -107,7 +102,7 @@ private extension LoginViewController {
     func signInWithApple() {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
-        request.requestedScopes = []
+        request.requestedScopes = [.email]
         
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
@@ -115,7 +110,7 @@ private extension LoginViewController {
         authorizationController.performRequests()
     }
     
-    func handleResultForStatus(statusCode: Int, platform: LoginPlatformType) {
+    func handleResultForStatus(statusCode: Int) {
         switch statusCode {
         case 200:
             /// 로그인 성공
@@ -124,19 +119,9 @@ private extension LoginViewController {
             }
         case 404:
             /// 존재하지 않는 유저
-            self.signUpInfo.platform = UserManager.shared.platformValue
-            self.handleResultForPlatform(platform: platform)
+            self.navigationController?.pushViewController(TermsViewController(), animated: true)
         default:
             print("😵 서버 에러 - 로그인에 실패했습니다.")
-        }
-    }
-    
-    func handleResultForPlatform(platform: LoginPlatformType) {
-        switch platform {
-        case .apple:
-            self.navigationController?.pushViewController(EmailViewController(signUpInfo: self.signUpInfo), animated: true)
-        case .kakao:
-            self.navigationController?.pushViewController(TermsViewController(signUpInfo: self.signUpInfo), animated: true)
         }
     }
 }
@@ -149,11 +134,12 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         else { return }
         print("✅ 애플 로그인 성공")
         
+        let email = credential.email
         guard let idToken = String(data: identityToken, encoding: .utf8) else { return }
-        print("💳 idToken: \(idToken)")
+        print("📧 email: \(email ?? "❌")\n💳 idToken: \(idToken)")
         
-        viewModel.signIn(idToken: idToken) { statusCode in
-            self.handleResultForStatus(statusCode: statusCode, platform: .apple)
+        viewModel.signIn(email: email, idToken: idToken) { statusCode in
+            self.handleResultForStatus(statusCode: statusCode)
         }
     }
     

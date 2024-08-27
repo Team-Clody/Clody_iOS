@@ -42,6 +42,11 @@ final class UserManager {
         set { keychain["fcmToken"] = newValue }
     }
     
+    var appleEmail: String? {
+        get { return keychain["appleEmail"] }
+        set { keychain["appleEmail"] = newValue }
+    }
+    
     var hasAccessToken: Bool { return self.accessToken != nil }
     var accessTokenValue: String { return self.accessToken ?? "" }
     var refreshTokenValue: String { return self.refreshToken ?? "" }
@@ -49,6 +54,7 @@ final class UserManager {
     var idTokenValue: String { return self.idToken ?? "" }
     var platformValue: String { return self.platform ?? "" }
     var fcmTokenValue: String { return self.fcmToken ?? "" }
+    var appleEmailValue: String { return self.appleEmail ?? "" }
 }
 
 extension UserManager {

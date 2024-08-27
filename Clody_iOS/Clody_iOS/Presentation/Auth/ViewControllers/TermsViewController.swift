@@ -17,22 +17,12 @@ final class TermsViewController: UIViewController {
     
     private let viewModel = TermsViewModel()
     private let disposeBag = DisposeBag()
-    private var signUpInfo: SignUpInfoModel
     
     // MARK: - UI Components
      
     private let rootView = TermsView()
     
     // MARK: - Life Cycles
-    
-    init(signUpInfo: SignUpInfoModel) {
-        self.signUpInfo = signUpInfo
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func loadView() {
         super.loadView()
@@ -131,7 +121,7 @@ private extension TermsViewController {
         
         output.pushViewController
             .drive(onNext: { _ in
-                self.navigationController?.pushViewController(NicknameViewController(signUpInfo: self.signUpInfo), animated: true)
+                self.navigationController?.pushViewController(NicknameViewController(), animated: true)
             })
             .disposed(by: disposeBag)
         
