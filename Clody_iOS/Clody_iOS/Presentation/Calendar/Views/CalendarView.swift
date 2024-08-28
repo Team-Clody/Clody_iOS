@@ -72,11 +72,11 @@ final class CalendarView: BaseView {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.locale = Locale(identifier: "ko_KR")
             $0.headerHeight = 0
-            $0.weekdayHeight = 50
-            $0.rowHeight = 71
+            $0.weekdayHeight = ScreenUtils.getHeight(32)
+            $0.rowHeight = ScreenUtils.getHeight(71)
             $0.scrollEnabled = false
             
-            $0.appearance.weekdayFont = .pretendard(.body3_medium)
+            $0.appearance.weekdayFont = .pretendard(.body4_medium)
             $0.appearance.weekdayTextColor = .grey06
         }
         
@@ -158,7 +158,7 @@ final class CalendarView: BaseView {
         
         calendarNavigationView.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(ScreenUtils.getHeight(44))
         }
         
@@ -174,9 +174,9 @@ final class CalendarView: BaseView {
         }
         
         mainCalendarView.snp.makeConstraints {
-            $0.top.equalTo(cloverBackgroundView.snp.bottom).offset(ScreenUtils.getHeight(5))
+            $0.top.equalTo(cloverBackgroundView.snp.bottom).offset(ScreenUtils.getHeight(6))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
-            $0.height.equalTo(ScreenUtils.getHeight(399))
+            $0.height.equalTo(ScreenUtils.getHeight(71)*5 + ScreenUtils.getHeight(32))
         }
         
         dividerView.snp.makeConstraints {

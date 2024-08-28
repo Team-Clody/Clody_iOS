@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "ic_todayclover_yet.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "ic_todayclover_yet@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "ic_todayclover_yet@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "cloverTodayDone.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {
