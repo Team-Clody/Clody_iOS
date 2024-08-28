@@ -175,7 +175,7 @@ final class CalendarView: BaseView {
         
         mainCalendarView.snp.makeConstraints {
             $0.top.equalTo(cloverBackgroundView.snp.bottom).offset(ScreenUtils.getHeight(6))
-            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.horizontalEdges.equalToSuperview().inset(24)
             $0.height.equalTo(ScreenUtils.getHeight(71)*5 + ScreenUtils.getHeight(32))
         }
         
