@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "btn_clover.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "btn_clover@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "btn_clover@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "cloverToday.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {
