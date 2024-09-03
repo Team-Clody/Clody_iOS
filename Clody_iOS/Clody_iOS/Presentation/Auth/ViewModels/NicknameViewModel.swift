@@ -88,7 +88,8 @@ extension NicknameViewModel {
                 data: SignUpRequestDTO(
                     platform: platform,
                     email: email,
-                    name: nickname
+                    name: nickname, 
+                    fcmToken: UserManager.shared.fcmTokenValue
                 )
             ),
             instance: BaseResponse<SignUpResponseDTO>.self
