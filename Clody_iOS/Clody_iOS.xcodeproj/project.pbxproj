@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B03B1A02C86D2AD00144596 /* waitingLody.json in Resources */ = {isa = PBXBuildFile; fileRef = 0B03B19F2C86D2AD00144596 /* waitingLody.json */; };
 		0B17F8052C368465008A9998 /* DailyCalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B17F8042C368465008A9998 /* DailyCalendarCollectionViewCell.swift */; };
 		0B190F0B2C380F5300D46CFC /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B190F0A2C380F5300D46CFC /* DateFormatter+.swift */; };
 		0B190F0D2C38111500D46CFC /* CalendarDailyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B190F0C2C38111500D46CFC /* CalendarDailyModel.swift */; };
@@ -57,11 +58,11 @@
 		0B72DA2E2C46C13E00292173 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA2D2C46C13E00292173 /* NotificationViewModel.swift */; };
 		0B72DA302C46C16000292173 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA2F2C46C16000292173 /* NotificationView.swift */; };
 		0B72DA342C46C18F00292173 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA332C46C18F00292173 /* NotificationCell.swift */; };
-		0B7B25D62C6276C200FCA10D /* waitingLody.json in Resources */ = {isa = PBXBuildFile; fileRef = 0B7B25D52C6276C200FCA10D /* waitingLody.json */; };
 		0BAAC64E2C43BFD900174A9D /* DeleteBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */; };
 		0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6522C43D74D00174A9D /* ClodyToast.swift */; };
 		0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */; };
 		0BABF7BE2C722313005A5CA1 /* AppVersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */; };
+		0BB898262C85BBBB0082F87B /* RevokeResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */; };
 		0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC373522C3FCC2600C45072 /* ViewModelType.swift */; };
 		0BC373562C3FCF0F00C45072 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 0BC373552C3FCF0F00C45072 /* RxKeyboard */; };
 		0BC373592C4003A900C45072 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 0BC373582C4003A900C45072 /* RxGesture */; };
@@ -155,6 +156,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B03B19F2C86D2AD00144596 /* waitingLody.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = waitingLody.json; sourceTree = "<group>"; };
 		0B17F8042C368465008A9998 /* DailyCalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCalendarCollectionViewCell.swift; sourceTree = "<group>"; };
 		0B190F0A2C380F5300D46CFC /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
 		0B190F0C2C38111500D46CFC /* CalendarDailyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDailyModel.swift; sourceTree = "<group>"; };
@@ -203,11 +205,11 @@
 		0B72DA2D2C46C13E00292173 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		0B72DA2F2C46C16000292173 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		0B72DA332C46C18F00292173 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
-		0B7B25D52C6276C200FCA10D /* waitingLody.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = waitingLody.json; sourceTree = "<group>"; };
 		0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBottomSheetView.swift; sourceTree = "<group>"; };
 		0BAAC6522C43D74D00174A9D /* ClodyToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToast.swift; sourceTree = "<group>"; };
 		0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToastView.swift; sourceTree = "<group>"; };
 		0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionManager.swift; sourceTree = "<group>"; };
+		0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevokeResponseDTO.swift; sourceTree = "<group>"; };
 		0BC373522C3FCC2600C45072 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		0BCD4FA22C35B59C006390D2 /* Clody_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clody_iOS.entitlements; sourceTree = "<group>"; };
 		0BDF13BF2C7D612800BA2E7C /* Config_Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config_Dev.xcconfig; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 				0BE7E9FF2C4664EC000C5358 /* LoginRequestDTO.swift */,
 				0BE7EA012C466524000C5358 /* LoginResponseDTO.swift */,
 				0BE7EA032C4665FC000C5358 /* TokenRefreshResponseDTO.swift */,
+				0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */,
 			);
 			path = AuthModel;
 			sourceTree = "<group>";
@@ -584,7 +587,7 @@
 		0BFCC5C32C2E8C4600B5E0DB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0B7B25D52C6276C200FCA10D /* waitingLody.json */,
+				0B03B19F2C86D2AD00144596 /* waitingLody.json */,
 				0BE7EA182C46AE25000C5358 /* replyLody.json */,
 				0BFCC5C62C2E8C9C00B5E0DB /* Font */,
 				0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */,
@@ -1030,7 +1033,7 @@
 			files = (
 				0BE7EA192C46AE25000C5358 /* replyLody.json in Resources */,
 				0B20F3E62C2C4DAB00F8D62D /* Assets.xcassets in Resources */,
-				0B7B25D62C6276C200FCA10D /* waitingLody.json in Resources */,
+				0B03B1A02C86D2AD00144596 /* waitingLody.json in Resources */,
 				0B20F3E92C2C4DAB00F8D62D /* Base in Resources */,
 				2CE3AB2F2C36E9F50042085A /* Pretendard-Regular.otf in Resources */,
 				2C0B3C862C30DD55002EB1A3 /* Pretendard-Medium.otf in Resources */,
@@ -1158,6 +1161,7 @@
 				0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */,
 				0BE7EA0F2C466AEE000C5358 /* PostAlarmSetResponseDTO.swift in Sources */,
 				0B20F3DF2C2C4DAA00F8D62D /* SceneDelegate.swift in Sources */,
+				0BB898262C85BBBB0082F87B /* RevokeResponseDTO.swift in Sources */,
 				2CE6378D2C3D56A700B6EC6D /* AccountView.swift in Sources */,
 				2CC0CE732C3C0ED9001F3E6B /* MyPageTableViewCell.swift in Sources */,
 				0B72DA342C46C18F00292173 /* NotificationCell.swift in Sources */,
