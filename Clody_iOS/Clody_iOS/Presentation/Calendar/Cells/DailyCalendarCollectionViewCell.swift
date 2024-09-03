@@ -65,6 +65,7 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(16))
         }
         listNumberLabel.setContentHuggingPriority(.required, for: .horizontal)
+        listNumberLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         diaryTextLabel.snp.makeConstraints {
             $0.top.equalTo(listNumberLabel.snp.top)
