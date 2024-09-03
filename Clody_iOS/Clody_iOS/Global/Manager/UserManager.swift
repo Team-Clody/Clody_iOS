@@ -70,7 +70,6 @@ extension UserManager {
     func clearAll() {
         self.accessToken = nil
         self.refreshToken = nil
-        self.fcmToken = nil
         self.idToken = nil
         self.platform = nil
     }
