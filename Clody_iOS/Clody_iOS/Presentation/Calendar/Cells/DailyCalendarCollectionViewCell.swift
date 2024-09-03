@@ -57,8 +57,7 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
     
     func setLayout() {
         listContainerView.snp.makeConstraints {
-            $0.verticalEdges.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
         
         listNumberLabel.snp.makeConstraints {
