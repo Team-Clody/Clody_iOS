@@ -66,7 +66,7 @@ extension LoginViewModel {
     
     private func signIn(completion: @escaping (Int) -> ()) {
         Providers.authProvider.request(
-            target: .signIn(data: LoginRequestDTO(platform: UserManager.shared.platformValue)),
+            target: .signIn(data: LoginRequestDTO(platform: UserManager.shared.platformValue, fcmToken: UserManager.shared.fcmTokenValue)),
             instance: BaseResponse<LoginResponseDTO>.self
         ) { response in
             if response.status == 200 {
