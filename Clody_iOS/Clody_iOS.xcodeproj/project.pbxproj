@@ -13,7 +13,6 @@
 		0B190F0D2C38111500D46CFC /* CalendarDailyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B190F0C2C38111500D46CFC /* CalendarDailyModel.swift */; };
 		0B20F3DD2C2C4DAA00F8D62D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B20F3DC2C2C4DAA00F8D62D /* AppDelegate.swift */; };
 		0B20F3DF2C2C4DAA00F8D62D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B20F3DE2C2C4DAA00F8D62D /* SceneDelegate.swift */; };
-		0B20F3E12C2C4DAA00F8D62D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B20F3E02C2C4DAA00F8D62D /* ViewController.swift */; };
 		0B20F3E62C2C4DAB00F8D62D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */; };
 		0B20F3E92C2C4DAB00F8D62D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 0B20F3E82C2C4DAB00F8D62D /* Base */; };
 		0B3DC0882C6CD77C0021AC61 /* ClodyErrorRetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3DC0872C6CD77C0021AC61 /* ClodyErrorRetryView.swift */; };
@@ -163,7 +162,6 @@
 		0B20F3D92C2C4DAA00F8D62D /* Clody_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clody_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B20F3DC2C2C4DAA00F8D62D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0B20F3DE2C2C4DAA00F8D62D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0B20F3E02C2C4DAA00F8D62D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B20F3E82C2C4DAB00F8D62D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B20F3EA2C2C4DAB00F8D62D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -344,7 +342,6 @@
 				0BFCC5BF2C2E8C0000B5E0DB /* Global */,
 				0BFCC5C92C2E8D6700B5E0DB /* Network */,
 				0BFCC5D02C2E8E3600B5E0DB /* Presentation */,
-				0B20F3E02C2C4DAA00F8D62D /* ViewController.swift */,
 				0B20F3EA2C2C4DAB00F8D62D /* Info.plist */,
 				95310F892C401A1F00023C7B /* GoogleService-Info.plist */,
 				2CB129422C47F2CC009D1480 /* Config.xcconfig */,
@@ -1107,7 +1104,6 @@
 				0BE7E9F12C4636DE000C5358 /* CalendarMonthlyResponseDTO.swift in Sources */,
 				0BFCC5DA2C2E8F0200B5E0DB /* CalendarModel.swift in Sources */,
 				0B4A1BC62C45401500E31EC4 /* MoyaPlugin.swift in Sources */,
-				0B20F3E12C2C4DAA00F8D62D /* ViewController.swift in Sources */,
 				95310FB02C42E0CB00023C7B /* ReplyDetailModel.swift in Sources */,
 				95310FAD2C42D9FB00023C7B /* ReplyDetailView.swift in Sources */,
 				95310F922C40706600023C7B /* NicknameView.swift in Sources */,
