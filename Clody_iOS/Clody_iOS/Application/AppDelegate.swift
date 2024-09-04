@@ -31,8 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 파이어베이스 Meesaging 설정
         Messaging.messaging().delegate = self
         
-        AppVersionManager.shared.checkForUpdate()
-        
         return true
     }
 

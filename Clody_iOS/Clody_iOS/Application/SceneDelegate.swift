@@ -23,12 +23,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
         self.window = window
         
+        AppVersionManager.shared.checkForUpdateAndProceed { [weak self] shouldProceed in
+            guard shouldProceed else { return }
+            self?.proceedToNextViewController()
+        }
+    }
+    
+    func proceedToNextViewController() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             DispatchQueue.main.async {
                 if UserManager.shared.hasAccessToken {
                     self.window?.rootViewController = UINavigationController(rootViewController: CalendarViewController())
                 } else {
-                    self.window?.rootViewController = UINavigationController(rootViewController: LoginViewController()) 
+                    self.window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
                 }
             }
         }
