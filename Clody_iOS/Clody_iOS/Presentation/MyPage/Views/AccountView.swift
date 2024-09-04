@@ -21,6 +21,7 @@ final class AccountView: BaseView {
             nicknameLabel.do {
                 $0.attributedText = UIFont.pretendardString(text: nickname, style: .body1_semibold)
                 $0.textColor = .black
+                $0.numberOfLines = 0
             }
         }
     }
@@ -29,6 +30,7 @@ final class AccountView: BaseView {
             emailLabel.do {
                 $0.attributedText = UIFont.pretendardString(text: email, style: .body1_semibold)
                 $0.textColor = .black
+                $0.numberOfLines = 0
             }
         }
     }
@@ -98,12 +100,16 @@ final class AccountView: BaseView {
         nicknameLabel.snp.makeConstraints {
             $0.centerY.equalTo(profileImageView)
             $0.leading.equalTo(profileImageView.snp.trailing).offset(ScreenUtils.getWidth(10))
+            $0.trailing.equalTo(changeProfileButton.snp.leading).offset(ScreenUtils.getWidth(-10))
         }
         
         changeProfileButton.snp.makeConstraints {
             $0.centerY.equalTo(profileImageView)
             $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(23))
         }
+        changeProfileButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        changeProfileButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+
 
         emailImageView.snp.makeConstraints {
             $0.size.equalTo(ScreenUtils.getWidth(24))
@@ -114,12 +120,15 @@ final class AccountView: BaseView {
         emailLabel.snp.makeConstraints {
             $0.centerY.equalTo(emailImageView)
             $0.leading.equalTo(emailImageView.snp.trailing).offset(ScreenUtils.getWidth(10))
+            $0.trailing.equalTo(logoutButton.snp.leading).offset(ScreenUtils.getWidth(-10))
         }
         
         logoutButton.snp.makeConstraints {
             $0.centerY.equalTo(emailImageView)
             $0.trailing.equalTo(changeProfileButton)
         }
+        logoutButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        logoutButton.setContentCompressionResistancePriority(.required, for: .horizontal)
 
         separatorLine.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getHeight(8))
