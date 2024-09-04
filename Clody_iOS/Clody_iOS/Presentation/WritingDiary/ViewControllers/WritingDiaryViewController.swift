@@ -146,7 +146,7 @@ private extension WritingDiaryViewController {
                             self.hideLoadingIndicator()
                             switch statusCode {
                             case .success:
-                                if type == "NO_REPLY" {
+                                if type == "DELETED" {
                                     self.navigationController?.popViewController(animated: true)
                                 } else {
                                     self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isNew: true, isHomeBackButton: true), animated: true)
