@@ -19,7 +19,6 @@ final class ReplyWaitingViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private var totalSeconds = 60
     private var date: Date
-    private var isNew: Bool
     private let isHomeBackButton: Bool
     private let secondsToWaitForFirstReply = 60
     private let secondsToWaitForNormalReply = 12 * 60 * 60
@@ -32,9 +31,8 @@ final class ReplyWaitingViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(date: Date, isNew: Bool, isHomeBackButton: Bool) {
+    init(date: Date, isHomeBackButton: Bool) {
         self.date = date
-        self.isNew = isNew
         self.isHomeBackButton = isHomeBackButton
         
         super.init(nibName: nil, bundle: nil)
@@ -186,8 +184,7 @@ private extension ReplyWaitingViewController {
                 ReplyDetailViewController(
                     year: year,
                     month: month,
-                    day: day,
-                    isNew: self.isNew
+                    day: day
                 ),
                 animated: true
             )

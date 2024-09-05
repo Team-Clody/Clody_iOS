@@ -139,7 +139,6 @@
 		95310FA62C41D97E00023C7B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FA52C41D97E00023C7B /* SplashViewController.swift */; };
 		95310FAB2C42D9EC00023C7B /* ReplyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FAA2C42D9EC00023C7B /* ReplyDetailViewController.swift */; };
 		95310FAD2C42D9FB00023C7B /* ReplyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FAC2C42D9FB00023C7B /* ReplyDetailView.swift */; };
-		95310FB02C42E0CB00023C7B /* ReplyDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FAF2C42E0CB00023C7B /* ReplyDetailModel.swift */; };
 		95310FB22C434E0B00023C7B /* ReplyWaitingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FB12C434E0B00023C7B /* ReplyWaitingView.swift */; };
 		95310FB42C434E1E00023C7B /* ReplyWaitingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FB32C434E1E00023C7B /* ReplyWaitingViewController.swift */; };
 		95310FB72C43B07100023C7B /* ReplyWaitingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FB62C43B07100023C7B /* ReplyWaitingViewModel.swift */; };
@@ -276,7 +275,6 @@
 		95310FA52C41D97E00023C7B /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		95310FAA2C42D9EC00023C7B /* ReplyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyDetailViewController.swift; sourceTree = "<group>"; };
 		95310FAC2C42D9FB00023C7B /* ReplyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyDetailView.swift; sourceTree = "<group>"; };
-		95310FAF2C42E0CB00023C7B /* ReplyDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyDetailModel.swift; sourceTree = "<group>"; };
 		95310FB12C434E0B00023C7B /* ReplyWaitingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyWaitingView.swift; sourceTree = "<group>"; };
 		95310FB32C434E1E00023C7B /* ReplyWaitingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyWaitingViewController.swift; sourceTree = "<group>"; };
 		95310FB62C43B07100023C7B /* ReplyWaitingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyWaitingViewModel.swift; sourceTree = "<group>"; };
@@ -857,7 +855,6 @@
 			isa = PBXGroup;
 			children = (
 				95310FB52C43B06600023C7B /* ViewModels */,
-				95310FAE2C42E0BD00023C7B /* Models */,
 				95310FA92C42D98900023C7B /* ViewControllers */,
 				95310FA82C42D98400023C7B /* Views */,
 			);
@@ -880,14 +877,6 @@
 				95310FB32C434E1E00023C7B /* ReplyWaitingViewController.swift */,
 			);
 			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		95310FAE2C42E0BD00023C7B /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				95310FAF2C42E0CB00023C7B /* ReplyDetailModel.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		95310FB52C43B06600023C7B /* ViewModels */ = {
@@ -1104,7 +1093,6 @@
 				0BE7E9F12C4636DE000C5358 /* CalendarMonthlyResponseDTO.swift in Sources */,
 				0BFCC5DA2C2E8F0200B5E0DB /* CalendarModel.swift in Sources */,
 				0B4A1BC62C45401500E31EC4 /* MoyaPlugin.swift in Sources */,
-				95310FB02C42E0CB00023C7B /* ReplyDetailModel.swift in Sources */,
 				95310FAD2C42D9FB00023C7B /* ReplyDetailView.swift in Sources */,
 				95310F922C40706600023C7B /* NicknameView.swift in Sources */,
 				2CE637912C3D56C300B6EC6D /* AccountViewModel.swift in Sources */,

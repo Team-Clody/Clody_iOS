@@ -12,4 +12,5 @@ struct GetReplyResponseDTO: Codable {
     let nickname: String
     let month: Int
     let date: Int
+    let isRead: Bool
 }
