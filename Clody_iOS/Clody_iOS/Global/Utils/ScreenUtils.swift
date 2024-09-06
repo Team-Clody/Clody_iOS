@@ -12,12 +12,12 @@ final class ScreenUtils {
     static func getWidth(_ value: CGFloat) -> CGFloat {
         let width = UIScreen.main.bounds.width
         let standardWidth: CGFloat = 375.0
-        return width / standardWidth * value
+        return CGFloat(Int(round(width / standardWidth * value)))
     }
     
     static func getHeight(_ value: CGFloat) -> CGFloat {
         let height = UIScreen.main.bounds.height
         let standardHeight: CGFloat = 812.0
-        return height / standardHeight * value
+        return CGFloat(Int(round(height / standardHeight * value)))
     }
 }
