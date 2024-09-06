@@ -36,17 +36,6 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
             $0.backgroundColor = .grey08
             $0.layer.cornerRadius = 10
         }
-        
-        listNumberLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "1.", style: .body3_medium, lineHeightMultiple: 1.5)
-            $0.textColor = .grey02
-        }
-        
-        diaryTextLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "마지막이라 감사해. 정말~어쩌구, 2. 마지막이라 감사해. 정말~어쩌구,마지막이라 감사해. 정말~어쩌구, 마지막이라 감사해. 정말~어쩌구,", style: .body3_medium, lineHeightMultiple: 1.5)
-            $0.textColor = .grey03
-            $0.numberOfLines = 0
-        }
     }
     
     func setHierarchy() {
@@ -76,7 +65,15 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
     }
 
     func bindData(data: String, index: String) {
-        listNumberLabel.text = index
-        diaryTextLabel.text = data
+        listNumberLabel.do {
+            $0.attributedText = UIFont.pretendardString(text: index, style: .body3_medium, lineHeightMultiple: 1.5)
+            $0.textColor = .grey02
+        }
+        
+        diaryTextLabel.do {
+            $0.attributedText = UIFont.pretendardString(text: data, style: .body3_medium, lineHeightMultiple: 1.5)
+            $0.textColor = .grey03
+            $0.numberOfLines = 0
+        }
     }
 }
