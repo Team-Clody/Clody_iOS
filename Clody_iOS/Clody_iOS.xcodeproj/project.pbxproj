@@ -982,10 +982,10 @@
 			};
 			buildConfigurationList = 0B20F3D42C2C4DAA00F8D62D /* Build configuration list for PBXProject "Clody_iOS" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				ko,
 				Base,
 			);
 			mainGroup = 0B20F3D02C2C4DAA00F8D62D;
@@ -1302,7 +1302,7 @@
 				CODE_SIGN_ENTITLEMENTS = Clody_iOS/Clody_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GKV299JR6D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Clody_iOS/Info.plist;
@@ -1338,7 +1338,7 @@
 				CODE_SIGN_ENTITLEMENTS = Clody_iOS/Clody_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GKV299JR6D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Clody_iOS/Info.plist;
