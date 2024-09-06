@@ -26,7 +26,6 @@ final class ReplyDetailViewController: UIViewController {
     private let year: Int
     private let month: Int
     private let day: Int
-    private let isNew: Bool
     
     // MARK: - UI Components
     
@@ -36,11 +35,10 @@ final class ReplyDetailViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(year: Int, month: Int, day: Int, isNew: Bool) {
+    init(year: Int, month: Int, day: Int) {
         self.year = year
         self.month = month
         self.day = day
-        self.isNew = isNew
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -142,8 +140,8 @@ private extension ReplyDetailViewController {
         }
     }
     
-    func judgeIsAlert(isNew: Bool) {
-        if isNew {
+    func judgeIsAlert(isRead: Bool) {
+        if !isRead {
             showAlert()
         }
     }
@@ -178,7 +176,7 @@ private extension ReplyDetailViewController {
             self.hideLoadingIndicator()
             self.nickname = data.nickname
             self.rootView.bindData(nickname: data.nickname, content: data.content)
-            self.judgeIsAlert(isNew: self.isNew)
+            self.judgeIsAlert(isRead: data.isRead)
         }
     }
 }

@@ -19,7 +19,6 @@ final class ReplyWaitingViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private var totalSeconds = 60
     private var date: Date
-    private var isNew: Bool
     private let isHomeBackButton: Bool
     private let secondsToWaitForFirstReply = 60
     private let secondsToWaitForNormalReply = 12 * 60 * 60
@@ -32,9 +31,8 @@ final class ReplyWaitingViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(date: Date, isNew: Bool, isHomeBackButton: Bool) {
+    init(date: Date, isHomeBackButton: Bool) {
         self.date = date
-        self.isNew = isNew
         self.isHomeBackButton = isHomeBackButton
         
         super.init(nibName: nil, bundle: nil)
@@ -157,7 +155,7 @@ private extension ReplyWaitingViewController {
                date.1 == todayMonth,
                date.2 == todayDay {
                 /// 오늘 작성한 일기라면
-                let createdTime = (data.HH * 3600) + (data.MM * 60) + data.SS
+                let createdTime = (data.HH * 3600) + (data.mm * 60) + data.ss
                 let totalWaitingTime = createdTime + (data.isFirst ? secondsToWaitForFirstReply : secondsToWaitForNormalReply)
                 let remainingTime = totalWaitingTime - Date().currentTimeSeconds()
                 totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
@@ -167,7 +165,7 @@ private extension ReplyWaitingViewController {
                 /// 어제 작성한 일기라면
                 let calendar = Calendar.current
                 let yesterdayDate = calendar.date(byAdding: .day, value: -1, to: Date())!
-                let createdTime = calendar.date(bySettingHour: data.HH, minute: data.MM, second: data.SS, of: yesterdayDate)!
+                let createdTime = calendar.date(bySettingHour: data.HH, minute: data.mm, second: data.ss, of: yesterdayDate)!
                 let totalWaitingTime = createdTime.addingTimeInterval(Double(data.isFirst ? secondsToWaitForFirstReply : secondsToWaitForNormalReply))
                 let remainingTime = Int(totalWaitingTime.timeIntervalSinceNow)
                 totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
@@ -186,8 +184,7 @@ private extension ReplyWaitingViewController {
                 ReplyDetailViewController(
                     year: year,
                     month: month,
-                    day: day,
-                    isNew: self.isNew
+                    day: day
                 ),
                 animated: true
             )

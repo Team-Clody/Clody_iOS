@@ -196,7 +196,6 @@ private extension CalendarViewController {
                 guard let self = self else { return }
                 let date = viewModel.selectedDateRelay.value
                 if viewModel.dailyDiaryDataRelay.value.diaries.count != 0 {
-                    var isNew = false
                     let dateIndex = Int(DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "dd")) ?? 1
                     let diaries = viewModel.monthlyCalendarDataRelay.value.diaries
                     
@@ -207,13 +206,7 @@ private extension CalendarViewController {
                         replyStatus = "특정 값"
                     }
                     
-                    if replyStatus == "READY_NOT_READ" {
-                        isNew = true
-                    } else {
-                        isNew = false
-                    }
-                    
-                    self.navigationController?.pushViewController(ReplyWaitingViewController(date: date, isNew: isNew, isHomeBackButton: false), animated: true)
+                    self.navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: false), animated: true)
                 } else {
                     self.navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
                 }

@@ -9,4 +9,5 @@ import Foundation
 
 struct LoginRequestDTO: Codable {
     let platform: String
+    let fcmToken: String
 }
