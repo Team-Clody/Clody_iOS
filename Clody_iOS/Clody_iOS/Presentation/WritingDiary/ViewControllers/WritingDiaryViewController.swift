@@ -72,14 +72,17 @@ private extension WritingDiaryViewController {
             viewDidLoad: Observable.just(()),
             tapSaveButton: rootView.saveButton.rx.tap.asSignal(),
             tapAddButton: rootView.addButton.rx.tap.asSignal(),
-            tapBackButton: rootView.navigationBarView.backButton.rx.tap.asSignal(),
+            tapBackButton: rootView.headerView.backButton.rx.tap.asSignal(),
             updateKebobRelay: kebabButtonTap,
             tapDeleteButton: deleteBottomSheetView.bottomSheetView.rx.tapGesture()
                 .when(.recognized)
                 .map { _ in }
                 .asSignal(onErrorJustReturn: ()),
             tapHelpInfoButton: rootView.headerView.infoButton.rx.tap.asSignal(),
-            tapCancelButton: rootView.headerView.cancelHelpButton.rx.tap.asSignal()
+            tapCancelButton: rootView.headerView.cancelHelpButton.rx.tapGesture()
+                .when(.recognized)
+                .map { _ in }
+                .asSignal(onErrorJustReturn: ())
         )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)

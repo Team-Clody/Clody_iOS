@@ -121,7 +121,6 @@ final class WritingDiaryViewModel: ViewModelType {
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 isHiddenHelpRelay.accept(true)
-                // 터치 오류
             })
             .disposed(by: disposeBag)
         
