@@ -27,10 +27,15 @@ final class ReplyWaitingViewModel: ViewModelType {
         let popViewController: Driver<Void>
     }
     
+    let appDidBecomeActive = PublishRelay<Void>()
     let errorStatus = PublishRelay<NetworkViewJudge>()
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
-        let getWritingTime = input.viewDidLoad
+        let getWritingTime = Observable
+            .merge(
+                input.viewDidLoad.asObservable(),
+                appDidBecomeActive.asObservable()
+            )
             .asDriver(onErrorJustReturn: ())
         
         let timeLabelDidChange = input.timer

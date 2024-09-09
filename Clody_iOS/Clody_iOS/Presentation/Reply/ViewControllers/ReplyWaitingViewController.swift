@@ -51,20 +51,31 @@ final class ReplyWaitingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addObserverForAppDidBecomeActive()
         bindViewModel()
         setUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
 // MARK: - Extensions
 
 private extension ReplyWaitingViewController {
+    
+    func addObserverForAppDidBecomeActive() {
+        /// 앱이 백그라운드에서 돌아와 다시 Active 상태가 될 때를 관찰하는 Observer
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+    }
+    
+    @objc
+    private func appDidBecomeActive() {
+        Observable.just(())
+            .bind(to: viewModel.appDidBecomeActive)
+            .disposed(by: disposeBag)
+    }
 
     func bindViewModel() {
         
