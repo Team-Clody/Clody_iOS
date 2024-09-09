@@ -258,7 +258,9 @@ private extension WritingDiaryViewController {
                         var status = self.viewModel.textViewIsEmptyRelay.value
                         status[indexPath.item] = !cell.textView.text.isEmpty
                         self.viewModel.textViewIsEmptyRelay.accept(status)
-                        cell.writingContainer.backgroundColor = .grey09
+                        if !cell.textView.text.isEmpty {
+                            cell.writingContainer.backgroundColor = .grey09
+                        }
                         
                         var items = self.viewModel.diariesRelay.value
                         items[indexPath.item] = cell.textView.text
