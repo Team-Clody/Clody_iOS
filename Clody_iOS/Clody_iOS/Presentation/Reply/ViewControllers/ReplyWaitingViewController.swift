@@ -17,7 +17,7 @@ final class ReplyWaitingViewController: UIViewController {
     
     private let viewModel = ReplyWaitingViewModel()
     private let disposeBag = DisposeBag()
-    private var totalSeconds = 60
+    private var totalSeconds = 0
     private var date: Date
     private let isHomeBackButton: Bool
     private let secondsToWaitForFirstReply = 60
@@ -54,6 +54,12 @@ final class ReplyWaitingViewController: UIViewController {
         bindViewModel()
         setUI()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+    }
 }
 
 // MARK: - Extensions
@@ -61,15 +67,6 @@ final class ReplyWaitingViewController: UIViewController {
 private extension ReplyWaitingViewController {
 
     func bindViewModel() {
-        rootView.navigationBar.backButton.rx.tap
-            .subscribe(onNext: {
-                if self.isHomeBackButton {
-                    self.navigationController?.popToRootViewController(animated: true)
-                } else {
-                    self.navigationController?.popViewController(animated: true)
-                }
-            })
-            .disposed(by: disposeBag)
         
         let timer = Observable<Int>
             .interval(.seconds(1), scheduler: MainScheduler.instance)
@@ -79,7 +76,8 @@ private extension ReplyWaitingViewController {
         let input = ReplyWaitingViewModel.Input(
             viewDidLoad: Observable.just(()).asSignal(onErrorJustReturn: ()),
             timer: timer,
-            openButtonTapEvent: openButton.rx.tap.asSignal()
+            openButtonTapEvent: openButton.rx.tap.asSignal(),
+            backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
@@ -112,6 +110,16 @@ private extension ReplyWaitingViewController {
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.pushViewController(date: self.date)
+            })
+            .disposed(by: disposeBag)
+        
+        output.popViewController
+            .drive(onNext: {
+                if self.isHomeBackButton {
+                    self.navigationController?.popToRootViewController(animated: true)
+                } else {
+                    self.navigationController?.popViewController(animated: true)
+                }
             })
             .disposed(by: disposeBag)
         
