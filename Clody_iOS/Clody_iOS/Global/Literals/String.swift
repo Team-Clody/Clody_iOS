@@ -33,7 +33,7 @@ enum I18N {
         static let saveDiaryTitle = "일기를 저장할까요?"
         static let saveDiaryMessage = "저장한 일기는 수정이 어려워요."
         static let deleteDiaryTitle = "정말 일기를 삭제할까요?"
-        static let deleteDiaryMessage = "아직 답장이 오지 않았거나 삭제하고\n다시 작성한 일기는 답장을 받을 수 없어요."
+        static let deleteDiaryMessage = "아직 답장이 오지 않았거나 삭제하고 다시 작성한 일기는 답장을 받을 수 없어요."
         static let cancel = "아니요"
         static let logout = "로그아웃"
         static let withdraw = "탈퇴할래요"
