@@ -240,7 +240,7 @@ private extension WritingDiaryViewController {
                             .skip(1)
                             .map { $0.count != 50 }
                             .subscribe(onNext: { isHidden in
-                                cell.limeErrorLabel.isHidden = isHidden
+                                cell.limtErrorLabel.isHidden = isHidden
                                 if !isHidden {
                                     cell.writingContainer.makeBorder(width: 1, color: .redCustom)
                                 } else {
@@ -264,7 +264,7 @@ private extension WritingDiaryViewController {
                         items[indexPath.item] = cell.textView.text
                         self.viewModel.diariesRelay.accept(items)
                         
-                        cell.limeErrorLabel.isHidden = true
+                        cell.limtErrorLabel.isHidden = true
                     })
                     .disposed(by: cell.disposeBag)
                 

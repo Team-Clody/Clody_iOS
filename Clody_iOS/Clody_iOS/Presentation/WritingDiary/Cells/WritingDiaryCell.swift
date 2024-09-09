@@ -23,7 +23,7 @@ final class WritingDiaryCell: UICollectionViewCell {
     lazy var kebabButton = UIButton()
     let textInputLabel = UILabel()
     let limitTextLabel = UILabel()
-    let limeErrorLabel = UILabel()
+    let limtErrorLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -104,7 +104,7 @@ final class WritingDiaryCell: UICollectionViewCell {
             $0.textColor = .grey06
         }
         
-        limeErrorLabel.do {
+        limtErrorLabel.do {
             $0.attributedText = UIFont.pretendardString(
                 text: I18N.WritingDiary.inputLimitError,
                 style: .detail1_medium,
@@ -123,7 +123,7 @@ final class WritingDiaryCell: UICollectionViewCell {
             limitTextLabel,
             writingListNumberLabel,
             kebabButton,
-            limeErrorLabel
+            limtErrorLabel
         )
     }
     
@@ -160,7 +160,7 @@ final class WritingDiaryCell: UICollectionViewCell {
             $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(6))
         }
         
-        limeErrorLabel.snp.makeConstraints {
+        limtErrorLabel.snp.makeConstraints {
             $0.leading.equalTo(writingContainer.snp.leading).offset(ScreenUtils.getWidth(8))
             $0.top.equalTo(writingContainer.snp.bottom).offset(ScreenUtils.getHeight(6))
         }
