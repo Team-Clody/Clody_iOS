@@ -56,7 +56,7 @@ final class ClodyTextField: BaseView {
         }
         
         underline.do {
-            $0.backgroundColor = .grey07
+            $0.backgroundColor = .grey08
         }
         
         messageLabel.do {
@@ -98,6 +98,7 @@ final class ClodyTextField: BaseView {
             $0.top.equalTo(underline.snp.bottom).offset(ScreenUtils.getHeight(3))
             $0.leading.equalToSuperview()
             $0.trailing.equalTo(countLabel.snp.leading).offset(-ScreenUtils.getWidth(16))
+            $0.bottom.equalToSuperview()
         }
         
         countLabel.snp.makeConstraints {
@@ -135,7 +136,7 @@ extension ClodyTextField {
     
     func setFocusState(to isFocused: Bool) {
         if underline.backgroundColor != UIColor.redCustom {
-            underline.backgroundColor = isFocused ? .mainYellow : .grey07
+            underline.backgroundColor = isFocused ? .mainYellow : .grey08
         }
     }
 }

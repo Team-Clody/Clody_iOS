@@ -57,7 +57,6 @@ final class NicknameView: BaseView {
         }
         
         textField.snp.makeConstraints {
-            $0.height.equalTo(ScreenUtils.getHeight(51))
             $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(40))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }

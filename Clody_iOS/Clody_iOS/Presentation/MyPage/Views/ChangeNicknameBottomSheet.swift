@@ -24,7 +24,6 @@ final class ChangeNicknameBottomSheet: BaseView {
         backgroundColor = .white
         makeCornerRound(radius: 16)
         layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        // TODO: placeholder 설정
     }
     
     override func setHierarchy() {
@@ -39,15 +38,15 @@ final class ChangeNicknameBottomSheet: BaseView {
         }
 
         clodyTextField.snp.makeConstraints {
-            $0.height.equalTo(ScreenUtils.getHeight(51))
             $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(32))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.bottom.equalTo(doneButton.snp.top).offset(ScreenUtils.getHeight(-55))
         }
 
         doneButton.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getHeight(48))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(26))
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(5))
         }
     }
 }

@@ -339,7 +339,6 @@ private extension AccountViewController {
         }
         
         changeNicknameBottomSheet.snp.makeConstraints {
-            $0.height.equalTo(ScreenUtils.getHeight(272))
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
