@@ -31,7 +31,7 @@ final class CalendarViewController: UIViewController {
     
     private let rootView = CalendarView()
     private let deleteBottomSheetView = DeleteBottomSheetView()
-    private let datePickerView = DatePickeView()
+    private let datePickerView = DatePickerView()
     
     // MARK: - Life Cycles
     
@@ -330,7 +330,7 @@ private extension CalendarViewController {
         
         datePickerView.isHidden = true
         
-        datePickerView.cancelIcon.rx.tap
+        datePickerView.navigationBar.xButton.rx.tap
             .subscribe(onNext: {
                 self.dismissPickerView(animated: true, completion: {
                     
