@@ -16,6 +16,7 @@ final class ReplyWaitingViewModel: ViewModelType {
         let viewDidLoad: Signal<Void>
         let timer: Observable<Int>
         let openButtonTapEvent: Signal<Void>
+        let backButtonTapEvent: Signal<Void>
     }
         
     struct Output {
@@ -23,12 +24,18 @@ final class ReplyWaitingViewModel: ViewModelType {
         let timeLabelDidChange: Driver<String>
         let replyArrivalEvent: Driver<Void>
         let pushViewController: Driver<Void>
+        let popViewController: Driver<Void>
     }
     
+    let appDidBecomeActive = PublishRelay<Void>()
     let errorStatus = PublishRelay<NetworkViewJudge>()
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
-        let getWritingTime = input.viewDidLoad
+        let getWritingTime = Observable
+            .merge(
+                input.viewDidLoad.asObservable(),
+                appDidBecomeActive.asObservable()
+            )
             .asDriver(onErrorJustReturn: ())
         
         let timeLabelDidChange = input.timer
@@ -59,11 +66,15 @@ final class ReplyWaitingViewModel: ViewModelType {
         let pushViewController = input.openButtonTapEvent
             .asDriver(onErrorJustReturn: ())
         
+        let popViewController = input.backButtonTapEvent
+            .asDriver(onErrorJustReturn: ())
+        
         return Output(
             getWritingTime: getWritingTime,
             timeLabelDidChange: timeLabelDidChange,
             replyArrivalEvent: replyArrivalEvent,
-            pushViewController: pushViewController
+            pushViewController: pushViewController, 
+            popViewController: popViewController
         )
     }
 }

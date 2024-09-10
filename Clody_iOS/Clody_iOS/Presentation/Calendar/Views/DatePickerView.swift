@@ -1,5 +1,5 @@
 //
-//  DatePickeView.swift
+//  DatePickerView.swift
 //  Clody_iOS
 //
 //  Created by Seonwoo Kim on 7/15/24.
@@ -10,15 +10,14 @@ import UIKit
 import SnapKit
 import Then
 
-final class DatePickeView: BaseView {
+final class DatePickerView: BaseView {
     
     // MARK: - UI Components
     
     let dimmedView = UIView()
     let backgroundView = UIView()
+    let navigationBar = ClodyNavigationBar(type: .bottomSheet, title: I18N.Calendar.otherDay)
     let pickerView = ClodyPickerView(type: .calendar)
-    let cancelIcon = UIButton()
-    private let titleLabel = UILabel()
     lazy var completeButton = UIButton()
     
     override func setStyle() {
@@ -33,15 +32,6 @@ final class DatePickeView: BaseView {
             $0.clipsToBounds = true
         }
         
-        titleLabel.do {
-            $0.textColor = .grey01
-            $0.attributedText = UIFont.pretendardString(text: I18N.Calendar.otherDay, style: .body2_semibold)
-        }
-        
-        cancelIcon.do {
-            $0.setImage(.icX, for: .normal)
-        }
-        
         completeButton.do {
             $0.backgroundColor = .mainYellow
             $0.makeCornerRound(radius: 10)
@@ -53,12 +43,7 @@ final class DatePickeView: BaseView {
     
     override func setHierarchy() {
         self.addSubviews(dimmedView, backgroundView)
-        backgroundView.addSubviews(
-            pickerView,
-            titleLabel,
-            cancelIcon,
-            completeButton
-        )
+        backgroundView.addSubviews(pickerView, navigationBar, completeButton)
     }
     
     override func setLayout() {
@@ -68,30 +53,25 @@ final class DatePickeView: BaseView {
         
         backgroundView.snp.makeConstraints {
             $0.horizontalEdges.bottom.equalToSuperview()
-            $0.height.equalTo(ScreenUtils.getHeight(360))
+        }
+        
+        navigationBar.snp.makeConstraints {
+            $0.height.equalTo(ScreenUtils.getHeight(52))
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
         }
         
         pickerView.snp.makeConstraints {
-            $0.horizontalEdges.equalTo(completeButton)
-            $0.bottom.equalTo(completeButton.snp.top).offset(ScreenUtils.getHeight(8))
             $0.height.equalTo(ScreenUtils.getHeight(223))
-        }
-        
-        titleLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(14))
-        }
-        
-        cancelIcon.snp.makeConstraints {
-            $0.centerY.equalTo(titleLabel)
-            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(18))
-            $0.size.equalTo(ScreenUtils.getWidth(24))
+            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(-7))
+            $0.horizontalEdges.equalTo(completeButton)
+            $0.bottom.equalTo(completeButton.snp.top).offset(ScreenUtils.getHeight(-8))
         }
         
         completeButton.snp.makeConstraints {
+            $0.height.equalTo(ScreenUtils.getHeight(48))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
             $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(5))
-            $0.height.equalTo(ScreenUtils.getHeight(48))
         }
     }
 
@@ -112,4 +92,3 @@ final class DatePickeView: BaseView {
         })
     }
 }
-

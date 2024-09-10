@@ -87,7 +87,7 @@ private extension DiaryNotificationViewController {
             })
             .disposed(by: disposeBag)
         
-        timePickerView.closeButton.rx.tap
+        timePickerView.navigationBar.xButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissPickerView(animated: true, completion: nil)
             })

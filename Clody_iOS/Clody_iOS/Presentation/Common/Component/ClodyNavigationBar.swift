@@ -116,7 +116,10 @@ final class ClodyNavigationBar: UIView {
     
     var titleText: String = "" {
         didSet {
-            titleLabel.attributedText = UIFont.pretendardString(text: titleText, style: .head4)
+            titleLabel.attributedText = UIFont.pretendardString(
+                text: titleText,
+                style: (type == .bottomSheet) ? .body2_semibold : .head4
+            )
         }
     }
     
@@ -180,7 +183,7 @@ private extension ClodyNavigationBar {
         self.backgroundColor = .white
         
         if type == .bottomSheet {
-            titleLabel.attributedText = UIFont.pretendardString(text: titleText, style: .body1_semibold)
+            titleLabel.attributedText = UIFont.pretendardString(text: titleText, style: .body2_semibold)
         }
     }
 }

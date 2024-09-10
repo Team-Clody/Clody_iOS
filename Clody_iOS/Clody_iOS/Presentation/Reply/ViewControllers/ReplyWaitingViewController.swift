@@ -17,7 +17,7 @@ final class ReplyWaitingViewController: UIViewController {
     
     private let viewModel = ReplyWaitingViewModel()
     private let disposeBag = DisposeBag()
-    private var totalSeconds = 60
+    private var totalSeconds = 0
     private var date: Date
     private let isHomeBackButton: Bool
     private let secondsToWaitForFirstReply = 60
@@ -51,25 +51,33 @@ final class ReplyWaitingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addObserverForAppDidBecomeActive()
         bindViewModel()
         setUI()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
 // MARK: - Extensions
 
 private extension ReplyWaitingViewController {
+    
+    func addObserverForAppDidBecomeActive() {
+        /// 앱이 백그라운드에서 돌아와 다시 Active 상태가 될 때를 관찰하는 Observer
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+    }
+    
+    @objc
+    private func appDidBecomeActive() {
+        Observable.just(())
+            .bind(to: viewModel.appDidBecomeActive)
+            .disposed(by: disposeBag)
+    }
 
     func bindViewModel() {
-        rootView.navigationBar.backButton.rx.tap
-            .subscribe(onNext: {
-                if self.isHomeBackButton {
-                    self.navigationController?.popToRootViewController(animated: true)
-                } else {
-                    self.navigationController?.popViewController(animated: true)
-                }
-            })
-            .disposed(by: disposeBag)
         
         let timer = Observable<Int>
             .interval(.seconds(1), scheduler: MainScheduler.instance)
@@ -79,7 +87,8 @@ private extension ReplyWaitingViewController {
         let input = ReplyWaitingViewModel.Input(
             viewDidLoad: Observable.just(()).asSignal(onErrorJustReturn: ()),
             timer: timer,
-            openButtonTapEvent: openButton.rx.tap.asSignal()
+            openButtonTapEvent: openButton.rx.tap.asSignal(),
+            backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
@@ -112,6 +121,16 @@ private extension ReplyWaitingViewController {
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.pushViewController(date: self.date)
+            })
+            .disposed(by: disposeBag)
+        
+        output.popViewController
+            .drive(onNext: {
+                if self.isHomeBackButton {
+                    self.navigationController?.popToRootViewController(animated: true)
+                } else {
+                    self.navigationController?.popViewController(animated: true)
+                }
             })
             .disposed(by: disposeBag)
         
