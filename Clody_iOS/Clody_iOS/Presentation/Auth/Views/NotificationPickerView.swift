@@ -20,14 +20,13 @@ final class NotificationPickerView: BaseView {
     
     let dimmedView = UIView()
     let backgroundView = UIView()
+    let navigationBar: ClodyNavigationBar
     let pickerView = ClodyPickerView(type: .notification)
-    let closeButton = UIButton()
-    private let titleLabel = UILabel()
     lazy var completeButton = UIButton()
-    private let layoutGuide = UILayoutGuide()
     
     init(title: String) {
         self.title = title
+        self.navigationBar = ClodyNavigationBar(type: .bottomSheet, title: title)
         super.init(frame: .zero)
     }
     
@@ -47,15 +46,6 @@ final class NotificationPickerView: BaseView {
             $0.clipsToBounds = true
         }
         
-        titleLabel.do {
-            $0.textColor = .grey01
-            $0.attributedText = UIFont.pretendardString(text: title, style: .body2_semibold)
-        }
-        
-        closeButton.do {
-            $0.setImage(.icX, for: .normal)
-        }
-        
         completeButton.do {
             $0.backgroundColor = .mainYellow
             $0.makeCornerRound(radius: 10)
@@ -66,56 +56,38 @@ final class NotificationPickerView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addLayoutGuide(layoutGuide)
         self.addSubviews(dimmedView, backgroundView)
-        backgroundView.addSubviews(
-            pickerView,
-            titleLabel,
-            closeButton,
-            completeButton
-        )
+        backgroundView.addSubviews(navigationBar, pickerView, completeButton)
     }
     
     override func setLayout() {
-        layoutGuide.snp.makeConstraints {
-            $0.top.equalTo(closeButton.snp.bottom)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalTo(completeButton.snp.top)
-        }
-        
         dimmedView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
         backgroundView.snp.makeConstraints {
             $0.horizontalEdges.bottom.equalToSuperview()
-            $0.height.equalTo(ScreenUtils.getHeight(360))
+        }
+        
+        navigationBar.snp.makeConstraints {
+            $0.height.equalTo(ScreenUtils.getHeight(52))
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
         }
         
         pickerView.snp.makeConstraints {
-            $0.horizontalEdges.equalTo(completeButton)
-            $0.center.equalTo(layoutGuide)
             $0.height.equalTo(ScreenUtils.getHeight(223))
-        }
-        
-        titleLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(14))
-        }
-        
-        closeButton.snp.makeConstraints {
-            $0.centerY.equalTo(titleLabel)
-            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(18))
-            $0.size.equalTo(ScreenUtils.getWidth(24))
+            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(2))
+            $0.horizontalEdges.equalTo(completeButton)
+            $0.bottom.equalTo(completeButton.snp.top).offset(ScreenUtils.getHeight(-3))
         }
         
         completeButton.snp.makeConstraints {
+            $0.height.equalTo(ScreenUtils.getHeight(48))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
             $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(5))
-            $0.height.equalTo(ScreenUtils.getHeight(48))
         }
     }
-
     
     func animateShow() {
         self.backgroundView.transform = CGAffineTransform(translationX: 0, y: self.backgroundView.frame.height)

@@ -16,7 +16,7 @@
 		0B20F3E62C2C4DAB00F8D62D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B20F3E52C2C4DAB00F8D62D /* Assets.xcassets */; };
 		0B20F3E92C2C4DAB00F8D62D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 0B20F3E82C2C4DAB00F8D62D /* Base */; };
 		0B3DC0882C6CD77C0021AC61 /* ClodyErrorRetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3DC0872C6CD77C0021AC61 /* ClodyErrorRetryView.swift */; };
-		0B4A1BB92C44E59B00E31EC4 /* DatePickeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BB82C44E59B00E31EC4 /* DatePickeView.swift */; };
+		0B4A1BB92C44E59B00E31EC4 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BB82C44E59B00E31EC4 /* DatePickerView.swift */; };
 		0B4A1BBC2C453F8400E31EC4 /* AuthIntercepter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BBB2C453F8400E31EC4 /* AuthIntercepter.swift */; };
 		0B4A1BBE2C453F9600E31EC4 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BBD2C453F9600E31EC4 /* NetworkProvider.swift */; };
 		0B4A1BC02C453FB800E31EC4 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A1BBF2C453FB800E31EC4 /* BaseModel.swift */; };
@@ -165,7 +165,7 @@
 		0B20F3E82C2C4DAB00F8D62D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B20F3EA2C2C4DAB00F8D62D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B3DC0872C6CD77C0021AC61 /* ClodyErrorRetryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyErrorRetryView.swift; sourceTree = "<group>"; };
-		0B4A1BB82C44E59B00E31EC4 /* DatePickeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickeView.swift; sourceTree = "<group>"; };
+		0B4A1BB82C44E59B00E31EC4 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		0B4A1BBB2C453F8400E31EC4 /* AuthIntercepter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthIntercepter.swift; sourceTree = "<group>"; };
 		0B4A1BBD2C453F9600E31EC4 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		0B4A1BBF2C453FB800E31EC4 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
@@ -708,7 +708,7 @@
 			children = (
 				0BFCC5E02C2E8F2800B5E0DB /* CalendarView.swift */,
 				0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */,
-				0B4A1BB82C44E59B00E31EC4 /* DatePickeView.swift */,
+				0B4A1BB82C44E59B00E31EC4 /* DatePickerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1076,7 +1076,7 @@
 				0BE7EA0B2C46699F000C5358 /* GetAlarmResponseDTO.swift in Sources */,
 				95310FC62C45ACD000023C7B /* OnBoardingViewModel.swift in Sources */,
 				0BAAC64E2C43BFD900174A9D /* DeleteBottomSheetView.swift in Sources */,
-				0B4A1BB92C44E59B00E31EC4 /* DatePickeView.swift in Sources */,
+				0B4A1BB92C44E59B00E31EC4 /* DatePickerView.swift in Sources */,
 				0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */,
 				0BE7E9FC2C4660AC000C5358 /* GetWritingTimeDTO.swift in Sources */,
 				95310F982C40777C00023C7B /* OnBoardingView.swift in Sources */,

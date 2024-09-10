@@ -52,7 +52,7 @@ final class AccountView: BaseView {
         }
         
         changeProfileButton.do {
-            let attributedTitle = UIFont.pretendardString(text: "변경하기", style: .body4_medium)
+            let attributedTitle = UIFont.pretendardString(text: I18N.MyPage.edit, style: .body4_medium)
             $0.setAttributedTitle(attributedTitle, for: .normal)
             $0.setTitleColor(.grey05, for: .normal)
         }
