@@ -66,7 +66,7 @@ final class WritingDiaryHeaderView: UICollectionReusableView {
         }
         
         helpMessageLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: I18N.WritingDiary.helpMessage, style: .detail1_medium, lineHeightMultiple: 1.5)
+            $0.attributedText = UIFont.pretendardString(text: I18N.WritingDiary.helpMessage, style: .detail1_medium)
             $0.textColor = .blueCustom
         }
         
