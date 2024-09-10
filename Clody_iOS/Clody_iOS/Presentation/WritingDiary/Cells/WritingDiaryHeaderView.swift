@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class WritingDiaryHeaderView: UICollectionReusableView {
+final class WritingDiaryHeaderView: UIView {
     
     // MARK: - UI Components
     
