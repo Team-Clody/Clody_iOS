@@ -340,13 +340,14 @@ private extension WritingDiaryViewController {
         RxKeyboard.instance.visibleHeight
             .drive(onNext: { [weak self] keyboardVisibleHeight in
                 guard let self = self else { return }
-                let addButtonPadding = keyboardVisibleHeight > 0 ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + ScreenUtils.getHeight(20) : ScreenUtils.getHeight(76)
+                let addButtonPadding = keyboardVisibleHeight > 0 ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + ScreenUtils.getHeight(20) : ScreenUtils.getHeight(81)
+                
                 self.rootView.addButton.snp.updateConstraints {
                     $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(addButtonPadding)
                 }
                 
                 self.rootView.writingCollectionView.snp.updateConstraints {
-                    $0.bottom.equalToSuperview().inset(addButtonPadding)
+                    $0.bottom.equalToSuperview().inset(keyboardVisibleHeight > 0 ? keyboardVisibleHeight : 0)
                 }
                 
                 self.view.layoutIfNeeded()

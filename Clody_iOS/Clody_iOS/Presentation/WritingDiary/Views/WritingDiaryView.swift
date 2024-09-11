@@ -29,6 +29,7 @@ final class WritingDiaryView: BaseView {
         writingCollectionView.do {
             $0.backgroundColor = .white
             $0.showsVerticalScrollIndicator = false
+            $0.showsHorizontalScrollIndicator = false
         }
         
         saveButton.do {
@@ -85,7 +86,12 @@ final class WritingDiaryView: BaseView {
             let section = NSCollectionLayoutSection(group: group)
             section.interGroupSpacing = ScreenUtils.getHeight(8)
             
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: ScreenUtils.getHeight(24), bottom: 0, trailing: ScreenUtils.getHeight(24))
+            section.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: ScreenUtils.getWidth(24),
+                bottom: self.safeAreaLayoutGuide.layoutFrame.maxY - self.addButton.frame.minY + ScreenUtils.getHeight(10),
+                trailing: ScreenUtils.getWidth(24)
+            )
             return section
         }
     }
