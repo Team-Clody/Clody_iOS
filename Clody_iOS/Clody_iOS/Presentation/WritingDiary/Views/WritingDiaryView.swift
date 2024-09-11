@@ -52,7 +52,6 @@ final class WritingDiaryView: BaseView {
 
         headerView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
-            $0.height.equalTo(ScreenUtils.getHeight(100))
             $0.horizontalEdges.equalToSuperview()
         }
         

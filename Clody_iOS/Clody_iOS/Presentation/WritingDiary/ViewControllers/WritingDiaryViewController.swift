@@ -169,7 +169,8 @@ private extension WritingDiaryViewController {
         
         output.showHelp
             .drive(onNext: { [weak self] isHidden in
-                self?.rootView.headerView.helpMessageImage.isHidden = isHidden
+                self?.rootView.headerView.helpMessageContainer.isHidden = isHidden
+                self?.rootView.headerView.helpMessageDownArrowImage.isHidden = isHidden
             })
             .disposed(by: disposeBag)
     }
