@@ -219,8 +219,6 @@ private extension WritingDiaryViewController {
                     .bind(to: cell.textView.rx.text)
                     .disposed(by: cell.disposeBag)
                 
-                
-                
                 cell.textView.rx.didBeginEditing
                     .subscribe(onNext: {
                         cell.writingContainer.makeBorder(width: 1, color: .mainYellow)

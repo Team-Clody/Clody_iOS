@@ -191,7 +191,6 @@ final class WritingDiaryCell: UICollectionViewCell {
     }
 }
 
-
 extension WritingDiaryCell: UITextViewDelegate {
     
     func textView(
