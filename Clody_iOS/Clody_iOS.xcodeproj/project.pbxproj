@@ -66,6 +66,8 @@
 		0BC373562C3FCF0F00C45072 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 0BC373552C3FCF0F00C45072 /* RxKeyboard */; };
 		0BC373592C4003A900C45072 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 0BC373582C4003A900C45072 /* RxGesture */; };
 		0BCD4FA52C363C90006390D2 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 0BCD4FA42C363C90006390D2 /* FirebaseMessaging */; };
+		0BCE8F762C9087B000356F53 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 0BCE8F752C9087B000356F53 /* FirebaseAnalytics */; };
+		0BCE8F792C908D8500356F53 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 0BCE8F782C908D8500356F53 /* FirebaseCrashlytics */; };
 		0BE7E9EA2C45B0B8000C5358 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9E92C45B0B8000C5358 /* UserManager.swift */; };
 		0BE7E9ED2C45B3EC000C5358 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 0BE7E9EC2C45B3EC000C5358 /* KeychainAccess */; };
 		0BE7E9EF2C461D0F000C5358 /* NotificationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9EE2C461D0F000C5358 /* NotificationPickerView.swift */; };
@@ -300,6 +302,7 @@
 				0BFCC5B22C2E86EF00B5E0DB /* Lottie in Frameworks */,
 				0BFCC5B92C2E892300B5E0DB /* RxBlocking in Frameworks */,
 				0BFCC5AC2C2E864C00B5E0DB /* SnapKit in Frameworks */,
+				0BCE8F762C9087B000356F53 /* FirebaseAnalytics in Frameworks */,
 				0BFCC5BB2C2E892300B5E0DB /* RxCocoa in Frameworks */,
 				0B4A1BE82C456CD100E31EC4 /* KakaoSDKUser in Frameworks */,
 				0B6C07392C3B99970054A0B0 /* RxDataSources in Frameworks */,
@@ -308,6 +311,7 @@
 				0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */,
 				0BFCC5BD2C2E892300B5E0DB /* RxRelay in Frameworks */,
 				0BFCC5AF2C2E865B00B5E0DB /* Then in Frameworks */,
+				0BCE8F792C908D8500356F53 /* FirebaseCrashlytics in Frameworks */,
 				0B4A1BE42C456CD100E31EC4 /* KakaoSDKAuth in Frameworks */,
 				0BE7E9ED2C45B3EC000C5358 /* KeychainAccess in Frameworks */,
 			);
@@ -321,6 +325,7 @@
 			children = (
 				0B20F3DB2C2C4DAA00F8D62D /* Clody_iOS */,
 				0B20F3DA2C2C4DAA00F8D62D /* Products */,
+				0BCE8F742C9087A200356F53 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -498,6 +503,13 @@
 				0B6C07562C3E7D340054A0B0 /* WritingDiaryModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		0BCE8F742C9087A200356F53 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		0BE7E9E82C45B0AA000C5358 /* Manager */ = {
@@ -937,6 +949,7 @@
 				0B20F3D52C2C4DAA00F8D62D /* Sources */,
 				0B20F3D62C2C4DAA00F8D62D /* Frameworks */,
 				0B20F3D72C2C4DAA00F8D62D /* Resources */,
+				0BCE8F772C908CB200356F53 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -960,6 +973,8 @@
 				0B4A1BE32C456CD100E31EC4 /* KakaoSDKAuth */,
 				0B4A1BE72C456CD100E31EC4 /* KakaoSDKUser */,
 				0BE7E9EC2C45B3EC000C5358 /* KeychainAccess */,
+				0BCE8F752C9087B000356F53 /* FirebaseAnalytics */,
+				0BCE8F782C908D8500356F53 /* FirebaseCrashlytics */,
 			);
 			productName = Clody_iOS;
 			productReference = 0B20F3D92C2C4DAA00F8D62D /* Clody_iOS.app */;
@@ -1029,6 +1044,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0BCE8F772C908CB200356F53 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0B20F3D52C2C4DAA00F8D62D /* Sources */ = {
@@ -1302,7 +1342,9 @@
 				CODE_SIGN_ENTITLEMENTS = Clody_iOS/Clody_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = GKV299JR6D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Clody_iOS/Info.plist;
@@ -1338,7 +1380,7 @@
 				CODE_SIGN_ENTITLEMENTS = Clody_iOS/Clody_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = GKV299JR6D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Clody_iOS/Info.plist;
@@ -1523,6 +1565,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0BCD4FA32C363C90006390D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
+		0BCE8F752C9087B000356F53 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BCD4FA32C363C90006390D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		0BCE8F782C908D8500356F53 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BCD4FA32C363C90006390D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 		0BE7E9EC2C45B3EC000C5358 /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;

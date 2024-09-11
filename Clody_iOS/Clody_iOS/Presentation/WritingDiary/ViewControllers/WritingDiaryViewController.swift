@@ -72,14 +72,17 @@ private extension WritingDiaryViewController {
             viewDidLoad: Observable.just(()),
             tapSaveButton: rootView.saveButton.rx.tap.asSignal(),
             tapAddButton: rootView.addButton.rx.tap.asSignal(),
-            tapBackButton: rootView.navigationBarView.backButton.rx.tap.asSignal(),
+            tapBackButton: rootView.headerView.backButton.rx.tap.asSignal(),
             updateKebobRelay: kebabButtonTap,
             tapDeleteButton: deleteBottomSheetView.bottomSheetView.rx.tapGesture()
                 .when(.recognized)
                 .map { _ in }
                 .asSignal(onErrorJustReturn: ()),
             tapHelpInfoButton: rootView.headerView.infoButton.rx.tap.asSignal(),
-            tapCancelButton: rootView.headerView.cancelHelpButton.rx.tap.asSignal()
+            tapCancelButton: rootView.headerView.cancelHelpButton.rx.tapGesture()
+                .when(.recognized)
+                .map { _ in }
+                .asSignal(onErrorJustReturn: ())
         )
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
@@ -237,7 +240,7 @@ private extension WritingDiaryViewController {
                             .skip(1)
                             .map { $0.count != 50 }
                             .subscribe(onNext: { isHidden in
-                                cell.limeErrorLabel.isHidden = isHidden
+                                cell.limitErrorLabel.isHidden = isHidden
                                 if !isHidden {
                                     cell.writingContainer.makeBorder(width: 1, color: .redCustom)
                                 } else {
@@ -255,13 +258,15 @@ private extension WritingDiaryViewController {
                         var status = self.viewModel.textViewIsEmptyRelay.value
                         status[indexPath.item] = !cell.textView.text.isEmpty
                         self.viewModel.textViewIsEmptyRelay.accept(status)
-                        cell.writingContainer.backgroundColor = .grey09
+                        if !cell.textView.text.isEmpty {
+                            cell.writingContainer.backgroundColor = .grey09
+                        }
                         
                         var items = self.viewModel.diariesRelay.value
                         items[indexPath.item] = cell.textView.text
                         self.viewModel.diariesRelay.accept(items)
                         
-                        cell.limeErrorLabel.isHidden = true
+                        cell.limitErrorLabel.isHidden = true
                     })
                     .disposed(by: cell.disposeBag)
                 

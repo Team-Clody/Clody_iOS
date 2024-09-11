@@ -112,7 +112,7 @@ final class WritingDiaryViewModel: ViewModelType {
         input.tapHelpInfoButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                var isHiddenValue = isHiddenHelpRelay.value
+                let isHiddenValue = isHiddenHelpRelay.value
                 isHiddenHelpRelay.accept(!isHiddenValue)
             })
             .disposed(by: disposeBag)
@@ -121,7 +121,6 @@ final class WritingDiaryViewModel: ViewModelType {
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 isHiddenHelpRelay.accept(true)
-                // 터치 오류
             })
             .disposed(by: disposeBag)
         

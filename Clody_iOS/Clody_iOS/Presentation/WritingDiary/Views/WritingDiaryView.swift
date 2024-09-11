@@ -14,7 +14,6 @@ final class WritingDiaryView: BaseView {
     
     // MARK: - UI Components
     
-    let navigationBarView = ClodyNavigationBar(type: .normal)
     lazy var writingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: writingCollectionViewLayout())
     lazy var saveButton = UIButton()
     lazy var addButton = UIButton()
@@ -46,21 +45,15 @@ final class WritingDiaryView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(navigationBarView, headerView, writingCollectionView, saveButton, addButton)
+        self.addSubviews(headerView, writingCollectionView, saveButton, addButton)
     }
     
     override func setLayout() {
-        
-        navigationBarView.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide)
-            $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(ScreenUtils.getHeight(44))
-        }
-        
+
         headerView.snp.makeConstraints {
-            $0.top.equalTo(navigationBarView.snp.bottom).offset(ScreenUtils.getHeight(8))
-            $0.height.equalTo(ScreenUtils.getHeight(46))
-            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.top.equalTo(safeAreaLayoutGuide)
+            $0.height.equalTo(ScreenUtils.getHeight(100))
+            $0.horizontalEdges.equalToSuperview()
         }
         
         writingCollectionView.snp.makeConstraints {

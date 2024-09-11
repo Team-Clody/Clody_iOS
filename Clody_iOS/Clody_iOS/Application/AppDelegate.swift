@@ -9,6 +9,7 @@ import UIKit
 import UserNotifications
 
 import Firebase
+import FirebaseAnalytics
 import KakaoSDKAuth
 import KakaoSDKCommon
 
@@ -22,6 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 파이어베이스 설정
         FirebaseApp.configure()
         
+        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+          AnalyticsParameterItemID: "id-App",
+          AnalyticsParameterItemName: "content_name",
+          AnalyticsParameterContentType: "content_type",
+        ])
+
         // 앱 실행 시 사용자에게 알림 허용 권한을 받음
         UNUserNotificationCenter.current().delegate = self
         
