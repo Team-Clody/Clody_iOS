@@ -338,6 +338,8 @@ private extension WritingDiaryViewController {
     
     func setupKeyboardHandling() {
         RxKeyboard.instance.visibleHeight
+            .skip(1)
+            .distinctUntilChanged()
             .drive(onNext: { [weak self] keyboardVisibleHeight in
                 guard let self = self else { return }
                 let addButtonPadding = keyboardVisibleHeight > 0 ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + ScreenUtils.getHeight(20) : ScreenUtils.getHeight(81)

@@ -83,7 +83,7 @@ final class WritingDiaryHeaderView: UIView {
         
         backButton.snp.makeConstraints {
             $0.size.equalTo(ScreenUtils.getWidth(32))
-            $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(6))
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(6))
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(12))
         }
 
