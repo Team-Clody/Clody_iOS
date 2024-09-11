@@ -23,6 +23,7 @@ final class WritingDiaryViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let kebabButtonTap = PublishRelay<Int>()
     private var date: Date
+    private var textViewHeight: CGFloat = 0
     
     // MARK: - UI Components
     
@@ -218,6 +219,8 @@ private extension WritingDiaryViewController {
                     .bind(to: cell.textView.rx.text)
                     .disposed(by: cell.disposeBag)
                 
+                
+                
                 cell.textView.rx.didBeginEditing
                     .subscribe(onNext: {
                         cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
@@ -242,14 +245,10 @@ private extension WritingDiaryViewController {
                             .map { $0.count != 50 }
                             .subscribe(onNext: { isHidden in
                                 cell.limitErrorLabel.isHidden = isHidden
-                                if !isHidden {
-                                    cell.writingContainer.makeBorder(width: 1, color: .redCustom)
-                                } else {
-                                    cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
-                                }
+                                cell.writingContainer.makeBorder(width: 1, color: isHidden ? .mainYellow : .redCustom)
+                                self.updateTextViewHeightIfNeeded(for: cell, collectionView)
                             })
                             .disposed(by: cell.disposeBag)
-
                     })
                     .disposed(by: cell.disposeBag)
                 
@@ -274,6 +273,23 @@ private extension WritingDiaryViewController {
                 return cell
             }
         )
+    }
+    
+    private func updateTextViewHeightIfNeeded(for cell: WritingDiaryCell, _ collectionView: UICollectionView) {
+        let size = CGSize(width: cell.textView.frame.width, height: .infinity)
+        let estimatedSize = cell.textView.sizeThatFits(size)
+        
+        /// UITextView 높이가 바뀌었을 때만 제약조건을 변경하고, 컬렉션뷰 고유 사이즈를 재계산합니다.
+        if self.textViewHeight != estimatedSize.height {
+            cell.textView.constraints.forEach { (constraint) in
+                if constraint.firstAttribute == .height {
+                    constraint.constant = estimatedSize.height
+                    cell.invalidateIntrinsicContentSize()
+                    collectionView.invalidateIntrinsicContentSize()
+                }
+            }
+            self.textViewHeight = estimatedSize.height
+        }
     }
     
     private func setupDeleteBottomSheet() {
@@ -332,7 +348,7 @@ private extension WritingDiaryViewController {
                 }
                 
                 self.rootView.writingCollectionView.snp.updateConstraints {
-                    $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(addButtonPadding)
+                    $0.bottom.equalToSuperview().inset(addButtonPadding)
                 }
                 
                 self.view.layoutIfNeeded()
