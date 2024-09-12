@@ -31,7 +31,6 @@ final class WritingDiaryCell: UICollectionViewCell {
         setStyle()
         setHierarchy()
         setLayout()
-        setDelegate()
     }
     
     required init?(coder: NSCoder) {
@@ -79,7 +78,7 @@ final class WritingDiaryCell: UICollectionViewCell {
             $0.isScrollEnabled = false
             $0.textContainerInset = .zero
             $0.textContainer.lineFragmentPadding = 0
-            $0.returnKeyType = .done
+            $0.returnKeyType = .default
             $0.showsVerticalScrollIndicator = false
             $0.showsHorizontalScrollIndicator = false
         }
@@ -165,10 +164,6 @@ final class WritingDiaryCell: UICollectionViewCell {
         limitTextLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
     
-    private func setDelegate() {
-        textView.delegate = self
-    }
-    
     func bindData(
         index: Int,
         text: String,
@@ -188,20 +183,5 @@ final class WritingDiaryCell: UICollectionViewCell {
             textView.text = ""
             textInputLabel.text = "0"
         }
-    }
-}
-
-extension WritingDiaryCell: UITextViewDelegate {
-    
-    func textView(
-        _ textView: UITextView,
-        shouldChangeTextIn range: NSRange,
-        replacementText text: String
-    ) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
-            return false
-        }
-        return true
     }
 }
