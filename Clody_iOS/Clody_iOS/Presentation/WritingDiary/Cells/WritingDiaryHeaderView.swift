@@ -16,7 +16,8 @@ final class WritingDiaryHeaderView: UIView {
     
     private let dateLabel = UILabel()
     lazy var infoButton = UIButton()
-    let helpMessageImage = UIImageView()
+    let helpMessageContainer = UIImageView()
+    let helpMessageDownArrowImage = UIImageView()
     private let helpMessageLabel = UILabel()
     let cancelHelpButton = UIButton()
     lazy var backButton = UIButton()
@@ -27,14 +28,7 @@ final class WritingDiaryHeaderView: UIView {
         setStyle()
         setHierarchy()
         setLayout()
-        cancelHelpButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
-
     }
-    
-    @objc func cancelButtonTapped() {
-        print("Cancel button tapped")
-    }
-
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
@@ -46,11 +40,11 @@ final class WritingDiaryHeaderView: UIView {
         
         backButton.do {
             $0.setImage(.icArrowLeft, for: .normal)
+            $0.contentMode = .scaleAspectFit
         }
         
         dateLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: "6월 26일 목요일", style: .head2, lineHeightMultiple: 1.5)
-            $0.textColor = .grey02
+            $0.textColor = .grey01
         }
         
         infoButton.do {
@@ -58,11 +52,15 @@ final class WritingDiaryHeaderView: UIView {
             $0.contentMode = .scaleAspectFit
         }
         
-        helpMessageImage.do {
-            $0.image = .helpMessage
+        helpMessageContainer.do {
+            $0.image = .helpBox
+            $0.contentMode = .scaleAspectFit
             $0.isUserInteractionEnabled = true
             $0.bringSubviewToFront(cancelHelpButton)
-            $0.contentMode = .scaleAspectFill
+        }
+        
+        helpMessageDownArrowImage.do {
+            $0.image = .helpDownArrow
         }
         
         helpMessageLabel.do {
@@ -72,38 +70,42 @@ final class WritingDiaryHeaderView: UIView {
         
         cancelHelpButton.do {
             $0.setImage(.cancel, for: .normal)
+            $0.contentMode = .scaleAspectFit
         }
     }
     
     func setHierarchy() {
-        self.addSubviews(dateLabel, infoButton, helpMessageImage, backButton)
-        helpMessageImage.addSubviews(cancelHelpButton, helpMessageLabel)
+        self.addSubviews(dateLabel, helpMessageDownArrowImage, helpMessageContainer, infoButton, backButton)
+        helpMessageContainer.addSubviews(helpMessageLabel, cancelHelpButton)
     }
     
     func setLayout() {
         
         backButton.snp.makeConstraints {
-            $0.size.equalTo(ScreenUtils.getWidth(30))
+            $0.size.equalTo(ScreenUtils.getWidth(32))
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(6))
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(12))
-            $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(6))
         }
 
         dateLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
             $0.top.equalTo(backButton.snp.bottom).offset(ScreenUtils.getHeight(14))
+            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
 
         infoButton.snp.makeConstraints {
-            $0.centerY.equalTo(dateLabel)
             $0.size.equalTo(ScreenUtils.getWidth(28))
+            $0.centerY.equalTo(dateLabel)
             $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(24))
+            $0.bottom.equalToSuperview()
         }
 
-        helpMessageImage.snp.makeConstraints {
-            $0.bottom.equalTo(infoButton.snp.top)
-            $0.width.equalTo(ScreenUtils.getWidth(228))
-            $0.height.equalTo(ScreenUtils.getHeight(36))
-            $0.trailing.equalTo(infoButton)
+        helpMessageContainer.snp.makeConstraints {
+            $0.bottom.equalTo(helpMessageDownArrowImage.snp.top).offset(ScreenUtils.getHeight(4))
+        }
+        
+        helpMessageDownArrowImage.snp.makeConstraints {
+            $0.bottom.equalTo(infoButton.snp.top).offset(ScreenUtils.getHeight(1.6))
+            $0.centerX.equalTo(infoButton)
         }
 
         helpMessageLabel.snp.makeConstraints {
@@ -113,8 +115,11 @@ final class WritingDiaryHeaderView: UIView {
 
         cancelHelpButton.snp.makeConstraints {
             $0.size.equalTo(ScreenUtils.getWidth(28))
-            $0.trailing.equalToSuperview()
             $0.top.equalToSuperview()
+            $0.leading.equalTo(helpMessageLabel.snp.trailing).offset(-3)
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.centerX.equalTo(helpMessageDownArrowImage)
         }
     }
 
@@ -124,6 +129,7 @@ final class WritingDiaryHeaderView: UIView {
         let dateString = DateFormatter.string(from: dateData, format: "yyyy-MM-dd")
         let dayOfContent = DateFormatter.date(from: dateString)
         
-        dateLabel.text = month + "월 " + date + "일 " + (dayOfContent?.koreanDayOfWeek() ?? "")
+        let dateText = month + "월 " + date + "일 " + (dayOfContent?.koreanDayOfWeek() ?? "")
+        dateLabel.attributedText = UIFont.pretendardString(text: dateText, style: .head2, lineHeightMultiple: 1.5)
     }
 }

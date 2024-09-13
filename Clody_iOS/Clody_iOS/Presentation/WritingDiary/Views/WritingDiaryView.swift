@@ -29,6 +29,7 @@ final class WritingDiaryView: BaseView {
         writingCollectionView.do {
             $0.backgroundColor = .white
             $0.showsVerticalScrollIndicator = false
+            $0.showsHorizontalScrollIndicator = false
         }
         
         saveButton.do {
@@ -52,25 +53,24 @@ final class WritingDiaryView: BaseView {
 
         headerView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
-            $0.height.equalTo(ScreenUtils.getHeight(100))
             $0.horizontalEdges.equalToSuperview()
         }
         
         writingCollectionView.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
-            $0.bottom.equalTo(safeAreaLayoutGuide)
-            $0.top.equalTo(headerView.snp.bottom)
+            $0.top.equalTo(headerView.snp.bottom).offset(ScreenUtils.getHeight(16))
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
         
         saveButton.snp.makeConstraints {
-            $0.horizontalEdges.equalTo(writingCollectionView)
             $0.height.equalTo(ScreenUtils.getHeight(48))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
             $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(5))
         }
         
         addButton.snp.makeConstraints {
             $0.size.equalTo(ScreenUtils.getWidth(41))
-            $0.bottom.equalTo(safeAreaLayoutGuide).offset(-ScreenUtils.getHeight(76))
+            $0.bottom.equalTo(safeAreaLayoutGuide).offset(-ScreenUtils.getHeight(81))
             $0.trailing.equalTo(saveButton)
         }
     }
@@ -84,8 +84,14 @@ final class WritingDiaryView: BaseView {
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = ScreenUtils.getHeight(8)
             
-            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 30, trailing: 0)
+            section.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: ScreenUtils.getWidth(24),
+                bottom: self.safeAreaLayoutGuide.layoutFrame.maxY - self.addButton.frame.minY + ScreenUtils.getHeight(10),
+                trailing: ScreenUtils.getWidth(24)
+            )
             return section
         }
     }

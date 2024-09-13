@@ -31,7 +31,6 @@ final class WritingDiaryCell: UICollectionViewCell {
         setStyle()
         setHierarchy()
         setLayout()
-        setDelegate()
     }
     
     required init?(coder: NSCoder) {
@@ -79,11 +78,14 @@ final class WritingDiaryCell: UICollectionViewCell {
             $0.isScrollEnabled = false
             $0.textContainerInset = .zero
             $0.textContainer.lineFragmentPadding = 0
-            $0.returnKeyType = .done
+            $0.returnKeyType = .default
+            $0.showsVerticalScrollIndicator = false
+            $0.showsHorizontalScrollIndicator = false
         }
         
         kebabButton.do {
             $0.setImage(.kebob, for: .normal)
+            $0.contentMode = .scaleAspectFit
         }
         
         textInputLabel.do {
@@ -116,59 +118,50 @@ final class WritingDiaryCell: UICollectionViewCell {
     }
     
     private func setHierarchy() {
-        self.addSubviews(
-            writingContainer,
-            textView,
-            textInputLabel,
-            limitTextLabel,
-            writingListNumberLabel,
-            kebabButton,
-            limitErrorLabel
-        )
+        self.contentView.addSubviews(writingContainer, textInputLabel, limitTextLabel, limitErrorLabel)
+        writingContainer.addSubviews(writingListNumberLabel, textView, kebabButton)
     }
     
     private func setLayout() {
+        
+        writingContainer.snp.makeConstraints {
+            $0.top.horizontalEdges.equalToSuperview()
+        }
 
         writingListNumberLabel.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().inset(ScreenUtils.getHeight(16))
+            $0.top.equalTo(textView)
+            $0.leading.equalToSuperview().inset(ScreenUtils.getHeight(16))
         }
 
         textView.snp.makeConstraints {
-            $0.top.equalTo(writingListNumberLabel)
+            $0.verticalEdges.equalToSuperview().inset(ScreenUtils.getHeight(14))
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(34))
             $0.trailing.equalTo(kebabButton.snp.leading)
         }
 
-        writingContainer.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview()
-            $0.verticalEdges.equalTo(textView).inset(ScreenUtils.getHeight(-14))
+        kebabButton.snp.makeConstraints {
+            $0.size.equalTo(ScreenUtils.getWidth(28))
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(6))
+            $0.centerY.equalTo(writingListNumberLabel)
+        }
+        
+        limitErrorLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(ScreenUtils.getWidth(8))
+            $0.centerY.equalTo(limitTextLabel)
         }
 
         textInputLabel.snp.makeConstraints {
-            $0.centerY.equalTo(limitTextLabel)
             $0.trailing.equalTo(limitTextLabel.snp.leading).offset(ScreenUtils.getWidth(-2))
+            $0.centerY.equalTo(limitTextLabel)
         }
+        textInputLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
 
         limitTextLabel.snp.makeConstraints {
             $0.top.equalTo(writingContainer.snp.bottom).offset(ScreenUtils.getHeight(6))
             $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(8))
+            $0.bottom.equalToSuperview()
         }
-
-        kebabButton.snp.makeConstraints {
-            $0.size.equalTo(ScreenUtils.getWidth(28))
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(11))
-            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(6))
-        }
-        
-        limitErrorLabel.snp.makeConstraints {
-            $0.leading.equalTo(writingContainer.snp.leading).offset(ScreenUtils.getWidth(8))
-            $0.top.equalTo(writingContainer.snp.bottom).offset(ScreenUtils.getHeight(6))
-        }
-    }
-
-    
-    private func setDelegate() {
-        textView.delegate = self
+        limitTextLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
     
     func bindData(
@@ -179,13 +172,8 @@ final class WritingDiaryCell: UICollectionViewCell {
     ) {
         writingListNumberLabel.text = "\(index)."
         textInputLabel.text = "\(text.count)"
-        if !isFirst {
-            writingListNumberLabel.textColor = .grey02
-            textView.textColor = .grey03
-        } else {
-            writingListNumberLabel.textColor = .grey06
-            textView.textColor = .grey06
-        }
+        writingListNumberLabel.textColor = isFirst ? .grey06: .grey02
+        textView.textColor = isFirst ? .grey06 : .grey03
         
         if statuses {
             textView.text = text.isEmpty ? I18N.WritingDiary.placeHolder : text
@@ -195,21 +183,5 @@ final class WritingDiaryCell: UICollectionViewCell {
             textView.text = ""
             textInputLabel.text = "0"
         }
-    }
-}
-
-
-extension WritingDiaryCell: UITextViewDelegate {
-    
-    func textView(
-        _ textView: UITextView,
-        shouldChangeTextIn range: NSRange,
-        replacementText text: String
-    ) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
-            return false
-        }
-        return true
     }
 }
