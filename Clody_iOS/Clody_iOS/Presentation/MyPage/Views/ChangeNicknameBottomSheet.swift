@@ -14,9 +14,9 @@ final class ChangeNicknameBottomSheet: BaseView {
 
     // MARK: - UI Components
 
-    let navigationBar = ClodyNavigationBar(type: .bottomSheet, title: I18N.MyPage.nickNameEdit)
+    let navigationBar = ClodyNavigationBar(type: .bottomSheet, title: I18N.Setting.nickNameEdit)
     let clodyTextField = ClodyTextField()
-    let doneButton = ClodyBottomButton(title: I18N.MyPage.edit)
+    let doneButton = ClodyBottomButton(title: I18N.Setting.edit)
 
     // MARK: - Methods
 

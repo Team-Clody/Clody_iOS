@@ -54,9 +54,6 @@
 		0B6C07612C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C07602C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift */; };
 		0B7222342C65243A005EB365 /* ListEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7222332C65243A005EB365 /* ListEmptyView.swift */; };
 		0B72224B2C6B9B0C005EB365 /* ClodyErrorAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72224A2C6B9B0C005EB365 /* ClodyErrorAlertView.swift */; };
-		0B72DA2E2C46C13E00292173 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA2D2C46C13E00292173 /* NotificationViewModel.swift */; };
-		0B72DA302C46C16000292173 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA2F2C46C16000292173 /* NotificationView.swift */; };
-		0B72DA342C46C18F00292173 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72DA332C46C18F00292173 /* NotificationCell.swift */; };
 		0BAAC64E2C43BFD900174A9D /* DeleteBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */; };
 		0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6522C43D74D00174A9D /* ClodyToast.swift */; };
 		0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */; };
@@ -109,15 +106,7 @@
 		2C0B3C822C30DB56002EB1A3 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */; };
 		2C0B3C862C30DD55002EB1A3 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2C0B3C852C30DD55002EB1A3 /* Pretendard-Medium.otf */; };
 		2C0B3C882C30DD5B002EB1A3 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2C0B3C872C30DD5B002EB1A3 /* Pretendard-SemiBold.otf */; };
-		2C7FCF752C42DD6200F4E089 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7FCF742C42DD6200F4E089 /* NotificationViewController.swift */; };
-		2CC0CE712C3C0ECD001F3E6B /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC0CE702C3C0ECD001F3E6B /* MyPageViewModel.swift */; };
-		2CC0CE732C3C0ED9001F3E6B /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC0CE722C3C0ED9001F3E6B /* MyPageTableViewCell.swift */; };
-		2CC0CE752C3C0EE7001F3E6B /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC0CE742C3C0EE7001F3E6B /* MyPageView.swift */; };
-		2CC0CE772C3C0FAD001F3E6B /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC0CE762C3C0FAD001F3E6B /* MyPageViewController.swift */; };
 		2CE3AB2F2C36E9F50042085A /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */; };
-		2CE6378B2C3D546200B6EC6D /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE6378A2C3D546200B6EC6D /* AccountViewController.swift */; };
-		2CE6378D2C3D56A700B6EC6D /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE6378C2C3D56A700B6EC6D /* AccountView.swift */; };
-		2CE637912C3D56C300B6EC6D /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE637902C3D56C300B6EC6D /* AccountViewModel.swift */; };
 		952EB1992C6BCF7E00D1E516 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952EB1982C6BCF7E00D1E516 /* UIViewController+.swift */; };
 		95310F722C3C39FE00023C7B /* ClodyNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F712C3C39FE00023C7B /* ClodyNavigationBar.swift */; };
 		95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F732C3C765C00023C7B /* ClodyTextField.swift */; };
@@ -152,7 +141,18 @@
 		95310FC42C45A31700023C7B /* DiaryNotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */; };
 		95310FC62C45ACD000023C7B /* OnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */; };
 		95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A89E762C36EE4100E07ABC /* BaseView.swift */; };
-		95FB8ABA2C4A5B940060C042 /* ChangeNicknameBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FB8AB92C4A5B940060C042 /* ChangeNicknameBottomSheet.swift */; };
+		95A98E772C9C2E730073AD3C /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E762C9C2E730073AD3C /* SettingViewController.swift */; };
+		95A98E792C9C2E7E0073AD3C /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E782C9C2E7E0073AD3C /* SettingView.swift */; };
+		95A98E7C2C9C2EAD0073AD3C /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E7B2C9C2EAD0073AD3C /* SettingViewModel.swift */; };
+		95A98E7E2C9C39A40073AD3C /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E7D2C9C39A40073AD3C /* SettingTableViewCell.swift */; };
+		95A98EA02C9C5C1D0073AD3C /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E932C9C5C1D0073AD3C /* NotificationCell.swift */; };
+		95A98EA12C9C5C1D0073AD3C /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E952C9C5C1D0073AD3C /* AccountViewController.swift */; };
+		95A98EA22C9C5C1D0073AD3C /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E962C9C5C1D0073AD3C /* NotificationViewController.swift */; };
+		95A98EA32C9C5C1D0073AD3C /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E982C9C5C1D0073AD3C /* AccountViewModel.swift */; };
+		95A98EA42C9C5C1D0073AD3C /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E992C9C5C1D0073AD3C /* NotificationViewModel.swift */; };
+		95A98EA52C9C5C1D0073AD3C /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E9B2C9C5C1D0073AD3C /* AccountView.swift */; };
+		95A98EA62C9C5C1D0073AD3C /* ChangeNicknameBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E9C2C9C5C1D0073AD3C /* ChangeNicknameBottomSheet.swift */; };
+		95A98EA72C9C5C1D0073AD3C /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E9D2C9C5C1D0073AD3C /* NotificationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -201,9 +201,6 @@
 		0B6C07602C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingDiaryHeaderView.swift; sourceTree = "<group>"; };
 		0B7222332C65243A005EB365 /* ListEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEmptyView.swift; sourceTree = "<group>"; };
 		0B72224A2C6B9B0C005EB365 /* ClodyErrorAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyErrorAlertView.swift; sourceTree = "<group>"; };
-		0B72DA2D2C46C13E00292173 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
-		0B72DA2F2C46C16000292173 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
-		0B72DA332C46C18F00292173 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBottomSheetView.swift; sourceTree = "<group>"; };
 		0BAAC6522C43D74D00174A9D /* ClodyToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToast.swift; sourceTree = "<group>"; };
 		0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToastView.swift; sourceTree = "<group>"; };
@@ -244,16 +241,8 @@
 		2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		2C0B3C852C30DD55002EB1A3 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		2C0B3C872C30DD5B002EB1A3 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
-		2C7FCF742C42DD6200F4E089 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		2CB129422C47F2CC009D1480 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		2CC0CE702C3C0ECD001F3E6B /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
-		2CC0CE722C3C0ED9001F3E6B /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
-		2CC0CE742C3C0EE7001F3E6B /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
-		2CC0CE762C3C0FAD001F3E6B /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
-		2CE6378A2C3D546200B6EC6D /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
-		2CE6378C2C3D56A700B6EC6D /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
-		2CE637902C3D56C300B6EC6D /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		952EB1982C6BCF7E00D1E516 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		95310F712C3C39FE00023C7B /* ClodyNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyNavigationBar.swift; sourceTree = "<group>"; };
 		95310F732C3C765C00023C7B /* ClodyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyTextField.swift; sourceTree = "<group>"; };
@@ -288,7 +277,18 @@
 		95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryNotificationViewModel.swift; sourceTree = "<group>"; };
 		95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewModel.swift; sourceTree = "<group>"; };
 		95A89E762C36EE4100E07ABC /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
-		95FB8AB92C4A5B940060C042 /* ChangeNicknameBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNicknameBottomSheet.swift; sourceTree = "<group>"; };
+		95A98E762C9C2E730073AD3C /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		95A98E782C9C2E7E0073AD3C /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		95A98E7B2C9C2EAD0073AD3C /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		95A98E7D2C9C39A40073AD3C /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		95A98E932C9C5C1D0073AD3C /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		95A98E952C9C5C1D0073AD3C /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		95A98E962C9C5C1D0073AD3C /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		95A98E982C9C5C1D0073AD3C /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		95A98E992C9C5C1D0073AD3C /* NotificationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
+		95A98E9B2C9C5C1D0073AD3C /* AccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		95A98E9C2C9C5C1D0073AD3C /* ChangeNicknameBottomSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeNicknameBottomSheet.swift; sourceTree = "<group>"; };
+		95A98E9D2C9C5C1D0073AD3C /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -686,7 +686,8 @@
 			children = (
 				95310FA72C42D97000023C7B /* Reply */,
 				95310F7D2C3FF37500023C7B /* Auth */,
-				2CC0CE6A2C3C0E17001F3E6B /* MyPage */,
+				95A98E9F2C9C5C1D0073AD3C /* MyPage */,
+				95A98E702C9C2DD10073AD3C /* Setting */,
 				0B6C07502C3E7CD70054A0B0 /* WritingDiary */,
 				0B6C073C2C3DC29B0054A0B0 /* List */,
 				95A89E752C36EE2700E07ABC /* Common */,
@@ -765,57 +766,6 @@
 				0BFCC5F22C306D3B00B5E0DB /* String.swift */,
 			);
 			path = Literals;
-			sourceTree = "<group>";
-		};
-		2CC0CE6A2C3C0E17001F3E6B /* MyPage */ = {
-			isa = PBXGroup;
-			children = (
-				2CC0CE6F2C3C0EA2001F3E6B /* ViewModels */,
-				2CC0CE6E2C3C0E95001F3E6B /* Cells */,
-				2CC0CE6D2C3C0E90001F3E6B /* Views */,
-				2CC0CE6C2C3C0E88001F3E6B /* ViewControllers */,
-			);
-			path = MyPage;
-			sourceTree = "<group>";
-		};
-		2CC0CE6C2C3C0E88001F3E6B /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				2CC0CE762C3C0FAD001F3E6B /* MyPageViewController.swift */,
-				2CE6378A2C3D546200B6EC6D /* AccountViewController.swift */,
-				2C7FCF742C42DD6200F4E089 /* NotificationViewController.swift */,
-			);
-			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		2CC0CE6D2C3C0E90001F3E6B /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				2CC0CE742C3C0EE7001F3E6B /* MyPageView.swift */,
-				2CE6378C2C3D56A700B6EC6D /* AccountView.swift */,
-				0B72DA2F2C46C16000292173 /* NotificationView.swift */,
-				95FB8AB92C4A5B940060C042 /* ChangeNicknameBottomSheet.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		2CC0CE6E2C3C0E95001F3E6B /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				2CC0CE722C3C0ED9001F3E6B /* MyPageTableViewCell.swift */,
-				0B72DA332C46C18F00292173 /* NotificationCell.swift */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		2CC0CE6F2C3C0EA2001F3E6B /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				2CC0CE702C3C0ECD001F3E6B /* MyPageViewModel.swift */,
-				2CE637902C3D56C300B6EC6D /* AccountViewModel.swift */,
-				0B72DA2D2C46C13E00292173 /* NotificationViewModel.swift */,
-			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		95310F7D2C3FF37500023C7B /* Auth */ = {
@@ -937,6 +887,96 @@
 				0B3DC0872C6CD77C0021AC61 /* ClodyErrorRetryView.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		95A98E702C9C2DD10073AD3C /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				95A98E712C9C2E0D0073AD3C /* ViewModels */,
+				95A98E722C9C2E140073AD3C /* Views */,
+				95A98E732C9C2E1D0073AD3C /* ViewControllers */,
+				95A98E742C9C2E330073AD3C /* Cells */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		95A98E712C9C2E0D0073AD3C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				95A98E7B2C9C2EAD0073AD3C /* SettingViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		95A98E722C9C2E140073AD3C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				95A98E782C9C2E7E0073AD3C /* SettingView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		95A98E732C9C2E1D0073AD3C /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				95A98E762C9C2E730073AD3C /* SettingViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		95A98E742C9C2E330073AD3C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				95A98E7D2C9C39A40073AD3C /* SettingTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		95A98E942C9C5C1D0073AD3C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				95A98E932C9C5C1D0073AD3C /* NotificationCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		95A98E972C9C5C1D0073AD3C /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				95A98E952C9C5C1D0073AD3C /* AccountViewController.swift */,
+				95A98E962C9C5C1D0073AD3C /* NotificationViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		95A98E9A2C9C5C1D0073AD3C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				95A98E982C9C5C1D0073AD3C /* AccountViewModel.swift */,
+				95A98E992C9C5C1D0073AD3C /* NotificationViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		95A98E9E2C9C5C1D0073AD3C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				95A98E9B2C9C5C1D0073AD3C /* AccountView.swift */,
+				95A98E9C2C9C5C1D0073AD3C /* ChangeNicknameBottomSheet.swift */,
+				95A98E9D2C9C5C1D0073AD3C /* NotificationView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		95A98E9F2C9C5C1D0073AD3C /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				95A98E942C9C5C1D0073AD3C /* Cells */,
+				95A98E972C9C5C1D0073AD3C /* ViewControllers */,
+				95A98E9A2C9C5C1D0073AD3C /* ViewModels */,
+				95A98E9E2C9C5C1D0073AD3C /* Views */,
+			);
+			path = MyPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1078,7 +1118,6 @@
 				95310F8C2C401BE200023C7B /* TermsView.swift in Sources */,
 				95310F7F2C3FF44E00023C7B /* LoginViewController.swift in Sources */,
 				95310F762C3C97A800023C7B /* ClodyBottomButton.swift in Sources */,
-				0B72DA2E2C46C13E00292173 /* NotificationViewModel.swift in Sources */,
 				0B6C074B2C3DC3070054A0B0 /* ListCollectionViewCell.swift in Sources */,
 				0B4A1BC22C453FE700E31EC4 /* APIConstant.swift in Sources */,
 				95310FAB2C42D9EC00023C7B /* ReplyDetailViewController.swift in Sources */,
@@ -1087,25 +1126,23 @@
 				0B3DC0882C6CD77C0021AC61 /* ClodyErrorRetryView.swift in Sources */,
 				0B4A1BC82C45402800E31EC4 /* NetworkResult.swift in Sources */,
 				2C0B3C822C30DB56002EB1A3 /* UIFont+.swift in Sources */,
+				95A98E772C9C2E730073AD3C /* SettingViewController.swift in Sources */,
 				95310F8E2C401BED00023C7B /* TermsViewController.swift in Sources */,
 				0B4A1BDC2C4564E500E31EC4 /* SignUpResponseDTO.swift in Sources */,
-				2CC0CE772C3C0FAD001F3E6B /* MyPageViewController.swift in Sources */,
 				0B6C074F2C3DD3DF0054A0B0 /* ListBackgroundView.swift in Sources */,
 				0B4A1BD72C4548E200E31EC4 /* AuthRouter.swift in Sources */,
 				0BFCC5EE2C2F850400B5E0DB /* UIView+.swift in Sources */,
-				0B72DA302C46C16000292173 /* NotificationView.swift in Sources */,
-				2CC0CE712C3C0ECD001F3E6B /* MyPageViewModel.swift in Sources */,
-				2C7FCF752C42DD6200F4E089 /* NotificationViewController.swift in Sources */,
 				0B72224B2C6B9B0C005EB365 /* ClodyErrorAlertView.swift in Sources */,
 				95310FB22C434E0B00023C7B /* ReplyWaitingView.swift in Sources */,
 				0B6C07592C3E7D480054A0B0 /* WritingDiaryViewModel.swift in Sources */,
+				95A98E7E2C9C39A40073AD3C /* SettingTableViewCell.swift in Sources */,
 				0BE7E9F72C46578F000C5358 /* PostDiaryResponseDTO.swift in Sources */,
+				95A98EA32C9C5C1D0073AD3C /* AccountViewModel.swift in Sources */,
 				0B6C07572C3E7D340054A0B0 /* WritingDiaryModel.swift in Sources */,
 				0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */,
 				0B4A1BD22C45410000E31EC4 /* CalendarListResponseDTO.swift in Sources */,
 				0B4A1BD52C4546F800E31EC4 /* Config.swift in Sources */,
 				0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */,
-				2CE6378B2C3D546200B6EC6D /* AccountViewController.swift in Sources */,
 				0B4EF9D12C48C39600CAF1F6 /* PermissionManager.swift in Sources */,
 				95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */,
 				95310FB72C43B07100023C7B /* ReplyWaitingViewModel.swift in Sources */,
@@ -1119,10 +1156,10 @@
 				0B4A1BB92C44E59B00E31EC4 /* DatePickerView.swift in Sources */,
 				0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */,
 				0BE7E9FC2C4660AC000C5358 /* GetWritingTimeDTO.swift in Sources */,
+				95A98EA42C9C5C1D0073AD3C /* NotificationViewModel.swift in Sources */,
 				95310F982C40777C00023C7B /* OnBoardingView.swift in Sources */,
 				0B4A1BDA2C45636300E31EC4 /* SignUpRequestDTO.swift in Sources */,
 				95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */,
-				95FB8ABA2C4A5B940060C042 /* ChangeNicknameBottomSheet.swift in Sources */,
 				0BE7E9F92C4659F9000C5358 /* DiaryRouter.swift in Sources */,
 				0BE7EA0D2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift in Sources */,
 				0BE7E9F52C4656EB000C5358 /* PostDiaryRequestDTO.swift in Sources */,
@@ -1130,31 +1167,34 @@
 				0BFCC5CF2C2E8DAE00B5E0DB /* BaseTargetType.swift in Sources */,
 				95310F832C3FF53400023C7B /* LoginView.swift in Sources */,
 				0BE7EA072C466793000C5358 /* MyPageRouter.swift in Sources */,
+				95A98EA12C9C5C1D0073AD3C /* AccountViewController.swift in Sources */,
 				0BE7E9F12C4636DE000C5358 /* CalendarMonthlyResponseDTO.swift in Sources */,
 				0BFCC5DA2C2E8F0200B5E0DB /* CalendarModel.swift in Sources */,
 				0B4A1BC62C45401500E31EC4 /* MoyaPlugin.swift in Sources */,
 				95310FAD2C42D9FB00023C7B /* ReplyDetailView.swift in Sources */,
 				95310F922C40706600023C7B /* NicknameView.swift in Sources */,
-				2CE637912C3D56C300B6EC6D /* AccountViewModel.swift in Sources */,
 				0BE7EA022C466524000C5358 /* LoginResponseDTO.swift in Sources */,
+				95A98EA72C9C5C1D0073AD3C /* NotificationView.swift in Sources */,
 				0B4A1BDE2C45686300E31EC4 /* EmptyResponseDTO.swift in Sources */,
 				0B4A1BC02C453FB800E31EC4 /* BaseModel.swift in Sources */,
 				0B4A1BC42C45400100E31EC4 /* NetworkHelper.swift in Sources */,
 				0B20F3DD2C2C4DAA00F8D62D /* AppDelegate.swift in Sources */,
+				95A98EA62C9C5C1D0073AD3C /* ChangeNicknameBottomSheet.swift in Sources */,
 				0BFCC5F32C306D3B00B5E0DB /* String.swift in Sources */,
 				95310FC42C45A31700023C7B /* DiaryNotificationViewModel.swift in Sources */,
 				0BE7EA112C466BB4000C5358 /* GetAccountResponseDTO.swift in Sources */,
-				2CC0CE752C3C0EE7001F3E6B /* MyPageView.swift in Sources */,
 				0B4A1BBE2C453F9600E31EC4 /* NetworkProvider.swift in Sources */,
 				0BE7EA042C4665FC000C5358 /* TokenRefreshResponseDTO.swift in Sources */,
 				95310F722C3C39FE00023C7B /* ClodyNavigationBar.swift in Sources */,
 				95310FBE2C4434B500023C7B /* LoginViewModel.swift in Sources */,
 				95310F9E2C410DCB00023C7B /* DiaryNotificationViewController.swift in Sources */,
+				95A98EA02C9C5C1D0073AD3C /* NotificationCell.swift in Sources */,
 				0BE7EA132C466C91000C5358 /* PatchNicknameRequestDTO.swift in Sources */,
 				0B6C075F2C3E7D8E0054A0B0 /* WritingDiaryCell.swift in Sources */,
 				0BE7E9EA2C45B0B8000C5358 /* UserManager.swift in Sources */,
 				0B6C07452C3DC2E90054A0B0 /* ListViewController.swift in Sources */,
 				0B4EF9CF2C478AAF00CAF1F6 /* Date+.swift in Sources */,
+				95A98EA22C9C5C1D0073AD3C /* NotificationViewController.swift in Sources */,
 				0BFCC5E12C2E8F2800B5E0DB /* CalendarView.swift in Sources */,
 				0B6C07472C3DC2F40054A0B0 /* ListViewModel.swift in Sources */,
 				95310FB42C434E1E00023C7B /* ReplyWaitingViewController.swift in Sources */,
@@ -1171,12 +1211,14 @@
 				0B4A1BCF2C4540C600E31EC4 /* CalendarRouter.swift in Sources */,
 				0B6C074D2C3DC6C70054A0B0 /* ListHeaderView.swift in Sources */,
 				0B4A1BBC2C453F8400E31EC4 /* AuthIntercepter.swift in Sources */,
+				95A98E7C2C9C2EAD0073AD3C /* SettingViewModel.swift in Sources */,
 				0BFCC5F02C2F852D00B5E0DB /* UIStackView+.swift in Sources */,
 				0B190F0B2C380F5300D46CFC /* DateFormatter+.swift in Sources */,
 				95310FBB2C44162F00023C7B /* ReplyDetailViewModel.swift in Sources */,
 				0BFCC5DD2C2E8F1300B5E0DB /* CalendarViewController.swift in Sources */,
 				0B4A1BCC2C45409600E31EC4 /* Providers.swift in Sources */,
 				0BE7E9F32C464444000C5358 /* GetDiaryResponseDTO.swift in Sources */,
+				95A98E792C9C2E7E0073AD3C /* SettingView.swift in Sources */,
 				95310F782C3D6DF800023C7B /* ClodyAlert.swift in Sources */,
 				0B4A1BCA2C45403A00E31EC4 /* NetworkRequest.swift in Sources */,
 				0B6C07492C3DC2FC0054A0B0 /* ListView.swift in Sources */,
@@ -1185,10 +1227,8 @@
 				0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */,
 				0BE7EA0F2C466AEE000C5358 /* PostAlarmSetResponseDTO.swift in Sources */,
 				0B20F3DF2C2C4DAA00F8D62D /* SceneDelegate.swift in Sources */,
+				95A98EA52C9C5C1D0073AD3C /* AccountView.swift in Sources */,
 				0BB898262C85BBBB0082F87B /* RevokeResponseDTO.swift in Sources */,
-				2CE6378D2C3D56A700B6EC6D /* AccountView.swift in Sources */,
-				2CC0CE732C3C0ED9001F3E6B /* MyPageTableViewCell.swift in Sources */,
-				0B72DA342C46C18F00292173 /* NotificationCell.swift in Sources */,
 				95310FA62C41D97E00023C7B /* SplashViewController.swift in Sources */,
 				95310F882C40043800023C7B /* ScreenUtils.swift in Sources */,
 				95310FA02C410DE200023C7B /* DiaryNotificationView.swift in Sources */,

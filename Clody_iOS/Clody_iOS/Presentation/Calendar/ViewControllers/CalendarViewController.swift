@@ -153,8 +153,7 @@ private extension CalendarViewController {
         output.changeToSetting
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                let myPageViewController = MyPageViewController()
-                self.navigationController?.pushViewController(myPageViewController, animated: true)
+                self.navigationController?.pushViewController(SettingViewController(), animated: true)
             })
             .disposed(by: disposeBag)
         

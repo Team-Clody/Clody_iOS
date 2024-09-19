@@ -6,7 +6,7 @@ import Then
 final class NotificationView: BaseView {
 
     let tableView: UITableView = UITableView()
-    public let navigationBar = ClodyNavigationBar(type: .setting, title: I18N.MyPage.alarmSet)
+    public let navigationBar = ClodyNavigationBar(type: .setting, title: I18N.Setting.alarmSet)
 
     override func setStyle() {
         self.backgroundColor = .white
