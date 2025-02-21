@@ -89,12 +89,9 @@ private extension CalendarViewController {
                 guard let self = self else { return }
                 
                 let isNotEmpty = !data.isEmpty
-                let isToday = Calendar.current.isDateInToday(self.viewModel.selectedDateRelay.value)
+                let selectedDate = self.viewModel.selectedDateRelay.value
+                let isAvailable = selectedDate.isAvailable
                 let isDeleted = self.viewModel.dailyDiaryDataRelay.value.isDeleted
-                let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
-                let isYesterday = Calendar.current.isDate(self.viewModel.selectedDateRelay.value, equalTo: yesterday, toGranularity: .day)
-                
-                let isAvailable = isToday || isYesterday
                 
                 // 기본값 설정
                 var buttonTitle = isNotEmpty ? I18N.Calendar.reply : I18N.Calendar.writing
@@ -439,19 +436,14 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         let day = Calendar.current.component(.day, from: date) - 1
         let data: MonthlyDiary? = day >= 0 && day < calendarData.count ? calendarData[day] : nil
         
-        let isToday = Calendar.current.isDateInToday(date)
-        
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
-        let isYesterday = Calendar.current.isDate(date, equalTo: yesterday, toGranularity: .day)
-        let isAvailable = isToday || isYesterday
-        
+        let isAvailable = date.isAvailable
         let isSelected = Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value)
         let isDeleted = data?.isDeleted ?? false
         let date = DateFormatter.string(from: date, format: "d")
         
         let dayString = String(day + 1)
         
-        cell.configure(isToday: isAvailable, isSelected: isSelected, isDeleted: isDeleted, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
+        cell.configure(isAvailable: isAvailable, isSelected: isSelected, isDeleted: isDeleted, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
         return cell
     }
     
