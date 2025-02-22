@@ -90,7 +90,7 @@ private extension CalendarViewController {
                 
                 let isNotEmpty = !data.isEmpty
                 let selectedDate = self.viewModel.selectedDateRelay.value
-                let isAvailable = selectedDate.isAvailable
+                let isWritingAvailable = selectedDate.isWritingAvailable
                 let isDeleted = self.viewModel.dailyDiaryDataRelay.value.isDeleted
                 
                 // 기본값 설정
@@ -100,7 +100,7 @@ private extension CalendarViewController {
                 var isEnabled = true
                 
                 // 버튼 상태 및 색상 결정
-                if (isAvailable && isNotEmpty && isDeleted) || (!isAvailable && (isDeleted || !isNotEmpty)) {
+                if (isWritingAvailable && isNotEmpty && isDeleted) || (!isWritingAvailable && (isDeleted || !isNotEmpty)) {
                     isEnabled = false
                     buttonColor = isNotEmpty ? UIColor(named: "grey07") : UIColor(named: "lightYellow")
                     textColor = UIColor(named: isNotEmpty ? "grey04" : "grey06")
@@ -436,14 +436,14 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         let day = Calendar.current.component(.day, from: date) - 1
         let data: MonthlyDiary? = day >= 0 && day < calendarData.count ? calendarData[day] : nil
         
-        let isAvailable = date.isAvailable
+        let isWritingAvailable = date.isWritingAvailable
         let isSelected = Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value)
         let isDeleted = data?.isDeleted ?? false
         let date = DateFormatter.string(from: date, format: "d")
         
         let dayString = String(day + 1)
         
-        cell.configure(isAvailable: isAvailable, isSelected: isSelected, isDeleted: isDeleted, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
+        cell.configure(isWrtingAvailable: isWritingAvailable, isSelected: isSelected, isDeleted: isDeleted, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
         return cell
     }
     

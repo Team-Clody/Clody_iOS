@@ -41,7 +41,7 @@ extension Date {
         return Calendar.current.isDate(self, equalTo: Date().addingTimeInterval(-86400), toGranularity: .day)
     }
 
-    var isAvailable: Bool {
+    var isWritingAvailable: Bool {
         return isToday || isYesterday
     }
 }

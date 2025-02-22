@@ -99,7 +99,7 @@ final class CalendarDateCell: FSCalendarCell {
 
 extension CalendarDateCell {
     
-    func configure(isAvailable: Bool, isSelected: Bool, isDeleted: Bool, date: String, data: MonthlyDiary) {
+    func configure(isWrtingAvailable: Bool, isSelected: Bool, isDeleted: Bool, date: String, data: MonthlyDiary) {
         // 캘린더 분기처리 로직
         cloverImageView.image = UIImage(named: "clover\(data.diaryCount)")
         backgroundSelectView.isHidden = true
@@ -120,8 +120,8 @@ extension CalendarDateCell {
             cloverImageView.image = .clover0
         }
         
-        // 오늘 날짜 처리
-        if isAvailable {
+        // 작성 가능 날짜 처리
+        if isWrtingAvailable {
             if data.diaryCount == 0 {
                 cloverImageView.image = .cloverToday
             } else {
@@ -138,7 +138,7 @@ extension CalendarDateCell {
             backgroundSelectView.isHidden = false
             calendarDateLabel.attributedText = UIFont.pretendardString(text: date, style: .detail1_medium, color: .white)
         } else {
-            calendarDateLabel.attributedText = UIFont.pretendardString(text: date, style: .detail1_medium, color: isAvailable ? .black : .grey05)
+            calendarDateLabel.attributedText = UIFont.pretendardString(text: date, style: .detail1_medium, color: isWrtingAvailable ? .black : .grey05)
         }
     }
 }
