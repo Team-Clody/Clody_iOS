@@ -12,6 +12,7 @@ enum Config {
         enum Plist {
             static let baseURL = "BASE_URL"
             static let kakaoKey = "KAKAO_KEY"
+            static let amplitudeKey = "AMPLITUDE_KEY"
         }
     }
     
@@ -31,6 +32,13 @@ enum Config {
     
     static let kakaoKey: String = {
         guard let key = Config.infoDictionary[Keys.Plist.kakaoKey] as? String else {
+            fatalError("Base URL is not set in plist for this configuration.")
+        }
+        return key
+    }()
+    
+    static let amplitudeKey: String = {
+        guard let key = Config.infoDictionary[Keys.Plist.amplitudeKey] as? String else {
             fatalError("Base URL is not set in plist for this configuration.")
         }
         return key
