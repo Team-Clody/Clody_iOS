@@ -32,4 +32,16 @@ extension Date {
         let totalSeconds = today.timeIntervalSince(midnight)
         return Int(totalSeconds)
     }
+    
+    var isToday: Bool {
+        return Calendar.current.isDateInToday(self)
+    }
+
+    var isYesterday: Bool {
+        return Calendar.current.isDate(self, equalTo: Date().addingTimeInterval(-86400), toGranularity: .day)
+    }
+
+    var isWritingAvailable: Bool {
+        return isToday || isYesterday
+    }
 }

@@ -89,7 +89,8 @@ private extension CalendarViewController {
                 guard let self = self else { return }
                 
                 let isNotEmpty = !data.isEmpty
-                let isToday = Calendar.current.isDateInToday(self.viewModel.selectedDateRelay.value)
+                let selectedDate = self.viewModel.selectedDateRelay.value
+                let isWritingAvailable = selectedDate.isWritingAvailable
                 let isDeleted = self.viewModel.dailyDiaryDataRelay.value.isDeleted
                 
                 // 기본값 설정
@@ -99,7 +100,7 @@ private extension CalendarViewController {
                 var isEnabled = true
                 
                 // 버튼 상태 및 색상 결정
-                if (isToday && isNotEmpty && isDeleted) || (!isToday && (isDeleted || !isNotEmpty)) {
+                if (isWritingAvailable && isNotEmpty && isDeleted) || (!isWritingAvailable && (isDeleted || !isNotEmpty)) {
                     isEnabled = false
                     buttonColor = isNotEmpty ? UIColor(named: "grey07") : UIColor(named: "lightYellow")
                     textColor = UIColor(named: isNotEmpty ? "grey04" : "grey06")
@@ -435,14 +436,14 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         let day = Calendar.current.component(.day, from: date) - 1
         let data: MonthlyDiary? = day >= 0 && day < calendarData.count ? calendarData[day] : nil
         
-        let isToday = Calendar.current.isDateInToday(date)
+        let isWritingAvailable = date.isWritingAvailable
         let isSelected = Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value)
         let isDeleted = data?.isDeleted ?? false
         let date = DateFormatter.string(from: date, format: "d")
         
         let dayString = String(day + 1)
         
-        cell.configure(isToday: isToday, isSelected: isSelected, isDeleted: isDeleted, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
+        cell.configure(isWrtingAvailable: isWritingAvailable, isSelected: isSelected, isDeleted: isDeleted, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
         return cell
     }
     
