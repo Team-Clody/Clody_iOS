@@ -21,29 +21,15 @@ extension DiaryRouter: BaseTargetType {
     var headers: [String : String]? {
         switch self {
         case .getDailyDiary:
-            return [
-                APIConstants.contentType: APIConstants.applicationJSON,
-                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
-            ]
+            return APIConstants.accessTokenHeader
         case .deleteDiary:
-            return [
-                APIConstants.contentType: APIConstants.applicationJSON,
-                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
-            ]
+            return APIConstants.accessTokenHeader
         case .postDiary:
-            return [
-                APIConstants.contentType: APIConstants.applicationJSON,
-                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
-            ]
+            return APIConstants.accessTokenHeader
         case .getWritingTime:
-            return [
-                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
-            ]
+            return APIConstants.accessTokenHeader
         case .getReply:
-            return [
-                APIConstants.contentType: APIConstants.applicationJSON,
-                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
-            ]
+            return APIConstants.accessTokenHeader
         }
     }
     

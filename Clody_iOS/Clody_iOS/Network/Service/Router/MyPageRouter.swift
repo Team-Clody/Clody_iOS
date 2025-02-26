@@ -20,25 +20,13 @@ extension MyPageRouter: BaseTargetType {
     var headers: [String : String]? {
         switch self {
         case .getAlarmSet:
-            return [
-                APIConstants.contentType: APIConstants.applicationJSON,
-                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
-            ]
+            return APIConstants.accessTokenHeader
         case .postAlarmSet:
-            return [
-                APIConstants.contentType: APIConstants.applicationJSON,
-                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
-            ]
+            return APIConstants.accessTokenHeader
         case .getAccount:
-            return [
-                APIConstants.contentType: APIConstants.applicationJSON,
-                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
-            ]
+            return APIConstants.accessTokenHeader
         case .patchNickname:
-            return [
-                APIConstants.contentType: APIConstants.applicationJSON,
-                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
-            ]
+            return APIConstants.accessTokenHeader
         }
     }
     

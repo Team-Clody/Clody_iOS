@@ -29,7 +29,7 @@ final class AuthInterceptor: RequestInterceptor {
             adaptedRequest.setValue(APIConstants.Bearer + APIConstants.authCode, forHTTPHeaderField: APIConstants.auth)
         } else {
             if let accessToken = UserManager.shared.accessToken {
-                adaptedRequest.setValue("Bearer \(accessToken)", forHTTPHeaderField: APIConstants.auth)
+                adaptedRequest.setValue(APIConstants.Bearer + accessToken, forHTTPHeaderField: APIConstants.auth)
             }
         }
      
