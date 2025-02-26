@@ -65,6 +65,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("APNS token: \(deviceToken)")
         Messaging.messaging().apnsToken = deviceToken
+        AmplitudeManager.shared.trackEvent("alarm")
     }
     
     // Foreground(앱 켜진 상태)에서도 알림 오는 설정
