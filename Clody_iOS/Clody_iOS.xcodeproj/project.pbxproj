@@ -154,6 +154,7 @@
 		95310FC42C45A31700023C7B /* DiaryNotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */; };
 		95310FC62C45ACD000023C7B /* OnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */; };
 		95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A89E762C36EE4100E07ABC /* BaseView.swift */; };
+		95CE94DE2D7266790028D308 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 95CE94DD2D7266790028D308 /* GoogleMobileAds */; };
 		95FB8ABA2C4A5B940060C042 /* ChangeNicknameBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FB8AB92C4A5B940060C042 /* ChangeNicknameBottomSheet.swift */; };
 /* End PBXBuildFile section */
 
@@ -311,6 +312,7 @@
 				0B4A1BE82C456CD100E31EC4 /* KakaoSDKUser in Frameworks */,
 				0B6C07392C3B99970054A0B0 /* RxDataSources in Frameworks */,
 				0BFCC5A92C2E847300B5E0DB /* Moya in Frameworks */,
+				95CE94DE2D7266790028D308 /* GoogleMobileAds in Frameworks */,
 				0B6C07372C3B99970054A0B0 /* Differentiator in Frameworks */,
 				0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */,
 				0BFCC5BD2C2E892300B5E0DB /* RxRelay in Frameworks */,
@@ -981,6 +983,7 @@
 				0BCE8F752C9087B000356F53 /* FirebaseAnalytics */,
 				0BCE8F782C908D8500356F53 /* FirebaseCrashlytics */,
 				0B02A8452D6B3D420011AA48 /* AmplitudeSwift */,
+				95CE94DD2D7266790028D308 /* GoogleMobileAds */,
 			);
 			productName = Clody_iOS;
 			productReference = 0B20F3D92C2C4DAA00F8D62D /* Clody_iOS.app */;
@@ -1024,6 +1027,7 @@
 				0B4A1BE02C456CD100E31EC4 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				0BE7E9EB2C45B3EC000C5358 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				0B02A8442D6B3D420011AA48 /* XCRemoteSwiftPackageReference "Amplitude-Swift" */,
+				95CE94DC2D7266790028D308 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = 0B20F3DA2C2C4DAA00F8D62D /* Products */;
 			projectDirPath = "";
@@ -1544,6 +1548,14 @@
 				minimumVersion = 6.7.1;
 			};
 		};
+		95CE94DC2D7266790028D308 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1641,6 +1653,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0BFCC5B72C2E892300B5E0DB /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxRelay;
+		};
+		95CE94DD2D7266790028D308 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 95CE94DC2D7266790028D308 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

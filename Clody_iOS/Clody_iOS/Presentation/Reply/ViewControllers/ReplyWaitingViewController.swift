@@ -7,6 +7,7 @@
 
 import UIKit
 
+import GoogleMobileAds
 import RxCocoa
 import RxSwift
 import Then
@@ -15,6 +16,7 @@ final class ReplyWaitingViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var rewardedAd: RewardedAd?
     private let viewModel = ReplyWaitingViewModel()
     private let disposeBag = DisposeBag()
     private var totalSeconds = 0
@@ -52,6 +54,11 @@ final class ReplyWaitingViewController: UIViewController {
         super.viewDidLoad()
         
         addObserverForAppDidBecomeActive()
+        DispatchQueue.main.async {
+          Task {
+            await self.loadRewardedAd()
+          }
+        }
         bindViewModel()
         setUI()
     }
@@ -64,6 +71,16 @@ final class ReplyWaitingViewController: UIViewController {
 // MARK: - Extensions
 
 private extension ReplyWaitingViewController {
+    
+    func loadRewardedAd() async {
+      do {
+          rewardedAd = try await RewardedAd.load(
+          with: "ca-app-pub-3940256099942544/1712485313", request: Request())
+          rewardedAd?.fullScreenContentDelegate = self
+      } catch {
+        print("Rewarded ad failed to load with error: \(error.localizedDescription)")
+      }
+    }
     
     func addObserverForAppDidBecomeActive() {
         /// 앱이 백그라운드에서 돌아와 다시 Active 상태가 될 때를 관찰하는 Observer
@@ -87,6 +104,7 @@ private extension ReplyWaitingViewController {
         let input = ReplyWaitingViewModel.Input(
             viewDidLoad: Observable.just(()).asSignal(onErrorJustReturn: ()),
             timer: timer,
+            quickReplyButtonTapEvent: rootView.quickReplyButton.rx.tap.asSignal(),
             openButtonTapEvent: openButton.rx.tap.asSignal(),
             backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
@@ -114,6 +132,21 @@ private extension ReplyWaitingViewController {
             .drive(onNext: { [weak self] in
                 self?.rootView.setReplyArrivedView()
                 self?.rootView.openButton.setEnabledState(to: true)
+            })
+            .disposed(by: disposeBag)
+        
+        output.showAd
+            .drive(onNext: {
+                if let ad = self.rewardedAd {
+                    ad.present(from: self) {
+                        self.rootView.quickReplyButton.isHidden = true
+                        let reward = ad.adReward
+                        print("🎁 Reward received with currency \(reward.amount), amount \(reward.amount.doubleValue)")
+                        // TODO: 리워드 - 일기 작성 시간 조회 API 호출
+                    }
+                } else {
+                    print("❌ 광고가 아직 준비되지 않았습니다.")
+                }
             })
             .disposed(by: disposeBag)
         
@@ -207,6 +240,26 @@ private extension ReplyWaitingViewController {
                 ),
                 animated: true
             )
+        }
+    }
+}
+
+extension ReplyWaitingViewController: FullScreenContentDelegate {
+    
+    func ad(_ ad: FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+        print("❗️Ad did fail to present full screen content.")
+    }
+    
+    func adWillPresentFullScreenContent(_ ad: FullScreenPresentingAd) {
+        print("Ad will present full screen content.")
+    }
+    
+    func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
+        print("Ad did dismiss full screen content.")
+        DispatchQueue.main.async {
+          Task {
+            await self.loadRewardedAd()
+          }
         }
     }
 }

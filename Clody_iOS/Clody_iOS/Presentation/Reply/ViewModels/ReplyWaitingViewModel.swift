@@ -15,6 +15,7 @@ final class ReplyWaitingViewModel: ViewModelType {
     struct Input {
         let viewDidLoad: Signal<Void>
         let timer: Observable<Int>
+        let quickReplyButtonTapEvent: Signal<Void>
         let openButtonTapEvent: Signal<Void>
         let backButtonTapEvent: Signal<Void>
     }
@@ -23,6 +24,7 @@ final class ReplyWaitingViewModel: ViewModelType {
         let getWritingTime: Driver<Void>
         let timeLabelDidChange: Driver<String>
         let replyArrivalEvent: Driver<Void>
+        let showAd: Driver<Void>
         let pushViewController: Driver<Void>
         let popViewController: Driver<Void>
     }
@@ -63,6 +65,9 @@ final class ReplyWaitingViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: ())
         
+        let showAd = input.quickReplyButtonTapEvent
+            .asDriver(onErrorJustReturn: ())
+        
         let pushViewController = input.openButtonTapEvent
             .asDriver(onErrorJustReturn: ())
         
@@ -73,7 +78,8 @@ final class ReplyWaitingViewModel: ViewModelType {
             getWritingTime: getWritingTime,
             timeLabelDidChange: timeLabelDidChange,
             replyArrivalEvent: replyArrivalEvent,
-            pushViewController: pushViewController, 
+            showAd: showAd,
+            pushViewController: pushViewController,
             popViewController: popViewController
         )
     }
