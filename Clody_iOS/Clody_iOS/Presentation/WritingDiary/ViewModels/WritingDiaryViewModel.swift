@@ -203,7 +203,7 @@ extension WritingDiaryViewModel {
     
     func postDiary(date: String, content: [String], completion: @escaping (NetworkViewJudge, String) -> ()) {
         let provider = Providers.diaryRouter
-        let data = PostDiaryRequestDTO(date: date, content: content)
+        let data = PostDiaryRequestDTO(date: date, content: content, isAvailable: true)
         
         provider.request(target: .postDiary(data: data), instance: BaseResponse<PostDiaryResponseDTO>.self) { data in
             var dataStatus = NetworkViewJudge.unknowned
