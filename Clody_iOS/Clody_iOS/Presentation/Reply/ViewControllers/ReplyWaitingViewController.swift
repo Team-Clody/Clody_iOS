@@ -75,7 +75,9 @@ private extension ReplyWaitingViewController {
     func loadRewardedAd() async {
       do {
           rewardedAd = try await RewardedAd.load(
-          with: "ca-app-pub-3940256099942544/1712485313", request: Request())
+            with: Config.adUnitId,
+            request: Request()
+          )
           rewardedAd?.fullScreenContentDelegate = self
       } catch {
         print("Rewarded ad failed to load with error: \(error.localizedDescription)")
@@ -121,7 +123,8 @@ private extension ReplyWaitingViewController {
         
         output.timeLabelDidChange
             .drive(onNext: { [weak self] timeString in
-                self?.timeLabel.attributedText = UIFont.pretendardString(
+                guard let self = self else { return }
+                timeLabel.attributedText = UIFont.pretendardString(
                     text: timeString,
                     style: .head2
                 )
@@ -130,16 +133,19 @@ private extension ReplyWaitingViewController {
         
         output.replyArrivalEvent
             .drive(onNext: { [weak self] in
-                self?.rootView.setReplyArrivedView()
-                self?.rootView.openButton.setEnabledState(to: true)
+                guard let self = self else { return }
+                rootView.quickReplyButton.isHidden = true
+                rootView.setReplyArrivedView()
+                rootView.openButton.setEnabledState(to: true)
             })
             .disposed(by: disposeBag)
         
         output.showAd
             .drive(onNext: {
                 if let ad = self.rewardedAd {
-                    ad.present(from: self) {
-                        self.rootView.quickReplyButton.isHidden = true
+                    ad.present(from: self) { [weak self] in
+                        guard let self = self else { return }
+                        rootView.quickReplyButton.isHidden = true
                         let reward = ad.adReward
                         print("🎁 Reward received with currency \(reward.amount), amount \(reward.amount.doubleValue)")
                         // TODO: 리워드 - 일기 작성 시간 조회 API 호출
