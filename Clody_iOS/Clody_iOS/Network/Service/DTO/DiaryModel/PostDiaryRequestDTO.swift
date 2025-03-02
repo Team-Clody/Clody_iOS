@@ -10,5 +10,4 @@ import Foundation
 struct PostDiaryRequestDTO: Codable {
     let date: String
     let content: [String]
-    let isAvailable: Bool
 }
