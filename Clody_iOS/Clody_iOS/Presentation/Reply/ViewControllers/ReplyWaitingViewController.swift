@@ -54,11 +54,7 @@ final class ReplyWaitingViewController: UIViewController {
         super.viewDidLoad()
         
         addObserverForAppDidBecomeActive()
-        DispatchQueue.main.async {
-          Task {
-            await self.loadRewardedAd()
-          }
-        }
+        loadRewardedAd()
         bindViewModel()
         setUI()
     }
@@ -72,16 +68,20 @@ final class ReplyWaitingViewController: UIViewController {
 
 private extension ReplyWaitingViewController {
     
-    func loadRewardedAd() async {
-      do {
-          rewardedAd = try await RewardedAd.load(
-            with: Config.adUnitId,
-            request: Request()
-          )
-          rewardedAd?.fullScreenContentDelegate = self
-      } catch {
-        print("Rewarded ad failed to load with error: \(error.localizedDescription)")
-      }
+    func loadRewardedAd() {
+        DispatchQueue.main.async {
+          Task {
+              do {
+                  self.rewardedAd = try await RewardedAd.load(
+                    with: Config.adUnitId,
+                    request: Request()
+                  )
+                  self.rewardedAd?.fullScreenContentDelegate = self
+              } catch {
+                print("Rewarded ad failed to load with error: \(error.localizedDescription)")
+              }
+          }
+        }
     }
     
     func addObserverForAppDidBecomeActive() {
@@ -209,6 +209,8 @@ private extension ReplyWaitingViewController {
             let todayMonth = Date().dateToYearMonthDay().1
             let todayDay = Date().dateToYearMonthDay().2
             
+            // TODO: 전날 일기 작성도 가능해져서 일기를 언제 썼는지도 구분 필요.
+            // 서버에서 데이터 받아와서 if문 수정 (date.0,1,2 대신 writingYear/Month/Day로)
             if date.0 == todayYear,
                date.1 == todayMonth,
                date.2 == todayDay {
@@ -230,6 +232,8 @@ private extension ReplyWaitingViewController {
             } else {
                 totalSeconds = 0
             }
+            
+            rootView.quickReplyButton.isHidden = totalSeconds == 0
         }
     }
     
@@ -262,10 +266,6 @@ extension ReplyWaitingViewController: FullScreenContentDelegate {
     
     func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
         print("Ad did dismiss full screen content.")
-        DispatchQueue.main.async {
-          Task {
-            await self.loadRewardedAd()
-          }
-        }
+        loadRewardedAd()
     }
 }

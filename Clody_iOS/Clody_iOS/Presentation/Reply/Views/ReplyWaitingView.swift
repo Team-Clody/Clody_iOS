@@ -50,6 +50,7 @@ final class ReplyWaitingView: BaseView {
             $0.configuration?.contentInsets = .init(top: 6, leading: 12, bottom: 6, trailing: 12)
             $0.configuration?.imagePadding = 5
             $0.makeCornerRound(radius: 16)
+            $0.isHidden = true
         }
         
         openButton.do {
