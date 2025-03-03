@@ -60,6 +60,7 @@ final class ReplyWaitingViewController: UIViewController {
     }
     
     deinit {
+        print("🐶")
         NotificationCenter.default.removeObserver(self)
     }
 }
@@ -141,11 +142,11 @@ private extension ReplyWaitingViewController {
             .disposed(by: disposeBag)
         
         output.showAd
-            .drive(onNext: {
-                if let ad = self.rewardedAd {
-                    ad.present(from: self) { [weak self] in
-                        guard let self = self else { return }
-                        rootView.quickReplyButton.isHidden = true
+            .drive(onNext: { [weak self] in
+                guard let self = self else { return }
+                if let ad = rewardedAd {
+                    ad.present(from: self) {
+                        self.rootView.quickReplyButton.isHidden = true
                         let reward = ad.adReward
                         print("🎁 Reward received with currency \(reward.amount), amount \(reward.amount.doubleValue)")
                         // TODO: 리워드 - 일기 작성 시간 조회 API 호출
@@ -159,32 +160,37 @@ private extension ReplyWaitingViewController {
         output.pushViewController
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.pushViewController(date: self.date)
+                pushViewController(date: self.date)
             })
             .disposed(by: disposeBag)
         
         output.popViewController
-            .drive(onNext: {
-                if self.isHomeBackButton {
-                    self.navigationController?.popToRootViewController(animated: true)
+            .drive(onNext: { [weak self] in
+                guard let self = self else { return }
+                totalSeconds = 0
+                if isHomeBackButton {
+                    navigationController?.popToRootViewController(animated: true)
                 } else {
-                    self.navigationController?.popViewController(animated: true)
+                    navigationController?.popViewController(animated: true)
                 }
             })
             .disposed(by: disposeBag)
         
         viewModel.errorStatus
-            .bind(onNext: { networkViewJudge in
-                self.hideLoadingIndicator()
+            .bind(onNext: { [weak self] networkViewJudge in
+                guard let self = self else { return }
+                hideLoadingIndicator()
                 
                 switch networkViewJudge {
                 case .network:
-                    self.showRetryView(isNetworkError: true) {
-                        self.getWritingTime(for: self.date.dateToYearMonthDay())                        
+                    showRetryView(isNetworkError: true) { [weak self] in
+                        guard let self = self else { return }
+                        getWritingTime(for: date.dateToYearMonthDay())
                     }
                 case .unknowned:
-                    self.showRetryView(isNetworkError: false) {
-                        self.getWritingTime(for: self.date.dateToYearMonthDay())
+                    showRetryView(isNetworkError: false) { [weak self] in
+                        guard let self = self else { return }
+                        getWritingTime(for: date.dateToYearMonthDay())
                     }
                 default:
                     return

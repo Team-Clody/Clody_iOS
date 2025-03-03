@@ -91,16 +91,18 @@ extension ReplyWaitingViewModel {
         Providers.diaryRouter.request(
             target: .getWritingTime(year: year, month: month, date: date),
             instance: BaseResponse<GetWritingTimeDTO>.self
-        ) { response in
+        ) { [weak self] response in
+            guard let self = self else { return }
+            
             switch response.status {
             case 200..<300:
                 guard let data = response.data else { return }
-                self.errorStatus.accept(.success)
+                errorStatus.accept(.success)
                 completion(data)
             case -1:
-                self.errorStatus.accept(.network)
+                errorStatus.accept(.network)
             default:
-                self.errorStatus.accept(.unknowned)
+                errorStatus.accept(.unknowned)
             }
         }
     }
