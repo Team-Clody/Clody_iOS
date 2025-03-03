@@ -60,7 +60,6 @@ final class ReplyWaitingViewController: UIViewController {
     }
     
     deinit {
-        print("🐶")
         NotificationCenter.default.removeObserver(self)
     }
 }
