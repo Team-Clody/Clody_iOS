@@ -157,8 +157,8 @@ private extension ReplyWaitingViewController {
                 if let ad = rewardedAd {
                     ad.present(from: self) {
                         print("🎁 광고 시청 완료!")
-                        self.hasWatchedAd = true
                         self.getWritingTime(for: self.date.dateToYearMonthDay(), adWatched: true)
+                        self.hasWatchedAd = true
                     }
                 } else {
                     print("❌ 광고가 아직 준비되지 않았습니다.")
@@ -233,12 +233,12 @@ private extension ReplyWaitingViewController {
             // TODO: 광고 봤는지 서버에서 받아온 데이터로 hasWatchedAd 업데이트
             // TODO: 전날 일기 작성도 가능해져서 일기를 언제 썼는지도 구분 필요.
             // 서버에서 데이터 받아와서 if문 수정 (date.0,1,2 대신 writingYear/Month/Day로)
-            if hasWatchedAd {
-                /// 이미 광고를 시청했을 경우
-                totalSecondsSubject.onNext(0)
-            } else if adWatched {
+            if adWatched {
                 /// 이번에 광고를 시청한 경우
                 totalSecondsSubject.onNext(7)
+            } else if hasWatchedAd {
+                /// 이미 광고를 시청했을 경우
+                totalSecondsSubject.onNext(0)
             } else if date.0 == todayYear,
                       date.1 == todayMonth,
                       date.2 == todayDay {
@@ -261,9 +261,7 @@ private extension ReplyWaitingViewController {
                 totalSecondsSubject.onNext(0)
             }
             
-            if try! totalSecondsSubject.value() == 0 {
-                rootView.quickReplyButton.isHidden = true
-            }
+            rootView.quickReplyButton.isHidden = hasWatchedAd || (try! totalSecondsSubject.value() == 0)
         }
     }
     
