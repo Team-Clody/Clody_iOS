@@ -87,9 +87,15 @@ final class ReplyWaitingViewModel: ViewModelType {
 
 extension ReplyWaitingViewModel {
     
-    func getWritingTime(year: Int, month: Int, date: Int, completion: @escaping (GetWritingTimeDTO) -> ()) {
+    func getWritingTime(
+        year: Int,
+        month: Int,
+        date: Int,
+        adWatched: Bool,
+        completion: @escaping (GetWritingTimeDTO) -> ()
+    ) {
         Providers.diaryRouter.request(
-            target: .getWritingTime(year: year, month: month, date: date),
+            target: .getWritingTime(year: year, month: month, date: date, adWatched: adWatched),
             instance: BaseResponse<GetWritingTimeDTO>.self
         ) { [weak self] response in
             guard let self = self else { return }

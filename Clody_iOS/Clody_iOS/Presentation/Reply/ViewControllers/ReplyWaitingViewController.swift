@@ -16,14 +16,20 @@ final class ReplyWaitingViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var rewardedAd: RewardedAd?
     private let viewModel = ReplyWaitingViewModel()
     private let disposeBag = DisposeBag()
-    private var totalSeconds = 0
+    private var timer: Observable<Int>?
+    private let totalSecondsSubject = BehaviorSubject<Int>(value: 0)
     private var date: Date
     private let isHomeBackButton: Bool
     private let secondsToWaitForFirstReply = 60
     private let secondsToWaitForNormalReply = 12 * 60 * 60
+    private var rewardedAd: RewardedAd?
+    private var hasWatchedAd = false {
+        didSet {
+            rootView.quickReplyButton.isHidden = hasWatchedAd
+        }
+    }
     
     // MARK: - UI Components
      
@@ -90,7 +96,7 @@ private extension ReplyWaitingViewController {
     }
     
     @objc
-    private func appDidBecomeActive() {
+    func appDidBecomeActive() {
         Observable.just(())
             .bind(to: viewModel.appDidBecomeActive)
             .disposed(by: disposeBag)
@@ -98,10 +104,15 @@ private extension ReplyWaitingViewController {
 
     func bindViewModel() {
         
-        let timer = Observable<Int>
-            .interval(.seconds(1), scheduler: MainScheduler.instance)
-            .map { self.totalSeconds - $0 }
-            .take(until: { $0 < 0 })
+        timer = totalSecondsSubject
+            .flatMapLatest { totalSeconds in
+                Observable<Int>
+                    .interval(.seconds(1), scheduler: MainScheduler.instance)
+                    .map { totalSeconds - $0 }
+                    .take(until: { $0 < 0 })
+            }
+        
+        guard let timer = timer else { return }
         
         let input = ReplyWaitingViewModel.Input(
             viewDidLoad: Observable.just(()).asSignal(onErrorJustReturn: ()),
@@ -145,10 +156,9 @@ private extension ReplyWaitingViewController {
                 guard let self = self else { return }
                 if let ad = rewardedAd {
                     ad.present(from: self) {
-                        self.rootView.quickReplyButton.isHidden = true
-                        let reward = ad.adReward
-                        print("🎁 Reward received with currency \(reward.amount), amount \(reward.amount.doubleValue)")
-                        // TODO: 리워드 - 일기 작성 시간 조회 API 호출
+                        print("🎁 광고 시청 완료!")
+                        self.hasWatchedAd = true
+                        self.getWritingTime(for: self.date.dateToYearMonthDay(), adWatched: true)
                     }
                 } else {
                     print("❌ 광고가 아직 준비되지 않았습니다.")
@@ -166,7 +176,8 @@ private extension ReplyWaitingViewController {
         output.popViewController
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
-                totalSeconds = 0
+                totalSecondsSubject.onNext(0)
+                
                 if isHomeBackButton {
                     navigationController?.popToRootViewController(animated: true)
                 } else {
@@ -205,8 +216,13 @@ private extension ReplyWaitingViewController {
 
 private extension ReplyWaitingViewController {
     
-    func getWritingTime(for date: (Int, Int, Int)) {
-        viewModel.getWritingTime(year: date.0, month: date.1, date: date.2) { [weak self] data in
+    func getWritingTime(for date: (Int, Int, Int), adWatched: Bool = false) {
+        viewModel.getWritingTime(
+            year: date.0,
+            month: date.1,
+            date: date.2,
+            adWatched: adWatched
+        ) { [weak self] data in
             guard let self = self else { return }
             hideLoadingIndicator()
             
@@ -214,16 +230,19 @@ private extension ReplyWaitingViewController {
             let todayMonth = Date().dateToYearMonthDay().1
             let todayDay = Date().dateToYearMonthDay().2
             
+            // TODO: 광고 봤는지 서버에서 받아온 데이터로 hasWatchedAd 업데이트
             // TODO: 전날 일기 작성도 가능해져서 일기를 언제 썼는지도 구분 필요.
             // 서버에서 데이터 받아와서 if문 수정 (date.0,1,2 대신 writingYear/Month/Day로)
-            if date.0 == todayYear,
-               date.1 == todayMonth,
-               date.2 == todayDay {
+            if adWatched {
+                totalSecondsSubject.onNext(7)
+            } else if date.0 == todayYear,
+                      date.1 == todayMonth,
+                      date.2 == todayDay {
                 /// 오늘 작성한 일기라면
                 let createdTime = (data.HH * 3600) + (data.mm * 60) + data.ss
                 let totalWaitingTime = createdTime + (data.isFirst ? secondsToWaitForFirstReply : secondsToWaitForNormalReply)
                 let remainingTime = totalWaitingTime - Date().currentTimeSeconds()
-                totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
+                totalSecondsSubject.onNext((remainingTime <= 0) ? 0 : remainingTime)
             } else if date.0 == todayYear,
                       date.1 == todayMonth,
                       date.2 == todayDay - 1 {
@@ -233,12 +252,14 @@ private extension ReplyWaitingViewController {
                 let createdTime = calendar.date(bySettingHour: data.HH, minute: data.mm, second: data.ss, of: yesterdayDate)!
                 let totalWaitingTime = createdTime.addingTimeInterval(Double(data.isFirst ? secondsToWaitForFirstReply : secondsToWaitForNormalReply))
                 let remainingTime = Int(totalWaitingTime.timeIntervalSinceNow)
-                totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
+                totalSecondsSubject.onNext((remainingTime <= 0) ? 0 : remainingTime)
             } else {
-                totalSeconds = 0
+                totalSecondsSubject.onNext(0)
             }
             
-            rootView.quickReplyButton.isHidden = totalSeconds == 0
+            if try! totalSecondsSubject.value() == 0 {
+                rootView.quickReplyButton.isHidden = true
+            }
         }
     }
     

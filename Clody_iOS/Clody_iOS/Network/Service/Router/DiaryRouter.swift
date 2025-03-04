@@ -13,7 +13,7 @@ enum DiaryRouter {
     case getDailyDiary(year: Int, month: Int, date: Int)
     case deleteDiary(year: Int, month: Int, date: Int)
     case postDiary(data: PostDiaryRequestDTO)
-    case getWritingTime(year: Int, month: Int, date: Int)
+    case getWritingTime(year: Int, month: Int, date: Int, adWatched: Bool)
     case getReply(year: Int, month: Int, date: Int)
 }
 
@@ -69,9 +69,13 @@ extension DiaryRouter: BaseTargetType {
             )
         case .postDiary(let data):
             return .requestJSONEncodable(data)
-        case .getWritingTime(year: let year, month: let month, date: let date):
+        case .getWritingTime(year: let year, month: let month, date: let date, adWatched: let adWatched):
+            var parameters: [String: Any] = ["year": year, "month": month, "date": date]
+            if adWatched {
+                parameters["adWatched"] = adWatched
+            }
             return .requestParameters(
-                parameters: ["year": year, "month": month, "date": date],
+                parameters: parameters,
                 encoding: URLEncoding.queryString
             )
         case .getReply(year: let year, month: let month, date: let date):
