@@ -11,5 +11,6 @@ struct GetWritingTimeDTO: Codable {
     let HH: Int
     let mm: Int
     let ss: Int
+    let date: String
     let isFirst: Bool
 }

@@ -226,30 +226,29 @@ private extension ReplyWaitingViewController {
             guard let self = self else { return }
             hideLoadingIndicator()
             
-            let todayYear = Date().dateToYearMonthDay().0
-            let todayMonth = Date().dateToYearMonthDay().1
-            let todayDay = Date().dateToYearMonthDay().2
+            let writingDate = DateFormatter.date(from: data.date)?.dateToYearMonthDay()
+            let todayDate = Date().dateToYearMonthDay()
             
             // TODO: 광고 봤는지 서버에서 받아온 데이터로 hasWatchedAd 업데이트
-            // TODO: 전날 일기 작성도 가능해져서 일기를 언제 썼는지도 구분 필요.
-            // 서버에서 데이터 받아와서 if문 수정 (date.0,1,2 대신 writingYear/Month/Day로)
             if adWatched {
                 /// 이번에 광고를 시청한 경우
                 totalSecondsSubject.onNext(7)
             } else if hasWatchedAd {
                 /// 이미 광고를 시청했을 경우
                 totalSecondsSubject.onNext(0)
-            } else if date.0 == todayYear,
-                      date.1 == todayMonth,
-                      date.2 == todayDay {
+            } else if let writingDate = writingDate,
+                      writingDate.year == todayDate.year,
+                      writingDate.month == todayDate.month,
+                      writingDate.day == todayDate.day {
                 /// 오늘 작성한 일기라면
                 let createdTime = (data.HH * 3600) + (data.mm * 60) + data.ss
                 let totalWaitingTime = createdTime + (data.isFirst ? secondsToWaitForFirstReply : secondsToWaitForNormalReply)
                 let remainingTime = totalWaitingTime - Date().currentTimeSeconds()
                 totalSecondsSubject.onNext((remainingTime <= 0) ? 0 : remainingTime)
-            } else if date.0 == todayYear,
-                      date.1 == todayMonth,
-                      date.2 == todayDay - 1 {
+            } else if let writingDate = writingDate,
+                      writingDate.year == todayDate.year,
+                      writingDate.month == todayDate.month,
+                      writingDate.day == todayDate.day - 1 {
                 /// 어제 작성한 일기라면
                 let calendar = Calendar.current
                 let yesterdayDate = calendar.date(byAdding: .day, value: -1, to: Date())!
