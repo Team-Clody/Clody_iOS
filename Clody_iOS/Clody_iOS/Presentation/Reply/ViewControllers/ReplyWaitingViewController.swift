@@ -233,7 +233,11 @@ private extension ReplyWaitingViewController {
             // TODO: 광고 봤는지 서버에서 받아온 데이터로 hasWatchedAd 업데이트
             // TODO: 전날 일기 작성도 가능해져서 일기를 언제 썼는지도 구분 필요.
             // 서버에서 데이터 받아와서 if문 수정 (date.0,1,2 대신 writingYear/Month/Day로)
-            if adWatched {
+            if hasWatchedAd {
+                /// 이미 광고를 시청했을 경우
+                totalSecondsSubject.onNext(0)
+            } else if adWatched {
+                /// 이번에 광고를 시청한 경우
                 totalSecondsSubject.onNext(7)
             } else if date.0 == todayYear,
                       date.1 == todayMonth,
