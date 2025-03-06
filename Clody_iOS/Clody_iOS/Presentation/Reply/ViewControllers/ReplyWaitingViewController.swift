@@ -260,7 +260,7 @@ private extension ReplyWaitingViewController {
                 totalSecondsSubject.onNext(0)
             }
             
-            rootView.quickReplyButton.isHidden = hasWatchedAd || (try! totalSecondsSubject.value() == 0)
+            rootView.quickReplyButton.isHidden = data.isFirst || hasWatchedAd || (try! totalSecondsSubject.value() == 0)
         }
     }
     
