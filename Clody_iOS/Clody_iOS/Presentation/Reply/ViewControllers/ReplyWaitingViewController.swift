@@ -157,6 +157,7 @@ private extension ReplyWaitingViewController {
                 if let ad = rewardedAd {
                     ad.present(from: self) {
                         print("🎁 광고 시청 완료!")
+                        self.showLoadingIndicator()
                         self.getWritingTime(for: self.date.dateToYearMonthDay(), adWatched: true)
                         self.hasWatchedAd = true
                     }
@@ -216,20 +217,20 @@ private extension ReplyWaitingViewController {
 
 private extension ReplyWaitingViewController {
     
-    func getWritingTime(for date: (Int, Int, Int), adWatched: Bool = false) {
+    func getWritingTime(for date: (year: Int, month: Int, day: Int), adWatched: Bool = false) {
         viewModel.getWritingTime(
-            year: date.0,
-            month: date.1,
-            date: date.2,
+            year: date.year,
+            month: date.month,
+            date: date.day,
             adWatched: adWatched
         ) { [weak self] data in
             guard let self = self else { return }
             hideLoadingIndicator()
             
+            hasWatchedAd = data.isFromAd
             let writingDate = DateFormatter.date(from: data.date)?.dateToYearMonthDay()
             let todayDate = Date().dateToYearMonthDay()
             
-            // TODO: 광고 봤는지 서버에서 받아온 데이터로 hasWatchedAd 업데이트
             if adWatched {
                 /// 이번에 광고를 시청한 경우
                 totalSecondsSubject.onNext(7)
