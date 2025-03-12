@@ -88,7 +88,7 @@ extension UIViewController {
     }
     
     func showLoadingIndicator() {
-
+        view.isUserInteractionEnabled = false
         view.addSubviews(loadingIndicator)
         
         loadingIndicator.snp.makeConstraints {
@@ -99,7 +99,7 @@ extension UIViewController {
     }
     
     func hideLoadingIndicator() {
-        
+        view.isUserInteractionEnabled = true
         loadingIndicator.stopAnimating()
         loadingIndicator.removeFromSuperview()
         dimmingView.removeFromSuperview()
