@@ -36,12 +36,7 @@ final class ReplyWaitingView: BaseView {
         
         introLabel.do {
             $0.textColor = .grey04
-            $0.attributedText = UIFont.pretendardString(
-                text: I18N.Reply.writingDiary,
-                style: .body3_medium,
-                lineHeightMultiple: 1.5
-            )
-            $0.textAlignment = .center
+            $0.attributedText = UIFont.pretendardString(text: I18N.Reply.writingDiary, style: .body3_medium)
             $0.numberOfLines = 0
         }
         
@@ -144,6 +139,12 @@ extension ReplyWaitingView {
             $0.top.equalTo(lottieView.snp.bottom).offset(ScreenUtils.getHeight(28))
             $0.centerX.equalToSuperview()
         }
-        introLabel.attributedText = UIFont.pretendardString(text: I18N.Reply.waitAfterAd, style: .body3_medium)
+        
+        introLabel.attributedText = UIFont.pretendardString(
+            text: I18N.Reply.waitAfterAd,
+            style: .body3_medium,
+            lineHeightMultiple: 1.5,
+            align: .center
+        )
     }
 }

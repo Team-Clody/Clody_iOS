@@ -164,6 +164,7 @@ private extension ReplyWaitingViewController {
                     ad.present(from: self) {
                         print("🎁 광고 시청 완료!")
                         self.patchAdEnd()
+                        self.hasWatchedAd = true
                         self.rootView.navigationBar.backButton.isHidden = true
                         self.rootView.setLoadingView()
                     }
@@ -297,7 +298,6 @@ private extension ReplyWaitingViewController {
             date: date.day
         ) { [weak self] in
             guard let self = self else { return }
-            hasWatchedAd = true
             totalSecondsSubject.onNext(0)
         }
     }
