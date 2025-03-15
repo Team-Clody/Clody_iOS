@@ -24,7 +24,7 @@ final class ReplyWaitingViewModel: ViewModelType {
         let getWritingTime: Driver<Void>
         let timeLabelDidChange: Driver<String>
         let replyArrivalEvent: Driver<Void>
-        let showAd: Driver<Void>
+        let showAd: PublishRelay<Void>
         let pushViewController: Driver<Void>
         let popViewController: Driver<Void>
     }
@@ -65,8 +65,12 @@ final class ReplyWaitingViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: ())
         
-        let showAd = input.quickReplyButtonTapEvent
-            .asDriver(onErrorJustReturn: ())
+        let showAd = PublishRelay<Void>()
+        input.quickReplyButtonTapEvent
+            .emit(onNext: {
+                showAd.accept(())
+            })
+            .disposed(by: disposeBag)
         
         let pushViewController = input.openButtonTapEvent
             .asDriver(onErrorJustReturn: ())
@@ -91,12 +95,11 @@ extension ReplyWaitingViewModel {
         year: Int,
         month: Int,
         date: Int,
-        adWatched: Bool,
-        completion: @escaping (GetWritingTimeDTO) -> ()
+        completion: @escaping (GetWritingTimeResponseDTO) -> ()
     ) {
         Providers.diaryRouter.request(
-            target: .getWritingTime(year: year, month: month, date: date, adWatched: adWatched),
-            instance: BaseResponse<GetWritingTimeDTO>.self
+            target: .getWritingTime(year: year, month: month, date: date),
+            instance: BaseResponse<GetWritingTimeResponseDTO>.self
         ) { [weak self] response in
             guard let self = self else { return }
             
@@ -105,6 +108,56 @@ extension ReplyWaitingViewModel {
                 guard let data = response.data else { return }
                 errorStatus.accept(.success)
                 completion(data)
+            case -1:
+                errorStatus.accept(.network)
+            default:
+                errorStatus.accept(.unknowned)
+            }
+        }
+    }
+    
+    func postAdStart(
+        year: Int,
+        month: Int,
+        date: Int
+    ) {
+        let data = PostPatchAdRequestDTO(year: year, month: month, date: date)
+        
+        Providers.diaryRouter.request(
+            target: .postAdStart(data: data),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { [weak self] response in
+            guard let self = self else { return }
+            
+            switch response.status {
+            case 200..<300:
+                errorStatus.accept(.success)
+            case -1:
+                errorStatus.accept(.network)
+            default:
+                errorStatus.accept(.unknowned)
+            }
+        }
+    }
+    
+    func patchAdEnd(
+        year: Int,
+        month: Int,
+        date: Int,
+        completion: @escaping () -> ()
+    ) {
+        let data = PostPatchAdRequestDTO(year: year, month: month, date: date)
+        
+        Providers.diaryRouter.request(
+            target: .patchAdEnd(data: data),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { [weak self] response in
+            guard let self = self else { return }
+            
+            switch response.status {
+            case 200..<300:
+                errorStatus.accept(.success)
+                completion()
             case -1:
                 errorStatus.accept(.network)
             default:
