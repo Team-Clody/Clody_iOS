@@ -145,21 +145,23 @@ private extension ReplyWaitingViewController {
         output.replyArrivalEvent
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
-                rootView.quickReplyButton.isHidden = true
+                rootView.navigationBar.backButton.isHidden = false
                 rootView.setReplyArrivedView()
-                rootView.openButton.setEnabledState(to: true)
+                openButton.setEnabledState(to: true)
             })
             .disposed(by: disposeBag)
         
         output.showAd
-            .drive(onNext: { [weak self] in
+            .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 if let ad = rewardedAd {
+                    postAdStart()
+                    
                     ad.present(from: self) {
                         print("🎁 광고 시청 완료!")
-                        self.showLoadingIndicator()
-                        self.getWritingTime(for: self.date.dateToYearMonthDay(), adWatched: true)
-                        self.hasWatchedAd = true
+                        self.patchAdEnd()
+                        self.rootView.navigationBar.backButton.isHidden = true
+                        self.rootView.setLoadingView()
                     }
                 } else {
                     print("❌ 광고가 아직 준비되지 않았습니다.")
@@ -190,15 +192,16 @@ private extension ReplyWaitingViewController {
         viewModel.errorStatus
             .bind(onNext: { [weak self] networkViewJudge in
                 guard let self = self else { return }
-                hideLoadingIndicator()
                 
                 switch networkViewJudge {
                 case .network:
+                    hideLoadingIndicator()
                     showRetryView(isNetworkError: true) { [weak self] in
                         guard let self = self else { return }
                         getWritingTime(for: date.dateToYearMonthDay())
                     }
                 case .unknowned:
+                    hideLoadingIndicator()
                     showRetryView(isNetworkError: false) { [weak self] in
                         guard let self = self else { return }
                         getWritingTime(for: date.dateToYearMonthDay())
@@ -217,12 +220,11 @@ private extension ReplyWaitingViewController {
 
 private extension ReplyWaitingViewController {
     
-    func getWritingTime(for date: (year: Int, month: Int, day: Int), adWatched: Bool = false) {
+    func getWritingTime(for date: (year: Int, month: Int, day: Int)) {
         viewModel.getWritingTime(
             year: date.year,
             month: date.month,
-            date: date.day,
-            adWatched: adWatched
+            date: date.day
         ) { [weak self] data in
             guard let self = self else { return }
             hideLoadingIndicator()
@@ -231,10 +233,7 @@ private extension ReplyWaitingViewController {
             let writingDate = DateFormatter.date(from: data.date)?.dateToYearMonthDay()
             let todayDate = Date().dateToYearMonthDay()
             
-            if adWatched {
-                /// 이번에 광고를 시청한 경우
-                totalSecondsSubject.onNext(7)
-            } else if hasWatchedAd {
+            if hasWatchedAd {
                 /// 이미 광고를 시청했을 경우
                 totalSecondsSubject.onNext(0)
             } else if let writingDate = writingDate,
@@ -262,6 +261,30 @@ private extension ReplyWaitingViewController {
             }
             
             rootView.quickReplyButton.isHidden = data.isFirst || hasWatchedAd || (try! totalSecondsSubject.value() == 0)
+        }
+    }
+    
+    func postAdStart() {
+        let date = date.dateToYearMonthDay()
+        
+        viewModel.postAdStart(
+            year: date.year,
+            month: date.month,
+            date: date.day
+        ) 
+    }
+    
+    func patchAdEnd() {
+        let date = date.dateToYearMonthDay()
+        
+        viewModel.patchAdEnd(
+            year: date.year,
+            month: date.month,
+            date: date.day
+        ) { [weak self] in
+            guard let self = self else { return }
+            hasWatchedAd = true
+            totalSecondsSubject.onNext(0)
         }
     }
     

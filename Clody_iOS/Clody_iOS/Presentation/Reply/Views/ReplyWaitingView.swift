@@ -18,7 +18,7 @@ final class ReplyWaitingView: BaseView {
     private lazy var replyLottie = LottieAnimationView(name: "replyLody")
     private let lottieView = UIView()
     let timeLabel = UILabel()
-    private let introLabel = UILabel()
+    let introLabel = UILabel()
     let quickReplyButton = UIButton()
     let openButton = ClodyBottomButton(title: I18N.Reply.open)
     
@@ -36,7 +36,13 @@ final class ReplyWaitingView: BaseView {
         
         introLabel.do {
             $0.textColor = .grey04
-            $0.attributedText = UIFont.pretendardString(text: I18N.Reply.writingDiary, style: .body3_medium)
+            $0.attributedText = UIFont.pretendardString(
+                text: I18N.Reply.writingDiary,
+                style: .body3_medium,
+                lineHeightMultiple: 1.5
+            )
+            $0.textAlignment = .center
+            $0.numberOfLines = 0
         }
         
         quickReplyButton.do {
@@ -108,6 +114,9 @@ final class ReplyWaitingView: BaseView {
 extension ReplyWaitingView {
     
     func setReplyArrivedView() {
+        timeLabel.isHidden = false
+        quickReplyButton.isHidden = true
+        openButton.isHidden = false
         introLabel.attributedText = UIFont.pretendardString(text: I18N.Reply.replyArrived, style: .body3_medium)
         waitingLottie.removeFromSuperview()
         lottieView.addSubview(replyLottie)
@@ -120,5 +129,21 @@ extension ReplyWaitingView {
         replyLottie.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        introLabel.snp.remakeConstraints {
+            $0.top.equalTo(timeLabel.snp.bottom).offset(ScreenUtils.getHeight(4))
+            $0.centerX.equalToSuperview()
+        }
+    }
+    
+    func setLoadingView() {
+        timeLabel.isHidden = true
+        openButton.isHidden = true
+        
+        introLabel.snp.remakeConstraints {
+            $0.top.equalTo(lottieView.snp.bottom).offset(ScreenUtils.getHeight(28))
+            $0.centerX.equalToSuperview()
+        }
+        introLabel.attributedText = UIFont.pretendardString(text: I18N.Reply.waitAfterAd, style: .body3_medium)
     }
 }
