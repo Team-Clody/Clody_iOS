@@ -13,7 +13,9 @@ enum DiaryRouter {
     case getDailyDiary(year: Int, month: Int, date: Int)
     case deleteDiary(year: Int, month: Int, date: Int)
     case postDiary(data: PostDiaryRequestDTO)
-    case getWritingTime(year: Int, month: Int, date: Int, adWatched: Bool)
+    case getWritingTime(year: Int, month: Int, date: Int)
+    case postAdStart(data: PostPatchAdRequestDTO)
+    case patchAdEnd(data: PostPatchAdRequestDTO)
     case getReply(year: Int, month: Int, date: Int)
 }
 
@@ -28,6 +30,10 @@ extension DiaryRouter: BaseTargetType {
             return APIConstants.accessTokenHeader
         case .getWritingTime:
             return APIConstants.accessTokenHeader
+        case .postAdStart:
+            return APIConstants.accessTokenHeader
+        case .patchAdEnd:
+            return APIConstants.accessTokenHeader
         case .getReply:
             return APIConstants.accessTokenHeader
         }
@@ -39,6 +45,10 @@ extension DiaryRouter: BaseTargetType {
             return "diary"
         case .getWritingTime:
             return "diary/time"
+        case .postAdStart:
+            return "reply/ad/start"
+        case .patchAdEnd:
+            return "reply/ad/end"
         case .getReply:
             return "reply"
         }
@@ -52,33 +62,37 @@ extension DiaryRouter: BaseTargetType {
             return .delete
         case .postDiary:
             return .post
+        case .postAdStart:
+            return .post
+        case .patchAdEnd:
+            return .patch
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case .getDailyDiary(year: let year, month: let month, date: let date):
+        case .getDailyDiary(let year, let month, let date):
             return .requestParameters(
                 parameters: ["year": year, "month": month, "date": date],
                 encoding: URLEncoding.queryString
             )
-        case .deleteDiary(year: let year, month: let month, date: let date):
+        case .deleteDiary(let year, let month, let date):
             return .requestParameters(
                 parameters: ["year": year, "month": month, "date": date],
                 encoding: URLEncoding.queryString
             )
         case .postDiary(let data):
             return .requestJSONEncodable(data)
-        case .getWritingTime(year: let year, month: let month, date: let date, adWatched: let adWatched):
-            var parameters: [String: Any] = ["year": year, "month": month, "date": date]
-            if adWatched {
-                parameters["adWatched"] = adWatched
-            }
+        case .getWritingTime(let year, let month, let date):
             return .requestParameters(
-                parameters: parameters,
+                parameters: ["year": year, "month": month, "date": date],
                 encoding: URLEncoding.queryString
             )
-        case .getReply(year: let year, month: let month, date: let date):
+        case .postAdStart(let data):
+            return .requestJSONEncodable(data)
+        case .patchAdEnd(let data):
+            return .requestJSONEncodable(data)
+        case .getReply(let year, let month, let date):
             return .requestParameters(
                 parameters: ["year": year, "month": month, "date": date],
                 encoding: URLEncoding.queryString
