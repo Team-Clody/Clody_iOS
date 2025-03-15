@@ -25,6 +25,8 @@ final class ReplyWaitingViewController: UIViewController {
     private let secondsToWaitForFirstReply = 60
     private let secondsToWaitForNormalReply = 12 * 60 * 60
     private var rewardedAd: RewardedAd?
+    private var adLoadCompletionSubject = PublishSubject<Void>()
+    private var isAdLoading = false
     private var hasWatchedAd = false {
         didSet {
             rootView.quickReplyButton.isHidden = hasWatchedAd
@@ -86,6 +88,7 @@ private extension ReplyWaitingViewController {
               } catch {
                 print("Rewarded ad failed to load with error: \(error.localizedDescription)")
               }
+              self.adLoadCompletionSubject.onNext(())
           }
         }
     }
@@ -103,7 +106,6 @@ private extension ReplyWaitingViewController {
     }
 
     func bindViewModel() {
-        
         timer = totalSecondsSubject
             .flatMapLatest { totalSeconds in
                 Observable<Int>
@@ -155,6 +157,8 @@ private extension ReplyWaitingViewController {
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 if let ad = rewardedAd {
+                    hideLoadingIndicator()
+                    isAdLoading = false
                     postAdStart()
                     
                     ad.present(from: self) {
@@ -165,6 +169,8 @@ private extension ReplyWaitingViewController {
                     }
                 } else {
                     print("❌ 광고가 아직 준비되지 않았습니다.")
+                    showLoadingIndicator()
+                    isAdLoading = true
                 }
             })
             .disposed(by: disposeBag)
@@ -180,6 +186,7 @@ private extension ReplyWaitingViewController {
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
                 totalSecondsSubject.onNext(0)
+                adLoadCompletionSubject.onCompleted()
                 
                 if isHomeBackButton {
                     navigationController?.popToRootViewController(animated: true)
@@ -209,6 +216,13 @@ private extension ReplyWaitingViewController {
                 default:
                     return
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        adLoadCompletionSubject
+            .filter { self.isAdLoading }
+            .subscribe(onNext: { _ in
+                output.showAd.accept(())
             })
             .disposed(by: disposeBag)
     }
