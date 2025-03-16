@@ -98,6 +98,7 @@ private extension ReplyWaitingViewController {
                 showLoadingIndicator()
                 let dateTuple = date.dateToYearMonthDay()
                 getWritingTime(for: dateTuple)
+                AmplitudeManager.shared.trackEvent("waiting_diary")
             })
             .disposed(by: disposeBag)
         
@@ -121,6 +122,7 @@ private extension ReplyWaitingViewController {
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.pushViewController(date: self.date)
+                AmplitudeManager.shared.trackEvent("waiting_diary_reply")
             })
             .disposed(by: disposeBag)
         

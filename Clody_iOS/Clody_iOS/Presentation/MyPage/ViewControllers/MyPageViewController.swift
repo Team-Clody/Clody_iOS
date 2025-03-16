@@ -44,6 +44,7 @@ private extension MyPageViewController {
                 self.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
+        AmplitudeManager.shared.trackEvent("setting")
     }
     
     func setUI() {

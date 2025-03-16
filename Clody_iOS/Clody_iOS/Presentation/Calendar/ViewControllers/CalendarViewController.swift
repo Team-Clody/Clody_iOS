@@ -206,9 +206,10 @@ private extension CalendarViewController {
                     } else {
                         replyStatus = "특정 값"
                     }
-                    
+                    AmplitudeManager.shared.trackEvent("home_reply")
                     self.navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: false), animated: true)
                 } else {
+                    AmplitudeManager.shared.trackEvent("home_writing_diary")
                     self.navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
                 }
             })
@@ -227,17 +228,18 @@ private extension CalendarViewController {
                 self.alert?.leftButton.rx.tap
                     .subscribe(onNext: {
                         self.hideAlert()
+                        AmplitudeManager.shared.trackEvent("home_no_delete_diary")
                     })
                     .disposed(by: self.disposeBag)
                 
                 self.alert?.rightButton.rx.tap
                     .subscribe(onNext: {
-                        
                         let year = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "yyyy")
                         let month = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "MM")
                         let day = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "dd")
                         self.viewModel.deleteDiary(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
                         self.hideAlert()
+                        AmplitudeManager.shared.trackEvent("home_delete_diary")
                     })
                     .disposed(by: self.disposeBag)
             })
@@ -246,7 +248,6 @@ private extension CalendarViewController {
         output.diaryDeleted
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                // 필요한 후처리
             })
             .disposed(by: disposeBag)
         
@@ -421,6 +422,8 @@ private extension CalendarViewController {
                 self.rootView.mainCalendarView.currentPage = date
             }
         }
+        
+        AmplitudeManager.shared.trackEvent("home_list_diary")
         
         self.navigationController?.pushViewController(listViewController, animated: true)
     }

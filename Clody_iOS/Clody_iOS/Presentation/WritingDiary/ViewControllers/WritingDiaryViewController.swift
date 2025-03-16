@@ -93,6 +93,7 @@ private extension WritingDiaryViewController {
         output.popToCalendar
             .emit(onNext: { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
+                AmplitudeManager.shared.trackEvent("writing_diary_back")
             })
             .disposed(by: disposeBag)
         
@@ -136,11 +137,13 @@ private extension WritingDiaryViewController {
                 self.alert?.leftButton.rx.tap
                     .subscribe(onNext: {
                         self.hideAlert()
+                        AmplitudeManager.shared.trackEvent("writing_diary_no_complete")
                     })
                     .disposed(by: self.disposeBag)
                 
                 self.alert?.rightButton.rx.tap
                     .subscribe(onNext: {
+                        AmplitudeManager.shared.trackEvent("writing_diary_complete")
                         self.showLoadingIndicator()
                         let dateString = DateFormatter.string(
                             from: self.date,

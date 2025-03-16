@@ -94,6 +94,7 @@ private extension ListViewController {
                 let dateData = DateFormatter.date(from: date)
                 let diaryStatus = viewModel.listDataRelay.value.diaries.first(where: { $0.date == date})?.replyStatus
                 
+                AmplitudeManager.shared.trackEvent("list_reply")
                 self.navigationController?.pushViewController(ReplyWaitingViewController(date: dateData ?? Date(), isHomeBackButton: false), animated: true)
             })
             .disposed(by: disposeBag)
@@ -155,6 +156,7 @@ private extension ListViewController {
                 self.alert?.leftButton.rx.tap
                     .subscribe(onNext: {
                         self.hideAlert()
+                        AmplitudeManager.shared.trackEvent("list_no_delete_diary")
                     })
                     .disposed(by: self.disposeBag)
                 
@@ -168,6 +170,7 @@ private extension ListViewController {
                             
                             self.viewModel.deleteDiary(year: year ?? 0, month: month ?? 0, date: day ?? 0)
                         }
+                        AmplitudeManager.shared.trackEvent("list_delete_diary")
                         self.hideAlert()
                     })
                     .disposed(by: self.disposeBag)

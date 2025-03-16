@@ -76,6 +76,7 @@ private extension ReplyDetailViewController {
             .drive(onNext: {
                 self.showLoadingIndicator()
                 self.getReply()
+                AmplitudeManager.shared.trackEvent("reply")
             })
             .disposed(by: disposeBag)
         

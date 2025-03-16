@@ -67,6 +67,7 @@ final class CalendarViewModel: ViewModelType {
                 
                 self.selectedDateRelay.accept(date)
                 self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0, completion: {})
+                AmplitudeManager.shared.trackEvent("home_calendar_clover")
             })
             .disposed(by: disposeBag)
         
