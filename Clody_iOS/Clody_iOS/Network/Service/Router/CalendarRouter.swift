@@ -18,15 +18,9 @@ extension CalendarRouter: BaseTargetType {
     var headers: [String : String]? {
         switch self {
         case .getMonthlyCalendar:
-            return [
-                APIConstants.contentType: APIConstants.applicationJSON,
-                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
-            ]
+            return APIConstants.accessTokenHeader
         case .getListCalendar:
-            return [
-                APIConstants.contentType: APIConstants.applicationJSON,
-                APIConstants.auth : APIConstants.Bearer + UserManager.shared.accessTokenValue
-            ]
+            return APIConstants.accessTokenHeader
         }
     }
     

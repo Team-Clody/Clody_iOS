@@ -15,6 +15,7 @@ final class ReplyWaitingViewModel: ViewModelType {
     struct Input {
         let viewDidLoad: Signal<Void>
         let timer: Observable<Int>
+        let quickReplyButtonTapEvent: Signal<Void>
         let openButtonTapEvent: Signal<Void>
         let backButtonTapEvent: Signal<Void>
     }
@@ -23,6 +24,7 @@ final class ReplyWaitingViewModel: ViewModelType {
         let getWritingTime: Driver<Void>
         let timeLabelDidChange: Driver<String>
         let replyArrivalEvent: Driver<Void>
+        let showAd: PublishRelay<Void>
         let pushViewController: Driver<Void>
         let popViewController: Driver<Void>
     }
@@ -63,6 +65,13 @@ final class ReplyWaitingViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: ())
         
+        let showAd = PublishRelay<Void>()
+        input.quickReplyButtonTapEvent
+            .emit(onNext: {
+                showAd.accept(())
+            })
+            .disposed(by: disposeBag)
+        
         let pushViewController = input.openButtonTapEvent
             .asDriver(onErrorJustReturn: ())
         
@@ -73,7 +82,8 @@ final class ReplyWaitingViewModel: ViewModelType {
             getWritingTime: getWritingTime,
             timeLabelDidChange: timeLabelDidChange,
             replyArrivalEvent: replyArrivalEvent,
-            pushViewController: pushViewController, 
+            showAd: showAd,
+            pushViewController: pushViewController,
             popViewController: popViewController
         )
     }
@@ -81,20 +91,77 @@ final class ReplyWaitingViewModel: ViewModelType {
 
 extension ReplyWaitingViewModel {
     
-    func getWritingTime(year: Int, month: Int, date: Int, completion: @escaping (GetWritingTimeDTO) -> ()) {
+    func getWritingTime(
+        year: Int,
+        month: Int,
+        date: Int,
+        completion: @escaping (GetWritingTimeResponseDTO) -> ()
+    ) {
         Providers.diaryRouter.request(
             target: .getWritingTime(year: year, month: month, date: date),
-            instance: BaseResponse<GetWritingTimeDTO>.self
-        ) { response in
+            instance: BaseResponse<GetWritingTimeResponseDTO>.self
+        ) { [weak self] response in
+            guard let self = self else { return }
+            
             switch response.status {
             case 200..<300:
                 guard let data = response.data else { return }
-                self.errorStatus.accept(.success)
+                errorStatus.accept(.success)
                 completion(data)
             case -1:
-                self.errorStatus.accept(.network)
+                errorStatus.accept(.network)
             default:
-                self.errorStatus.accept(.unknowned)
+                errorStatus.accept(.unknowned)
+            }
+        }
+    }
+    
+    func postAdStart(
+        year: Int,
+        month: Int,
+        date: Int
+    ) {
+        let data = PostPatchAdRequestDTO(year: year, month: month, date: date)
+        
+        Providers.diaryRouter.request(
+            target: .postAdStart(data: data),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { [weak self] response in
+            guard let self = self else { return }
+            
+            switch response.status {
+            case 200..<300:
+                errorStatus.accept(.success)
+            case -1:
+                errorStatus.accept(.network)
+            default:
+                errorStatus.accept(.unknowned)
+            }
+        }
+    }
+    
+    func patchAdEnd(
+        year: Int,
+        month: Int,
+        date: Int,
+        completion: @escaping () -> ()
+    ) {
+        let data = PostPatchAdRequestDTO(year: year, month: month, date: date)
+        
+        Providers.diaryRouter.request(
+            target: .patchAdEnd(data: data),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { [weak self] response in
+            guard let self = self else { return }
+            
+            switch response.status {
+            case 200..<300:
+                errorStatus.accept(.success)
+                completion()
+            case -1:
+                errorStatus.accept(.network)
+            default:
+                errorStatus.accept(.unknowned)
             }
         }
     }

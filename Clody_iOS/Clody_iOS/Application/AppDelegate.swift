@@ -10,6 +10,7 @@ import UserNotifications
 
 import Firebase
 import FirebaseAnalytics
+import GoogleMobileAds
 import KakaoSDKAuth
 import KakaoSDKCommon
 
@@ -18,8 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        
+        MobileAds.shared.start()
         KakaoSDK.initSDK(appKey: Config.kakaoKey)
+        
         // 파이어베이스 설정
         FirebaseApp.configure()
         

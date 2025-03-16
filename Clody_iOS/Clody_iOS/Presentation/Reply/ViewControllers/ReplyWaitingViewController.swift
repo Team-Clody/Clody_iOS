@@ -7,6 +7,7 @@
 
 import UIKit
 
+import GoogleMobileAds
 import RxCocoa
 import RxSwift
 import Then
@@ -17,11 +18,20 @@ final class ReplyWaitingViewController: UIViewController {
     
     private let viewModel = ReplyWaitingViewModel()
     private let disposeBag = DisposeBag()
-    private var totalSeconds = 0
+    private var timer: Observable<Int>?
+    private let totalSecondsSubject = BehaviorSubject<Int>(value: 0)
     private var date: Date
     private let isHomeBackButton: Bool
     private let secondsToWaitForFirstReply = 60
     private let secondsToWaitForNormalReply = 12 * 60 * 60
+    private var rewardedAd: RewardedAd?
+    private var adLoadCompletionSubject = PublishSubject<Void>()
+    private var isAdLoading = false
+    private var hasWatchedAd = false {
+        didSet {
+            rootView.quickReplyButton.isHidden = hasWatchedAd
+        }
+    }
     
     // MARK: - UI Components
      
@@ -52,6 +62,7 @@ final class ReplyWaitingViewController: UIViewController {
         super.viewDidLoad()
         
         addObserverForAppDidBecomeActive()
+        loadRewardedAd()
         bindViewModel()
         setUI()
     }
@@ -65,28 +76,50 @@ final class ReplyWaitingViewController: UIViewController {
 
 private extension ReplyWaitingViewController {
     
+    func loadRewardedAd() {
+        DispatchQueue.main.async {
+          Task {
+              do {
+                  self.rewardedAd = try await RewardedAd.load(
+                    with: Config.adUnitId,
+                    request: Request()
+                  )
+                  self.rewardedAd?.fullScreenContentDelegate = self
+              } catch {
+                print("Rewarded ad failed to load with error: \(error.localizedDescription)")
+              }
+              self.adLoadCompletionSubject.onNext(())
+          }
+        }
+    }
+    
     func addObserverForAppDidBecomeActive() {
         /// 앱이 백그라운드에서 돌아와 다시 Active 상태가 될 때를 관찰하는 Observer
         NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     @objc
-    private func appDidBecomeActive() {
+    func appDidBecomeActive() {
         Observable.just(())
             .bind(to: viewModel.appDidBecomeActive)
             .disposed(by: disposeBag)
     }
 
     func bindViewModel() {
+        timer = totalSecondsSubject
+            .flatMapLatest { totalSeconds in
+                Observable<Int>
+                    .interval(.seconds(1), scheduler: MainScheduler.instance)
+                    .map { totalSeconds - $0 }
+                    .take(until: { $0 < 0 })
+            }
         
-        let timer = Observable<Int>
-            .interval(.seconds(1), scheduler: MainScheduler.instance)
-            .map { self.totalSeconds - $0 }
-            .take(until: { $0 < 0 })
+        guard let timer = timer else { return }
         
         let input = ReplyWaitingViewModel.Input(
             viewDidLoad: Observable.just(()).asSignal(onErrorJustReturn: ()),
             timer: timer,
+            quickReplyButtonTapEvent: rootView.quickReplyButton.rx.tap.asSignal(),
             openButtonTapEvent: openButton.rx.tap.asSignal(),
             backButtonTapEvent: rootView.navigationBar.backButton.rx.tap.asSignal()
         )
@@ -104,7 +137,8 @@ private extension ReplyWaitingViewController {
         
         output.timeLabelDidChange
             .drive(onNext: { [weak self] timeString in
-                self?.timeLabel.attributedText = UIFont.pretendardString(
+                guard let self = self else { return }
+                timeLabel.attributedText = UIFont.pretendardString(
                     text: timeString,
                     style: .head2
                 )
@@ -113,45 +147,85 @@ private extension ReplyWaitingViewController {
         
         output.replyArrivalEvent
             .drive(onNext: { [weak self] in
-                self?.rootView.setReplyArrivedView()
-                self?.rootView.openButton.setEnabledState(to: true)
+                guard let self = self else { return }
+                rootView.navigationBar.backButton.isHidden = false
+                rootView.setReplyArrivedView()
+                openButton.setEnabledState(to: true)
+            })
+            .disposed(by: disposeBag)
+        
+        output.showAd
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                if let ad = rewardedAd {
+                    hideLoadingIndicator()
+                    isAdLoading = false
+                    postAdStart()
+                    
+                    ad.present(from: self) {
+                        print("🎁 광고 시청 완료!")
+                        self.patchAdEnd()
+                        self.hasWatchedAd = true
+                        self.rootView.navigationBar.backButton.isHidden = true
+                        self.rootView.setLoadingView()
+                    }
+                } else {
+                    print("❌ 광고가 아직 준비되지 않았습니다.")
+                    showLoadingIndicator()
+                    isAdLoading = true
+                }
             })
             .disposed(by: disposeBag)
         
         output.pushViewController
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.pushViewController(date: self.date)
+                pushViewController(date: self.date)
                 AmplitudeManager.shared.trackEvent("waiting_diary_reply")
             })
             .disposed(by: disposeBag)
         
         output.popViewController
-            .drive(onNext: {
-                if self.isHomeBackButton {
-                    self.navigationController?.popToRootViewController(animated: true)
+            .drive(onNext: { [weak self] in
+                guard let self = self else { return }
+                totalSecondsSubject.onNext(0)
+                adLoadCompletionSubject.onCompleted()
+                
+                if isHomeBackButton {
+                    navigationController?.popToRootViewController(animated: true)
                 } else {
-                    self.navigationController?.popViewController(animated: true)
+                    navigationController?.popViewController(animated: true)
                 }
             })
             .disposed(by: disposeBag)
         
         viewModel.errorStatus
-            .bind(onNext: { networkViewJudge in
-                self.hideLoadingIndicator()
+            .bind(onNext: { [weak self] networkViewJudge in
+                guard let self = self else { return }
                 
                 switch networkViewJudge {
                 case .network:
-                    self.showRetryView(isNetworkError: true) {
-                        self.getWritingTime(for: self.date.dateToYearMonthDay())                        
+                    hideLoadingIndicator()
+                    showRetryView(isNetworkError: true) { [weak self] in
+                        guard let self = self else { return }
+                        getWritingTime(for: date.dateToYearMonthDay())
                     }
                 case .unknowned:
-                    self.showRetryView(isNetworkError: false) {
-                        self.getWritingTime(for: self.date.dateToYearMonthDay())
+                    hideLoadingIndicator()
+                    showRetryView(isNetworkError: false) { [weak self] in
+                        guard let self = self else { return }
+                        getWritingTime(for: date.dateToYearMonthDay())
                     }
                 default:
                     return
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        adLoadCompletionSubject
+            .filter { self.isAdLoading }
+            .subscribe(onNext: { _ in
+                output.showAd.accept(())
             })
             .disposed(by: disposeBag)
     }
@@ -163,36 +237,70 @@ private extension ReplyWaitingViewController {
 
 private extension ReplyWaitingViewController {
     
-    func getWritingTime(for date: (Int, Int, Int)) {
-        viewModel.getWritingTime(year: date.0, month: date.1, date: date.2) { [weak self] data in
+    func getWritingTime(for date: (year: Int, month: Int, day: Int)) {
+        viewModel.getWritingTime(
+            year: date.year,
+            month: date.month,
+            date: date.day
+        ) { [weak self] data in
             guard let self = self else { return }
             hideLoadingIndicator()
             
-            let todayYear = Date().dateToYearMonthDay().0
-            let todayMonth = Date().dateToYearMonthDay().1
-            let todayDay = Date().dateToYearMonthDay().2
+            hasWatchedAd = data.isFromAd
+            let writingDate = DateFormatter.date(from: data.date)?.dateToYearMonthDay()
+            let todayDate = Date().dateToYearMonthDay()
             
-            if date.0 == todayYear,
-               date.1 == todayMonth,
-               date.2 == todayDay {
+            if hasWatchedAd {
+                /// 이미 광고를 시청했을 경우
+                totalSecondsSubject.onNext(0)
+            } else if let writingDate = writingDate,
+                      writingDate.year == todayDate.year,
+                      writingDate.month == todayDate.month,
+                      writingDate.day == todayDate.day {
                 /// 오늘 작성한 일기라면
                 let createdTime = (data.HH * 3600) + (data.mm * 60) + data.ss
                 let totalWaitingTime = createdTime + (data.isFirst ? secondsToWaitForFirstReply : secondsToWaitForNormalReply)
                 let remainingTime = totalWaitingTime - Date().currentTimeSeconds()
-                totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
-            } else if date.0 == todayYear,
-                      date.1 == todayMonth,
-                      date.2 == todayDay - 1 {
+                totalSecondsSubject.onNext((remainingTime <= 0) ? 0 : remainingTime)
+            } else if let writingDate = writingDate,
+                      writingDate.year == todayDate.year,
+                      writingDate.month == todayDate.month,
+                      writingDate.day == todayDate.day - 1 {
                 /// 어제 작성한 일기라면
                 let calendar = Calendar.current
                 let yesterdayDate = calendar.date(byAdding: .day, value: -1, to: Date())!
                 let createdTime = calendar.date(bySettingHour: data.HH, minute: data.mm, second: data.ss, of: yesterdayDate)!
                 let totalWaitingTime = createdTime.addingTimeInterval(Double(data.isFirst ? secondsToWaitForFirstReply : secondsToWaitForNormalReply))
                 let remainingTime = Int(totalWaitingTime.timeIntervalSinceNow)
-                totalSeconds = (remainingTime <= 0) ? 0 : remainingTime
+                totalSecondsSubject.onNext((remainingTime <= 0) ? 0 : remainingTime)
             } else {
-                totalSeconds = 0
+                totalSecondsSubject.onNext(0)
             }
+            
+            rootView.quickReplyButton.isHidden = data.isFirst || hasWatchedAd || (try! totalSecondsSubject.value() == 0)
+        }
+    }
+    
+    func postAdStart() {
+        let date = date.dateToYearMonthDay()
+        
+        viewModel.postAdStart(
+            year: date.year,
+            month: date.month,
+            date: date.day
+        ) 
+    }
+    
+    func patchAdEnd() {
+        let date = date.dateToYearMonthDay()
+        
+        viewModel.patchAdEnd(
+            year: date.year,
+            month: date.month,
+            date: date.day
+        ) { [weak self] in
+            guard let self = self else { return }
+            totalSecondsSubject.onNext(0)
         }
     }
     
@@ -210,5 +318,21 @@ private extension ReplyWaitingViewController {
                 animated: true
             )
         }
+    }
+}
+
+extension ReplyWaitingViewController: FullScreenContentDelegate {
+    
+    func ad(_ ad: FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+        print("❗️Ad did fail to present full screen content.")
+    }
+    
+    func adWillPresentFullScreenContent(_ ad: FullScreenPresentingAd) {
+        print("Ad will present full screen content.")
+    }
+    
+    func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
+        print("Ad did dismiss full screen content.")
+        loadRewardedAd()
     }
 }

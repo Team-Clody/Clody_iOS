@@ -18,7 +18,8 @@ final class ReplyWaitingView: BaseView {
     private lazy var replyLottie = LottieAnimationView(name: "replyLody")
     private let lottieView = UIView()
     let timeLabel = UILabel()
-    private let introLabel = UILabel()
+    let introLabel = UILabel()
+    let quickReplyButton = UIButton()
     let openButton = ClodyBottomButton(title: I18N.Reply.open)
     
     override func setStyle() {
@@ -36,6 +37,21 @@ final class ReplyWaitingView: BaseView {
         introLabel.do {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(text: I18N.Reply.writingDiary, style: .body3_medium)
+            $0.numberOfLines = 0
+        }
+        
+        quickReplyButton.do {
+            $0.configuration = UIButton.Configuration.filled()
+            $0.configuration?.baseForegroundColor = .blueCustom
+            $0.configuration?.baseBackgroundColor = .lightBlue
+            $0.configuration?.attributedTitle = AttributedString(
+                UIFont.pretendardString(text: I18N.Reply.quickReplyAfterAd, style: .body4_medium)
+            )
+            $0.configuration?.image = .icAd
+            $0.configuration?.contentInsets = .init(top: 6, leading: 12, bottom: 6, trailing: 12)
+            $0.configuration?.imagePadding = 5
+            $0.makeCornerRound(radius: 16)
+            $0.isHidden = true
         }
         
         openButton.do {
@@ -45,7 +61,7 @@ final class ReplyWaitingView: BaseView {
     }
     
     override func setHierarchy() {
-        addSubviews(navigationBar, lottieView, timeLabel, introLabel, openButton)
+        addSubviews(navigationBar, lottieView, timeLabel, introLabel, quickReplyButton, openButton)
         lottieView.addSubviews(waitingLottie)
     }
     
@@ -66,12 +82,19 @@ final class ReplyWaitingView: BaseView {
         }
         
         timeLabel.snp.makeConstraints {
-            $0.top.equalTo(lottieView.snp.bottom).offset(ScreenUtils.getHeight(26))
+            $0.height.equalTo(ScreenUtils.getHeight(30))
+            $0.top.equalTo(lottieView.snp.bottom).offset(ScreenUtils.getHeight(28))
             $0.centerX.equalToSuperview()
         }
         
         introLabel.snp.makeConstraints {
-            $0.top.equalTo(timeLabel.snp.bottom).offset(ScreenUtils.getHeight(6))
+            $0.top.equalTo(timeLabel.snp.bottom).offset(ScreenUtils.getHeight(4))
+            $0.centerX.equalToSuperview()
+        }
+        
+        quickReplyButton.snp.makeConstraints {
+            $0.height.equalTo(ScreenUtils.getHeight(32))
+            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(28))
             $0.centerX.equalToSuperview()
         }
         
@@ -86,6 +109,9 @@ final class ReplyWaitingView: BaseView {
 extension ReplyWaitingView {
     
     func setReplyArrivedView() {
+        timeLabel.isHidden = false
+        quickReplyButton.isHidden = true
+        openButton.isHidden = false
         introLabel.attributedText = UIFont.pretendardString(text: I18N.Reply.replyArrived, style: .body3_medium)
         waitingLottie.removeFromSuperview()
         lottieView.addSubview(replyLottie)
@@ -98,5 +124,27 @@ extension ReplyWaitingView {
         replyLottie.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        introLabel.snp.remakeConstraints {
+            $0.top.equalTo(timeLabel.snp.bottom).offset(ScreenUtils.getHeight(4))
+            $0.centerX.equalToSuperview()
+        }
+    }
+    
+    func setLoadingView() {
+        timeLabel.isHidden = true
+        openButton.isHidden = true
+        
+        introLabel.snp.remakeConstraints {
+            $0.top.equalTo(lottieView.snp.bottom).offset(ScreenUtils.getHeight(28))
+            $0.centerX.equalToSuperview()
+        }
+        
+        introLabel.attributedText = UIFont.pretendardString(
+            text: I18N.Reply.waitAfterAd,
+            style: .body3_medium,
+            lineHeightMultiple: 1.5,
+            align: .center
+        )
     }
 }

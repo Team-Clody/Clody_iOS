@@ -15,7 +15,7 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
-    func dateToYearMonthDay() -> (Int, Int, Int) {
+    func dateToYearMonthDay() -> (year: Int, month: Int, day: Int) {
         let calendar = Calendar.current
         let dateComponents = calendar.dateComponents([.year, .month, .day], from: self)
 

@@ -78,7 +78,7 @@
 		0BE7E9F52C4656EB000C5358 /* PostDiaryRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9F42C4656EB000C5358 /* PostDiaryRequestDTO.swift */; };
 		0BE7E9F72C46578F000C5358 /* PostDiaryResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9F62C46578F000C5358 /* PostDiaryResponseDTO.swift */; };
 		0BE7E9F92C4659F9000C5358 /* DiaryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9F82C4659F9000C5358 /* DiaryRouter.swift */; };
-		0BE7E9FC2C4660AC000C5358 /* GetWritingTimeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9FB2C4660AC000C5358 /* GetWritingTimeDTO.swift */; };
+		0BE7E9FC2C4660AC000C5358 /* GetWritingTimeResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9FB2C4660AC000C5358 /* GetWritingTimeResponseDTO.swift */; };
 		0BE7E9FE2C4660E7000C5358 /* GetReplyResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9FD2C4660E7000C5358 /* GetReplyResponseDTO.swift */; };
 		0BE7EA002C4664EC000C5358 /* LoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7E9FF2C4664EC000C5358 /* LoginRequestDTO.swift */; };
 		0BE7EA022C466524000C5358 /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7EA012C466524000C5358 /* LoginResponseDTO.swift */; };
@@ -153,7 +153,9 @@
 		95310FC22C45453F00023C7B /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC12C45453F00023C7B /* NicknameViewModel.swift */; };
 		95310FC42C45A31700023C7B /* DiaryNotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */; };
 		95310FC62C45ACD000023C7B /* OnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */; };
+		9586C5612D8524DC00E12570 /* PostPatchAdRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9586C5602D8524DC00E12570 /* PostPatchAdRequestDTO.swift */; };
 		95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A89E762C36EE4100E07ABC /* BaseView.swift */; };
+		95CE94DE2D7266790028D308 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 95CE94DD2D7266790028D308 /* GoogleMobileAds */; };
 		95FB8ABA2C4A5B940060C042 /* ChangeNicknameBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FB8AB92C4A5B940060C042 /* ChangeNicknameBottomSheet.swift */; };
 /* End PBXBuildFile section */
 
@@ -222,7 +224,7 @@
 		0BE7E9F42C4656EB000C5358 /* PostDiaryRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDiaryRequestDTO.swift; sourceTree = "<group>"; };
 		0BE7E9F62C46578F000C5358 /* PostDiaryResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDiaryResponseDTO.swift; sourceTree = "<group>"; };
 		0BE7E9F82C4659F9000C5358 /* DiaryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryRouter.swift; sourceTree = "<group>"; };
-		0BE7E9FB2C4660AC000C5358 /* GetWritingTimeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetWritingTimeDTO.swift; sourceTree = "<group>"; };
+		0BE7E9FB2C4660AC000C5358 /* GetWritingTimeResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetWritingTimeResponseDTO.swift; sourceTree = "<group>"; };
 		0BE7E9FD2C4660E7000C5358 /* GetReplyResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReplyResponseDTO.swift; sourceTree = "<group>"; };
 		0BE7E9FF2C4664EC000C5358 /* LoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDTO.swift; sourceTree = "<group>"; };
 		0BE7EA012C466524000C5358 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 		95310FC12C45453F00023C7B /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryNotificationViewModel.swift; sourceTree = "<group>"; };
 		95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewModel.swift; sourceTree = "<group>"; };
+		9586C5602D8524DC00E12570 /* PostPatchAdRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPatchAdRequestDTO.swift; sourceTree = "<group>"; };
 		95A89E762C36EE4100E07ABC /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		95FB8AB92C4A5B940060C042 /* ChangeNicknameBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNicknameBottomSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -311,6 +314,7 @@
 				0B4A1BE82C456CD100E31EC4 /* KakaoSDKUser in Frameworks */,
 				0B6C07392C3B99970054A0B0 /* RxDataSources in Frameworks */,
 				0BFCC5A92C2E847300B5E0DB /* Moya in Frameworks */,
+				95CE94DE2D7266790028D308 /* GoogleMobileAds in Frameworks */,
 				0B6C07372C3B99970054A0B0 /* Differentiator in Frameworks */,
 				0BFCC5A62C2E843C00B5E0DB /* FSCalendar in Frameworks */,
 				0BFCC5BD2C2E892300B5E0DB /* RxRelay in Frameworks */,
@@ -533,8 +537,9 @@
 				0BE7E9F42C4656EB000C5358 /* PostDiaryRequestDTO.swift */,
 				0BE7E9F62C46578F000C5358 /* PostDiaryResponseDTO.swift */,
 				0BE7E9F22C464444000C5358 /* GetDiaryResponseDTO.swift */,
-				0BE7E9FB2C4660AC000C5358 /* GetWritingTimeDTO.swift */,
+				0BE7E9FB2C4660AC000C5358 /* GetWritingTimeResponseDTO.swift */,
 				0BE7E9FD2C4660E7000C5358 /* GetReplyResponseDTO.swift */,
+				9586C5602D8524DC00E12570 /* PostPatchAdRequestDTO.swift */,
 			);
 			path = DiaryModel;
 			sourceTree = "<group>";
@@ -981,6 +986,7 @@
 				0BCE8F752C9087B000356F53 /* FirebaseAnalytics */,
 				0BCE8F782C908D8500356F53 /* FirebaseCrashlytics */,
 				0B02A8452D6B3D420011AA48 /* AmplitudeSwift */,
+				95CE94DD2D7266790028D308 /* GoogleMobileAds */,
 			);
 			productName = Clody_iOS;
 			productReference = 0B20F3D92C2C4DAA00F8D62D /* Clody_iOS.app */;
@@ -1024,6 +1030,7 @@
 				0B4A1BE02C456CD100E31EC4 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				0BE7E9EB2C45B3EC000C5358 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				0B02A8442D6B3D420011AA48 /* XCRemoteSwiftPackageReference "Amplitude-Swift" */,
+				95CE94DC2D7266790028D308 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = 0B20F3DA2C2C4DAA00F8D62D /* Products */;
 			projectDirPath = "";
@@ -1126,7 +1133,7 @@
 				0BAAC64E2C43BFD900174A9D /* DeleteBottomSheetView.swift in Sources */,
 				0B4A1BB92C44E59B00E31EC4 /* DatePickerView.swift in Sources */,
 				0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */,
-				0BE7E9FC2C4660AC000C5358 /* GetWritingTimeDTO.swift in Sources */,
+				0BE7E9FC2C4660AC000C5358 /* GetWritingTimeResponseDTO.swift in Sources */,
 				95310F982C40777C00023C7B /* OnBoardingView.swift in Sources */,
 				0B4A1BDA2C45636300E31EC4 /* SignUpRequestDTO.swift in Sources */,
 				95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */,
@@ -1180,6 +1187,7 @@
 				0B6C074D2C3DC6C70054A0B0 /* ListHeaderView.swift in Sources */,
 				0B4A1BBC2C453F8400E31EC4 /* AuthIntercepter.swift in Sources */,
 				0BFCC5F02C2F852D00B5E0DB /* UIStackView+.swift in Sources */,
+				9586C5612D8524DC00E12570 /* PostPatchAdRequestDTO.swift in Sources */,
 				0B190F0B2C380F5300D46CFC /* DateFormatter+.swift in Sources */,
 				95310FBB2C44162F00023C7B /* ReplyDetailViewModel.swift in Sources */,
 				0BFCC5DD2C2E8F1300B5E0DB /* CalendarViewController.swift in Sources */,
@@ -1544,6 +1552,14 @@
 				minimumVersion = 6.7.1;
 			};
 		};
+		95CE94DC2D7266790028D308 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1641,6 +1657,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0BFCC5B72C2E892300B5E0DB /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxRelay;
+		};
+		95CE94DD2D7266790028D308 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 95CE94DC2D7266790028D308 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

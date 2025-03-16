@@ -21,10 +21,17 @@ struct APIConstants{
 }
 
 extension APIConstants{
-    static let authCodeHeader = [contentType: applicationJSON,
-                                        auth: Bearer + authCode]
-    static let hasTokenHeader = [contentType: applicationJSON,
-                                        auth: accessToken]
-    static let hasRefreshTokenHeader = [contentType: applicationJSON]
+    static var authCodeHeader: [String: String] {
+        [contentType: applicationJSON,
+                auth: Bearer + authCode]
+    }
+    
+    static var accessTokenHeader: [String: String] {
+        [contentType: applicationJSON,
+            auth: Bearer + UserManager.shared.accessTokenValue]
+    }
+    
+    static var refreshTokenHeader: [String: String] {
+        [auth: Bearer + UserManager.shared.refreshTokenValue]
+    }
 }
-
