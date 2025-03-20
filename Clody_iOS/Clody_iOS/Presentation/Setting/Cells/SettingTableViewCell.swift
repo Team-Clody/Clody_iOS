@@ -21,12 +21,11 @@ final class SettingTableViewCell: UITableViewCell {
     // MARK: - UI Components
     
     private let title = UILabel()
-    private var arrowRightImageView: UIImageView?
-    private var appVersionLabel: UILabel?
+    private lazy var arrowImageView = UIImageView()
+    private lazy var appVersionLabel = UILabel()
     
     private func setStyle() {
         backgroundColor = .white
-//        layoutMargins = UIEdgeInsets.zero
         separatorInset = UIEdgeInsets.zero
         contentView.layoutMargins = UIEdgeInsets.zero
         
@@ -35,11 +34,11 @@ final class SettingTableViewCell: UITableViewCell {
         }
         
         if isAppVerisionCell {
-            appVersionLabel!.do {
+            appVersionLabel.do {
                 $0.textColor = .grey05
             }
         } else {
-            arrowRightImageView!.do {
+            arrowImageView.do {
                 $0.image = .icArrowRightGrey
                 $0.contentMode = .scaleAspectFit
             }
@@ -47,7 +46,7 @@ final class SettingTableViewCell: UITableViewCell {
     }
     
     private func setHierarchy() {
-        self.contentView.addSubviews(title, (isAppVerisionCell ? appVersionLabel : arrowRightImageView)!)
+        contentView.addSubviews(title, (isAppVerisionCell ? appVersionLabel : arrowImageView))
     }
     
     private func setLayout() {
@@ -57,12 +56,12 @@ final class SettingTableViewCell: UITableViewCell {
         }
         
         if isAppVerisionCell {
-            appVersionLabel!.snp.makeConstraints {
+            appVersionLabel.snp.makeConstraints {
                 $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(23))
                 $0.centerY.equalToSuperview()
             }
         } else {
-            arrowRightImageView!.snp.makeConstraints {
+            arrowImageView.snp.makeConstraints {
                 $0.size.equalTo(ScreenUtils.getWidth(25))
                 $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(14))
                 $0.centerY.equalToSuperview()
@@ -75,14 +74,9 @@ extension SettingTableViewCell {
     
     func configure(item: SettingList) {
         title.attributedText = UIFont.pretendardString(text: item.title, style: .body1_medium)
-        
-        if item.title == Section2.version.title {
-            isAppVerisionCell = true
-            appVersionLabel = UILabel()
-            appVersionLabel!.attributedText = UIFont.pretendardString(text: I18N.Setting.newVersion, style: .body4_medium)
-        } else {
-            isAppVerisionCell = false
-            arrowRightImageView = UIImageView()
+        isAppVerisionCell = item == SettingList.version
+        if isAppVerisionCell {
+            appVersionLabel.attributedText = UIFont.pretendardString(text: I18N.Setting.newVersion, style: .body4_medium)
         }
         
         setStyle()

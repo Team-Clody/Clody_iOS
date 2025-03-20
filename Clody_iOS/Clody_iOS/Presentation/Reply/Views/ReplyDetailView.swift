@@ -55,7 +55,7 @@ final class ReplyDetailView: BaseView {
     
     override func setLayout() {
         navigationBar.snp.makeConstraints {
-            $0.height.equalTo(44)
+            $0.height.equalTo(ScreenUtils.getHeight(44))
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.horizontalEdges.equalToSuperview()
         }

@@ -73,32 +73,13 @@ extension SettingViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return Section0.allCases.count
-        case 1:
-            return Section1.allCases.count
-        case 2:
-            return Section2.allCases.count
-        default:
-            return 0
-        }
+        return SettingList.itemCount(for: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier, for: indexPath) as? SettingTableViewCell else { return .init() }
         
-        let item: SettingList
-        switch indexPath.section {
-        case 0:
-            item = Section0.allCases[indexPath.row]
-        case 1:
-            item = Section1.allCases[indexPath.row]
-        case 2:
-            item = Section2.allCases[indexPath.row]
-        default:
-            return cell
-        }
+        let item = SettingList.allCases.filter { $0.section == indexPath.section }[indexPath.row]
         cell.configure(item: item)
         cell.selectionStyle = .none
         
@@ -108,23 +89,24 @@ extension SettingViewController: UITableViewDataSource {
 
 extension SettingViewController: UITableViewDelegate {
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let setting = SettingList.allCases[indexPath.row]
-//        switch setting {
-//        case .profile:
-//            self.navigationController?.pushViewController(AccountViewController(), animated: true)
-//        case .notification:
-//            self.navigationController?.pushViewController(NotificationViewController(), animated: true)
-//        case .terms:
-//            self.linkToURL(url: I18N.TermsURL.terms)
-//        case .privacy:
-//            self.linkToURL(url: I18N.TermsURL.privacy)
-//        case .announcement:
-//            self.linkToURL(url: I18N.TermsURL.announcement)
-//        case .contactUs:
-//            self.linkToURL(url: I18N.TermsURL.contactUs)
-//        default:
-//            return
-//        }
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = SettingList.allCases.filter { $0.section == indexPath.section }[indexPath.row]
+        
+        switch item {
+        case .profile:
+            navigationController?.pushViewController(AccountViewController(), animated: true)
+        case .notification:
+            navigationController?.pushViewController(NotificationViewController(), animated: true)
+        case .terms:
+            linkToURL(url: I18N.TermsURL.terms)
+        case .privacy:
+            linkToURL(url: I18N.TermsURL.privacy)
+        case .announcement:
+            linkToURL(url: I18N.TermsURL.announcement)
+        case .contactUs:
+            linkToURL(url: I18N.TermsURL.contactUs)
+        default:
+            return
+        }
+    }
 }
