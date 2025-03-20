@@ -27,6 +27,7 @@ final class DiaryNotificationViewModel: ViewModelType {
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         let showBottomSheet = input.timeSettingViewTapEvent
+            .do(onNext: { AmplitudeManager.shared.trackEvent("onboarding_alarm") })
             .asDriver(onErrorJustReturn: ())
             
         let setupNotification = input.completeButtonTapEvent

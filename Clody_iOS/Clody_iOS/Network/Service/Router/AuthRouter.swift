@@ -25,17 +25,11 @@ extension AuthRouter: BaseTargetType {
         case .signIn:
             return APIConstants.authCodeHeader
         case .tokenRefresh:
-            return [
-                APIConstants.auth: APIConstants.Bearer + UserManager.shared.refreshTokenValue
-            ]
+            return APIConstants.refreshTokenHeader
         case .logout:
-            return [
-                APIConstants.auth: APIConstants.Bearer + UserManager.shared.accessTokenValue
-            ]
+            return APIConstants.accessTokenHeader
         case .revoke:
-            return [
-                APIConstants.auth: APIConstants.Bearer + UserManager.shared.accessTokenValue
-            ]
+            return APIConstants.accessTokenHeader
         }
     }
     

@@ -47,6 +47,7 @@ final class ListViewModel: ViewModelType {
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 fetchData()
+                AmplitudeManager.shared.trackEvent("list")
             })
             .disposed(by: disposeBag)
         

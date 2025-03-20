@@ -155,6 +155,7 @@ final class AccountViewController: UIViewController {
                 alert?.rightButton.rx.tap
                     .subscribe(onNext: {
                         self.logout()
+                        AmplitudeManager.shared.trackEvent("logout")
                     })
                     .disposed(by: self.disposeBag)
             })
@@ -180,6 +181,7 @@ final class AccountViewController: UIViewController {
                     .subscribe(onNext: {
                         self.showLoadingIndicator()
                         self.withdraw()
+                        AmplitudeManager.shared.trackEvent("revoke")
                     })
                     .disposed(by: self.disposeBag)
             })

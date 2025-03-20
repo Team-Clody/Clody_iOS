@@ -89,7 +89,8 @@ private extension CalendarViewController {
                 guard let self = self else { return }
                 
                 let isNotEmpty = !data.isEmpty
-                let isToday = Calendar.current.isDateInToday(self.viewModel.selectedDateRelay.value)
+                let selectedDate = self.viewModel.selectedDateRelay.value
+                let isWritingAvailable = selectedDate.isWritingAvailable
                 let isDeleted = self.viewModel.dailyDiaryDataRelay.value.isDeleted
                 
                 // 기본값 설정
@@ -99,7 +100,7 @@ private extension CalendarViewController {
                 var isEnabled = true
                 
                 // 버튼 상태 및 색상 결정
-                if (isToday && isNotEmpty && isDeleted) || (!isToday && (isDeleted || !isNotEmpty)) {
+                if (isWritingAvailable && isNotEmpty && isDeleted) || (!isWritingAvailable && (isDeleted || !isNotEmpty)) {
                     isEnabled = false
                     buttonColor = isNotEmpty ? UIColor(named: "grey07") : UIColor(named: "lightYellow")
                     textColor = UIColor(named: isNotEmpty ? "grey04" : "grey06")
@@ -204,9 +205,10 @@ private extension CalendarViewController {
                     } else {
                         replyStatus = "특정 값"
                     }
-                    
+                    AmplitudeManager.shared.trackEvent("home_reply")
                     self.navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: false), animated: true)
                 } else {
+                    AmplitudeManager.shared.trackEvent("home_writing_diary")
                     self.navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
                 }
             })
@@ -225,17 +227,18 @@ private extension CalendarViewController {
                 self.alert?.leftButton.rx.tap
                     .subscribe(onNext: {
                         self.hideAlert()
+                        AmplitudeManager.shared.trackEvent("home_no_delete_diary")
                     })
                     .disposed(by: self.disposeBag)
                 
                 self.alert?.rightButton.rx.tap
                     .subscribe(onNext: {
-                        
                         let year = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "yyyy")
                         let month = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "MM")
                         let day = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "dd")
                         self.viewModel.deleteDiary(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0)
                         self.hideAlert()
+                        AmplitudeManager.shared.trackEvent("home_delete_diary")
                     })
                     .disposed(by: self.disposeBag)
             })
@@ -244,7 +247,6 @@ private extension CalendarViewController {
         output.diaryDeleted
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                // 필요한 후처리
             })
             .disposed(by: disposeBag)
         
@@ -420,6 +422,8 @@ private extension CalendarViewController {
             }
         }
         
+        AmplitudeManager.shared.trackEvent("home_list_diary")
+        
         self.navigationController?.pushViewController(listViewController, animated: true)
     }
 
@@ -434,14 +438,14 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         let day = Calendar.current.component(.day, from: date) - 1
         let data: MonthlyDiary? = day >= 0 && day < calendarData.count ? calendarData[day] : nil
         
-        let isToday = Calendar.current.isDateInToday(date)
+        let isWritingAvailable = date.isWritingAvailable
         let isSelected = Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value)
         let isDeleted = data?.isDeleted ?? false
         let date = DateFormatter.string(from: date, format: "d")
         
         let dayString = String(day + 1)
         
-        cell.configure(isToday: isToday, isSelected: isSelected, isDeleted: isDeleted, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
+        cell.configure(isWrtingAvailable: isWritingAvailable, isSelected: isSelected, isDeleted: isDeleted, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
         return cell
     }
     

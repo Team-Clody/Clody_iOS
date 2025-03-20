@@ -81,6 +81,7 @@ final class WritingDiaryViewModel: ViewModelType {
         input.tapAddButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
+                AmplitudeManager.shared.trackEvent("writing_diary_add_list")
                 var items = self.diariesRelay.value
                 var isEmpty = self.textViewIsEmptyRelay.value
                 var isFirst = self.isFirstRelay.value
@@ -106,6 +107,7 @@ final class WritingDiaryViewModel: ViewModelType {
             .emit(onNext: { [weak self] in
                 guard let self = self, let index = self.deleteIndexRelay.value else { return }
                 self.deleteData(index: index) {}
+                AmplitudeManager.shared.trackEvent("writing_diary_delete_list")
             })
             .disposed(by: disposeBag)
         
