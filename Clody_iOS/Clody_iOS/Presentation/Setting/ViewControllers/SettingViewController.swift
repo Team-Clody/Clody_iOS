@@ -35,6 +35,7 @@ final class SettingViewController: UIViewController {
         
         bindViewModel()
         setUI()
+        registerCells()
         setDelegate()
     }
 }
@@ -64,6 +65,10 @@ private extension SettingViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
+    
+    func registerCells() {
+        rootView.tableView.register(SettingSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: SettingSectionHeaderView.reuseIdentifier)
+    }
 }
 
 extension SettingViewController: UITableViewDataSource {
@@ -88,6 +93,16 @@ extension SettingViewController: UITableViewDataSource {
 }
 
 extension SettingViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 { return nil }
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: SettingSectionHeaderView.reuseIdentifier) as? SettingSectionHeaderView
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return section == 0 ? 0 : ScreenUtils.getHeight(22-17.5) * 2 + ScreenUtils.getHeight(8)
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = SettingList.allCases.filter { $0.section == indexPath.section }[indexPath.row]

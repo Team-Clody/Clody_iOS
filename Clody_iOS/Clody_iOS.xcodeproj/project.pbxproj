@@ -157,6 +157,7 @@
 		95A98EA72C9C5C1D0073AD3C /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E9D2C9C5C1D0073AD3C /* NotificationView.swift */; };
 		95CE94DE2D7266790028D308 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 95CE94DD2D7266790028D308 /* GoogleMobileAds */; };
 		95D561B52D8BCB9400FD212F /* ChangeNicknameBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D561B42D8BCB9400FD212F /* ChangeNicknameBottomSheet.swift */; };
+		95D561B72D8BDECB00FD212F /* SettingSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D561B62D8BDECB00FD212F /* SettingSectionHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -295,6 +296,7 @@
 		95A98E9B2C9C5C1D0073AD3C /* AccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		95A98E9D2C9C5C1D0073AD3C /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		95D561B42D8BCB9400FD212F /* ChangeNicknameBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNicknameBottomSheet.swift; sourceTree = "<group>"; };
+		95D561B62D8BDECB00FD212F /* SettingSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSectionHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -903,6 +905,7 @@
 			children = (
 				95A98E7D2C9C39A40073AD3C /* SettingTableViewCell.swift */,
 				95A98E932C9C5C1D0073AD3C /* NotificationCell.swift */,
+				95D561B62D8BDECB00FD212F /* SettingSectionHeaderView.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1210,6 +1213,7 @@
 				95D561B52D8BCB9400FD212F /* ChangeNicknameBottomSheet.swift in Sources */,
 				95310FB92C43DFF300023C7B /* GetCloverAlertView.swift in Sources */,
 				95310F852C3FFA0C00023C7B /* ClodyLoginButton.swift in Sources */,
+				95D561B72D8BDECB00FD212F /* SettingSectionHeaderView.swift in Sources */,
 				0BFCC5E32C2E8F5400B5E0DB /* CalendarDateCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -20,6 +20,7 @@ final class SettingView: BaseView {
         
         tableView.do {
             $0.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
+            $0.sectionHeaderTopPadding = 0
             $0.separatorStyle = .none
         }
     }
