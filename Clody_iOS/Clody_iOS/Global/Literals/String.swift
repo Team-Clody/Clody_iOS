@@ -89,7 +89,7 @@ enum I18N {
         static let luckyReplyForYou = "님을 위한 행운의 답장"
         static let writingDiary = "로디가 열심히 답장을 쓰고 있어요!"
         static let waitAfterAd = "로디가 답장을 거의 다 써가요!\n조금만 기다려주세요"
-        static let replyArrived = "로디가 쓴 행운의 답장이 도착했어요!"
+        static let replyReceived = "로디가 쓴 행운의 답장이 도착했어요!"
         static let quickReplyAfterAd = "광고 보고 바로 답장 받기"
         static let open = "열어보기"
         static let goodLuckToYou = "님을 위한 행운 도착"

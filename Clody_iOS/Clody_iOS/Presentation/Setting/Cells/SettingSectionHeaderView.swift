@@ -12,7 +12,7 @@ import Then
 
 final class SettingSectionHeaderView: UITableViewHeaderFooterView {
     // TODO: classNameIdentifer extension에 만들기
-    static var reuseIdentifier: String = "SettingSectionHeaderView"
+    static var reuseIdentifier = "SettingSectionHeaderView"
     
     private let divider = UIView()
     

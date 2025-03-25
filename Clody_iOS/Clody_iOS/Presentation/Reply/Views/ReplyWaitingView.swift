@@ -108,11 +108,11 @@ final class ReplyWaitingView: BaseView {
 
 extension ReplyWaitingView {
     
-    func setReplyArrivedView() {
+    func setReplyReceivedView() {
         timeLabel.isHidden = false
         quickReplyButton.isHidden = true
         openButton.isHidden = false
-        introLabel.attributedText = UIFont.pretendardString(text: I18N.Reply.replyArrived, style: .body3_medium)
+        introLabel.attributedText = UIFont.pretendardString(text: I18N.Reply.replyReceived, style: .body3_medium)
         waitingLottie.removeFromSuperview()
         lottieView.addSubview(replyLottie)
         

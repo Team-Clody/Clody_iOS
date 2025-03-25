@@ -5,8 +5,6 @@
 //  Created by 김나연 on 9/19/24.
 //
 
-import UIKit
-
 import RxCocoa
 import RxSwift
 
