@@ -249,6 +249,7 @@ extension NotificationViewController: UITableViewDataSource {
 //                    showLoadingIndicator()
 //                    changeAlarmSetting(isDiaryAlarm: isOn)
                 })
+                .disposed(by: cell.disposeBag)
         case .time:
             timePickerView.setTime(alarmData.time)
             cell.configure(type: type, time: alarmData.time)
@@ -257,6 +258,7 @@ extension NotificationViewController: UITableViewDataSource {
                     guard let self = self else { return }
                     presentBottomSheet()
                 })
+                .disposed(by: cell.disposeBag)
         case .replyReceived:
             cell.configure(type: type, isOn: alarmData.isReplyAlarm)
             cell.toggleSwitch.rx.isOn
@@ -266,6 +268,7 @@ extension NotificationViewController: UITableViewDataSource {
 //                    showLoadingIndicator()
 //                    changeAlarmSetting(isReplyAlarm: isOn)
                 })
+                .disposed(by: cell.disposeBag)
         }
         cell.selectionStyle = .none
         

@@ -29,6 +29,7 @@ final class NotificationTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     
+    var disposeBag = DisposeBag()
     private var type: NotificationSettingType? {
         didSet {
             if let type = type {
@@ -49,6 +50,7 @@ final class NotificationTableViewCell: UITableViewCell {
         super.prepareForReuse()
         
         type = nil
+        disposeBag = DisposeBag()
     }
     
     // MARK: - Methods
