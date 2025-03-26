@@ -243,11 +243,12 @@ extension NotificationViewController: UITableViewDataSource {
         case .diaryWriting:
             cell.configure(type: type, isOn: alarmData.isDiaryAlarm)
             cell.toggleSwitch.rx.isOn
+                .skip(1)
+                .distinctUntilChanged()
                 .subscribe(onNext: { [weak self] isOn in
                     guard let self = self else { return }
-                    cell.toggleSwitch.isOn.toggle()
-//                    showLoadingIndicator()
-//                    changeAlarmSetting(isDiaryAlarm: isOn)
+                    showLoadingIndicator()
+                    changeAlarmSetting(isDiaryAlarm: isOn)
                 })
                 .disposed(by: cell.disposeBag)
         case .time:
@@ -262,11 +263,12 @@ extension NotificationViewController: UITableViewDataSource {
         case .replyReceived:
             cell.configure(type: type, isOn: alarmData.isReplyAlarm)
             cell.toggleSwitch.rx.isOn
+                .skip(1)
+                .distinctUntilChanged()
                 .subscribe(onNext: { [weak self] isOn in
                     guard let self = self else { return }
-                    cell.toggleSwitch.isOn.toggle()
-//                    showLoadingIndicator()
-//                    changeAlarmSetting(isReplyAlarm: isOn)
+                    showLoadingIndicator()
+                    changeAlarmSetting(isReplyAlarm: isOn)
                 })
                 .disposed(by: cell.disposeBag)
         }
