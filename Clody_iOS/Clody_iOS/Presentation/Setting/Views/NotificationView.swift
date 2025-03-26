@@ -1,3 +1,10 @@
+//
+//  NotificationView.swift
+//  Clody_iOS
+//
+//  Created by 김나연 on 3/25/25.
+//
+
 import UIKit
 
 import SnapKit
@@ -5,17 +12,16 @@ import Then
 
 final class NotificationView: BaseView {
 
-    let tableView: UITableView = UITableView()
-    public let navigationBar = ClodyNavigationBar(type: .setting, title: I18N.Setting.alarmSet)
+    let navigationBar = ClodyNavigationBar(type: .setting, title: I18N.Setting.alarmSet)
+    let tableView = UITableView()
 
     override func setStyle() {
-        self.backgroundColor = .white
+        backgroundColor = .white
         
         tableView.do {
-            $0.register(NotificationCell.self, forCellReuseIdentifier: "NotificationCell")
-            $0.tableFooterView = UIView()
+            $0.register(NotificationTableViewCell.self, forCellReuseIdentifier: NotificationTableViewCell.identifier)
+            $0.sectionHeaderTopPadding = 0
             $0.separatorStyle = .none
-            $0.backgroundColor = .white
         }
     }
 
@@ -25,13 +31,13 @@ final class NotificationView: BaseView {
 
     override func setLayout() {
         navigationBar.snp.makeConstraints {
+            $0.height.equalTo(ScreenUtils.getHeight(44))
             $0.top.equalTo(safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(ScreenUtils.getHeight(52))
         }
         
         tableView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(31-17.5))
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }

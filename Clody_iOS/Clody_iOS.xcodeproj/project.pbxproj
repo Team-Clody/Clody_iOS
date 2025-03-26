@@ -148,7 +148,7 @@
 		95A98E792C9C2E7E0073AD3C /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E782C9C2E7E0073AD3C /* SettingView.swift */; };
 		95A98E7C2C9C2EAD0073AD3C /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E7B2C9C2EAD0073AD3C /* SettingViewModel.swift */; };
 		95A98E7E2C9C39A40073AD3C /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E7D2C9C39A40073AD3C /* SettingTableViewCell.swift */; };
-		95A98EA02C9C5C1D0073AD3C /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E932C9C5C1D0073AD3C /* NotificationCell.swift */; };
+		95A98EA02C9C5C1D0073AD3C /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E932C9C5C1D0073AD3C /* NotificationTableViewCell.swift */; };
 		95A98EA12C9C5C1D0073AD3C /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E952C9C5C1D0073AD3C /* AccountViewController.swift */; };
 		95A98EA22C9C5C1D0073AD3C /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E962C9C5C1D0073AD3C /* NotificationViewController.swift */; };
 		95A98EA32C9C5C1D0073AD3C /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E982C9C5C1D0073AD3C /* AccountViewModel.swift */; };
@@ -288,7 +288,7 @@
 		95A98E782C9C2E7E0073AD3C /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		95A98E7B2C9C2EAD0073AD3C /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		95A98E7D2C9C39A40073AD3C /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
-		95A98E932C9C5C1D0073AD3C /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		95A98E932C9C5C1D0073AD3C /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		95A98E952C9C5C1D0073AD3C /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		95A98E962C9C5C1D0073AD3C /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		95A98E982C9C5C1D0073AD3C /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
@@ -904,7 +904,7 @@
 			isa = PBXGroup;
 			children = (
 				95A98E7D2C9C39A40073AD3C /* SettingTableViewCell.swift */,
-				95A98E932C9C5C1D0073AD3C /* NotificationCell.swift */,
+				95A98E932C9C5C1D0073AD3C /* NotificationTableViewCell.swift */,
 				95D561B62D8BDECB00FD212F /* SettingSectionHeaderView.swift */,
 			);
 			path = Cells;
@@ -1165,7 +1165,7 @@
 				95310F722C3C39FE00023C7B /* ClodyNavigationBar.swift in Sources */,
 				95310FBE2C4434B500023C7B /* LoginViewModel.swift in Sources */,
 				95310F9E2C410DCB00023C7B /* DiaryNotificationViewController.swift in Sources */,
-				95A98EA02C9C5C1D0073AD3C /* NotificationCell.swift in Sources */,
+				95A98EA02C9C5C1D0073AD3C /* NotificationTableViewCell.swift in Sources */,
 				0BE7EA132C466C91000C5358 /* PatchNicknameRequestDTO.swift in Sources */,
 				0B6C075F2C3E7D8E0054A0B0 /* WritingDiaryCell.swift in Sources */,
 				0BE7E9EA2C45B0B8000C5358 /* UserManager.swift in Sources */,

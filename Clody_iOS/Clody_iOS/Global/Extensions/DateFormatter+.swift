@@ -44,4 +44,16 @@ extension DateFormatter {
         formatter.dateFormat = "d"
         return formatter.string(from: date)
     }
+    
+    static func convertTo12HourFormat(_ time: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        guard let date = dateFormatter.date(from: time) else {
+            return time
+        }
+
+        dateFormatter.dateFormat = "a h시 mm분"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        return dateFormatter.string(from: date)
+    }
 }
