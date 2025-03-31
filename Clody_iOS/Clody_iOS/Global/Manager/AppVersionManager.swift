@@ -69,6 +69,28 @@ class AppVersionManager {
         return .none
     }
     
+    private func showForceUpdateAlert(appStoreVersion: String) {
+        guard let topViewController = UIApplication.shared.windows.first?.rootViewController else { return }
+        
+        let alert = UIAlertController(
+            title: "필수 업데이트",
+            message: "버전 \(appStoreVersion)으로 업데이트가 필요합니다.",
+            preferredStyle: .alert
+        )
+        
+        let updateAction = UIAlertAction(title: "업데이트", style: .default) { _ in
+            self.openAppStore()
+        }
+        
+        let exitAction = UIAlertAction(title: "앱 종료", style: .destructive) { _ in
+            exit(0)
+        }
+        
+        alert.addAction(updateAction)
+        alert.addAction(exitAction)
+        
+        topViewController.present(alert, animated: true, completion: nil)
+    }
     
     private func showUpdateAlert(appStoreVersion: String, completion: @escaping (Bool) -> Void) {
         guard let topViewController = UIApplication.shared.keyWindow?.rootViewController else { return }
@@ -94,7 +116,7 @@ class AppVersionManager {
     
     private func openAppStore() {
         if let url = URL(string: I18N.Common.appLink) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            UIApplication		.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     
