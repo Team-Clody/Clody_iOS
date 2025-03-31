@@ -439,14 +439,14 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         let day = Calendar.current.component(.day, from: date) - 1
         let data: MonthlyDiary? = day >= 0 && day < calendarData.count ? calendarData[day] : nil
         
-        let isWritingAvailable = date.isWritingAvailable
+        let isToday = date.isToday
         let isSelected = Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value)
         let isDeleted = data?.isDeleted ?? false
         let date = DateFormatter.string(from: date, format: "d")
         
         let dayString = String(day + 1)
         
-        cell.configure(isWrtingAvailable: isWritingAvailable, isSelected: isSelected, isDeleted: isDeleted, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
+        cell.configure(isToday: isToday, isSelected: isSelected, isDeleted: isDeleted, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
         return cell
     }
     
