@@ -60,12 +60,10 @@ class AppVersionManager {
             let storePart = storeComponents.count > i ? storeComponents[i] : 0
             
             if storePart > currentPart {
-                if i == 1 {
-                    return .force
-                } else if i == 2 {
+                if i == 2 {
                     return .soft
                 } else {
-                    return .none
+                    return .force
                 }
             } else if storePart < currentPart {
                 return .none
@@ -121,7 +119,7 @@ class AppVersionManager {
     
     private func openAppStore() {
         if let url = URL(string: I18N.Common.appLink) {
-            UIApplication		.shared.open(url, options: [:], completionHandler: nil)
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     
