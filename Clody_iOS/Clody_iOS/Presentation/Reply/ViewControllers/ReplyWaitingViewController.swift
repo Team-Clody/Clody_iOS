@@ -145,10 +145,10 @@ private extension ReplyWaitingViewController {
             })
             .disposed(by: disposeBag)
         
-        output.replyArrivalEvent
+        output.replyReceivedEvent
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
-                rootView.setReplyArrivedView()
+                rootView.setReplyReceivedView()
                 openButton.setEnabledState(to: true)
             })
             .disposed(by: disposeBag)

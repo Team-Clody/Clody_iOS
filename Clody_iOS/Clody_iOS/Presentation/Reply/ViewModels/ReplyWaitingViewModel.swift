@@ -23,7 +23,7 @@ final class ReplyWaitingViewModel: ViewModelType {
     struct Output {
         let getWritingTime: Driver<Void>
         let timeLabelDidChange: Driver<String>
-        let replyArrivalEvent: Driver<Void>
+        let replyReceivedEvent: Driver<Void>
         let showAd: PublishRelay<Void>
         let pushViewController: Driver<Void>
         let popViewController: Driver<Void>
@@ -55,7 +55,7 @@ final class ReplyWaitingViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: "")
         
-        let replyArrivalEvent = input.timer
+        let replyReceivedEvent = input.timer
             .filter { totalSeconds in
                 /// 남은 시간이 0일 때만 이벤트 발생하도록 필터 적용
                 totalSeconds == 0
@@ -81,7 +81,7 @@ final class ReplyWaitingViewModel: ViewModelType {
         return Output(
             getWritingTime: getWritingTime,
             timeLabelDidChange: timeLabelDidChange,
-            replyArrivalEvent: replyArrivalEvent,
+            replyReceivedEvent: replyReceivedEvent,
             showAd: showAd,
             pushViewController: pushViewController,
             popViewController: popViewController

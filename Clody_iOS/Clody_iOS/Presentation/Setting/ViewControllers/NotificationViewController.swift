@@ -180,12 +180,6 @@ private extension NotificationViewController {
             completion?()
         }
     }
-
-    // MARK: - Actions
-
-    @objc func arrowImageViewTapped() {
-        presentBottomSheet()
-    }
 }
 
 private extension NotificationViewController {
@@ -242,24 +236,41 @@ extension NotificationViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationCell", for: indexPath) as? NotificationCell else { return .init() }
-        if indexPath.row == 1 {
-            cell.arrowImageView.isUserInteractionEnabled = true
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.arrowImageViewTapped))
-            cell.addGestureRecognizer(tapGesture)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.identifier, for: indexPath) as? NotificationTableViewCell else { return .init() }
+        
+        let type = NotificationSettingType.allCases[indexPath.row]
+        switch type {
+        case .diaryWriting:
+            cell.configure(type: type, isOn: alarmData.isDiaryAlarm)
+            cell.toggleSwitch.rx.isOn
+                .skip(1)
+                .distinctUntilChanged()
+                .subscribe(onNext: { [weak self] isOn in
+                    guard let self = self else { return }
+                    showLoadingIndicator()
+                    changeAlarmSetting(isDiaryAlarm: isOn)
+                })
+                .disposed(by: cell.disposeBag)
+        case .time:
             timePickerView.setTime(alarmData.time)
-        }
-    
-        cell.configure(with: alarmData, indexPath: indexPath.row)
-        cell.switchValueChanged = { [weak self] isOn in
-            guard let self = self else { return }
-            if indexPath.row == 0 {
-                showLoadingIndicator()
-                changeAlarmSetting(isDiaryAlarm: isOn)
-            } else if indexPath.row == 2 {
-                showLoadingIndicator()
-                changeAlarmSetting(isReplyAlarm: isOn)
-            }
+            cell.configure(type: type, time: alarmData.time)
+            cell.timeSettingButton.rx.tap
+                .subscribe(onNext: { [weak self] in
+                    guard let self = self else { return }
+                    presentBottomSheet()
+                })
+                .disposed(by: cell.disposeBag)
+        case .replyReceived:
+            cell.configure(type: type, isOn: alarmData.isReplyAlarm)
+            cell.toggleSwitch.rx.isOn
+                .skip(1)
+                .distinctUntilChanged()
+                .subscribe(onNext: { [weak self] isOn in
+                    guard let self = self else { return }
+                    showLoadingIndicator()
+                    changeAlarmSetting(isReplyAlarm: isOn)
+                })
+                .disposed(by: cell.disposeBag)
         }
         cell.selectionStyle = .none
         
