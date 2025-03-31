@@ -5,10 +5,10 @@
 //  Created by Seonwoo Kim on 7/15/24.
 //
 
-import Foundation
+import UIKit
+
 import Alamofire
 import Moya
-import UIKit
 
 ///// 토큰 만료 시 자동으로 refresh를 위한 서버 통신
 final class AuthInterceptor: RequestInterceptor {

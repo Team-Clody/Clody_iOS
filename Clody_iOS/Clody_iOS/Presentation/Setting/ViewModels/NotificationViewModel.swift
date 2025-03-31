@@ -5,7 +5,7 @@
 //  Created by Seonwoo Kim on 7/16/24.
 //
 
-import UIKit
+import Foundation
 
 import RxCocoa
 import RxSwift
@@ -39,18 +39,6 @@ final class NotificationViewModel: ViewModelType {
             getAlarmInfo: getAlarmInfo,
             popViewController: popViewController
         )
-    }
-    
-    private func convertTo12HourFormat(_ time: String) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        guard let date = dateFormatter.date(from: time) else {
-            return time
-        }
-        
-        dateFormatter.dateFormat = "a h:mm"
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        return dateFormatter.string(from: date)
     }
 }
 

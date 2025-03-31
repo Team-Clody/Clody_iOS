@@ -145,11 +145,10 @@ private extension ReplyWaitingViewController {
             })
             .disposed(by: disposeBag)
         
-        output.replyArrivalEvent
+        output.replyReceivedEvent
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
-                rootView.navigationBar.backButton.isHidden = false
-                rootView.setReplyArrivedView()
+                rootView.setReplyReceivedView()
                 openButton.setEnabledState(to: true)
             })
             .disposed(by: disposeBag)
@@ -166,7 +165,6 @@ private extension ReplyWaitingViewController {
                         print("🎁 광고 시청 완료!")
                         self.patchAdEnd()
                         self.hasWatchedAd = true
-                        self.rootView.navigationBar.backButton.isHidden = true
                         self.rootView.setLoadingView()
                     }
                 } else {
