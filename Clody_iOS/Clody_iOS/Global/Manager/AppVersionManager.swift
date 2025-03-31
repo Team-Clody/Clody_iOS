@@ -30,9 +30,9 @@ class AppVersionManager {
                             self.showForceUpdateAlert(appStoreVersion: appStoreVersion)
                             completion(false)
                         }
-                    case .soft:
+                    case .optional:
                         DispatchQueue.main.async {
-                            self.showUpdateAlert(appStoreVersion: appStoreVersion, completion: completion)
+                            self.showOptionalUpdateAlert(appStoreVersion: appStoreVersion, completion: completion)
                         }
                     case .none:
                         completion(true)
@@ -48,7 +48,7 @@ class AppVersionManager {
     }
     
     private enum UpdateType {
-        case force, soft, none
+        case force, optional, none
     }
     
     private func compareVersion(_ current: String, _ store: String) -> UpdateType {
@@ -61,7 +61,7 @@ class AppVersionManager {
             
             if storePart > currentPart {
                 if i == 2 {
-                    return .soft
+                    return .optional
                 } else {
                     return .force
                 }
@@ -95,7 +95,7 @@ class AppVersionManager {
         topViewController.present(alert, animated: true, completion: nil)
     }
     
-    private func showUpdateAlert(appStoreVersion: String, completion: @escaping (Bool) -> Void) {
+    private func showOptionalUpdateAlert(appStoreVersion: String, completion: @escaping (Bool) -> Void) {
         guard let topViewController = UIApplication.shared.keyWindow?.rootViewController else { return }
         
         let alert = UIAlertController(title: "업데이트 필요",
