@@ -24,16 +24,21 @@ class AppVersionManager {
                     
                     let currentVersion = self.currentAppVersion()
                     
-                    if appStoreVersion.compare(currentVersion, options: .numeric) == .orderedDescending {
-                        // 앱스토어 버전이 더 최신인 경우 업데이트 알림 띄우기
+                    switch self.compareVersion(currentVersion, appStoreVersion) {
+                    case .force:
+                        DispatchQueue.main.async {
+                            self.showForceUpdateAlert(appStoreVersion: appStoreVersion)
+                            completion(false)
+                        }
+                    case .soft:
                         DispatchQueue.main.async {
                             self.showUpdateAlert(appStoreVersion: appStoreVersion, completion: completion)
                         }
-                    } else {
-                        completion(true) // 최신 버전인 경우 계속 진행
+                    case .none:
+                        completion(true)
                     }
                 } else {
-                    completion(true) // JSON 파싱 오류가 발생한 경우 계속 진행
+                    completion(true)
                 }
             }
             task.resume()
