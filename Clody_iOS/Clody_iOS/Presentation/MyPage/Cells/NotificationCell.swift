@@ -135,7 +135,7 @@ final class NotificationCell: UITableViewCell {
 }
 
 enum SettingAlarmCellTitle: String, CaseIterable {
-    case writingAlarm = "알기 작성 알림 받기"
+    case writingAlarm = "일기 작성 알림 받기"
     case time = "알림 시간"
     case replyAlarm = "답장 도착 알림 받기"
 }
