@@ -40,6 +40,10 @@ enum SettingList: CaseIterable {
     static func itemCount(for section: Int) -> Int {
         return SettingList.allCases.filter { $0.section == section }.count
     }
+    
+    static func sectionCount() -> Int {
+        return Set(SettingList.allCases.map { $0.section }).count
+    }
 }
 
 final class SettingViewModel: ViewModelType {
