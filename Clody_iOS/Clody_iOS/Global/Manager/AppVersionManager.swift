@@ -8,6 +8,11 @@
 import UIKit
 
 class AppVersionManager {
+    
+    private enum UpdateType {
+        case force, optional, none
+    }
+    
     static let shared = AppVersionManager()
     
     func checkForUpdateAndProceed(completion: @escaping (Bool) -> Void) {
@@ -47,17 +52,13 @@ class AppVersionManager {
         }
     }
     
-    private enum UpdateType {
-        case force, optional, none
-    }
-    
     private func compareVersion(_ current: String, _ store: String) -> UpdateType {
         let currentComponents = current.split(separator: ".").map { Int($0) ?? 0 }
         let storeComponents = store.split(separator: ".").map { Int($0) ?? 0 }
         
         for i in 0..<3 {
-            let currentPart = currentComponents.count > i ? currentComponents[i] : 0
-            let storePart = storeComponents.count > i ? storeComponents[i] : 0
+            let currentPart = currentComponents[i]
+            let storePart = storeComponents[i]
             
             if storePart > currentPart {
                 if i == 2 {
@@ -65,8 +66,6 @@ class AppVersionManager {
                 } else {
                     return .force
                 }
-            } else if storePart < currentPart {
-                return .none
             }
         }
         return .none

@@ -120,7 +120,7 @@ extension CalendarDateCell {
             cloverImageView.image = .clover0
         }
         
-        // 작성 가능 날짜 처리
+        // 오늘 날짜 처리
         if isToday {
             if data.diaryCount == 0 {
                 cloverImageView.image = .cloverToday
