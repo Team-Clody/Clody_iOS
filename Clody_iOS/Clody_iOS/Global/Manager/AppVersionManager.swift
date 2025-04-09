@@ -61,11 +61,9 @@ class AppVersionManager {
             let storePart = storeComponents[i]
             
             if storePart > currentPart {
-                if i == 2 {
-                    return .optional
-                } else {
-                    return .force
-                }
+                return i == 2 ? .optional : .force
+            } else if storePart < currentPart {
+                return .none
             }
         }
         return .none
