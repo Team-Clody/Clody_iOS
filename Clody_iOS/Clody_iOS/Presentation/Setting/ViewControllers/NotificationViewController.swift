@@ -65,12 +65,11 @@ private extension NotificationViewController {
         
         output.selectedTimeRelay
             .bind(onNext: { [weak self] values in
-                guard let self = self else { return }
-                guard let timePeriods = values[0] as? String,
+                guard let self = self,
+                      let timePeriods = values[0] as? String,
                       let hour = values[1] as? Int,
-                      let minute = values[2] as? Int else {
-                    return
-                }
+                      let minute = values[2] as? Int
+                else { return }
                 
                 let hour24: Int
                 if timePeriods == "오전" {
@@ -82,8 +81,8 @@ private extension NotificationViewController {
                 let minuteString = minute < 10 ? "0\(minute)" : "\(minute)"
                 let convertedTime = "\(hourString):\(minuteString)"
                 
-                self.showLoadingIndicator()
-                self.changeAlarmSetting(time: convertedTime)
+                showLoadingIndicator()
+                changeAlarmSetting(time: convertedTime)
             })
             .disposed(by: disposeBag)
         
