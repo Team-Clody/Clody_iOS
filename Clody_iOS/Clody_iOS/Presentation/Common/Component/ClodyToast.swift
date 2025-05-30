@@ -34,7 +34,7 @@ final class ClodyToast {
         
         toastView.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(38))
-            $0.horizontalEdges.equalToSuperview()
+            $0.centerX.equalToSuperview()
         }
         
         window.layoutSubviews()

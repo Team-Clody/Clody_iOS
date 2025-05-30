@@ -14,18 +14,17 @@ final class ClodyToastView: BaseView {
     
     // MARK: - UI Components
     
-    let toastContainerView = UIView()
+    let stackView = UIStackView()
     let alertImage = UIImageView()
     let textLabel = UILabel()
-    var toastType = ToastType.needToWriteAll
+    
+    // MARK: - Properties
+    
     var titleText = ""
-    let stackView = UIStackView()
     
     override func setStyle() {
-        toastContainerView.do {
-            $0.backgroundColor = .grey04
-            $0.makeCornerRound(radius: ScreenUtils.getHeight(23))
-        }
+        backgroundColor = .grey04
+        makeCornerRound(radius: ScreenUtils.getHeight(42)/2)
             
         alertImage.do {
             $0.image = .toastAlert
@@ -39,60 +38,38 @@ final class ClodyToastView: BaseView {
         
         stackView.do {
             $0.axis = .horizontal
-            $0.spacing = ScreenUtils.getWidth(12)
+            $0.spacing = ScreenUtils.getWidth(10)
             $0.alignment = .center
             $0.distribution = .fill
         }
     }
     
     override func setHierarchy() {
-        self.addSubview(toastContainerView)
-        toastContainerView.addSubview(stackView)
-        stackView.addArrangedSubview(alertImage)
-        stackView.addArrangedSubview(textLabel)
+        self.addSubview(stackView)
+        [alertImage, textLabel].forEach {
+            stackView.addArrangedSubview($0)
+        }
     }
     
     override func setLayout() {
-        self.snp.makeConstraints {
-            $0.height.equalTo(ScreenUtils.getHeight(48))
-        }
-        
-        toastContainerView.snp.makeConstraints {
-            $0.verticalEdges.equalToSuperview()
-            $0.centerX.equalToSuperview()
+        stackView.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(18))
+            $0.centerY.equalToSuperview()
         }
         
         alertImage.snp.makeConstraints {
             $0.size.equalTo(ScreenUtils.getWidth(18))
         }
-        
-        stackView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-        }
     }
     
-    func updateConstraint() {
-        toastContainerView.snp.remakeConstraints {
-            $0.verticalEdges.equalToSuperview()
-            $0.centerX.equalToSuperview()
-            switch toastType {
-            case .needToWriteAll:
-                $0.width.equalTo(ScreenUtils.getWidth(229))
-            case .limitFive:
-                $0.width.equalTo(ScreenUtils.getWidth(250))
-            case .alarm:
-                $0.width.equalTo(ScreenUtils.getWidth(290))
-            case .changeComplete:
-                $0.width.equalTo(ScreenUtils.getWidth(162))
-            case .notificationTimeChangeComplete:
-                $0.width.equalTo(ScreenUtils.getWidth(213))
-            }
+    private func updateConstraint() {
+        self.snp.remakeConstraints {
+            $0.height.equalTo(ScreenUtils.getHeight(42))
+            $0.width.equalTo(textLabel.frame.width + ScreenUtils.getWidth(10) + ScreenUtils.getWidth(18)*3)
         }
     }
     
     func bindData(toastType: ToastType) {
-        self.toastType = toastType
-        
         switch toastType {
         case .needToWriteAll:
             titleText = I18N.Toast.needToWriteAll
@@ -107,9 +84,8 @@ final class ClodyToastView: BaseView {
         }
         
         textLabel.attributedText = UIFont.pretendardString(text: titleText, style: .body4_semibold)
-        
+        textLabel.sizeToFit()
         updateConstraint()
-
-        self.layoutIfNeeded()
+        layoutIfNeeded()
     }
 }
