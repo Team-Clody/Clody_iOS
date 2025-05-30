@@ -203,27 +203,20 @@ private extension NotificationViewController {
         time: String? = nil
     ) {
         PermissionManager.shared.checkNotificationPermission() { isAuth in
-            print(isAuth)
-            if isAuth {
-                self.viewModel.postAlarmSetting(
-                    isDiaryAlarm: (isDiaryAlarm != nil) ? isDiaryAlarm! : self.alarmData.isDiaryAlarm,
-                    isReplyAlarm: (isReplyAlarm != nil) ? isReplyAlarm! : self.alarmData.isReplyAlarm,
-                    time: (time != nil) ? time! : self.alarmData.time
-                ) { data in
-                    ClodyToast.show(toastType: (time != nil) ? .notificationTimeChangeComplete : .changeComplete)
-                    
-                    self.alarmData = AlarmModel(
-                        isDiaryAlarm: data.isDiaryAlarm,
-                        isReplyAlarm: data.isReplyAlarm,
-                        time: data.time
-                    )
-                    
-                    self.rootView.tableView.reloadData()
-                }
-            } else {
-                DispatchQueue.main.async {
-                    ClodyToast.show(toastType: .alarm)
-                }
+            self.viewModel.postAlarmSetting(
+                isDiaryAlarm: isDiaryAlarm ?? self.alarmData.isDiaryAlarm,
+                isReplyAlarm: isReplyAlarm ?? self.alarmData.isReplyAlarm,
+                time: time ?? self.alarmData.time
+            ) { data in
+                ClodyToast.show(toastType: !isAuth ? .alarm : (time != nil) ? .notificationTimeChangeComplete : .changeComplete)
+                
+                self.alarmData = AlarmModel(
+                    isDiaryAlarm: data.isDiaryAlarm,
+                    isReplyAlarm: data.isReplyAlarm,
+                    time: data.time
+                )
+                
+                self.rootView.tableView.reloadData()
             }
         }
     }
