@@ -425,21 +425,29 @@ private extension CalendarViewController {
 extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
-        guard let cell = calendar.dequeueReusableCell(withIdentifier: CalendarDateCell.description(), for: date, at: position) as? CalendarDateCell else { return FSCalendarCell() }
-        
-        let day = Calendar.current.component(.day, from: date) - 1
-        let data: MonthlyDiary? = day >= 0 && day < calendarData.count ? calendarData[day] : nil
-        
+        guard let cell = calendar.dequeueReusableCell(
+            withIdentifier: CalendarDateCell.description(), for: date, at: position
+        ) as? CalendarDateCell else {
+            return FSCalendarCell()
+        }
+
+        let isSelected = Calendar.current.isDate(date, inSameDayAs: viewModel.selectedDateRelay.value)
         let isToday = date.isToday
-        let isSelected = Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value)
-        let isDeleted = data?.isDeleted ?? false
-        let date = DateFormatter.string(from: date, format: "d")
+        let dateText = DateFormatter.string(from: date, format: "d")
         
-        let dayString = String(day + 1)
-        
-        cell.configure(isToday: isToday, isSelected: isSelected, isDeleted: isDeleted, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
+        let viewData = viewModel.getCalendarCellViewData(for: date, calendarData: calendarData)
+
+        cell.configure(
+            isSelected: isSelected,
+            dateText: dateText,
+            cloverImage: viewData.cloverImage,
+            showNewIcon: viewData.showNewIcon,
+            isToday: isToday
+        )
+
         return cell
     }
+
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         tapDateRelay.accept(date)

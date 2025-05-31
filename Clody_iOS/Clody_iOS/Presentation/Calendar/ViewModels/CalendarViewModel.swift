@@ -10,6 +10,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+struct CalendarCellViewData {
+    let cloverImage: UIImage?
+    let showNewIcon: Bool
+}
+
 enum DiaryButtonState {
     case writeEnabled
     case writeDisabled
@@ -269,4 +274,47 @@ extension CalendarViewModel {
             self.getDailyCalendarData(year: Int(dailyYear) ?? 0, month: Int(dailyMonth) ?? 0, date: Int(dailyDay) ?? 0, completion: {})
         })
     }
+    
+    func getCalendarCellViewData(
+        for date: Date,
+        calendarData: [MonthlyDiary]
+    ) -> CalendarCellViewData {
+        let day = Calendar.current.component(.day, from: date) - 1
+        guard day >= 0, day < calendarData.count else {
+            return CalendarCellViewData(cloverImage: .clover0, showNewIcon: false)
+        }
+
+        let data = calendarData[day]
+
+        // 기본 clover 이미지
+        var cloverImage: UIImage? = .clover0
+        var showNewIcon = false
+
+        if data.replyStatus == "READY_NOT_READ" {
+            showNewIcon = true
+        }
+
+        if data.replyStatus == "READY_READ" {
+            cloverImage = UIImage(named: "clover\(data.diaryCount)")
+        }
+
+        if data.isDeleted {
+            cloverImage = .clover0
+        }
+
+        if date.isToday {
+            if data.diaryCount == 0 {
+                cloverImage = .cloverToday
+            } else if data.isDeleted {
+                cloverImage = .cloverTodayDone
+            } else {
+                cloverImage = data.replyStatus == "READY_READ"
+                    ? UIImage(named: "clover\(data.diaryCount)")
+                    : .cloverTodayDone
+            }
+        }
+
+        return CalendarCellViewData(cloverImage: cloverImage, showNewIcon: showNewIcon)
+    }
+
 }

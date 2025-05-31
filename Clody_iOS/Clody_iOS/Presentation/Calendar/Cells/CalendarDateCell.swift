@@ -99,46 +99,20 @@ final class CalendarDateCell: FSCalendarCell {
 
 extension CalendarDateCell {
     
-    func configure(isToday: Bool, isSelected: Bool, isDeleted: Bool, date: String, data: MonthlyDiary) {
-        // 캘린더 분기처리 로직
-        cloverImageView.image = UIImage(named: "clover\(data.diaryCount)")
-        backgroundSelectView.isHidden = true
-        
-        if data.replyStatus == "READY_NOT_READ" {
-            newImageView.isHidden = false
-        } else {
-            newImageView.isHidden = true
-        }
-        
-        if data.replyStatus == "READY_READ" {
-            cloverImageView.image = UIImage(named: "clover\(data.diaryCount)")
-        } else {
-            cloverImageView.image = .clover0
-        }
-        
-        if isDeleted {
-            cloverImageView.image = .clover0
-        }
-        
-        // 오늘 날짜 처리
-        if isToday {
-            if data.diaryCount == 0 {
-                cloverImageView.image = .cloverToday
-            } else {
-                if isDeleted {
-                    cloverImageView.image = .cloverTodayDone
-                } else {
-                    cloverImageView.image = (data.replyStatus == "READY_READ") ? UIImage(named: "clover\(data.diaryCount)") : .cloverTodayDone
-                }
-            }
-        }
-        
-        // 선택된 날짜 처리
-        if isSelected {
-            backgroundSelectView.isHidden = false
-            calendarDateLabel.attributedText = UIFont.pretendardString(text: date, style: .detail1_medium, color: .white)
-        } else {
-            calendarDateLabel.attributedText = UIFont.pretendardString(text: date, style: .detail1_medium, color: isToday ? .black : .grey05)
-        }
+    func configure(
+        isSelected: Bool,
+        dateText: String,
+        cloverImage: UIImage?,
+        showNewIcon: Bool,
+        isToday: Bool
+    ) {
+        backgroundSelectView.isHidden = !isSelected
+        newImageView.isHidden = !showNewIcon
+        cloverImageView.image = cloverImage
+
+        let textColor: UIColor = isSelected ? .white : (isToday ? .black : .grey05)
+        calendarDateLabel.attributedText = UIFont.pretendardString(
+            text: dateText, style: .detail1_medium, color: textColor
+        )
     }
 }
