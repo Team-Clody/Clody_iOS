@@ -11,11 +11,6 @@ final class NotificationViewController: UIViewController {
 
     private let viewModel = NotificationViewModel()
     private let disposeBag = DisposeBag()
-    private var alarmData = AlarmModel(
-        isDiaryAlarm: false,
-        isReplyAlarm: false,
-        time: ""
-    )
 
     // MARK: - UI Components
 
