@@ -10,6 +10,13 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+enum DiaryButtonState {
+    case writeEnabled
+    case writeDisabled
+    case replyEnabled
+    case replyDisabled
+}
+
 final class CalendarViewModel: ViewModelType {
     
     struct Input {
@@ -41,6 +48,7 @@ final class CalendarViewModel: ViewModelType {
         let showDelete: Signal<Void>
         let isLoading: Driver<Bool>
         let errorStatus: Driver<String>
+        let diaryButtonState: Driver<DiaryButtonState>
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
@@ -145,6 +153,27 @@ final class CalendarViewModel: ViewModelType {
         
         let errorStatus = errorStatusRelay.asDriver(onErrorJustReturn: "")
         
+        let diaryButtonState = Observable
+            .combineLatest(dailyDiaryDataRelay, selectedDateRelay)
+            .map { dailyData, selectedDate -> DiaryButtonState in
+                let isNotEmpty = !dailyData.diaries.isEmpty
+                let isWritingAvailable = selectedDate.isWritingAvailable
+                let isDeleted = dailyData.isDeleted
+                
+                switch (isWritingAvailable, isNotEmpty, isDeleted) {
+                case (true, false, false):
+                    return .writeEnabled
+                case (true, true, false):
+                    return .replyEnabled
+                case (_, _, true):
+                    return isNotEmpty ? .replyDisabled : .writeDisabled
+                case (false, false, _):
+                    return .writeDisabled
+                case (false, true, _):
+                    return .replyDisabled
+                }
+            }
+            .asDriver(onErrorJustReturn: .writeDisabled)
         
         return Output(
             dateLabel: dateLabel,
@@ -162,7 +191,8 @@ final class CalendarViewModel: ViewModelType {
             navigateToResponse: navigateToResponse,
             showDelete: showDelete,
             isLoading: isLoading,
-            errorStatus: errorStatus
+            errorStatus: errorStatus,
+            diaryButtonState: diaryButtonState
         )
     }
 }
