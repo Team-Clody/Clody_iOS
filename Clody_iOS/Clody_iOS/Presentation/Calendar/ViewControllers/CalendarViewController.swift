@@ -103,6 +103,7 @@ private extension CalendarViewController {
                 }()
                 
                 self.rootView.emptyDiaryView.isHidden = (state == .replyEnabled || state == .replyDisabled)
+                self.rootView.kebabButton.isHidden = (state == .writeDisabled || state == .writeEnabled)
                 self.rootView.calendarButton.setAttributedTitle(
                     UIFont.pretendardString(text: config.0, style: .body1_semibold),
                     for: .normal
