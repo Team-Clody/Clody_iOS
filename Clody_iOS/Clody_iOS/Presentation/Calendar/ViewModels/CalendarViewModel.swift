@@ -168,13 +168,19 @@ final class CalendarViewModel: ViewModelType {
                 switch (isWritingAvailable, isNotEmpty, isDeleted) {
                 case (true, false, false):
                     return .writeEnabled
+                case (true, false, true):
+                    return .writeEnabled
                 case (true, true, false):
                     return .replyEnabled
-                case (_, _, true):
-                    return isNotEmpty ? .replyDisabled : .writeDisabled
-                case (false, false, _):
+                case (true, true, true):
+                    return .replyDisabled
+                case (false, false, false):
                     return .writeDisabled
-                case (false, true, _):
+                case (false, false, true):
+                    return .writeDisabled
+                case (false, true, false):
+                    return .replyEnabled
+                case (false, true, true):
                     return .replyDisabled
                 }
             }
