@@ -224,7 +224,7 @@ private extension NotificationViewController {
 extension NotificationViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return NotificationSettingType.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -243,6 +243,10 @@ extension NotificationViewController: UITableViewDataSource {
                     changeAlarmSetting(isDiaryAlarm: isOn)
                 })
                 .disposed(by: cell.disposeBag)
+        case .continueWriting:
+            // TODO: 서버 API 완성 후 반영
+            cell.configure(type: type)
+            print("📓")
         case .time:
             timePickerView.setTime(alarmData.time)
             cell.configure(type: type, time: alarmData.time)

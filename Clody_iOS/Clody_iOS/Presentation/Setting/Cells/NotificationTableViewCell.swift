@@ -13,6 +13,7 @@ import Then
 
 enum NotificationSettingType: String, CaseIterable {
     case diaryWriting = "일기 작성 알림 받기"
+    case continueWriting = "이어쓰기 알림 받기"
     case time = "알림 시간"
     case replyReceived = "답장 도착 알림 받기"
 }
@@ -38,8 +39,7 @@ final class NotificationTableViewCell: UITableViewCell {
                     text: type.rawValue,
                     style: .body1_medium
                 )
-            }
-            else {
+            } else {
                 timeSettingButton.removeFromSuperview()
                 toggleSwitch.removeFromSuperview()
             }
