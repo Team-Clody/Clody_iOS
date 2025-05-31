@@ -11,11 +11,24 @@ import RxSwift
 import SnapKit
 import Then
 
-enum NotificationSettingType: String, CaseIterable {
-    case diaryWriting = "일기 작성 알림 받기"
-    case continueWriting = "이어쓰기 알림 받기"
-    case time = "알림 시간"
-    case replyReceived = "답장 도착 알림 받기"
+enum NotificationSettingType: CaseIterable {
+    case diaryWriting
+    case continueWriting
+    case time
+    case replyReceived
+
+    var title: String {
+        switch self {
+        case .diaryWriting: return "일기 작성 알림 받기"
+        case .continueWriting: return "이어쓰기 알림 받기"
+        case .time: return "알림 시간"
+        case .replyReceived: return "답장 도착 알림 받기"
+        }
+    }
+
+    var hasToggle: Bool {
+        return self != .time
+    }
 }
 
 final class NotificationTableViewCell: UITableViewCell {
@@ -36,7 +49,7 @@ final class NotificationTableViewCell: UITableViewCell {
             if let type = type {
                 setUI()
                 titleLabel.attributedText = UIFont.pretendardString(
-                    text: type.rawValue,
+                    text: type.title,
                     style: .body1_medium
                 )
             } else {

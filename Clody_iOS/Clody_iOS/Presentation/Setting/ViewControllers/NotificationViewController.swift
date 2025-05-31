@@ -46,15 +46,32 @@ private extension NotificationViewController {
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
         output.getAlarmInfo
-            .drive(onNext: {
-                self.showLoadingIndicator()
-                self.getAlarmInfo()
+            .drive(onNext: { [weak self] in
+                guard let self = self else { return }
+                showLoadingIndicator()
+                getAlarmInfo()
             })
             .disposed(by: disposeBag)
         
-        output.popViewController
-            .drive(onNext: { [weak self] in
-                self?.navigationController?.popViewController(animated: true)
+        output.postAlarmSetting
+            .subscribe(onNext: { [weak self] type, notificationState in
+                self?.showLoadingIndicator()
+                
+                PermissionManager.shared.checkNotificationPermission() { isAuth in
+                    self?.viewModel.postAlarmSetting(notificationState) { data in
+                        self?.hideLoadingIndicator()
+                        
+                        ClodyToast.show(toastType: !isAuth ? .alarm : (type == .time) ? .notificationTimeChangeComplete : .changeComplete)
+                        
+                        let data = NotificationState(
+                            isDiaryWritingAlarmOn: data.isDiaryAlarm,
+                            isContinueWritingAlarmOn: false, // ⭐️ TODO: 여기 수정 ❗️
+                            alarmTime: data.time,
+                            isReplyAlarmOn: data.isReplyAlarm
+                        )
+                        self?.viewModel.alarmStatesRelay.accept(data)
+                    }
+                }
             })
             .disposed(by: disposeBag)
         
@@ -76,8 +93,15 @@ private extension NotificationViewController {
                 let minuteString = minute < 10 ? "0\(minute)" : "\(minute)"
                 let convertedTime = "\(hourString):\(minuteString)"
                 
-                showLoadingIndicator()
-                changeAlarmSetting(time: convertedTime)
+                var state = viewModel.alarmStatesRelay.value
+                state.alarmTime = convertedTime
+                output.postAlarmSetting.accept((.time, state))
+            })
+            .disposed(by: disposeBag)
+        
+        output.popViewController
+            .drive(onNext: { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -110,6 +134,28 @@ private extension NotificationViewController {
                     let selectedTime = ["\(selectedTimePeriods)", selectedHour, selectedMinute]
                     output.selectedTimeRelay.accept(selectedTime)
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.toggleChanged
+            .subscribe(onNext: { [weak self] type, isOn in
+                guard var state = self?.viewModel.alarmStatesRelay.value else { return }
+                switch type {
+                case .diaryWriting:
+                    state.isDiaryWritingAlarmOn = isOn
+                case .continueWriting:
+                    state.isContinueWritingAlarmOn = isOn
+                case .replyReceived:
+                    state.isReplyAlarmOn = isOn
+                default: break
+                }
+                output.postAlarmSetting.accept((type, state))
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.alarmStatesRelay
+            .subscribe(onNext: { [weak self] _ in
+                self?.rootView.tableView.reloadData()
             })
             .disposed(by: disposeBag)
         
@@ -181,37 +227,13 @@ private extension NotificationViewController {
     func getAlarmInfo() {
         viewModel.getAlarmInfo() { data in
             self.hideLoadingIndicator()
-            
-            self.alarmData = AlarmModel(
-                isDiaryAlarm: data.isDiaryAlarm,
-                isReplyAlarm: data.isReplyAlarm,
-                time: data.time
+            let notificationState = NotificationState(
+                isDiaryWritingAlarmOn: data.isDiaryAlarm,
+                isContinueWritingAlarmOn: false, // ⭐️ TODO: 여기 수정 ❗️
+                alarmTime: data.time,
+                isReplyAlarmOn: data.isReplyAlarm
             )
-            self.rootView.tableView.reloadData()
-        }
-    }
-    
-    func changeAlarmSetting(
-        isDiaryAlarm: Bool? = nil,
-        isReplyAlarm: Bool? = nil,
-        time: String? = nil
-    ) {
-        PermissionManager.shared.checkNotificationPermission() { isAuth in
-            self.viewModel.postAlarmSetting(
-                isDiaryAlarm: isDiaryAlarm ?? self.alarmData.isDiaryAlarm,
-                isReplyAlarm: isReplyAlarm ?? self.alarmData.isReplyAlarm,
-                time: time ?? self.alarmData.time
-            ) { data in
-                ClodyToast.show(toastType: !isAuth ? .alarm : (time != nil) ? .notificationTimeChangeComplete : .changeComplete)
-                
-                self.alarmData = AlarmModel(
-                    isDiaryAlarm: data.isDiaryAlarm,
-                    isReplyAlarm: data.isReplyAlarm,
-                    time: data.time
-                )
-                
-                self.rootView.tableView.reloadData()
-            }
+            self.viewModel.alarmStatesRelay.accept(notificationState)
         }
     }
 }
@@ -224,47 +246,43 @@ extension NotificationViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.identifier, for: indexPath) as? NotificationTableViewCell else { return .init() }
-        
         let type = NotificationSettingType.allCases[indexPath.row]
-        switch type {
-        case .diaryWriting:
-            cell.configure(type: type, isOn: alarmData.isDiaryAlarm)
+        
+        if type.hasToggle {
+            cell.configure(type: type)
+            
+            viewModel.alarmStatesRelay
+                .map {
+                    switch type {
+                    case .diaryWriting: return $0.isDiaryWritingAlarmOn
+                    case .continueWriting: return $0.isContinueWritingAlarmOn
+                    case .replyReceived: return $0.isReplyAlarmOn
+                    default: return false
+                    }
+                }
+                .bind(to: cell.toggleSwitch.rx.isOn)
+                .disposed(by: cell.disposeBag)
+            
             cell.toggleSwitch.rx.isOn
                 .skip(1)
                 .distinctUntilChanged()
-                .subscribe(onNext: { [weak self] isOn in
-                    guard let self = self else { return }
-                    showLoadingIndicator()
-                    changeAlarmSetting(isDiaryAlarm: isOn)
-                })
+                .map { (type, $0) }
+                .bind(to: viewModel.toggleChanged)
                 .disposed(by: cell.disposeBag)
-        case .continueWriting:
-            // TODO: 서버 API 완성 후 반영
-            cell.configure(type: type)
-            print("📓")
-        case .time:
-            timePickerView.setTime(alarmData.time)
-            cell.configure(type: type, time: alarmData.time)
+        } else {
+            let currentSettingTime = viewModel.alarmStatesRelay.value.alarmTime
+            timePickerView.setTime(currentSettingTime)
+            cell.configure(type: type, time: currentSettingTime)
+            
             cell.timeSettingButton.rx.tap
                 .subscribe(onNext: { [weak self] in
                     guard let self = self else { return }
                     presentBottomSheet()
                 })
                 .disposed(by: cell.disposeBag)
-        case .replyReceived:
-            cell.configure(type: type, isOn: alarmData.isReplyAlarm)
-            cell.toggleSwitch.rx.isOn
-                .skip(1)
-                .distinctUntilChanged()
-                .subscribe(onNext: { [weak self] isOn in
-                    guard let self = self else { return }
-                    showLoadingIndicator()
-                    changeAlarmSetting(isReplyAlarm: isOn)
-                })
-                .disposed(by: cell.disposeBag)
         }
-        cell.selectionStyle = .none
         
+        cell.selectionStyle = .none
         return cell
     }
 }
