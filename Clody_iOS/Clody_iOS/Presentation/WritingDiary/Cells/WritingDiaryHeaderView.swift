@@ -21,6 +21,7 @@ final class WritingDiaryHeaderView: UIView {
     private let helpMessageLabel = UILabel()
     let cancelHelpButton = UIButton()
     lazy var backButton = UIButton()
+    lazy var submitButton = UIButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,6 +42,12 @@ final class WritingDiaryHeaderView: UIView {
         backButton.do {
             $0.setImage(.icArrowLeft, for: .normal)
             $0.contentMode = .scaleAspectFit
+        }
+        
+        submitButton.do {
+            $0.setTitleColor(.grey01, for: .normal)
+            let attributedTitle = UIFont.pretendardString(text: I18N.WritingDiary.submit, style: .body2_semibold)
+            $0.setAttributedTitle(attributedTitle, for: .normal)
         }
         
         dateLabel.do {
@@ -75,7 +82,7 @@ final class WritingDiaryHeaderView: UIView {
     }
     
     func setHierarchy() {
-        self.addSubviews(dateLabel, helpMessageDownArrowImage, helpMessageContainer, infoButton, backButton)
+        self.addSubviews(dateLabel, helpMessageDownArrowImage, helpMessageContainer, infoButton, backButton, submitButton)
         helpMessageContainer.addSubviews(helpMessageLabel, cancelHelpButton)
     }
     
@@ -85,6 +92,12 @@ final class WritingDiaryHeaderView: UIView {
             $0.size.equalTo(ScreenUtils.getWidth(32))
             $0.top.equalToSuperview().inset(ScreenUtils.getHeight(6))
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(12))
+        }
+        
+        submitButton.snp.makeConstraints {
+            $0.width.equalTo(ScreenUtils.getWidth(39))
+            $0.centerY.equalTo(backButton)
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
 
         dateLabel.snp.makeConstraints {

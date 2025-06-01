@@ -71,7 +71,7 @@ private extension WritingDiaryViewController {
     func bindViewModel() {
         let input = WritingDiaryViewModel.Input(
             viewDidLoad: Observable.just(()),
-            tapSaveButton: rootView.saveButton.rx.tap.asSignal(),
+            tapSubmitButton: rootView.headerView.submitButton.rx.tap.asSignal(),
             tapAddButton: rootView.addButton.rx.tap.asSignal(),
             tapBackButton: rootView.headerView.backButton.rx.tap.asSignal(),
             updateKebobRelay: kebabButtonTap,
