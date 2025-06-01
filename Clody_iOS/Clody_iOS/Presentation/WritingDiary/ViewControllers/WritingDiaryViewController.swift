@@ -24,6 +24,8 @@ final class WritingDiaryViewController: UIViewController {
     private let kebabButtonTap = PublishRelay<Int>()
     private var date: Date
     private var textViewHeight: CGFloat = 0
+    private var currentKeyboardVisible: Bool = false
+    private var isAddButtonEnabled: Bool = true
     
     // MARK: - UI Components
     
@@ -103,13 +105,19 @@ private extension WritingDiaryViewController {
         
         output.isAddButtonEnabled
             .drive(onNext: { [weak self] isEnabled in
+                guard let self = self else { return }
+                isAddButtonEnabled = isEnabled
                 if !isEnabled {
                     ClodyToast.show(toastType: .limitFive)
                 }
-                let image = isEnabled ? "addButton" : "addButtonOff"
-                self?.rootView.addButton.setImage(UIImage(named: image), for: .normal)
+
+                let imageName = self.currentKeyboardVisible
+                    ? (isEnabled ? "smallAddButton" : "smallAddButtonOff")
+                    : (isEnabled ? "bigAddButton" : "bigAddButtonOff")
+                self.rootView.addButton.setImage(UIImage(named: imageName), for: .normal)
             })
             .disposed(by: disposeBag)
+
         
         output.showSaveErrorToast
             .emit(onNext: {
@@ -345,20 +353,35 @@ private extension WritingDiaryViewController {
             .distinctUntilChanged()
             .drive(onNext: { [weak self] keyboardVisibleHeight in
                 guard let self = self else { return }
-                let addButtonPadding = keyboardVisibleHeight > 0 ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + ScreenUtils.getHeight(20) : ScreenUtils.getHeight(81)
-                
+                let isKeyboardVisible = keyboardVisibleHeight > 0
+                self.currentKeyboardVisible = isKeyboardVisible  // 키보드 상태 기억
+
+                let addButtonPadding = isKeyboardVisible
+                    ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + ScreenUtils.getHeight(20)
+                    : ScreenUtils.getHeight(6)
+
                 self.rootView.addButton.snp.updateConstraints {
                     $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(addButtonPadding)
                 }
-                
+
                 self.rootView.writingCollectionView.snp.updateConstraints {
                     $0.bottom.equalToSuperview().inset(keyboardVisibleHeight > 0 ? keyboardVisibleHeight : 0)
                 }
-                
-                self.view.layoutIfNeeded()
+
+                UIView.animate(withDuration: 0.25) {
+                    self.view.layoutIfNeeded()
+                }
+
+                let isEnabled = isAddButtonEnabled
+                let imageName = isKeyboardVisible
+                    ? (isEnabled ? "smallAddButton" : "smallAddButtonOff")
+                    : (isEnabled ? "bigAddButton" : "bigAddButtonOff")
+                self.rootView.addButton.setImage(UIImage(named: imageName), for: .normal)
             })
             .disposed(by: disposeBag)
     }
+
+
 }
 
 /// Alert 관련 함수입니다.
