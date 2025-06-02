@@ -242,7 +242,7 @@ private extension WritingDiaryViewController {
                         self.viewModel.isFirstRelay.accept(isFirst)
                         cell.writingListNumberLabel.textColor = .grey02
                         cell.textView.textColor = .grey03
-                        cell.writingContainer.backgroundColor = .clear
+                        cell.writingContainer.backgroundColor = .white
                         
                         cell.textView.rx.text.orEmpty
                             .map { "\($0.count)" }
@@ -253,8 +253,6 @@ private extension WritingDiaryViewController {
                             .skip(1)
                             .map { $0.count != 50 }
                             .subscribe(onNext: { isHidden in
-                                cell.limitErrorLabel.isHidden = isHidden
-                                cell.writingContainer.makeBorder(width: 1, color: isHidden ? .mainYellow : .redCustom)
                                 self.updateTextViewHeightIfNeeded(for: cell, collectionView)
                             })
                             .disposed(by: cell.disposeBag)
@@ -267,15 +265,9 @@ private extension WritingDiaryViewController {
                         var status = self.viewModel.textViewIsEmptyRelay.value
                         status[indexPath.item] = !cell.textView.text.isEmpty
                         self.viewModel.textViewIsEmptyRelay.accept(status)
-                        if !cell.textView.text.isEmpty {
-                            cell.writingContainer.backgroundColor = .grey09
-                        }
-                        
                         var items = self.viewModel.diariesRelay.value
                         items[indexPath.item] = cell.textView.text
                         self.viewModel.diariesRelay.accept(items)
-                        
-                        cell.limitErrorLabel.isHidden = true
                     })
                     .disposed(by: cell.disposeBag)
                 

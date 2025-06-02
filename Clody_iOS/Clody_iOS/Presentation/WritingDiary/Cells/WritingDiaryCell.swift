@@ -48,6 +48,7 @@ final class WritingDiaryCell: UICollectionViewCell {
         textView.text = I18N.WritingDiary.placeHolder
         textInputLabel.text = "0"
         writingContainer.makeBorder(width: 0, color: .clear)
+        writingContainer.backgroundColor = .white
     }
     
     private func setStyle() {
@@ -164,24 +165,23 @@ final class WritingDiaryCell: UICollectionViewCell {
         limitTextLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
     
-    func bindData(
-        index: Int,
-        text: String,
-        statuses: Bool,
-        isFirst: Bool
-    ) {
+    func bindData(index: Int, text: String, statuses: Bool, isFirst: Bool) {
         writingListNumberLabel.text = "\(index)."
         textInputLabel.text = "\(text.count)"
-        writingListNumberLabel.textColor = isFirst ? .grey06: .grey02
+        writingListNumberLabel.textColor = isFirst ? .grey06 : .grey02
         textView.textColor = isFirst ? .grey06 : .grey03
+        limitErrorLabel.isHidden = true
         
         if statuses {
             textView.text = text.isEmpty ? I18N.WritingDiary.placeHolder : text
+            writingContainer.backgroundColor = .grey09
             writingContainer.makeBorder(width: 0, color: .clear)
         } else {
+            writingContainer.backgroundColor = .white
             writingContainer.makeBorder(width: 1, color: .red)
             textView.text = ""
             textInputLabel.text = "0"
+            limitErrorLabel.isHidden = false
         }
     }
 }
