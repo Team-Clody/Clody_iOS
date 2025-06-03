@@ -208,7 +208,7 @@ private extension WritingDiaryViewController {
                 cell.bindData(
                     index: indexPath.item + 1,
                     text: text,
-                    statuses: self.viewModel.textViewIsEmptyRelay.value[indexPath.row],
+                    isError: self.viewModel.textViewIsEmptyRelay.value[indexPath.row],
                     isFirst: self.viewModel.isFirstRelay.value[indexPath.row]
                 )
                 
@@ -356,10 +356,11 @@ private extension WritingDiaryViewController {
 
                 self.rootView.addButton.snp.updateConstraints {
                     $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(addButtonPadding)
+                    $0.height.equalTo(ScreenUtils.getHeight(isKeyboardVisible ? 48 : 42))
                 }
 
                 self.rootView.writingCollectionView.snp.updateConstraints {
-                    $0.bottom.equalToSuperview().inset(keyboardVisibleHeight > 0 ? keyboardVisibleHeight : 0)
+                    $0.bottom.equalToSuperview().inset(isKeyboardVisible ? keyboardVisibleHeight : 0)
                 }
 
                 UIView.animate(withDuration: 0.25) {
