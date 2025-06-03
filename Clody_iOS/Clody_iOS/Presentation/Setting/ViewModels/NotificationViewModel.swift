@@ -70,7 +70,7 @@ extension NotificationViewModel {
             target: .postAlarmSet(
                 data: PostAlarmSetRequestDTO(
                     isDiaryAlarm: notificationState.isDiaryWritingAlarmOn,
-//                    isContinueAlarm: notificationState.isContinueWritingAlarmOn,
+                    isDraftAlarm: notificationState.isContinueWritingAlarmOn,
                     isReplyAlarm: notificationState.isReplyAlarmOn,
                     time: notificationState.alarmTime,
                     fcmToken: UserManager.shared.fcmTokenValue
