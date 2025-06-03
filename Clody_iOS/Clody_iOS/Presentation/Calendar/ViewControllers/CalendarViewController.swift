@@ -89,28 +89,48 @@ private extension CalendarViewController {
             .drive(onNext: { [weak self] state in
                 guard let self = self else { return }
                 
-                let config: (String, UIColor?, UIColor?, Bool) = {
+                let config: (text: String, backgroundColor: UIColor?, titleColor: UIColor?, isEnabled: Bool) = {
                     switch state {
                     case .writeEnabled:
-                        return (I18N.Calendar.writing, UIColor(named: "mainYellow"), UIColor(named: "grey02"), true)
+                        return (
+                            text: I18N.Calendar.writing,
+                            backgroundColor: UIColor(named: "mainYellow"),
+                            titleColor: UIColor(named: "grey02"),
+                            isEnabled: true
+                        )
                     case .writeDisabled:
-                        return (I18N.Calendar.writing, UIColor(named: "lightYellow"), UIColor(named: "grey06"), false)
+                        return (
+                            text: I18N.Calendar.writing,
+                            backgroundColor: UIColor(named: "lightYellow"),
+                            titleColor: UIColor(named: "grey06"),
+                            isEnabled: false
+                        )
                     case .replyEnabled:
-                        return (I18N.Calendar.reply, UIColor(named: "grey01"), UIColor(named: "white"), true)
+                        return (
+                            text: I18N.Calendar.reply,
+                            backgroundColor: UIColor(named: "grey01"),
+                            titleColor: UIColor(named: "white"),
+                            isEnabled: true
+                        )
                     case .replyDisabled:
-                        return (I18N.Calendar.reply, UIColor(named: "grey07"), UIColor(named: "grey04"), false)
+                        return (
+                            text: I18N.Calendar.reply,
+                            backgroundColor: UIColor(named: "grey07"),
+                            titleColor: UIColor(named: "grey04"),
+                            isEnabled: false
+                        )
                     }
                 }()
                 
                 self.rootView.emptyDiaryView.isHidden = (state == .replyEnabled || state == .replyDisabled)
                 self.rootView.kebabButton.isHidden = (state == .writeDisabled || state == .writeEnabled)
                 self.rootView.calendarButton.setAttributedTitle(
-                    UIFont.pretendardString(text: config.0, style: .body1_semibold),
+                    UIFont.pretendardString(text: config.text, style: .body1_semibold),
                     for: .normal
                 )
-                self.rootView.calendarButton.backgroundColor = config.1
-                self.rootView.calendarButton.setTitleColor(config.2, for: .normal)
-                self.rootView.calendarButton.isEnabled = config.3
+                self.rootView.calendarButton.backgroundColor = config.backgroundColor
+                self.rootView.calendarButton.setTitleColor(config.titleColor, for: .normal)
+                self.rootView.calendarButton.isEnabled = config.isEnabled
             })
             .disposed(by: disposeBag)
         
