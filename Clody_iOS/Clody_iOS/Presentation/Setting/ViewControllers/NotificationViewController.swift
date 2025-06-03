@@ -65,7 +65,7 @@ private extension NotificationViewController {
                         
                         let data = NotificationState(
                             isDiaryWritingAlarmOn: data.isDiaryAlarm,
-                            isContinueWritingAlarmOn: false, // ⭐️ TODO: 여기 수정 ❗️
+                            isContinueWritingAlarmOn: data.isDraftAlarm,
                             alarmTime: data.time,
                             isReplyAlarmOn: data.isReplyAlarm
                         )
@@ -229,7 +229,7 @@ private extension NotificationViewController {
             self.hideLoadingIndicator()
             let notificationState = NotificationState(
                 isDiaryWritingAlarmOn: data.isDiaryAlarm,
-                isContinueWritingAlarmOn: false, // ⭐️ TODO: 여기 수정 ❗️
+                isContinueWritingAlarmOn: data.isDraftAlarm,
                 alarmTime: data.time,
                 isReplyAlarmOn: data.isReplyAlarm
             )

@@ -51,7 +51,7 @@ extension DiaryNotificationViewModel {
             target: .postAlarmSet(
                 data: PostAlarmSetRequestDTO(
                     isDiaryAlarm: true,
-                    isDraftAlarm: true,
+                    isDraftAlarm: false,
                     isReplyAlarm: true,
                     time: time,
                     fcmToken: UserManager.shared.fcmTokenValue
