@@ -254,6 +254,8 @@ private extension WritingDiaryViewController {
                             .map { $0.count != 50 }
                             .subscribe(onNext: { isHidden in
                                 self.updateTextViewHeightIfNeeded(for: cell, collectionView)
+                                cell.limitErrorLabel.isHidden = isHidden
+                                                                cell.writingContainer.makeBorder(width: 1, color: isHidden ? .mainYellow : .redCustom)
                             })
                             .disposed(by: cell.disposeBag)
                     })
