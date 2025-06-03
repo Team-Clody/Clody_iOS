@@ -10,18 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-struct CalendarCellViewData {
-    let cloverImage: UIImage?
-    let showNewIcon: Bool
-}
-
-enum DiaryButtonState {
-    case writeEnabled
-    case writeDisabled
-    case replyEnabled
-    case replyDisabled
-}
-
 final class CalendarViewModel: ViewModelType {
     
     struct Input {
@@ -287,13 +275,11 @@ extension CalendarViewModel {
     ) -> CalendarCellViewData {
         let day = Calendar.current.component(.day, from: date) - 1
         guard day >= 0, day < calendarData.count else {
-            return CalendarCellViewData(cloverImage: .clover0, showNewIcon: false)
+            return CalendarCellViewData(cloverType: .none, showNewIcon: false)
         }
 
         let data = calendarData[day]
-
-        // 기본 clover 이미지
-        var cloverImage: UIImage? = .clover0
+        var cloverType: CloverType = .none
         var showNewIcon = false
 
         if data.replyStatus == "READY_NOT_READ" {
@@ -301,26 +287,27 @@ extension CalendarViewModel {
         }
 
         if data.replyStatus == "READY_READ" {
-            cloverImage = UIImage(named: "clover\(data.diaryCount)")
+            cloverType = CloverType.fromDiaryCount(data.diaryCount)
         }
 
         if data.isDeleted {
-            cloverImage = .clover0
+            cloverType = .none
         }
 
         if date.isToday {
             if data.diaryCount == 0 {
-                cloverImage = .cloverToday
+                cloverType = .today
             } else if data.isDeleted {
-                cloverImage = .cloverTodayDone
+                cloverType = .todayDone
             } else {
-                cloverImage = data.replyStatus == "READY_READ"
-                    ? UIImage(named: "clover\(data.diaryCount)")
-                    : .cloverTodayDone
+                cloverType = (data.replyStatus == "READY_READ")
+                    ? CloverType.fromDiaryCount(data.diaryCount)
+                    : .todayDone
             }
         }
 
-        return CalendarCellViewData(cloverImage: cloverImage, showNewIcon: showNewIcon)
+        return CalendarCellViewData(cloverType: cloverType, showNewIcon: showNewIcon)
     }
+
 
 }

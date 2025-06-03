@@ -441,7 +441,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         cell.configure(
             isSelected: isSelected,
             dateText: dateText,
-            cloverImage: viewData.cloverImage,
+            cloverType: viewData.cloverType,
             showNewIcon: viewData.showNewIcon,
             isToday: isToday
         )

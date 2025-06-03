@@ -102,13 +102,13 @@ extension CalendarDateCell {
     func configure(
         isSelected: Bool,
         dateText: String,
-        cloverImage: UIImage?,
+        cloverType: CloverType,
         showNewIcon: Bool,
         isToday: Bool
     ) {
         backgroundSelectView.isHidden = !isSelected
         newImageView.isHidden = !showNewIcon
-        cloverImageView.image = cloverImage
+        cloverImageView.image = cloverType.image
 
         let textColor: UIColor = isSelected ? .white : (isToday ? .black : .grey05)
         calendarDateLabel.attributedText = UIFont.pretendardString(
