@@ -109,6 +109,7 @@
 		2C0B3C862C30DD55002EB1A3 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2C0B3C852C30DD55002EB1A3 /* Pretendard-Medium.otf */; };
 		2C0B3C882C30DD5B002EB1A3 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2C0B3C872C30DD5B002EB1A3 /* Pretendard-SemiBold.otf */; };
 		2CE3AB2F2C36E9F50042085A /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */; };
+		950CF0652DEF36280054F971 /* ContinueWritingAlarmBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950CF0642DEF36280054F971 /* ContinueWritingAlarmBottomSheet.swift */; };
 		952EB1992C6BCF7E00D1E516 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952EB1982C6BCF7E00D1E516 /* UIViewController+.swift */; };
 		95310F722C3C39FE00023C7B /* ClodyNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F712C3C39FE00023C7B /* ClodyNavigationBar.swift */; };
 		95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F732C3C765C00023C7B /* ClodyTextField.swift */; };
@@ -250,6 +251,7 @@
 		2C0B3C872C30DD5B002EB1A3 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		2CB129422C47F2CC009D1480 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		950CF0642DEF36280054F971 /* ContinueWritingAlarmBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueWritingAlarmBottomSheet.swift; sourceTree = "<group>"; };
 		952EB1982C6BCF7E00D1E516 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		95310F712C3C39FE00023C7B /* ClodyNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyNavigationBar.swift; sourceTree = "<group>"; };
 		95310F732C3C765C00023C7B /* ClodyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyTextField.swift; sourceTree = "<group>"; };
@@ -735,6 +737,7 @@
 				0BFCC5E02C2E8F2800B5E0DB /* CalendarView.swift */,
 				0BAAC64D2C43BFD900174A9D /* DeleteBottomSheetView.swift */,
 				0B4A1BB82C44E59B00E31EC4 /* DatePickerView.swift */,
+				950CF0642DEF36280054F971 /* ContinueWritingAlarmBottomSheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1128,6 +1131,7 @@
 				95A98EA32C9C5C1D0073AD3C /* AccountViewModel.swift in Sources */,
 				0B6C07572C3E7D340054A0B0 /* WritingDiaryModel.swift in Sources */,
 				0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */,
+				950CF0652DEF36280054F971 /* ContinueWritingAlarmBottomSheet.swift in Sources */,
 				0B4A1BD22C45410000E31EC4 /* CalendarListResponseDTO.swift in Sources */,
 				0B4A1BD52C4546F800E31EC4 /* Config.swift in Sources */,
 				0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */,
