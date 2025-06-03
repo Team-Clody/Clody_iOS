@@ -82,7 +82,7 @@ final class WritingDiaryHeaderView: UIView {
     }
     
     func setHierarchy() {
-        self.addSubviews(dateLabel, helpMessageDownArrowImage, helpMessageContainer, infoButton, backButton, submitButton)
+        self.addSubviews(dateLabel, infoButton, backButton, submitButton, helpMessageDownArrowImage, helpMessageContainer)
         helpMessageContainer.addSubviews(helpMessageLabel, cancelHelpButton)
     }
     
@@ -95,7 +95,6 @@ final class WritingDiaryHeaderView: UIView {
         }
         
         submitButton.snp.makeConstraints {
-            $0.width.equalTo(ScreenUtils.getWidth(39))
             $0.centerY.equalTo(backButton)
             $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
