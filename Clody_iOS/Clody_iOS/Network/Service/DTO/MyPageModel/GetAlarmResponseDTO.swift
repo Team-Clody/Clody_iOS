@@ -9,12 +9,7 @@ import Foundation
 
 struct GetAlarmResponseDTO: Codable {
     let isDiaryAlarm: Bool
+    let isDraftAlarm: Bool
     let isReplyAlarm: Bool
     let time: String
-}
-
-struct AlarmModel {
-    var isDiaryAlarm: Bool
-    var isReplyAlarm: Bool
-    var time: String
 }

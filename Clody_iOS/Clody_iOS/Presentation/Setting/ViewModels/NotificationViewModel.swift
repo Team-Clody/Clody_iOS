@@ -21,10 +21,13 @@ final class NotificationViewModel: ViewModelType {
     
     struct Output {
         let getAlarmInfo: Driver<Void>
+        let postAlarmSetting = PublishRelay<(NotificationSettingType, NotificationState)>()
         let selectedTimeRelay = PublishRelay<[Any]>()
         let popViewController: Driver<Void>
     }
     
+    let toggleChanged = PublishRelay<(NotificationSettingType, Bool)>()
+    let alarmStatesRelay = BehaviorRelay(value: NotificationState())
     let getAlarmInfoErrorStatus = PublishRelay<NetworkViewJudge>()
     let postAlarmSettingErrorStatus = PublishRelay<NetworkViewJudge>()
 
@@ -60,17 +63,16 @@ extension NotificationViewModel {
     }
     
     func postAlarmSetting(
-        isDiaryAlarm: Bool,
-        isReplyAlarm: Bool,
-        time: String,
+        _ notificationState: NotificationState,
         completion: @escaping (PostAlarmSetResponseDTO) -> ()
     ) {
         Providers.myPageProvider.request(
             target: .postAlarmSet(
                 data: PostAlarmSetRequestDTO(
-                    isDiaryAlarm: isDiaryAlarm,
-                    isReplyAlarm: isReplyAlarm,
-                    time: time,
+                    isDiaryAlarm: notificationState.isDiaryWritingAlarmOn,
+                    isDraftAlarm: notificationState.isContinueWritingAlarmOn,
+                    isReplyAlarm: notificationState.isReplyAlarmOn,
+                    time: notificationState.alarmTime,
                     fcmToken: UserManager.shared.fcmTokenValue
                 )
             ),
