@@ -46,6 +46,8 @@ final class CalendarViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         viewModel.fetchData()
     }
     
@@ -312,9 +314,7 @@ private extension CalendarViewController {
         deleteBottomSheetView.bottomSheetView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                self?.dismissBottomSheet(animated: true, completion: {
-                    
-                })
+                self?.dismissBottomSheet(animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
         
@@ -388,7 +388,7 @@ private extension CalendarViewController {
             if let date = Calendar.current.date(from: dateComponents) {
                 self.rootView.mainCalendarView.currentPage = date
             }
-            self.currentPageChanged.accept((dateComponents.year ?? 0, dateComponents.month ?? 0))
+            self.viewModel.currentPageRelay.accept((dateComponents.year ?? 0, dateComponents.month ?? 0))
         }
         
         AmplitudeManager.shared.trackEvent("home_list_diary")
@@ -418,7 +418,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         let currentPage = calendar.currentPage.dateToYearMonthDay()
-//        currentPageChanged.accept((currentPage.year, currentPage.month))
+        viewModel.currentPageRelay.accept((currentPage.year, currentPage.month))
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
