@@ -18,7 +18,7 @@ final class CalendarViewModel: ViewModelType {
         let tapResponseButton: Signal<Void>
         let tapListButton: Signal<Void>
         let tapSettingButton: Signal<Void>
-        let currentPageChanged: Signal<[String]>
+        let currentPageChanged: Signal<(year: Int, month: Int)>
         let tapKebabButton: Signal<Void>
         let tapDateButton: Signal<Void>
         let tapDeleteButton: Signal<Void>
@@ -35,7 +35,7 @@ final class CalendarViewModel: ViewModelType {
         let showPickerView: Signal<Void>
         let changeNavigationDate: Driver<String>
         let cloverCount: Driver<Int>
-        let currentPage: Driver<[String]>
+        let currentPage: Driver<(year: Int, month: Int)>
         let diaryDeleted: Signal<Void>
         let navigateToResponse: Signal<Void>
         let showDelete: Signal<Void>
@@ -46,7 +46,7 @@ final class CalendarViewModel: ViewModelType {
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
     let monthlyCalendarDataRelay = BehaviorRelay<CalendarMonthlyResponseDTO>(value: CalendarMonthlyResponseDTO(totalCloverCount: 0, diaries: [MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false)]))
     let dailyDiaryDataRelay = BehaviorRelay<GetDiaryResponseDTO>(value: GetDiaryResponseDTO(diaries: [], isDeleted: false))
-    let currentPageRelay = BehaviorRelay<[String]>(value: ["\(Date().dateToYearMonthDay().0)", "\(Date().dateToYearMonthDay().1)"])
+    let currentPageRelay = BehaviorRelay<(year: Int, month: Int)>(value: (Date().dateToYearMonthDay().year, Date().dateToYearMonthDay().month))
     let isLoadingRelay = PublishRelay<Bool>()
     let errorStatusRelay = PublishRelay<String>()
     
@@ -71,21 +71,19 @@ final class CalendarViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
-        input.currentPageChanged
-            .emit(onNext: { [weak self] date in
-                guard let self = self else { return }
-                self.currentPageRelay.accept(date)
-                let year = date[0]
-                let month = date[1]
-                
-                self.getMonthlyCalendar(year: Int(year) ?? 0, month: Int(month) ?? 0, completion: {})
-            })
-            .disposed(by: disposeBag)
-        
         input.tapDeleteButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 
+            })
+            .disposed(by: disposeBag)
+        
+        input.currentPageChanged
+            .emit(onNext: { [weak self] date in
+                guard let self = self else { return }
+                getMonthlyCalendar(year: date.year, month: date.month, completion: {
+                    self.currentPageRelay.accept((date.year, date.month))
+                })
             })
             .disposed(by: disposeBag)
         
@@ -115,36 +113,22 @@ final class CalendarViewModel: ViewModelType {
             .map { $0.totalCloverCount }
             .asDriver(onErrorJustReturn: 0)
         
-        let changeToList = input.tapListButton.asSignal()
-        
-        let changeToSetting = input.tapSettingButton.asSignal()
-        
-        let showDeleteBottomSheet = input.tapKebabButton.asSignal()
-        
-        let showPickerView = input.tapDateButton.asSignal()
-        
         let changeNavigationDate = currentPageRelay
             .map { date -> String in
-                let year = date[0]
-                guard let month = DateFormatter.convertToDoubleDigitMonth(from: date[1]) else { return ""}
-                let dateSelected = "\(year)년 \(month)월"
-                
-                return dateSelected
+                return "\(date.year)년 \(date.month)월"
             }
             .asDriver(onErrorJustReturn: "Error")
         
+        let changeToList = input.tapListButton.asSignal()
+        let changeToSetting = input.tapSettingButton.asSignal()
+        let showDeleteBottomSheet = input.tapKebabButton.asSignal()
+        let showPickerView = input.tapDateButton.asSignal()
         let navigateToResponse = input.tapResponseButton.asSignal()
-        
-        let currentPage = currentPageRelay.asDriver(onErrorJustReturn: ["\(Date().dateToYearMonthDay().0)", "\(Date().dateToYearMonthDay().1)"])
-        
+        let currentPage = currentPageRelay.asDriver(onErrorJustReturn: (year: Date().dateToYearMonthDay().year, Date().dateToYearMonthDay().month))
         let diaryDeleted = input.tapDeleteButton.asSignal()
-        
         let showDelete = input.tapDeleteButton.asSignal()
-        
         let isLoading = isLoadingRelay.asDriver(onErrorJustReturn: false)
-        
         let errorStatus = errorStatusRelay.asDriver(onErrorJustReturn: "")
-        
         
         return Output(
             dateLabel: dateLabel,
@@ -169,6 +153,19 @@ final class CalendarViewModel: ViewModelType {
 
 extension CalendarViewModel {
     
+    func fetchData() {
+        let dailyYear = DateFormatter.string(from: selectedDateRelay.value, format: "yyyy")
+        let dailyMonth = DateFormatter.string(from: selectedDateRelay.value, format: "MM")
+        let dailyDay = DateFormatter.string(from: selectedDateRelay.value, format: "dd")
+        
+        let monthlyYear = currentPageRelay.value.year
+        let monthlyMonth = currentPageRelay.value.month
+        
+        self.getMonthlyCalendar(year: monthlyYear, month: monthlyMonth) {
+            self.getDailyCalendarData(year: Int(dailyYear) ?? 0, month: Int(dailyMonth) ?? 0, date: Int(dailyDay) ?? 0, completion: {})
+        }
+    }
+    
     func getMonthlyCalendar(year: Int, month: Int, completion: @escaping () -> Void) {
         isLoadingRelay.accept(true)
         let provider = Providers.calendarProvider
@@ -185,7 +182,6 @@ extension CalendarViewModel {
             default:
                 self.errorStatusRelay.accept("unknownedView")
             }
-            self.currentPageRelay.accept([String(year), String(month)])
             self.isLoadingRelay.accept(false)
         }
     }
@@ -224,19 +220,6 @@ extension CalendarViewModel {
                 self.errorStatusRelay.accept("unknownedAlert")
             }
             self.isLoadingRelay.accept(false)
-        })
-    }
-    
-    func fetchData() {
-        let dailyYear = DateFormatter.string(from: selectedDateRelay.value, format: "yyyy")
-        let dailyMonth = DateFormatter.string(from: selectedDateRelay.value, format: "MM")
-        let dailyDay = DateFormatter.string(from: selectedDateRelay.value, format: "dd")
-        
-        let monthlyYear = currentPageRelay.value[0]
-        let monthlyMonth = currentPageRelay.value[1]
-        
-        self.getMonthlyCalendar(year: Int(monthlyYear) ?? 0, month: Int(monthlyMonth) ?? 0, completion: {
-            self.getDailyCalendarData(year: Int(dailyYear) ?? 0, month: Int(dailyMonth) ?? 0, date: Int(dailyDay) ?? 0, completion: {})
         })
     }
 }
