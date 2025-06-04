@@ -21,7 +21,9 @@ final class CalendarViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let tapDateRelay = PublishRelay<Date>()
     private let currentPageChanged = PublishRelay<(year: Int, month: Int)>()
-    private var calendarData: [MonthlyDiary] = [MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false)]
+    private var calendarData: [MonthlyDiary] {
+        viewModel.monthlyCalendarDataRelay.value.diaries
+    }
     private var hasDailyDiary : Bool {
         viewModel.dailyDiaryDataRelay.value.diaries.count != 0
     }
@@ -81,8 +83,17 @@ private extension CalendarViewController {
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
-        output.dateLabel
+        output.selectedMonthDay
             .drive(rootView.dateLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        output.selectedWeekDay
+            .drive(onNext: { [weak self] data in
+                guard let self = self else { return }
+                rootView.mainCalendarView.reloadData()
+                let dayOfContent = DateFormatter.date(from: data)
+                rootView.dayLabel.text = dayOfContent?.koreanDayOfWeek()
+            })
             .disposed(by: disposeBag)
         
         //데일리 다이어리 업데이트
@@ -118,6 +129,7 @@ private extension CalendarViewController {
                 rootView.calendarActionButton.setTitleColor(textColor, for: .normal)
                 rootView.calendarActionButton.isEnabled = isEnabled
                 
+                rootView.dailyDiaryCollectionView.reloadData()
                 print(isEnabled, "🍀")
             })
             .disposed(by: disposeBag)
@@ -132,16 +144,7 @@ private extension CalendarViewController {
         output.calendarData
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
-                calendarData = data
-            })
-            .disposed(by: disposeBag)
-        
-        output.selectedDate
-            .drive(onNext: { [weak self] data in
-                guard let self = self else { return }
                 rootView.mainCalendarView.reloadData()
-                let dayOfContent = DateFormatter.date(from: data)
-                rootView.dayLabel.text = dayOfContent?.koreanDayOfWeek()
             })
             .disposed(by: disposeBag)
         
@@ -180,8 +183,6 @@ private extension CalendarViewController {
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
                 rootView.calendarNavigationView.dateText = data
-                rootView.mainCalendarView.reloadData()
-                rootView.dailyDiaryCollectionView.reloadData()
             })
             .disposed(by: disposeBag)
         
@@ -209,11 +210,11 @@ private extension CalendarViewController {
 //                        replyStatus = "특정 값"
 //                    }
                     AmplitudeManager.shared.trackEvent("home_reply")
-                    self.navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: false), animated: true)
+                    navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: false), animated: true)
                 } else {
                     /// 일기 작성
                     AmplitudeManager.shared.trackEvent("home_writing_diary")
-                    self.navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
+                    navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
                 }
             })
             .disposed(by: disposeBag)
@@ -221,21 +222,21 @@ private extension CalendarViewController {
         output.showDeleteConfirmAlert
             .emit(onNext: { [weak self] index in
                 guard let self = self else { return }
-                self.showAlert(
+                showAlert(
                     type: .deleteDiary,
                     title: I18N.Alert.deleteDiaryTitle,
                     message: I18N.Alert.deleteDiaryMessage,
                     rightButtonText: I18N.Alert.delete
                 )
                 
-                self.alert?.leftButton.rx.tap
+                alert?.leftButton.rx.tap
                     .subscribe(onNext: {
                         self.hideAlert()
                         AmplitudeManager.shared.trackEvent("home_no_delete_diary")
                     })
                     .disposed(by: self.disposeBag)
                 
-                self.alert?.rightButton.rx.tap
+                alert?.rightButton.rx.tap
                     .subscribe(onNext: {
                         let year = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "yyyy")
                         let month = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "MM")
@@ -359,6 +360,7 @@ private extension CalendarViewController {
                     if let date = Calendar.current.date(from: dateComponents) {
                         self.rootView.mainCalendarView.currentPage = date
                     }
+                    self.currentPageChanged.accept((selectedYear, selectedMonth))
                 }
             })
             .disposed(by: disposeBag)
@@ -386,6 +388,7 @@ private extension CalendarViewController {
             if let date = Calendar.current.date(from: dateComponents) {
                 self.rootView.mainCalendarView.currentPage = date
             }
+            self.currentPageChanged.accept((dateComponents.year ?? 0, dateComponents.month ?? 0))
         }
         
         AmplitudeManager.shared.trackEvent("home_list_diary")
@@ -415,7 +418,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         let currentPage = calendar.currentPage.dateToYearMonthDay()
-        currentPageChanged.accept((currentPage.year, currentPage.month))
+//        currentPageChanged.accept((currentPage.year, currentPage.month))
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {

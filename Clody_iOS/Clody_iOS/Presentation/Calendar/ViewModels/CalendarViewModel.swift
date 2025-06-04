@@ -25,8 +25,8 @@ final class CalendarViewModel: ViewModelType {
     }
     
     struct Output {
-        let dateLabel: Driver<String>
-        let selectedDate: Driver<String>
+        let selectedMonthDay: Driver<String>
+        let selectedWeekDay: Driver<String>
         let diaryData: Driver<[DailyDiary]>
         let calendarData: Driver<[MonthlyDiary]>
         let pushListViewController: Signal<Void>
@@ -79,14 +79,14 @@ final class CalendarViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
-        let dateLabel = selectedDateRelay
+        let selectedMonthDay = selectedDateRelay
             .map { date -> String in
-                let dateSelected = DateFormatter.string(from: date, format: "M.d")
-                return dateSelected
+                let selectedDate = DateFormatter.string(from: date, format: "M.d")
+                return selectedDate
             }
             .asDriver(onErrorJustReturn: "Error")
         
-        let selectedDate = selectedDateRelay
+        let selectedWeekDay = selectedDateRelay
             .map { date -> String in
                 let dateSelected = DateFormatter.string(from: date, format: "yyyy-MM-dd")
                 return dateSelected
@@ -122,8 +122,8 @@ final class CalendarViewModel: ViewModelType {
         let errorStatus = errorStatusRelay.asDriver(onErrorJustReturn: "")
         
         return Output(
-            dateLabel: dateLabel,
-            selectedDate: selectedDate,
+            selectedMonthDay: selectedMonthDay,
+            selectedWeekDay: selectedWeekDay,
             diaryData: diaryData,
             calendarData: calendarData,
             pushListViewController: pushListViewController,
@@ -186,13 +186,13 @@ extension CalendarViewModel {
             case 200..<300:
                 guard let data = data.data else { return }
                 self.dailyDiaryDataRelay.accept(data)
+                completion()
             case -1:
                 self.errorStatusRelay.accept("networkAlert")
             default:
                 self.errorStatusRelay.accept("unknownedAlert")
             }
             self.isLoadingRelay.accept(false)
-            completion()  
         }
     }
     
