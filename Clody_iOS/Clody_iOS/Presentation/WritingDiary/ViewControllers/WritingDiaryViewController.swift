@@ -24,6 +24,8 @@ final class WritingDiaryViewController: UIViewController {
     private let kebabButtonTap = PublishRelay<Int>()
     private var date: Date
     private var textViewHeight: CGFloat = 0
+    private var currentKeyboardVisible: Bool = false
+    private var isAddButtonEnabled: Bool = true
     
     // MARK: - UI Components
     
@@ -71,7 +73,7 @@ private extension WritingDiaryViewController {
     func bindViewModel() {
         let input = WritingDiaryViewModel.Input(
             viewDidLoad: Observable.just(()),
-            tapSaveButton: rootView.saveButton.rx.tap.asSignal(),
+            tapSubmitButton: rootView.headerView.submitButton.rx.tap.asSignal(),
             tapAddButton: rootView.addButton.rx.tap.asSignal(),
             tapBackButton: rootView.headerView.backButton.rx.tap.asSignal(),
             updateKebobRelay: kebabButtonTap,
@@ -103,13 +105,19 @@ private extension WritingDiaryViewController {
         
         output.isAddButtonEnabled
             .drive(onNext: { [weak self] isEnabled in
+                guard let self = self else { return }
+                isAddButtonEnabled = isEnabled
                 if !isEnabled {
                     ClodyToast.show(toastType: .limitFive)
                 }
-                let image = isEnabled ? "addButton" : "addButtonOff"
-                self?.rootView.addButton.setImage(UIImage(named: image), for: .normal)
+                
+                let imageName = self.currentKeyboardVisible
+                ? (isEnabled ? "smallAddButton" : "smallAddButtonOff")
+                : (isEnabled ? "bigAddButton" : "bigAddButtonOff")
+                self.rootView.addButton.setImage(UIImage(named: imageName), for: .normal)
             })
             .disposed(by: disposeBag)
+        
         
         output.showSaveErrorToast
             .emit(onNext: {
@@ -200,7 +208,7 @@ private extension WritingDiaryViewController {
                 cell.bindData(
                     index: indexPath.item + 1,
                     text: text,
-                    statuses: self.viewModel.textViewIsEmptyRelay.value[indexPath.row],
+                    isValid: self.viewModel.textViewIsEmptyRelay.value[indexPath.row],
                     isFirst: self.viewModel.isFirstRelay.value[indexPath.row]
                 )
                 
@@ -234,7 +242,7 @@ private extension WritingDiaryViewController {
                         self.viewModel.isFirstRelay.accept(isFirst)
                         cell.writingListNumberLabel.textColor = .grey02
                         cell.textView.textColor = .grey03
-                        cell.writingContainer.backgroundColor = .clear
+                        cell.writingContainer.backgroundColor = .white
                         
                         cell.textView.rx.text.orEmpty
                             .map { "\($0.count)" }
@@ -245,9 +253,9 @@ private extension WritingDiaryViewController {
                             .skip(1)
                             .map { $0.count != 50 }
                             .subscribe(onNext: { isHidden in
+                                self.updateTextViewHeightIfNeeded(for: cell, collectionView)
                                 cell.limitErrorLabel.isHidden = isHidden
                                 cell.writingContainer.makeBorder(width: 1, color: isHidden ? .mainYellow : .redCustom)
-                                self.updateTextViewHeightIfNeeded(for: cell, collectionView)
                             })
                             .disposed(by: cell.disposeBag)
                     })
@@ -259,15 +267,9 @@ private extension WritingDiaryViewController {
                         var status = self.viewModel.textViewIsEmptyRelay.value
                         status[indexPath.item] = !cell.textView.text.isEmpty
                         self.viewModel.textViewIsEmptyRelay.accept(status)
-                        if !cell.textView.text.isEmpty {
-                            cell.writingContainer.backgroundColor = .grey09
-                        }
-                        
                         var items = self.viewModel.diariesRelay.value
                         items[indexPath.item] = cell.textView.text
                         self.viewModel.diariesRelay.accept(items)
-                        
-                        cell.limitErrorLabel.isHidden = true
                     })
                     .disposed(by: cell.disposeBag)
                 
@@ -345,20 +347,36 @@ private extension WritingDiaryViewController {
             .distinctUntilChanged()
             .drive(onNext: { [weak self] keyboardVisibleHeight in
                 guard let self = self else { return }
-                let addButtonPadding = keyboardVisibleHeight > 0 ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + ScreenUtils.getHeight(20) : ScreenUtils.getHeight(81)
+                let isKeyboardVisible = keyboardVisibleHeight > 0
+                self.currentKeyboardVisible = isKeyboardVisible  // 키보드 상태 기억
+                
+                let addButtonPadding = isKeyboardVisible
+                ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + ScreenUtils.getHeight(20)
+                : ScreenUtils.getHeight(6)
                 
                 self.rootView.addButton.snp.updateConstraints {
                     $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(addButtonPadding)
+                    $0.height.equalTo(ScreenUtils.getHeight(isKeyboardVisible ? 48 : 42))
                 }
                 
                 self.rootView.writingCollectionView.snp.updateConstraints {
-                    $0.bottom.equalToSuperview().inset(keyboardVisibleHeight > 0 ? keyboardVisibleHeight : 0)
+                    $0.bottom.equalToSuperview().inset(isKeyboardVisible ? keyboardVisibleHeight : 0)
                 }
                 
-                self.view.layoutIfNeeded()
+                UIView.animate(withDuration: 0.25) {
+                    self.view.layoutIfNeeded()
+                }
+                
+                let isEnabled = isAddButtonEnabled
+                let imageName = isKeyboardVisible
+                ? (isEnabled ? "smallAddButton" : "smallAddButtonOff")
+                : (isEnabled ? "bigAddButton" : "bigAddButtonOff")
+                self.rootView.addButton.setImage(UIImage(named: imageName), for: .normal)
             })
             .disposed(by: disposeBag)
     }
+    
+    
 }
 
 /// Alert 관련 함수입니다.

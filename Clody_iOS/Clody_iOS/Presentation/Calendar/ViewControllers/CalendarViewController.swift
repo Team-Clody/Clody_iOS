@@ -84,42 +84,55 @@ private extension CalendarViewController {
             .disposed(by: disposeBag)
         
         //데일리 다이어리 업데이트
-        output.diaryData
-            .drive(onNext: { [weak self] data in
+        
+        output.diaryButtonState
+            .drive(onNext: { [weak self] state in
                 guard let self = self else { return }
                 
-                let isNotEmpty = !data.isEmpty
-                let selectedDate = self.viewModel.selectedDateRelay.value
-                let isWritingAvailable = selectedDate.isWritingAvailable
-                let isDeleted = self.viewModel.dailyDiaryDataRelay.value.isDeleted
+                let config: (text: String, backgroundColor: UIColor?, titleColor: UIColor?, isEnabled: Bool) = {
+                    switch state {
+                    case .writeEnabled:
+                        return (
+                            text: I18N.Calendar.writing,
+                            backgroundColor: UIColor(named: "mainYellow"),
+                            titleColor: UIColor(named: "grey02"),
+                            isEnabled: true
+                        )
+                    case .writeDisabled:
+                        return (
+                            text: I18N.Calendar.writing,
+                            backgroundColor: UIColor(named: "lightYellow"),
+                            titleColor: UIColor(named: "grey06"),
+                            isEnabled: false
+                        )
+                    case .replyEnabled:
+                        return (
+                            text: I18N.Calendar.reply,
+                            backgroundColor: UIColor(named: "grey01"),
+                            titleColor: UIColor(named: "white"),
+                            isEnabled: true
+                        )
+                    case .replyDisabled:
+                        return (
+                            text: I18N.Calendar.reply,
+                            backgroundColor: UIColor(named: "grey07"),
+                            titleColor: UIColor(named: "grey04"),
+                            isEnabled: false
+                        )
+                    }
+                }()
                 
-                // 기본값 설정
-                var buttonTitle = isNotEmpty ? I18N.Calendar.reply : I18N.Calendar.writing
-                var buttonColor: UIColor? = isNotEmpty ? UIColor(named: "grey01") : UIColor(named: "mainYellow")
-                var textColor: UIColor? = UIColor(named: isNotEmpty ? "white" : "grey02")
-                var isEnabled = true
-                
-                // 버튼 상태 및 색상 결정
-                if (isWritingAvailable && isNotEmpty && isDeleted) || (!isWritingAvailable && (isDeleted || !isNotEmpty)) {
-                    isEnabled = false
-                    buttonColor = isNotEmpty ? UIColor(named: "grey07") : UIColor(named: "lightYellow")
-                    textColor = UIColor(named: isNotEmpty ? "grey04" : "grey06")
-                }
-                
-                // UI 업데이트
-                self.rootView.emptyDiaryView.isHidden = isNotEmpty
+                self.rootView.emptyDiaryView.isHidden = (state == .replyEnabled || state == .replyDisabled)
+                self.rootView.kebabButton.isHidden = (state == .writeDisabled || state == .writeEnabled)
                 self.rootView.calendarButton.setAttributedTitle(
-                    UIFont.pretendardString(text: buttonTitle, style: .body1_semibold),
+                    UIFont.pretendardString(text: config.text, style: .body1_semibold),
                     for: .normal
                 )
-                self.rootView.calendarButton.backgroundColor = buttonColor
-                self.rootView.calendarButton.setTitleColor(textColor, for: .normal)
-                self.rootView.calendarButton.isEnabled = isEnabled
-                
-                print(isEnabled, "🍀")
+                self.rootView.calendarButton.backgroundColor = config.backgroundColor
+                self.rootView.calendarButton.setTitleColor(config.titleColor, for: .normal)
+                self.rootView.calendarButton.isEnabled = config.isEnabled
             })
             .disposed(by: disposeBag)
-
         
         output.diaryData
             .drive(rootView.dailyDiaryCollectionView.rx.items(cellIdentifier: DailyCalendarCollectionViewCell.description(), cellType: DailyCalendarCollectionViewCell.self)) { index, model, cell in
@@ -433,21 +446,29 @@ private extension CalendarViewController {
 extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
-        guard let cell = calendar.dequeueReusableCell(withIdentifier: CalendarDateCell.description(), for: date, at: position) as? CalendarDateCell else { return FSCalendarCell() }
-        
-        let day = Calendar.current.component(.day, from: date) - 1
-        let data: MonthlyDiary? = day >= 0 && day < calendarData.count ? calendarData[day] : nil
-        
+        guard let cell = calendar.dequeueReusableCell(
+            withIdentifier: CalendarDateCell.description(), for: date, at: position
+        ) as? CalendarDateCell else {
+            return FSCalendarCell()
+        }
+
+        let isSelected = Calendar.current.isDate(date, inSameDayAs: viewModel.selectedDateRelay.value)
         let isToday = date.isToday
-        let isSelected = Calendar.current.isDate(date, inSameDayAs: self.viewModel.selectedDateRelay.value)
-        let isDeleted = data?.isDeleted ?? false
-        let date = DateFormatter.string(from: date, format: "d")
+        let dateText = DateFormatter.string(from: date, format: "d")
         
-        let dayString = String(day + 1)
-        
-        cell.configure(isToday: isToday, isSelected: isSelected, isDeleted: isDeleted, date: date, data: data ?? MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false))
+        let viewData = viewModel.getCalendarCellViewData(for: date, calendarData: calendarData)
+
+        cell.configure(
+            isSelected: isSelected,
+            dateText: dateText,
+            cloverType: viewData.cloverType,
+            showNewIcon: viewData.showNewIcon,
+            isToday: isToday
+        )
+
         return cell
     }
+
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         tapDateRelay.accept(date)

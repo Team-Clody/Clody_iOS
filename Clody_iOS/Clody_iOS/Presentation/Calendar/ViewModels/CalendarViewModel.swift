@@ -41,6 +41,7 @@ final class CalendarViewModel: ViewModelType {
         let showDelete: Signal<Void>
         let isLoading: Driver<Bool>
         let errorStatus: Driver<String>
+        let diaryButtonState: Driver<DiaryButtonState>
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
@@ -145,6 +146,33 @@ final class CalendarViewModel: ViewModelType {
         
         let errorStatus = errorStatusRelay.asDriver(onErrorJustReturn: "")
         
+        let diaryButtonState = Observable
+            .combineLatest(dailyDiaryDataRelay, selectedDateRelay)
+            .map { dailyData, selectedDate -> DiaryButtonState in
+                let isNotEmpty = !dailyData.diaries.isEmpty
+                let isWritingAvailable = selectedDate.isWritingAvailable
+                let isDeleted = dailyData.isDeleted
+                
+                switch (isWritingAvailable, isNotEmpty, isDeleted) {
+                case (true, false, false):
+                    return .writeEnabled
+                case (true, false, true):
+                    return .writeEnabled
+                case (true, true, false):
+                    return .replyEnabled
+                case (true, true, true):
+                    return .replyDisabled
+                case (false, false, false):
+                    return .writeDisabled
+                case (false, false, true):
+                    return .writeDisabled
+                case (false, true, false):
+                    return .replyEnabled
+                case (false, true, true):
+                    return .replyDisabled
+                }
+            }
+            .asDriver(onErrorJustReturn: .writeDisabled)
         
         return Output(
             dateLabel: dateLabel,
@@ -162,7 +190,8 @@ final class CalendarViewModel: ViewModelType {
             navigateToResponse: navigateToResponse,
             showDelete: showDelete,
             isLoading: isLoading,
-            errorStatus: errorStatus
+            errorStatus: errorStatus,
+            diaryButtonState: diaryButtonState
         )
     }
 }
@@ -239,4 +268,46 @@ extension CalendarViewModel {
             self.getDailyCalendarData(year: Int(dailyYear) ?? 0, month: Int(dailyMonth) ?? 0, date: Int(dailyDay) ?? 0, completion: {})
         })
     }
+    
+    func getCalendarCellViewData(
+        for date: Date,
+        calendarData: [MonthlyDiary]
+    ) -> CalendarCellViewData {
+        let day = Calendar.current.component(.day, from: date) - 1
+        guard day >= 0, day < calendarData.count else {
+            return CalendarCellViewData(cloverType: .none, showNewIcon: false)
+        }
+
+        let data = calendarData[day]
+        var cloverType: CloverType = .none
+        var showNewIcon = false
+
+        if data.replyStatus == "READY_NOT_READ" {
+            showNewIcon = true
+        }
+
+        if data.replyStatus == "READY_READ" {
+            cloverType = CloverType.fromDiaryCount(data.diaryCount)
+        }
+
+        if data.isDeleted {
+            cloverType = .none
+        }
+
+        if date.isToday {
+            if data.diaryCount == 0 {
+                cloverType = .today
+            } else if data.isDeleted {
+                cloverType = .todayDone
+            } else {
+                cloverType = (data.replyStatus == "READY_READ")
+                    ? CloverType.fromDiaryCount(data.diaryCount)
+                    : .todayDone
+            }
+        }
+
+        return CalendarCellViewData(cloverType: cloverType, showNewIcon: showNewIcon)
+    }
+
+
 }

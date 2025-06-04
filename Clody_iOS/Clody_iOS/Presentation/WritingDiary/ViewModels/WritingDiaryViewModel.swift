@@ -29,7 +29,7 @@ final class WritingDiaryViewModel: ViewModelType {
     
     struct Input {
         let viewDidLoad: Observable<Void>
-        let tapSaveButton: Signal<Void>
+        let tapSubmitButton: Signal<Void>
         let tapAddButton: Signal<Void>
         let tapBackButton: Signal<Void>
         let updateKebobRelay: PublishRelay<Int>
@@ -71,7 +71,7 @@ final class WritingDiaryViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
-        input.tapSaveButton
+        input.tapSubmitButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.saveData()
