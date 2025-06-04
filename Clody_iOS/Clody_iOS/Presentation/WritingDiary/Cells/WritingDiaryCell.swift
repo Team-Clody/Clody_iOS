@@ -165,14 +165,14 @@ final class WritingDiaryCell: UICollectionViewCell {
         limitTextLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
     
-    func bindData(index: Int, text: String, isError: Bool, isFirst: Bool) {
+    func bindData(index: Int, text: String, isValid: Bool, isFirst: Bool) {
         writingListNumberLabel.text = "\(index)."
         textInputLabel.text = "\(text.count)"
         writingListNumberLabel.textColor = isFirst ? .grey06 : .grey02
         textView.textColor = isFirst ? .grey06 : .grey03
         limitErrorLabel.isHidden = true
         
-        if isError {
+        if isValid {
             textView.text = text.isEmpty ? I18N.WritingDiary.placeHolder : text
             writingContainer.backgroundColor = .grey09
             writingContainer.makeBorder(width: 0, color: .clear)

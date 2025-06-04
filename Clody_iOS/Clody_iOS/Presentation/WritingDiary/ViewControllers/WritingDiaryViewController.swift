@@ -110,14 +110,14 @@ private extension WritingDiaryViewController {
                 if !isEnabled {
                     ClodyToast.show(toastType: .limitFive)
                 }
-
+                
                 let imageName = self.currentKeyboardVisible
-                    ? (isEnabled ? "smallAddButton" : "smallAddButtonOff")
-                    : (isEnabled ? "bigAddButton" : "bigAddButtonOff")
+                ? (isEnabled ? "smallAddButton" : "smallAddButtonOff")
+                : (isEnabled ? "bigAddButton" : "bigAddButtonOff")
                 self.rootView.addButton.setImage(UIImage(named: imageName), for: .normal)
             })
             .disposed(by: disposeBag)
-
+        
         
         output.showSaveErrorToast
             .emit(onNext: {
@@ -208,7 +208,7 @@ private extension WritingDiaryViewController {
                 cell.bindData(
                     index: indexPath.item + 1,
                     text: text,
-                    isError: self.viewModel.textViewIsEmptyRelay.value[indexPath.row],
+                    isValid: self.viewModel.textViewIsEmptyRelay.value[indexPath.row],
                     isFirst: self.viewModel.isFirstRelay.value[indexPath.row]
                 )
                 
@@ -255,7 +255,7 @@ private extension WritingDiaryViewController {
                             .subscribe(onNext: { isHidden in
                                 self.updateTextViewHeightIfNeeded(for: cell, collectionView)
                                 cell.limitErrorLabel.isHidden = isHidden
-                                                                cell.writingContainer.makeBorder(width: 1, color: isHidden ? .mainYellow : .redCustom)
+                                cell.writingContainer.makeBorder(width: 1, color: isHidden ? .mainYellow : .redCustom)
                             })
                             .disposed(by: cell.disposeBag)
                     })
@@ -349,34 +349,34 @@ private extension WritingDiaryViewController {
                 guard let self = self else { return }
                 let isKeyboardVisible = keyboardVisibleHeight > 0
                 self.currentKeyboardVisible = isKeyboardVisible  // 키보드 상태 기억
-
+                
                 let addButtonPadding = isKeyboardVisible
-                    ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + ScreenUtils.getHeight(20)
-                    : ScreenUtils.getHeight(6)
-
+                ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + ScreenUtils.getHeight(20)
+                : ScreenUtils.getHeight(6)
+                
                 self.rootView.addButton.snp.updateConstraints {
                     $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(addButtonPadding)
                     $0.height.equalTo(ScreenUtils.getHeight(isKeyboardVisible ? 48 : 42))
                 }
-
+                
                 self.rootView.writingCollectionView.snp.updateConstraints {
                     $0.bottom.equalToSuperview().inset(isKeyboardVisible ? keyboardVisibleHeight : 0)
                 }
-
+                
                 UIView.animate(withDuration: 0.25) {
                     self.view.layoutIfNeeded()
                 }
-
+                
                 let isEnabled = isAddButtonEnabled
                 let imageName = isKeyboardVisible
-                    ? (isEnabled ? "smallAddButton" : "smallAddButtonOff")
-                    : (isEnabled ? "bigAddButton" : "bigAddButtonOff")
+                ? (isEnabled ? "smallAddButton" : "smallAddButtonOff")
+                : (isEnabled ? "bigAddButton" : "bigAddButtonOff")
                 self.rootView.addButton.setImage(UIImage(named: imageName), for: .normal)
             })
             .disposed(by: disposeBag)
     }
-
-
+    
+    
 }
 
 /// Alert 관련 함수입니다.
