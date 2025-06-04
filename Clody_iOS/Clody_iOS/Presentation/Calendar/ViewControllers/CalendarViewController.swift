@@ -22,7 +22,7 @@ final class CalendarViewController: UIViewController {
     private let tapDateRelay = PublishRelay<Date>()
     private let currentPageChanged = PublishRelay<(year: Int, month: Int)>()
     private var calendarData: [MonthlyDiary] = [MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false)]
-    private var hasDiaries : Bool {
+    private var hasDailyDiary : Bool {
         viewModel.dailyDiaryDataRelay.value.diaries.count != 0
     }
     
@@ -67,7 +67,7 @@ private extension CalendarViewController {
         let input = CalendarViewModel.Input(
             viewDidLoad: Observable.just(()),
             tapDateCell: tapDateRelay.asSignal(),
-            tapResponseButton: rootView.calendarButton.rx.tap.asSignal(),
+            tapCalendarActionButton: rootView.calendarActionButton.rx.tap.asSignal(),
             tapListButton: rootView.calendarNavigationView.listButton.rx.tap.asSignal(),
             tapSettingButton: rootView.calendarNavigationView.settingButton.rx.tap.asSignal(),
             currentPageChanged: currentPageChanged.asSignal(),
@@ -110,13 +110,13 @@ private extension CalendarViewController {
                 
                 // UI 업데이트
                 rootView.emptyDiaryView.isHidden = isNotEmpty
-                rootView.calendarButton.setAttributedTitle(
+                rootView.calendarActionButton.setAttributedTitle(
                     UIFont.pretendardString(text: buttonTitle, style: .body1_semibold),
                     for: .normal
                 )
-                rootView.calendarButton.backgroundColor = buttonColor
-                rootView.calendarButton.setTitleColor(textColor, for: .normal)
-                rootView.calendarButton.isEnabled = isEnabled
+                rootView.calendarActionButton.backgroundColor = buttonColor
+                rootView.calendarActionButton.setTitleColor(textColor, for: .normal)
+                rootView.calendarActionButton.isEnabled = isEnabled
                 
                 print(isEnabled, "🍀")
             })
@@ -145,14 +145,14 @@ private extension CalendarViewController {
             })
             .disposed(by: disposeBag)
         
-        output.changeToList
+        output.pushListViewController
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 navigateToListViewController()
             })
             .disposed(by: disposeBag)
         
-        output.changeToSetting
+        output.pushSettingViewController
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 navigationController?.pushViewController(SettingViewController(), animated: true)
@@ -176,7 +176,7 @@ private extension CalendarViewController {
             })
             .disposed(by: disposeBag)
         
-        output.changeNavigationDate
+        output.changeCalendarDateText
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
                 rootView.calendarNavigationView.dateText = data
@@ -185,29 +185,29 @@ private extension CalendarViewController {
             })
             .disposed(by: disposeBag)
         
-        output.cloverCount
+        output.changeCloverCount
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
                 rootView.cloverLabel.text = "클로버 \(data)개"
             })
             .disposed(by: disposeBag)
         
-        output.navigateToResponse
+        output.pushWritingDiaryOrReplyWaitingVC
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 let date = viewModel.selectedDateRelay.value
                 
-                if hasDiaries {
+                if hasDailyDiary {
                     /// 일기 답장
-                    let dateIndex = Int(DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "dd")) ?? 1
-                    let diaries = viewModel.monthlyCalendarDataRelay.value.diaries
-                    
-                    let replyStatus: String
-                    if diaries.indices.contains(dateIndex - 1) {
-                        replyStatus = diaries[dateIndex - 1].replyStatus
-                    } else {
-                        replyStatus = "특정 값"
-                    }
+//                    let dateIndex = Int(DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "dd")) ?? 1
+//                    let diaries = viewModel.monthlyCalendarDataRelay.value.diaries
+//                    
+//                    let replyStatus: String
+//                    if diaries.indices.contains(dateIndex - 1) {
+//                        replyStatus = diaries[dateIndex - 1].replyStatus
+//                    } else {
+//                        replyStatus = "특정 값"
+//                    }
                     AmplitudeManager.shared.trackEvent("home_reply")
                     self.navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: false), animated: true)
                 } else {
@@ -218,7 +218,7 @@ private extension CalendarViewController {
             })
             .disposed(by: disposeBag)
         
-        output.showDelete
+        output.showDeleteConfirmAlert
             .emit(onNext: { [weak self] index in
                 guard let self = self else { return }
                 self.showAlert(
@@ -245,12 +245,6 @@ private extension CalendarViewController {
                         AmplitudeManager.shared.trackEvent("home_delete_diary")
                     })
                     .disposed(by: self.disposeBag)
-            })
-            .disposed(by: disposeBag)
-        
-        output.diaryDeleted
-            .emit(onNext: { [weak self] in
-                guard let self = self else { return }
             })
             .disposed(by: disposeBag)
         

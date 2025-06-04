@@ -15,7 +15,7 @@ final class CalendarViewModel: ViewModelType {
     struct Input {
         let viewDidLoad: Observable<Void>
         let tapDateCell: Signal<Date>
-        let tapResponseButton: Signal<Void>
+        let tapCalendarActionButton: Signal<Void>
         let tapListButton: Signal<Void>
         let tapSettingButton: Signal<Void>
         let currentPageChanged: Signal<(year: Int, month: Int)>
@@ -29,16 +29,15 @@ final class CalendarViewModel: ViewModelType {
         let selectedDate: Driver<String>
         let diaryData: Driver<[DailyDiary]>
         let calendarData: Driver<[MonthlyDiary]>
-        let changeToList: Signal<Void>
-        let changeToSetting: Signal<Void>
+        let pushListViewController: Signal<Void>
+        let pushSettingViewController: Signal<Void>
         let showDeleteBottomSheet: Signal<Void>
         let showPickerView: Signal<Void>
-        let changeNavigationDate: Driver<String>
-        let cloverCount: Driver<Int>
+        let changeCalendarDateText: Driver<String>
+        let changeCloverCount: Driver<Int>
         let currentPage: Driver<(year: Int, month: Int)>
-        let diaryDeleted: Signal<Void>
-        let navigateToResponse: Signal<Void>
-        let showDelete: Signal<Void>
+        let pushWritingDiaryOrReplyWaitingVC: Signal<Void>
+        let showDeleteConfirmAlert: Signal<Void>
         let isLoading: Driver<Bool>
         let errorStatus: Driver<String>
     }
@@ -68,13 +67,6 @@ final class CalendarViewModel: ViewModelType {
                 self.selectedDateRelay.accept(date)
                 self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0, completion: {})
                 AmplitudeManager.shared.trackEvent("home_calendar_clover")
-            })
-            .disposed(by: disposeBag)
-        
-        input.tapDeleteButton
-            .emit(onNext: { [weak self] in
-                guard let self = self else { return }
-                
             })
             .disposed(by: disposeBag)
         
@@ -109,24 +101,23 @@ final class CalendarViewModel: ViewModelType {
             .map { $0.diaries }
             .asDriver(onErrorJustReturn: [])
         
-        let cloverCount = monthlyCalendarDataRelay
+        let changeCloverCount = monthlyCalendarDataRelay
             .map { $0.totalCloverCount }
             .asDriver(onErrorJustReturn: 0)
         
-        let changeNavigationDate = currentPageRelay
+        let changeCalendarDateText = currentPageRelay
             .map { date -> String in
                 return "\(date.year)년 \(date.month)월"
             }
             .asDriver(onErrorJustReturn: "Error")
         
-        let changeToList = input.tapListButton.asSignal()
-        let changeToSetting = input.tapSettingButton.asSignal()
+        let pushListViewController = input.tapListButton.asSignal()
+        let pushSettingViewController = input.tapSettingButton.asSignal()
         let showDeleteBottomSheet = input.tapKebabButton.asSignal()
         let showPickerView = input.tapDateButton.asSignal()
-        let navigateToResponse = input.tapResponseButton.asSignal()
+        let pushWritingDiaryOrReplyWaitingVC = input.tapCalendarActionButton.asSignal()
         let currentPage = currentPageRelay.asDriver(onErrorJustReturn: (year: Date().dateToYearMonthDay().year, Date().dateToYearMonthDay().month))
-        let diaryDeleted = input.tapDeleteButton.asSignal()
-        let showDelete = input.tapDeleteButton.asSignal()
+        let showDeleteConfirmAlert = input.tapDeleteButton.asSignal()
         let isLoading = isLoadingRelay.asDriver(onErrorJustReturn: false)
         let errorStatus = errorStatusRelay.asDriver(onErrorJustReturn: "")
         
@@ -135,16 +126,15 @@ final class CalendarViewModel: ViewModelType {
             selectedDate: selectedDate,
             diaryData: diaryData,
             calendarData: calendarData,
-            changeToList: changeToList,
-            changeToSetting: changeToSetting,
+            pushListViewController: pushListViewController,
+            pushSettingViewController: pushSettingViewController,
             showDeleteBottomSheet: showDeleteBottomSheet,
             showPickerView: showPickerView,
-            changeNavigationDate: changeNavigationDate,
-            cloverCount: cloverCount,
+            changeCalendarDateText: changeCalendarDateText,
+            changeCloverCount: changeCloverCount,
             currentPage: currentPage,
-            diaryDeleted: diaryDeleted,
-            navigateToResponse: navigateToResponse,
-            showDelete: showDelete,
+            pushWritingDiaryOrReplyWaitingVC: pushWritingDiaryOrReplyWaitingVC,
+            showDeleteConfirmAlert: showDeleteConfirmAlert,
             isLoading: isLoading,
             errorStatus: errorStatus
         )
