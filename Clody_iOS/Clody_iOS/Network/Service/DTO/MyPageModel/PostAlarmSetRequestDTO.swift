@@ -9,6 +9,7 @@ import Foundation
 
 struct PostAlarmSetRequestDTO: Codable {
     let isDiaryAlarm: Bool
+    let isDraftAlarm: Bool
     let isReplyAlarm: Bool
     let time: String
     let fcmToken: String

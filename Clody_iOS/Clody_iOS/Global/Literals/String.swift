@@ -134,4 +134,11 @@ enum I18N {
         static let otherDay = "다른 날짜 보기"
         static let complete = "완료"
     }
+    
+    enum Notification {
+        static let diaryWriting = "일기 작성 알림 받기"
+        static let continueWriting = "이어쓰기 알림 받기"
+        static let time = "알림 시간"
+        static let replyReceived = "답장 도착 알림 받기"
+    }
 }

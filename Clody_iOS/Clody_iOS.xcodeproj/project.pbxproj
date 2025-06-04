@@ -145,6 +145,7 @@
 		95310FC22C45453F00023C7B /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC12C45453F00023C7B /* NicknameViewModel.swift */; };
 		95310FC42C45A31700023C7B /* DiaryNotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */; };
 		95310FC62C45ACD000023C7B /* OnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */; };
+		9556E2FD2DEB69120029FB95 /* NotificationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9556E2FC2DEB69120029FB95 /* NotificationState.swift */; };
 		9586C5612D8524DC00E12570 /* PostPatchAdRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9586C5602D8524DC00E12570 /* PostPatchAdRequestDTO.swift */; };
 		95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A89E762C36EE4100E07ABC /* BaseView.swift */; };
 		95A98E772C9C2E730073AD3C /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E762C9C2E730073AD3C /* SettingViewController.swift */; };
@@ -288,6 +289,7 @@
 		95310FC12C45453F00023C7B /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryNotificationViewModel.swift; sourceTree = "<group>"; };
 		95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewModel.swift; sourceTree = "<group>"; };
+		9556E2FC2DEB69120029FB95 /* NotificationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationState.swift; sourceTree = "<group>"; };
 		9586C5602D8524DC00E12570 /* PostPatchAdRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPatchAdRequestDTO.swift; sourceTree = "<group>"; };
 		95A89E762C36EE4100E07ABC /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		95A98E762C9C2E730073AD3C /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -890,6 +892,14 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		9556E2FB2DEB68FD0029FB95 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9556E2FC2DEB69120029FB95 /* NotificationState.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		95A89E752C36EE2700E07ABC /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -961,6 +971,7 @@
 		95A98E9F2C9C5C1D0073AD3C /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				9556E2FB2DEB68FD0029FB95 /* Model */,
 				95A98E942C9C5C1D0073AD3C /* Cells */,
 				95A98E972C9C5C1D0073AD3C /* ViewControllers */,
 				95A98E9A2C9C5C1D0073AD3C /* ViewModels */,
@@ -1157,6 +1168,7 @@
 				0BA4DA132DEE8FB000D10568 /* CalendarCellData.swift in Sources */,
 				0B4A1BDA2C45636300E31EC4 /* SignUpRequestDTO.swift in Sources */,
 				95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */,
+				9556E2FD2DEB69120029FB95 /* NotificationState.swift in Sources */,
 				0BE7E9F92C4659F9000C5358 /* DiaryRouter.swift in Sources */,
 				0BE7EA0D2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift in Sources */,
 				0BE7E9F52C4656EB000C5358 /* PostDiaryRequestDTO.swift in Sources */,

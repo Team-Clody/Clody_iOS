@@ -9,7 +9,6 @@ import UIKit
 
 import SnapKit
 
-@frozen
 enum ToastType {
     case needToWriteAll
     case limitFive
@@ -23,8 +22,11 @@ final class ClodyToast {
         let toastView = ClodyToastView()
         toastView.bindData(toastType: toastType)
         
-        guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) else { return }
-
+        guard let windowScene = UIApplication.shared.connectedScenes
+            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+              let window = windowScene.windows.first
+        else { return }
+        
         window.subviews
             .filter { $0 is ClodyToastView }
             .forEach { $0.removeFromSuperview() }
@@ -32,7 +34,7 @@ final class ClodyToast {
         
         toastView.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(38))
-            $0.horizontalEdges.equalToSuperview()
+            $0.centerX.equalToSuperview()
         }
         
         window.layoutSubviews()
