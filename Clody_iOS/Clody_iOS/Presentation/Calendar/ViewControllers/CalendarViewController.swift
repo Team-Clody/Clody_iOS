@@ -54,12 +54,10 @@ final class CalendarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        registerCells()
         setDelegate()
+        registerCells()
         bindViewModel()
-        setStyle()
-        setupDeleteBottomSheet()
-        setupPickerView()
+        setUI()
     }
 }
 
@@ -167,7 +165,7 @@ private extension CalendarViewController {
         output.showDeleteBottomSheet
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                presentBottomSheet()
+                presentBottomSheet(deleteBottomSheetView)
             })
             .disposed(by: disposeBag)
         
@@ -177,7 +175,7 @@ private extension CalendarViewController {
                 let date = viewModel.currentPageRelay.value
                 let selectedMonth = "\(date.year)년 \(date.month)월"
                 rootView.calendarNavigationView.dateText = selectedMonth
-                presentPickerView()
+                presentBottomSheet(datePickerView)
             })
             .disposed(by: disposeBag)
         
@@ -290,55 +288,77 @@ private extension CalendarViewController {
         rootView.mainCalendarView.dataSource = self
     }
     
-    func setStyle() {
-        self.navigationController?.isNavigationBarHidden = true
-    }
-    
     func registerCells() {
         rootView.mainCalendarView.register(CalendarDateCell.self, forCellReuseIdentifier: CalendarDateCell.description())
         rootView.dailyDiaryCollectionView.register(DailyCalendarCollectionViewCell.self, forCellWithReuseIdentifier: DailyCalendarCollectionViewCell.description())
     }
     
+    func setUI() {
+        self.navigationController?.isNavigationBarHidden = true
+        setupDeleteBottomSheet()
+        setupDraftAlarmBottomSheet()
+        setupPickerView()
+    }
+    
     func setupDeleteBottomSheet() {
-//        self.view.addSubview(deleteBottomSheetView)
-//        deleteBottomSheetView.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
-//        }
-//        deleteBottomSheetView.isHidden = true
-        self.view.addSubview(continueWritingAlarmBottomSheet)
-        continueWritingAlarmBottomSheet.snp.makeConstraints {
+        self.view.addSubview(deleteBottomSheetView)
+        deleteBottomSheetView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        continueWritingAlarmBottomSheet.isHidden = true
+        deleteBottomSheetView.isHidden = true
         
         deleteBottomSheetView.bottomSheetView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                self?.dismissBottomSheet(animated: true, completion: nil)
+                guard let self = self else { return }
+                dismissBottomSheet(deleteBottomSheetView, animated: true)
             })
             .disposed(by: disposeBag)
         
         deleteBottomSheetView.dimmedView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                self?.dismissBottomSheet(animated: true, completion: nil)
+                guard let self = self else { return }
+                dismissBottomSheet(deleteBottomSheetView, animated: true)
             })
             .disposed(by: disposeBag)
     }
     
+    func setupDraftAlarmBottomSheet() {
+        self.view.addSubview(continueWritingAlarmBottomSheet)
+        continueWritingAlarmBottomSheet.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        continueWritingAlarmBottomSheet.isHidden = true
+        
+        continueWritingAlarmBottomSheet.enableNotificationButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                dismissBottomSheet(continueWritingAlarmBottomSheet, animated: true)
+                
+                // TODO: 알림 설정 API 호출
+            })
+            .disposed(by: self.disposeBag)
+        
+        continueWritingAlarmBottomSheet.skipForNowButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                dismissBottomSheet(continueWritingAlarmBottomSheet, animated: true)
+            })
+            .disposed(by: self.disposeBag)
+    }
+    
     func setupPickerView() {
         self.view.addSubview(datePickerView)
-        
         datePickerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
         datePickerView.isHidden = true
         
         datePickerView.navigationBar.xButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                dismissPickerView(animated: true, completion: nil)
+                dismissBottomSheet(datePickerView, animated: true)
             })
             .disposed(by: self.disposeBag)
         
@@ -346,7 +366,7 @@ private extension CalendarViewController {
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                dismissPickerView(animated: true) {
+                dismissBottomSheet(datePickerView, animated: true) {
                     let selectedYearIndex = self.datePickerView.pickerView.selectedRow(inComponent: 0)
                     let selectedMonthIndex = self.datePickerView.pickerView.selectedRow(inComponent: 1)
                     let selectedYear = self.datePickerView.pickerView.years[selectedYearIndex]
@@ -368,7 +388,8 @@ private extension CalendarViewController {
         datePickerView.dimmedView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                self?.dismissPickerView(animated: true, completion: nil)
+                guard let self = self else { return }
+                dismissBottomSheet(datePickerView, animated: true)
             })
             .disposed(by: disposeBag)
     }
@@ -464,30 +485,14 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
 
 private extension CalendarViewController {
     
-    func presentBottomSheet() {
-//        deleteBottomSheetView.isHidden = false
-//        deleteBottomSheetView.dimmedView.alpha = 0.0
-//        deleteBottomSheetView.animateShow()
-        continueWritingAlarmBottomSheet.isHidden = false
-        continueWritingAlarmBottomSheet.animateShow()
+    func presentBottomSheet(_ bottomSheet: BottomSheet) {
+        bottomSheet.isHidden = false
+        bottomSheet.animateShow()
     }
     
-    func presentPickerView() {
-        datePickerView.isHidden = false
-        datePickerView.dimmedView.alpha = 0.0
-        datePickerView.animateShow()
-    }
-    
-    func dismissBottomSheet(animated: Bool, completion: (() -> Void)?) {
-        deleteBottomSheetView.animateHide {
-            self.deleteBottomSheetView.isHidden = true
-            completion?()
-        }
-    }
-    
-    func dismissPickerView(animated: Bool, completion: (() -> Void)?) {
-        datePickerView.animateHide {
-            self.datePickerView.isHidden = true
+    func dismissBottomSheet(_ bottomSheet: BottomSheet, animated: Bool, completion: (() -> Void)? = nil) {
+        bottomSheet.animateHide {
+            bottomSheet.isHidden = true
             completion?()
         }
     }

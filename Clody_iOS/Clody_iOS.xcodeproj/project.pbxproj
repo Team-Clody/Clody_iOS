@@ -110,6 +110,7 @@
 		2C0B3C882C30DD5B002EB1A3 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2C0B3C872C30DD5B002EB1A3 /* Pretendard-SemiBold.otf */; };
 		2CE3AB2F2C36E9F50042085A /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */; };
 		950CF0652DEF36280054F971 /* ContinueWritingAlarmBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950CF0642DEF36280054F971 /* ContinueWritingAlarmBottomSheet.swift */; };
+		950CF0672DF145C70054F971 /* BottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950CF0662DF145C70054F971 /* BottomSheet.swift */; };
 		952EB1992C6BCF7E00D1E516 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952EB1982C6BCF7E00D1E516 /* UIViewController+.swift */; };
 		95310F722C3C39FE00023C7B /* ClodyNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F712C3C39FE00023C7B /* ClodyNavigationBar.swift */; };
 		95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F732C3C765C00023C7B /* ClodyTextField.swift */; };
@@ -252,6 +253,7 @@
 		2CB129422C47F2CC009D1480 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		950CF0642DEF36280054F971 /* ContinueWritingAlarmBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueWritingAlarmBottomSheet.swift; sourceTree = "<group>"; };
+		950CF0662DF145C70054F971 /* BottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheet.swift; sourceTree = "<group>"; };
 		952EB1982C6BCF7E00D1E516 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		95310F712C3C39FE00023C7B /* ClodyNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyNavigationBar.swift; sourceTree = "<group>"; };
 		95310F732C3C765C00023C7B /* ClodyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyTextField.swift; sourceTree = "<group>"; };
@@ -603,6 +605,7 @@
 			isa = PBXGroup;
 			children = (
 				0BC373522C3FCC2600C45072 /* ViewModelType.swift */,
+				950CF0662DF145C70054F971 /* BottomSheet.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1206,6 +1209,7 @@
 				0B4A1BBC2C453F8400E31EC4 /* AuthIntercepter.swift in Sources */,
 				95A98E7C2C9C2EAD0073AD3C /* SettingViewModel.swift in Sources */,
 				0BFCC5F02C2F852D00B5E0DB /* UIStackView+.swift in Sources */,
+				950CF0672DF145C70054F971 /* BottomSheet.swift in Sources */,
 				9586C5612D8524DC00E12570 /* PostPatchAdRequestDTO.swift in Sources */,
 				0B190F0B2C380F5300D46CFC /* DateFormatter+.swift in Sources */,
 				95310FBB2C44162F00023C7B /* ReplyDetailViewModel.swift in Sources */,

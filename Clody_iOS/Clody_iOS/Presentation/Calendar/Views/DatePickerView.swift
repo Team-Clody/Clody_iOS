@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class DatePickerView: BaseView {
+final class DatePickerView: BaseView, BottomSheet {
     
     // MARK: - UI Components
     
@@ -76,6 +76,7 @@ final class DatePickerView: BaseView {
     }
 
     func animateShow() {
+        dimmedView.alpha = 0.0
         self.backgroundView.transform = CGAffineTransform(translationX: 0, y: self.backgroundView.frame.height)
         UIView.animate(withDuration: 0.3, animations: {
             self.dimmedView.alpha = 1.0

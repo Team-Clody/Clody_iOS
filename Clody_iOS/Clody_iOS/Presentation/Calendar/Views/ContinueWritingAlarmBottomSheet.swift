@@ -10,15 +10,15 @@ import UIKit
 import SnapKit
 import Then
 
-final class ContinueWritingAlarmBottomSheet: BaseView {
+final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
     
     private let dimmedView = UIView()
     let bottomSheetView = UIView()
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private let settingPathLabel = UILabel()
-    private let enableNotificationButton = UIButton()
-    private let skipForNowButton = UIButton()
+    let enableNotificationButton = UIButton()
+    let skipForNowButton = UIButton()
     
     override func setStyle() {
         dimmedView.do {
@@ -133,19 +133,20 @@ final class ContinueWritingAlarmBottomSheet: BaseView {
     }
     
     func animateShow() {
-        self.bottomSheetView.transform = CGAffineTransform(translationX: 0, y: self.bottomSheetView.frame.height)
-        UIView.animate(withDuration: 0.3, animations: {
+        dimmedView.alpha = 0.0
+        bottomSheetView.transform = CGAffineTransform(translationX: 0, y: self.bottomSheetView.frame.height)
+        UIView.animate(withDuration: 0.3) {
             self.dimmedView.alpha = 1.0
             self.bottomSheetView.transform = .identity
-        })
+        }
     }
     
     func animateHide(completion: @escaping () -> Void) {
         UIView.animate(withDuration: 0.3, animations: {
             self.dimmedView.alpha = 0.0
             self.bottomSheetView.transform = CGAffineTransform(translationX: 0, y: self.bottomSheetView.frame.height)
-        }, completion: { _ in
+        }) { _ in
             completion()
-        })
+        }
     }
 }
