@@ -15,7 +15,6 @@ final class WritingDiaryView: BaseView {
     // MARK: - UI Components
     
     lazy var writingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: writingCollectionViewLayout())
-    lazy var saveButton = UIButton()
     lazy var addButton = UIButton()
     let headerView = WritingDiaryHeaderView()
     let loadingIndicator = UIActivityIndicatorView(style: .large)
@@ -32,21 +31,13 @@ final class WritingDiaryView: BaseView {
             $0.showsHorizontalScrollIndicator = false
         }
         
-        saveButton.do {
-            $0.backgroundColor = .mainYellow
-            $0.makeCornerRound(radius: 10)
-            $0.setTitleColor(.grey01, for: .normal)
-            let attributedTitle = UIFont.pretendardString(text: I18N.WritingDiary.save, style: .body2_semibold)
-            $0.setAttributedTitle(attributedTitle, for: .normal)
-        }
-        
         addButton.do {
-            $0.setImage(.addButton, for: .normal)
+            $0.setImage(.bigAddButton, for: .normal)
         }
     }
     
     override func setHierarchy() {
-        self.addSubviews(headerView, writingCollectionView, saveButton, addButton)
+        self.addSubviews(headerView, writingCollectionView, addButton)
     }
     
     override func setLayout() {
@@ -62,16 +53,10 @@ final class WritingDiaryView: BaseView {
             $0.bottom.equalToSuperview()
         }
         
-        saveButton.snp.makeConstraints {
-            $0.height.equalTo(ScreenUtils.getHeight(48))
-            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(5))
-        }
-        
         addButton.snp.makeConstraints {
-            $0.size.equalTo(ScreenUtils.getWidth(41))
-            $0.bottom.equalTo(safeAreaLayoutGuide).offset(-ScreenUtils.getHeight(81))
-            $0.trailing.equalTo(saveButton)
+            $0.height.equalTo(ScreenUtils.getHeight(42))
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(6))
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
     }
 

@@ -40,6 +40,7 @@ final class CalendarViewModel: ViewModelType {
         let showDeleteConfirmAlert: Signal<Void>
         let isLoading: Driver<Bool>
         let errorStatus: Driver<String>
+        let diaryButtonState: Driver<DiaryButtonState>
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
@@ -110,6 +111,34 @@ final class CalendarViewModel: ViewModelType {
                 return "\(date.year)년 \(date.month)월"
             }
             .asDriver(onErrorJustReturn: "Error")
+     
+        let diaryButtonState = Observable
+            .combineLatest(dailyDiaryDataRelay, selectedDateRelay)
+            .map { dailyData, selectedDate -> DiaryButtonState in
+                let isNotEmpty = !dailyData.diaries.isEmpty
+                let isWritingAvailable = selectedDate.isWritingAvailable
+                let isDeleted = dailyData.isDeleted
+                
+                switch (isWritingAvailable, isNotEmpty, isDeleted) {
+                case (true, false, false):
+                    return .writeEnabled
+                case (true, false, true):
+                    return .writeEnabled
+                case (true, true, false):
+                    return .replyEnabled
+                case (true, true, true):
+                    return .replyDisabled
+                case (false, false, false):
+                    return .writeDisabled
+                case (false, false, true):
+                    return .writeDisabled
+                case (false, true, false):
+                    return .replyEnabled
+                case (false, true, true):
+                    return .replyDisabled
+                }
+            }
+            .asDriver(onErrorJustReturn: .writeDisabled)
         
         let pushListViewController = input.tapListButton.asSignal()
         let pushSettingViewController = input.tapSettingButton.asSignal()
@@ -136,7 +165,8 @@ final class CalendarViewModel: ViewModelType {
             pushWritingDiaryOrReplyWaitingVC: pushWritingDiaryOrReplyWaitingVC,
             showDeleteConfirmAlert: showDeleteConfirmAlert,
             isLoading: isLoading,
-            errorStatus: errorStatus
+            errorStatus: errorStatus,
+            diaryButtonState: diaryButtonState
         )
     }
 }
@@ -211,5 +241,45 @@ extension CalendarViewModel {
             }
             self.isLoadingRelay.accept(false)
         })
+    }
+    
+    func getCalendarCellViewData(
+        for date: Date,
+        calendarData: [MonthlyDiary]
+    ) -> CalendarCellViewData {
+        let day = Calendar.current.component(.day, from: date) - 1
+        guard day >= 0, day < calendarData.count else {
+            return CalendarCellViewData(cloverType: .none, showNewIcon: false)
+        }
+
+        let data = calendarData[day]
+        var cloverType: CloverType = .none
+        var showNewIcon = false
+
+        if data.replyStatus == "READY_NOT_READ" {
+            showNewIcon = true
+        }
+
+        if data.replyStatus == "READY_READ" {
+            cloverType = CloverType.fromDiaryCount(data.diaryCount)
+        }
+
+        if data.isDeleted {
+            cloverType = .none
+        }
+
+        if date.isToday {
+            if data.diaryCount == 0 {
+                cloverType = .today
+            } else if data.isDeleted {
+                cloverType = .todayDone
+            } else {
+                cloverType = (data.replyStatus == "READY_READ")
+                    ? CloverType.fromDiaryCount(data.diaryCount)
+                    : .todayDone
+            }
+        }
+
+        return CalendarCellViewData(cloverType: cloverType, showNewIcon: showNewIcon)
     }
 }
