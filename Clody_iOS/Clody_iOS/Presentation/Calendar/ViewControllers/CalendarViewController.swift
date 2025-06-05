@@ -119,7 +119,15 @@ private extension CalendarViewController {
                             titleColor: UIColor(named: "grey04"),
                             isEnabled: false
                         )
+                    case .draftEnabled:
+                        return (
+                            text: I18N.Calendar.reply,
+                            backgroundColor: UIColor(named: "mainYellow"),
+                            titleColor: UIColor(named: "grey02"),
+                            isEnabled: true
+                        )
                     }
+
                 }()
                 
                 self.rootView.emptyDiaryView.isHidden = (state == .replyEnabled || state == .replyDisabled)

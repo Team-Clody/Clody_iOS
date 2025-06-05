@@ -126,7 +126,7 @@ final class ListHeaderView: UICollectionReusableView {
 
     
     func bindData(diary: ListDiary) {
-        
+        // 분기
         if diary.isDeleted {
             replyButton.backgroundColor = .grey08
             replyButton.isEnabled = false

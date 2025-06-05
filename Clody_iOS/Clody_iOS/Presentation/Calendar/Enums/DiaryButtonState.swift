@@ -10,4 +10,5 @@ enum DiaryButtonState {
     case writeDisabled
     case replyEnabled
     case replyDisabled
+    case draftEnabled
 }

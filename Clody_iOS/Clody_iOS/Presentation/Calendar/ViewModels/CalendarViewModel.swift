@@ -278,36 +278,34 @@ extension CalendarViewModel {
             return CalendarCellViewData(cloverType: .none, showNewIcon: false)
         }
 
-        let data = calendarData[day]
-        var cloverType: CloverType = .none
-        var showNewIcon = false
+        let diary = calendarData[day]
+        let isToday = date.isToday
+        let replyStatus = diary.replyStatus
 
-        if data.replyStatus == "READY_NOT_READ" {
-            showNewIcon = true
-        }
-
-        if data.replyStatus == "READY_READ" {
-            cloverType = CloverType.fromDiaryCount(data.diaryCount)
-        }
-
-        if data.isDeleted {
-            cloverType = .none
-        }
-
-        if date.isToday {
-            if data.diaryCount == 0 {
-                cloverType = .today
-            } else if data.isDeleted {
-                cloverType = .todayDone
-            } else {
-                cloverType = (data.replyStatus == "READY_READ")
-                    ? CloverType.fromDiaryCount(data.diaryCount)
-                    : .todayDone
+        let cloverType: CloverType = {
+            switch replyStatus {
+            case "DRAFT":
+                return .draft
+            case "DRAFT_DONE":
+                return .draft_done
+            case "READY_READ":
+                return .fromDiaryCount(diary.diaryCount)
+            case "READY_NOT_READ", "UNREADY":
+                if isToday {
+                    return diary.diaryCount == 0 ? .today : .todayDone
+                } else {
+                    return .none
+                }
+            default:
+                return .none
             }
-        }
+        }()
 
-        return CalendarCellViewData(cloverType: cloverType, showNewIcon: showNewIcon)
+        let showNewIcon = (replyStatus == "READY_NOT_READ")
+
+        return CalendarCellViewData(
+            cloverType: cloverType,
+            showNewIcon: showNewIcon
+        )
     }
-
-
 }

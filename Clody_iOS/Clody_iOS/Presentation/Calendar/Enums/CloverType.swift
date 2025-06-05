@@ -16,6 +16,8 @@ enum CloverType: Int {
     case five
     case today
     case todayDone
+    case draft
+    case draft_done
 
     var image: UIImage? {
         switch self {
@@ -27,6 +29,8 @@ enum CloverType: Int {
         case .five: return UIImage(named: "clover5")
         case .today: return UIImage(named: "cloverToday")
         case .todayDone: return UIImage(named: "cloverTodayDone")
+        case .draft: return .cloverDraft
+        case .draft_done: return .cloverDraftExpired
         }
     }
 
