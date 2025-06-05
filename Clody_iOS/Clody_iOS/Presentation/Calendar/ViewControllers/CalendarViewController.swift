@@ -121,7 +121,7 @@ private extension CalendarViewController {
                     case .replyEnabled:
                         return (
                             text: I18N.Calendar.reply,
-                            backgroundColor: .grey01",
+                            backgroundColor: .grey01,
                             titleColor: .white,
                             isEnabled: true
                         )
@@ -137,13 +137,13 @@ private extension CalendarViewController {
                 
                 self.rootView.emptyDiaryView.isHidden = (state == .replyEnabled || state == .replyDisabled)
                 self.rootView.kebabButton.isHidden = (state == .writeDisabled || state == .writeEnabled)
-                self.rootView.calendarButton.setAttributedTitle(
+                self.rootView.calendarActionButton.setAttributedTitle(
                     UIFont.pretendardString(text: config.text, style: .body1_semibold),
                     for: .normal
                 )
-                self.rootView.calendarButton.backgroundColor = config.backgroundColor
-                self.rootView.calendarButton.setTitleColor(config.titleColor, for: .normal)
-                self.rootView.calendarButton.isEnabled = config.isEnabled
+                self.rootView.calendarActionButton.backgroundColor = config.backgroundColor
+                self.rootView.calendarActionButton.setTitleColor(config.titleColor, for: .normal)
+                self.rootView.calendarActionButton.isEnabled = config.isEnabled
             })
             .disposed(by: disposeBag)
         
