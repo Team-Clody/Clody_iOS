@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class DeleteBottomSheetView: BaseView {
+final class DeleteBottomSheetView: BaseView, BottomSheet {
     
     // MARK: - UI Components
     
@@ -72,6 +72,7 @@ final class DeleteBottomSheetView: BaseView {
 
     
     func animateShow() {
+        dimmedView.alpha = 0.0
         self.bottomSheetView.transform = CGAffineTransform(translationX: 0, y: self.bottomSheetView.frame.height)
         UIView.animate(withDuration: 0.3, animations: {
             self.dimmedView.alpha = 1.0

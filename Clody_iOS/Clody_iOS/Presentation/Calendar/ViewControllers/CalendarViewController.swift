@@ -17,21 +17,25 @@ final class CalendarViewController: UIViewController {
     
     // MARK: - Properties
     
-    let viewModel = CalendarViewModel()
+    private let viewModel = CalendarViewModel()
     private let disposeBag = DisposeBag()
-    
     private let tapDateRelay = PublishRelay<Date>()
-    private let currentPageRelay = PublishRelay<[String]>()
-    private var calendarData: [MonthlyDiary] = [MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false)]
-    
-    private var alert: ClodyAlert?
-    private lazy var dimmingView = UIView()
+    private let currentPageChanged = PublishRelay<(year: Int, month: Int)>()
+    private var calendarData: [MonthlyDiary] {
+        viewModel.monthlyCalendarDataRelay.value.diaries
+    }
+    private var hasDailyDiary : Bool {
+        viewModel.dailyDiaryDataRelay.value.diaries.count != 0
+    }
     
     // MARK: - UI Components
     
     private let rootView = CalendarView()
-    private let deleteBottomSheetView = DeleteBottomSheetView()
-    private let datePickerView = DatePickerView()
+    private lazy var deleteBottomSheetView = DeleteBottomSheetView()
+    private lazy var datePickerView = DatePickerView()
+    private lazy var continueWritingAlarmBottomSheet = ContinueWritingAlarmBottomSheet()
+    private var alert: ClodyAlert?
+    private lazy var dimmingView = UIView()
     
     // MARK: - Life Cycles
     
@@ -42,18 +46,18 @@ final class CalendarViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         viewModel.fetchData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        registerCells()
         setDelegate()
+        registerCells()
         bindViewModel()
-        setStyle()
-        setupDeleteBottomSheet()
-        setupPickerView()
+        setUI()
     }
 }
 
@@ -65,10 +69,10 @@ private extension CalendarViewController {
         let input = CalendarViewModel.Input(
             viewDidLoad: Observable.just(()),
             tapDateCell: tapDateRelay.asSignal(),
-            tapResponseButton: rootView.calendarButton.rx.tap.asSignal(),
+            tapCalendarActionButton: rootView.calendarActionButton.rx.tap.asSignal(),
             tapListButton: rootView.calendarNavigationView.listButton.rx.tap.asSignal(),
             tapSettingButton: rootView.calendarNavigationView.settingButton.rx.tap.asSignal(),
-            currentPageChanged: currentPageRelay.asSignal(),
+            currentPageChanged: currentPageChanged.asSignal(),
             tapKebabButton:  rootView.kebabButton.rx.tap.asSignal(),
             tapDateButton: rootView.calendarNavigationView.dateButton.rx.tap.asSignal(),
             tapDeleteButton: deleteBottomSheetView.bottomSheetView.rx.tapGesture()
@@ -79,8 +83,17 @@ private extension CalendarViewController {
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
-        output.dateLabel
+        output.selectedMonthDay
             .drive(rootView.dateLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        output.selectedWeekDay
+            .drive(onNext: { [weak self] data in
+                guard let self = self else { return }
+                rootView.mainCalendarView.reloadData()
+                let dayOfContent = DateFormatter.date(from: data)
+                rootView.dayLabel.text = dayOfContent?.koreanDayOfWeek()
+            })
             .disposed(by: disposeBag)
         
         //데일리 다이어리 업데이트
@@ -94,29 +107,29 @@ private extension CalendarViewController {
                     case .writeEnabled:
                         return (
                             text: I18N.Calendar.writing,
-                            backgroundColor: UIColor(named: "mainYellow"),
-                            titleColor: UIColor(named: "grey02"),
+                            backgroundColor: .mainYellow,
+                            titleColor: .grey02,
                             isEnabled: true
                         )
                     case .writeDisabled:
                         return (
                             text: I18N.Calendar.writing,
-                            backgroundColor: UIColor(named: "lightYellow"),
-                            titleColor: UIColor(named: "grey06"),
+                            backgroundColor: .lightYellow,
+                            titleColor: .grey06,
                             isEnabled: false
                         )
                     case .replyEnabled:
                         return (
                             text: I18N.Calendar.reply,
-                            backgroundColor: UIColor(named: "grey01"),
-                            titleColor: UIColor(named: "white"),
+                            backgroundColor: .grey01,
+                            titleColor: .white,
                             isEnabled: true
                         )
                     case .replyDisabled:
                         return (
                             text: I18N.Calendar.reply,
-                            backgroundColor: UIColor(named: "grey07"),
-                            titleColor: UIColor(named: "grey04"),
+                            backgroundColor: .grey07,
+                            titleColor: .grey04,
                             isEnabled: false
                         )
                     }
@@ -124,13 +137,13 @@ private extension CalendarViewController {
                 
                 self.rootView.emptyDiaryView.isHidden = (state == .replyEnabled || state == .replyDisabled)
                 self.rootView.kebabButton.isHidden = (state == .writeDisabled || state == .writeEnabled)
-                self.rootView.calendarButton.setAttributedTitle(
+                self.rootView.calendarActionButton.setAttributedTitle(
                     UIFont.pretendardString(text: config.text, style: .body1_semibold),
                     for: .normal
                 )
-                self.rootView.calendarButton.backgroundColor = config.backgroundColor
-                self.rootView.calendarButton.setTitleColor(config.titleColor, for: .normal)
-                self.rootView.calendarButton.isEnabled = config.isEnabled
+                self.rootView.calendarActionButton.backgroundColor = config.backgroundColor
+                self.rootView.calendarActionButton.setTitleColor(config.titleColor, for: .normal)
+                self.rootView.calendarActionButton.isEnabled = config.isEnabled
             })
             .disposed(by: disposeBag)
         
@@ -144,37 +157,28 @@ private extension CalendarViewController {
         output.calendarData
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
-                self.calendarData = data
-            })
-            .disposed(by: disposeBag)
-        
-        output.selectedDate
-            .drive(onNext: { [weak self] data in
-                guard let self = self else { return }
                 rootView.mainCalendarView.reloadData()
-                let dayOfContent = DateFormatter.date(from: data)
-                rootView.dayLabel.text = dayOfContent?.koreanDayOfWeek()
             })
             .disposed(by: disposeBag)
         
-        output.changeToList
+        output.pushListViewController
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                navigateToList()
+                navigateToListViewController()
             })
             .disposed(by: disposeBag)
         
-        output.changeToSetting
+        output.pushSettingViewController
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.navigationController?.pushViewController(SettingViewController(), animated: true)
+                navigationController?.pushViewController(SettingViewController(), animated: true)
             })
             .disposed(by: disposeBag)
         
         output.showDeleteBottomSheet
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.presentBottomSheet()
+                presentBottomSheet(deleteBottomSheetView)
             })
             .disposed(by: disposeBag)
         
@@ -182,69 +186,70 @@ private extension CalendarViewController {
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 let date = viewModel.currentPageRelay.value
-                let selectedMonth = "\(date[0])년 \(date[1])월"
+                let selectedMonth = "\(date.year)년 \(date.month)월"
                 rootView.calendarNavigationView.dateText = selectedMonth
-                self.presentPickerView()
+                presentBottomSheet(datePickerView)
             })
             .disposed(by: disposeBag)
         
-        output.changeNavigationDate
+        output.changeCalendarDateText
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
                 rootView.calendarNavigationView.dateText = data
-                rootView.mainCalendarView.reloadData()
-                rootView.dailyDiaryCollectionView.reloadData()
             })
             .disposed(by: disposeBag)
         
-        output.cloverCount
+        output.changeCloverCount
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
                 rootView.cloverLabel.text = "클로버 \(data)개"
             })
             .disposed(by: disposeBag)
         
-        output.navigateToResponse
+        output.pushWritingDiaryOrReplyWaitingVC
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 let date = viewModel.selectedDateRelay.value
-                if viewModel.dailyDiaryDataRelay.value.diaries.count != 0 {
-                    let dateIndex = Int(DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "dd")) ?? 1
-                    let diaries = viewModel.monthlyCalendarDataRelay.value.diaries
-                    
-                    let replyStatus: String
-                    if diaries.indices.contains(dateIndex - 1) {
-                        replyStatus = diaries[dateIndex - 1].replyStatus
-                    } else {
-                        replyStatus = "특정 값"
-                    }
+                
+                if hasDailyDiary {
+                    /// 일기 답장
+//                    let dateIndex = Int(DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "dd")) ?? 1
+//                    let diaries = viewModel.monthlyCalendarDataRelay.value.diaries
+//                    
+//                    let replyStatus: String
+//                    if diaries.indices.contains(dateIndex - 1) {
+//                        replyStatus = diaries[dateIndex - 1].replyStatus
+//                    } else {
+//                        replyStatus = "특정 값"
+//                    }
                     AmplitudeManager.shared.trackEvent("home_reply")
-                    self.navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: false), animated: true)
+                    navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: false), animated: true)
                 } else {
+                    /// 일기 작성
                     AmplitudeManager.shared.trackEvent("home_writing_diary")
-                    self.navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
+                    navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
                 }
             })
             .disposed(by: disposeBag)
         
-        output.showDelete
+        output.showDeleteConfirmAlert
             .emit(onNext: { [weak self] index in
                 guard let self = self else { return }
-                self.showAlert(
+                showAlert(
                     type: .deleteDiary,
                     title: I18N.Alert.deleteDiaryTitle,
                     message: I18N.Alert.deleteDiaryMessage,
                     rightButtonText: I18N.Alert.delete
                 )
                 
-                self.alert?.leftButton.rx.tap
+                alert?.leftButton.rx.tap
                     .subscribe(onNext: {
                         self.hideAlert()
                         AmplitudeManager.shared.trackEvent("home_no_delete_diary")
                     })
                     .disposed(by: self.disposeBag)
                 
-                self.alert?.rightButton.rx.tap
+                alert?.rightButton.rx.tap
                     .subscribe(onNext: {
                         let year = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "yyyy")
                         let month = DateFormatter.string(from: self.viewModel.selectedDateRelay.value, format: "MM")
@@ -254,12 +259,6 @@ private extension CalendarViewController {
                         AmplitudeManager.shared.trackEvent("home_delete_diary")
                     })
                     .disposed(by: self.disposeBag)
-            })
-            .disposed(by: disposeBag)
-        
-        output.diaryDeleted
-            .emit(onNext: { [weak self] in
-                guard let self = self else { return }
             })
             .disposed(by: disposeBag)
         
@@ -302,16 +301,19 @@ private extension CalendarViewController {
         rootView.mainCalendarView.dataSource = self
     }
     
-    func setStyle() {
-        self.navigationController?.isNavigationBarHidden = true
-    }
-    
     func registerCells() {
         rootView.mainCalendarView.register(CalendarDateCell.self, forCellReuseIdentifier: CalendarDateCell.description())
         rootView.dailyDiaryCollectionView.register(DailyCalendarCollectionViewCell.self, forCellWithReuseIdentifier: DailyCalendarCollectionViewCell.description())
     }
     
-    private func setupDeleteBottomSheet() {
+    func setUI() {
+        self.navigationController?.isNavigationBarHidden = true
+        setupDeleteBottomSheet()
+        setupDraftAlarmBottomSheet()
+        setupPickerView()
+    }
+    
+    func setupDeleteBottomSheet() {
         self.view.addSubview(deleteBottomSheetView)
         deleteBottomSheetView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -321,53 +323,67 @@ private extension CalendarViewController {
         deleteBottomSheetView.bottomSheetView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                self?.dismissBottomSheet(animated: true, completion: {
-                    
-                })
+                guard let self = self else { return }
+                dismissBottomSheet(deleteBottomSheetView, animated: true)
             })
             .disposed(by: disposeBag)
         
         deleteBottomSheetView.dimmedView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                self?.dismissBottomSheet(animated: true, completion: nil)
+                guard let self = self else { return }
+                dismissBottomSheet(deleteBottomSheetView, animated: true)
             })
             .disposed(by: disposeBag)
     }
     
-    private func setupPickerView() {
-        self.view.addSubview(datePickerView)
+    func setupDraftAlarmBottomSheet() {
+        self.view.addSubview(continueWritingAlarmBottomSheet)
+        continueWritingAlarmBottomSheet.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        continueWritingAlarmBottomSheet.isHidden = true
         
+        continueWritingAlarmBottomSheet.enableNotificationButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                dismissBottomSheet(continueWritingAlarmBottomSheet, animated: true)
+                
+                // TODO: 알림 설정 API 호출
+            })
+            .disposed(by: self.disposeBag)
+        
+        continueWritingAlarmBottomSheet.skipForNowButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                dismissBottomSheet(continueWritingAlarmBottomSheet, animated: true)
+            })
+            .disposed(by: self.disposeBag)
+    }
+    
+    func setupPickerView() {
+        self.view.addSubview(datePickerView)
         datePickerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
         datePickerView.isHidden = true
         
         datePickerView.navigationBar.xButton.rx.tap
-            .subscribe(onNext: {
-                self.dismissPickerView(animated: true, completion: {
-                    
-                })
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                dismissBottomSheet(datePickerView, animated: true)
             })
             .disposed(by: self.disposeBag)
         
         datePickerView.completeButton.rx.tapGesture()
             .when(.recognized)
-            .subscribe(onNext: {
-                [weak self] _ in
-                self?.dismissPickerView(animated: true,
-                                        completion: {
-                    // 로직
-                    let selectedYearIndex = self?.datePickerView.pickerView.selectedRow(inComponent: 0) ?? 0
-                    let selectedMonthIndex = self?.datePickerView.pickerView.selectedRow(inComponent: 1) ?? 0
-                    
-                    guard let selectedYear = self?.datePickerView.pickerView.years[selectedYearIndex] else {
-                        return
-                    }
-                    guard let selectedMonth = self?.datePickerView.pickerView.months[selectedMonthIndex] else {
-                        return
-                    }
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                dismissBottomSheet(datePickerView, animated: true) {
+                    let selectedYearIndex = self.datePickerView.pickerView.selectedRow(inComponent: 0)
+                    let selectedMonthIndex = self.datePickerView.pickerView.selectedRow(inComponent: 1)
+                    let selectedYear = self.datePickerView.pickerView.years[selectedYearIndex]
+                    let selectedMonth = self.datePickerView.pickerView.months[selectedMonthIndex]
                     
                     var dateComponents = DateComponents()
                     dateComponents.year = selectedYear
@@ -375,56 +391,29 @@ private extension CalendarViewController {
                     dateComponents.day = 1 // 해당 월의 첫 번째 날로 설정
                     
                     if let date = Calendar.current.date(from: dateComponents) {
-                        self?.rootView.mainCalendarView.currentPage = date
+                        self.rootView.mainCalendarView.currentPage = date
                     }
-                    
-                    let selectedMonthYear = ["\(selectedYear)", "\(selectedMonth)"]
-                    self?.viewModel.currentPageRelay.accept(selectedMonthYear)
-                })
+                    self.currentPageChanged.accept((selectedYear, selectedMonth))
+                }
             })
             .disposed(by: disposeBag)
         
         datePickerView.dimmedView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                self?.dismissPickerView(animated: true, completion: nil)
+                guard let self = self else { return }
+                dismissBottomSheet(datePickerView, animated: true)
             })
             .disposed(by: disposeBag)
     }
     
-    private func presentBottomSheet() {
-        deleteBottomSheetView.isHidden = false
-        deleteBottomSheetView.dimmedView.alpha = 0.0
-        deleteBottomSheetView.animateShow()
-    }
-    
-    private func presentPickerView() {
-        datePickerView.isHidden = false
-        datePickerView.dimmedView.alpha = 0.0
-        datePickerView.animateShow()
-    }
-    
-    private func dismissBottomSheet(animated: Bool, completion: (() -> Void)?) {
-        deleteBottomSheetView.animateHide {
-            self.deleteBottomSheetView.isHidden = true
-            completion?()
-        }
-    }
-    
-    private func dismissPickerView(animated: Bool, completion: (() -> Void)?) {
-        datePickerView.animateHide {
-            self.datePickerView.isHidden = true
-            completion?()
-        }
-    }
-    
-    private func navigateToList() {
-        let listViewController = ListViewController(month: viewModel.currentPageRelay.value)
+    func navigateToListViewController() {
+        // TODO: ListViewController에서도 통일성 있게 배열 대신 튜플로 받아주도록 변경하기
+        let currentYearMonthArray = ["\(viewModel.currentPageRelay.value.year)", "\(viewModel.currentPageRelay.value.month)"]
+        let listViewController = ListViewController(month: currentYearMonthArray)
         
         listViewController.selectedMonthCompletion = { [weak self] data in
             guard let self = self else { return }
-            self.viewModel.currentPageRelay.accept(data)
-            
             var dateComponents = DateComponents()
             dateComponents.year = Int(data[0])
             dateComponents.month = Int(data[1])
@@ -433,15 +422,13 @@ private extension CalendarViewController {
             if let date = Calendar.current.date(from: dateComponents) {
                 self.rootView.mainCalendarView.currentPage = date
             }
+            self.viewModel.currentPageRelay.accept((dateComponents.year ?? 0, dateComponents.month ?? 0))
         }
         
         AmplitudeManager.shared.trackEvent("home_list_diary")
-        
         self.navigationController?.pushViewController(listViewController, animated: true)
     }
-
 }
-
 
 extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
@@ -476,7 +463,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         let currentPage = calendar.currentPage.dateToYearMonthDay()
-        currentPageRelay.accept([String(currentPage.0), String(currentPage.1)])
+        viewModel.currentPageRelay.accept((currentPage.year, currentPage.month))
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
@@ -521,6 +508,18 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
 }
 
 private extension CalendarViewController {
+    
+    func presentBottomSheet(_ bottomSheet: BottomSheet) {
+        bottomSheet.isHidden = false
+        bottomSheet.animateShow()
+    }
+    
+    func dismissBottomSheet(_ bottomSheet: BottomSheet, animated: Bool, completion: (() -> Void)? = nil) {
+        bottomSheet.animateHide {
+            bottomSheet.isHidden = true
+            completion?()
+        }
+    }
     
     func showAlert(
         type: AlertType,
