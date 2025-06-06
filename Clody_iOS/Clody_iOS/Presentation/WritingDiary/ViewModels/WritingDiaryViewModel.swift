@@ -188,18 +188,16 @@ final class WritingDiaryViewModel: ViewModelType {
             case 200..<300:
                 guard let data = data.data else { return }
                 
-                // 데이터 바인딩
-                var items: [String] = []  // String 타입으로 초기화
-                var isEmpty: [Bool] = []  // Bool 타입으로 초기화
-                var isFirst: [Bool] = []  // Bool 타입으로 초기화
+                var items: [String] = []
+                var isEmpty: [Bool] = []
+                var isFirst: [Bool] = []
 
                 for draft in data.draftDiaries {
-                    items.append(draft)  // draft 내용 추가
-                    isEmpty.append(draft.isEmpty)  // 해당 draft가 비어있는지 여부를 추가
-                    isFirst.append(true)  // 새로운 항목이 추가되었으므로 true로 설정
+                    items.append(draft)
+                    isEmpty.append(true)
+                    isFirst.append(false)
                 }
 
-                // 업데이트된 값을 Relay에 반영
                 self.diariesRelay.accept(items)
                 self.textViewIsEmptyRelay.accept(isEmpty)
                 self.isFirstRelay.accept(isFirst)

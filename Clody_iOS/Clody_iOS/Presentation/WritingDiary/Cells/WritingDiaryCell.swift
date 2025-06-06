@@ -179,7 +179,7 @@ final class WritingDiaryCell: UICollectionViewCell {
         } else {
             writingContainer.backgroundColor = .white
             writingContainer.makeBorder(width: 1, color: .red)
-            textView.text = ""
+            textView.text = text
             textInputLabel.text = "0"
             limitErrorLabel.isHidden = false
         }
