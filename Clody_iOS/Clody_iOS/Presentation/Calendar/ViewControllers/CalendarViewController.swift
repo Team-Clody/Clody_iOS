@@ -227,24 +227,19 @@ private extension CalendarViewController {
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 let date = viewModel.selectedDateRelay.value
+                let status = viewModel.diaryButtonStateRelay.value
                 
-                if hasDailyDiary {
-                    /// 일기 답장
-                    //                    let dateIndex = Int(DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "dd")) ?? 1
-                    //                    let diaries = viewModel.monthlyCalendarDataRelay.value.diaries
-                    //
-                    //                    let replyStatus: String
-                    //                    if diaries.indices.contains(dateIndex - 1) {
-                    //                        replyStatus = diaries[dateIndex - 1].replyStatus
-                    //                    } else {
-                    //                        replyStatus = "특정 값"
-                    //                    }
+                switch status {
+                case .writeEnabled:
+                    AmplitudeManager.shared.trackEvent("home_writing_diary")
+                    navigationController?.pushViewController(WritingDiaryViewController(date: date, isFromDraft: false), animated: true)
+                case .replyEnabled:
                     AmplitudeManager.shared.trackEvent("home_reply")
                     navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: false), animated: true)
-                } else {
-                    /// 일기 작성
+                case .draftEnabled:
                     AmplitudeManager.shared.trackEvent("home_writing_diary")
-                    navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
+                    navigationController?.pushViewController(WritingDiaryViewController(date: date, isFromDraft: true), animated: true)              default:
+                    print("navigate error")
                 }
             })
             .disposed(by: disposeBag)

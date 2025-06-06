@@ -22,7 +22,8 @@ final class WritingDiaryViewController: UIViewController {
     private let viewModel = WritingDiaryViewModel()
     private let disposeBag = DisposeBag()
     private let kebabButtonTap = PublishRelay<Int>()
-    private var date: Date
+    private let date: Date
+    private let isFromDraft: Bool
     private var textViewHeight: CGFloat = 0
     private var currentKeyboardVisible: Bool = false
     private var isAddButtonEnabled: Bool = true
@@ -37,8 +38,9 @@ final class WritingDiaryViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(date: Date) {
+    init(date: Date, isFromDraft: Bool) {
         self.date = date
+        self.isFromDraft = isFromDraft
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -63,6 +65,7 @@ final class WritingDiaryViewController: UIViewController {
         setupKeyboardHandling()
         setupDeleteBottomSheet()
         configureHeader()
+        configureDraft()
     }
 }
 
@@ -197,6 +200,10 @@ private extension WritingDiaryViewController {
     
     func configureHeader() {
         rootView.headerView.bindData(dateData: self.date)
+    }
+    
+    func configureDraft() {
+        if isFromDraft { self.viewModel.fetchData(date: self.date) }
     }
     
     func configureCollectionView() -> RxCollectionViewSectionedReloadDataSource<WritingDiarySection> {

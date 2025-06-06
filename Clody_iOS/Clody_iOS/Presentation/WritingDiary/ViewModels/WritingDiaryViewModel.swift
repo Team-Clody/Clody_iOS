@@ -49,6 +49,7 @@ final class WritingDiaryViewModel: ViewModelType {
         let showDelete: Signal<Void>
         let showHelp: Driver<Bool>
     }
+    
     let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: [""]))
     let diariesRelay = BehaviorRelay<[String]>(value: [""])
     let textViewIsEmptyRelay = BehaviorRelay<[Bool]>(value: [true])
@@ -176,6 +177,46 @@ final class WritingDiaryViewModel: ViewModelType {
         diariesRelay.accept(initialDiaries)
         textViewIsEmptyRelay.accept(initialStatuses)
         isFirstRelay.accept(initialIsFirst)
+    }
+    
+    func getDraftDiaryData(year: Int, month: Int, date: Int, completion: @escaping () -> Void) {
+        let provider = Providers.diaryRouter
+        
+        provider.request(target: .getDraftDiaryList(year: year, month: month, date: date), instance: BaseResponse<GetDraftDiariesResponseDTO>.self) { [weak self] data in
+            guard let self = self else { return }
+            switch data.status {
+            case 200..<300:
+                guard let data = data.data else { return }
+                
+                // 데이터 바인딩
+                var items: [String] = []  // String 타입으로 초기화
+                var isEmpty: [Bool] = []  // Bool 타입으로 초기화
+                var isFirst: [Bool] = []  // Bool 타입으로 초기화
+
+                for draft in data.draftDiaries {
+                    items.append(draft)  // draft 내용 추가
+                    isEmpty.append(draft.isEmpty)  // 해당 draft가 비어있는지 여부를 추가
+                    isFirst.append(true)  // 새로운 항목이 추가되었으므로 true로 설정
+                }
+
+                // 업데이트된 값을 Relay에 반영
+                self.diariesRelay.accept(items)
+                self.textViewIsEmptyRelay.accept(isEmpty)
+                self.isFirstRelay.accept(isFirst)
+                
+                completion()
+            default:
+                print("error draft")
+            }
+        }
+    }
+
+    func fetchData(date: Date) {
+        if let year = Int(DateFormatter.string(from: date, format: "yyyy")),
+           let month = Int(DateFormatter.string(from: date, format: "MM")),
+           let day = Int(DateFormatter.string(from: date, format: "dd")) {
+            getDraftDiaryData(year: year, month: month, date: day, completion: {})
+        }
     }
 }
 

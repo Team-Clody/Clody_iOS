@@ -18,6 +18,7 @@ enum DiaryRouter {
     case postAdStart(data: PostPatchAdRequestDTO)
     case patchAdEnd(data: PostPatchAdRequestDTO)
     case getReply(year: Int, month: Int, date: Int)
+    case getDraftDiaryList(year: Int, month: Int, date: Int)
 }
 
 extension DiaryRouter: BaseTargetType {
@@ -39,6 +40,8 @@ extension DiaryRouter: BaseTargetType {
             return APIConstants.accessTokenHeader
         case .getReply:
             return APIConstants.accessTokenHeader
+        case .getDraftDiaryList:
+            return APIConstants.accessTokenHeader
         }
     }
     
@@ -56,12 +59,14 @@ extension DiaryRouter: BaseTargetType {
             return "reply/ad/end"
         case .getReply:
             return "reply"
+        case .getDraftDiaryList:
+            return "draft"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .getDailyDiary, .getWritingTime, .getReply:
+        case .getDailyDiary, .getWritingTime, .getReply, .getDraftDiaryList:
             return .get
         case .postDraftDiary:
             return .post
@@ -102,6 +107,11 @@ extension DiaryRouter: BaseTargetType {
         case .patchAdEnd(let data):
             return .requestJSONEncodable(data)
         case .getReply(let year, let month, let date):
+            return .requestParameters(
+                parameters: ["year": year, "month": month, "date": date],
+                encoding: URLEncoding.queryString
+            )
+        case .getDraftDiaryList(let year, let month, let date):
             return .requestParameters(
                 parameters: ["year": year, "month": month, "date": date],
                 encoding: URLEncoding.queryString
