@@ -286,7 +286,7 @@ extension CalendarViewModel {
             switch replyStatus {
             case "HAS_DRAFT":
                 return .hasDraft
-            case "DRAFT_DONE":
+            case "INVALID_DRAFT":
                 return .draftDone
             case "READY_READ":
                 return .fromDiaryCount(diary.diaryCount)

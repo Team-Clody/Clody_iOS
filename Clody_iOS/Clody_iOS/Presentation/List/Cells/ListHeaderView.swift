@@ -126,11 +126,18 @@ final class ListHeaderView: UICollectionReusableView {
 
     
     func bindData(diary: ListDiary) {
-        // 분기
         if diary.isDeleted {
             replyButton.backgroundColor = .grey08
             replyButton.isEnabled = false
             replyButton.setTitleColor(.grey06, for: .normal)
+        }
+        
+        if diary.replyStatus == "INVALID_DRAFT" {
+            replyButton.backgroundColor = .grey08
+            replyButton.isEnabled = false
+            replyButton.setTitleColor(.grey06, for: .normal)
+            
+            cloverImageView.image = .cloverDraftExpired
         }
         
         if diary.replyStatus == "READY_READ" {
