@@ -147,6 +147,7 @@
 		95310FC22C45453F00023C7B /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC12C45453F00023C7B /* NicknameViewModel.swift */; };
 		95310FC42C45A31700023C7B /* DiaryNotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */; };
 		95310FC62C45ACD000023C7B /* OnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */; };
+		953A393A2DF2AE2E00198C9D /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953A39392DF2AE2E00198C9D /* AppStoreReviewManager.swift */; };
 		9556E2FD2DEB69120029FB95 /* NotificationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9556E2FC2DEB69120029FB95 /* NotificationState.swift */; };
 		9586C5612D8524DC00E12570 /* PostPatchAdRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9586C5602D8524DC00E12570 /* PostPatchAdRequestDTO.swift */; };
 		95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A89E762C36EE4100E07ABC /* BaseView.swift */; };
@@ -293,6 +294,7 @@
 		95310FC12C45453F00023C7B /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		95310FC32C45A31700023C7B /* DiaryNotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryNotificationViewModel.swift; sourceTree = "<group>"; };
 		95310FC52C45ACD000023C7B /* OnBoardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewModel.swift; sourceTree = "<group>"; };
+		953A39392DF2AE2E00198C9D /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
 		9556E2FC2DEB69120029FB95 /* NotificationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationState.swift; sourceTree = "<group>"; };
 		9586C5602D8524DC00E12570 /* PostPatchAdRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPatchAdRequestDTO.swift; sourceTree = "<group>"; };
 		95A89E762C36EE4100E07ABC /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
@@ -551,6 +553,7 @@
 				0BE7E9E92C45B0B8000C5358 /* UserManager.swift */,
 				0B4EF9D02C48C39600CAF1F6 /* PermissionManager.swift */,
 				0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */,
+				953A39392DF2AE2E00198C9D /* AppStoreReviewManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1175,6 +1178,7 @@
 				0BA4DA132DEE8FB000D10568 /* CalendarCellData.swift in Sources */,
 				0B4A1BDA2C45636300E31EC4 /* SignUpRequestDTO.swift in Sources */,
 				95310F9C2C407F3C00023C7B /* OnBoardingDetailView.swift in Sources */,
+				953A393A2DF2AE2E00198C9D /* AppStoreReviewManager.swift in Sources */,
 				9556E2FD2DEB69120029FB95 /* NotificationState.swift in Sources */,
 				0BE7E9F92C4659F9000C5358 /* DiaryRouter.swift in Sources */,
 				0BE7EA0D2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift in Sources */,
