@@ -121,7 +121,7 @@ private extension CalendarViewController {
                         )
                     case .draftEnabled:
                         return (
-                            text: I18N.Calendar.reply,
+                            text: I18N.Calendar.writeMore,
                             backgroundColor: UIColor(named: "mainYellow"),
                             titleColor: UIColor(named: "grey02"),
                             isEnabled: true
@@ -130,6 +130,15 @@ private extension CalendarViewController {
 
                 }()
                 
+                let emptyText: String = {
+                    switch state {
+                    case .draftEnabled:
+                        return I18N.Calendar.draft
+                    default:
+                        return I18N.Calendar.empty
+                    }
+                }()
+                self.rootView.emptyDiaryLabel.attributedText = UIFont.pretendardString(text: emptyText, style: .body3_regular)
                 self.rootView.emptyDiaryView.isHidden = (state == .replyEnabled || state == .replyDisabled)
                 self.rootView.kebabButton.isHidden = (state == .writeDisabled || state == .writeEnabled)
                 self.rootView.calendarButton.setAttributedTitle(

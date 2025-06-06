@@ -130,9 +130,11 @@ enum I18N {
         static let reply = "답장 확인"
         static let writing = "일기 쓰기"
         static let empty = "아직 감사 일기가 없어요!"
+        static let draft = "임시저장된 일기가 있어요."
         static let delete = "삭제하기"
         static let otherDay = "다른 날짜 보기"
         static let complete = "완료"
+        static let writeMore = "이어쓰기"
     }
     
     enum Notification {
