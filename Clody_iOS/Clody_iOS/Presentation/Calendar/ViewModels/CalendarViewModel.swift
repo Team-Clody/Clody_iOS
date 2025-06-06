@@ -45,6 +45,7 @@ final class CalendarViewModel: ViewModelType {
     }
     
     let selectedDateRelay = BehaviorRelay<Date>(value: Date())
+    let selectedCloverTypeRelay = BehaviorRelay<CloverType>(value: .none)
     let monthlyCalendarDataRelay = BehaviorRelay<CalendarMonthlyResponseDTO>(value: CalendarMonthlyResponseDTO(totalCloverCount: 0, diaries: [MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false)]))
     let dailyDiaryDataRelay = BehaviorRelay<GetDiaryResponseDTO>(value: GetDiaryResponseDTO(diaries: [], isDeleted: false))
     let currentPageRelay = BehaviorRelay<[String]>(value: ["\(Date().dateToYearMonthDay().0)", "\(Date().dateToYearMonthDay().1)"])
@@ -67,7 +68,11 @@ final class CalendarViewModel: ViewModelType {
                 let day = DateFormatter.string(from: date, format: "dd")
                 
                 self.selectedDateRelay.accept(date)
+                let cloverType = self.getCalendarCellViewData(for: date, calendarData: self.monthlyCalendarDataRelay.value.diaries).cloverType
+                self.selectedCloverTypeRelay.accept(cloverType)
+                
                 self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0, completion: {})
+                
                 AmplitudeManager.shared.trackEvent("home_calendar_clover")
             })
             .disposed(by: disposeBag)

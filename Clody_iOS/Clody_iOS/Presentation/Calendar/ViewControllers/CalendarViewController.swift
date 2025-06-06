@@ -225,6 +225,9 @@ private extension CalendarViewController {
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 let date = viewModel.selectedDateRelay.value
+                let cloverType = self.viewModel.selectedCloverTypeRelay.value
+                
+                // cloverType에 따른 분기 처리 추가
                 if viewModel.dailyDiaryDataRelay.value.diaries.count != 0 {
                     let dateIndex = Int(DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "dd")) ?? 1
                     let diaries = viewModel.monthlyCalendarDataRelay.value.diaries
