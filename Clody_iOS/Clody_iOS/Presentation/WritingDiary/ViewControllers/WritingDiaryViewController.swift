@@ -95,13 +95,6 @@ private extension WritingDiaryViewController {
         
         let dataSource = configureCollectionView()
         
-        output.popToCalendar
-            .emit(onNext: { [weak self] in
-                self?.navigationController?.popViewController(animated: true)
-                AmplitudeManager.shared.trackEvent("writing_diary_back")
-            })
-            .disposed(by: disposeBag)
-        
         output.items
             .drive(rootView.writingCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
@@ -164,11 +157,57 @@ private extension WritingDiaryViewController {
                             self.hideLoadingIndicator()
                             switch statusCode {
                             case .success:
+                                // 임시저장본 보내기 성공 시? 답장 불가능 기간 홈으로 이동, 답장 가능시간 대기 화면으로 이동
                                 if type == "DELETED" || isFromDraft {
                                     self.navigationController?.popViewController(animated: true)
                                 } else {
                                     self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isHomeBackButton: true), animated: true)
                                 }
+                            case .network:
+                                self.showErrorAlert(isNetworkError: true)
+                            case .unknowned:
+                                self.showErrorAlert(isNetworkError: false)
+                            }
+                        })
+                        
+                        self.hideAlert()
+                    })
+                    .disposed(by: self.disposeBag)
+            })
+            .disposed(by: disposeBag)
+        
+        output.showDraftAlert
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.showAlert(
+                    type: .draftDiary,
+                    title: I18N.Alert.draftTitle,
+                    message: I18N.Alert.draftMessage,
+                    rightButtonText: I18N.Alert.back
+                )
+                
+                self.alert?.rightButton.rx.tap
+                    .subscribe(onNext: {
+                        self.hideAlert()
+                        self.navigationController?.popViewController(animated: true)
+                        AmplitudeManager.shared.trackEvent("writing_diary_back")
+                    })
+                    .disposed(by: self.disposeBag)
+                
+                self.alert?.leftButton.rx.tap
+                    .subscribe(onNext: {
+                        self.showLoadingIndicator()
+                        let dateString = DateFormatter.string(
+                            from: self.date,
+                            format: "yyyy-MM-dd"
+                        )
+                        self.viewModel.postDraftDiary(date: dateString, content: self.viewModel.diariesRelay.value, completion: {statusCode,type  in
+                            self.hideLoadingIndicator()
+                            switch statusCode {
+                            case .success:
+                                self.navigationController?.popViewController(animated: true)
+                                AmplitudeManager.shared.trackEvent("writing_diary_back")
+                                // 홈으로 이동인데 이때 모달을 알림설정 모달 처리
                             case .network:
                                 self.showErrorAlert(isNetworkError: true)
                             case .unknowned:

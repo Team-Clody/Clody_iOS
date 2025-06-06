@@ -42,7 +42,7 @@ final class WritingDiaryViewModel: ViewModelType {
         let items: Driver<[WritingDiarySection]>
         let statuses: Driver<[Bool]>
         let isFirst: Driver<[Bool]>
-        let popToCalendar: Signal<Void>
+        let showDraftAlert: Signal<Void>
         let isAddButtonEnabled: Driver<Bool>
         let showSaveErrorToast: Signal<Void>
         let showSaveAlert: Signal<Void>
@@ -160,7 +160,7 @@ final class WritingDiaryViewModel: ViewModelType {
             items: items,
             statuses: statuses,
             isFirst: isFirst,
-            popToCalendar: popToCalendar,
+            showDraftAlert: popToCalendar,
             isAddButtonEnabled: isAddButtonEnabled,
             showSaveErrorToast: showSaveErrorToast,
             showSaveAlert: showSaveAlert,

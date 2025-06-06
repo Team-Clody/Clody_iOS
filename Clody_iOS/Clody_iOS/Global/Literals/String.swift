@@ -40,6 +40,10 @@ enum I18N {
         static let save = "저장하기"
         static let delete = "삭제할래요"
         static let retry = "다시 시도"
+        static let draftTitle = "지금까지 쓴 일기를 임시저장할까요?"
+        static let draftMessage = "나가기를 누르면 작성 중인 내용이 모두 사라져요."
+        static let draft = "임시저장"
+        static let back = "나가기"
     }
     
     enum Toast {
