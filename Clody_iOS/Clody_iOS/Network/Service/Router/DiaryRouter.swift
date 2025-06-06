@@ -13,6 +13,7 @@ enum DiaryRouter {
     case getDailyDiary(year: Int, month: Int, date: Int)
     case deleteDiary(year: Int, month: Int, date: Int)
     case postDiary(data: PostDiaryRequestDTO)
+    case postDraftDiary(data: PostDraftDiaryRequestDTO)
     case getWritingTime(year: Int, month: Int, date: Int)
     case postAdStart(data: PostPatchAdRequestDTO)
     case patchAdEnd(data: PostPatchAdRequestDTO)
@@ -27,6 +28,8 @@ extension DiaryRouter: BaseTargetType {
         case .deleteDiary:
             return APIConstants.accessTokenHeader
         case .postDiary:
+            return APIConstants.accessTokenHeader
+        case .postDraftDiary:
             return APIConstants.accessTokenHeader
         case .getWritingTime:
             return APIConstants.accessTokenHeader
@@ -43,6 +46,8 @@ extension DiaryRouter: BaseTargetType {
         switch self {
         case .getDailyDiary, .postDiary, .deleteDiary:
             return "diary"
+        case .postDraftDiary:
+            return "draft"
         case .getWritingTime:
             return "diary/time"
         case .postAdStart:
@@ -58,6 +63,8 @@ extension DiaryRouter: BaseTargetType {
         switch self {
         case .getDailyDiary, .getWritingTime, .getReply:
             return .get
+        case .postDraftDiary:
+            return .post
         case .deleteDiary:
             return .delete
         case .postDiary:
@@ -82,6 +89,8 @@ extension DiaryRouter: BaseTargetType {
                 encoding: URLEncoding.queryString
             )
         case .postDiary(let data):
+            return .requestJSONEncodable(data)
+        case .postDraftDiary(let data):
             return .requestJSONEncodable(data)
         case .getWritingTime(let year, let month, let date):
             return .requestParameters(

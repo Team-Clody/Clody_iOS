@@ -216,4 +216,20 @@ extension WritingDiaryViewModel {
             completion(dataStatus, data.replyType)
         }
     }
+    
+    func postDraftDiary(date: String, content: [String], completion: @escaping (NetworkViewJudge, String) -> ()) {
+        let provider = Providers.diaryRouter
+        let data = PostDraftDiaryRequestDTO(date: date, draftDiaries: content)
+        
+        provider.request(target: .postDraftDiary(data: data), instance: BaseResponse<PostDraftDiaryResponseDTO>.self) { data in
+            var dataStatus = NetworkViewJudge.unknowned
+            switch data.status {
+            case 200..<300: dataStatus = .success
+            case -1: dataStatus = .network
+            default: dataStatus = .unknowned
+            }
+            guard let data = data.data else { return }
+            completion(dataStatus, "")
+        }
+    }
 }

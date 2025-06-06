@@ -284,10 +284,10 @@ extension CalendarViewModel {
 
         let cloverType: CloverType = {
             switch replyStatus {
-            case "DRAFT":
-                return .draft
+            case "HAS_DRAFT":
+                return .hasDraft
             case "DRAFT_DONE":
-                return .draft_done
+                return .draftDone
             case "READY_READ":
                 return .fromDiaryCount(diary.diaryCount)
             case "READY_NOT_READ", "UNREADY":
