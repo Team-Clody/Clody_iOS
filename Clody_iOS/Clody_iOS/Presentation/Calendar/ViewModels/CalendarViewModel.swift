@@ -15,30 +15,29 @@ final class CalendarViewModel: ViewModelType {
     struct Input {
         let viewDidLoad: Observable<Void>
         let tapDateCell: Signal<Date>
-        let tapResponseButton: Signal<Void>
+        let tapCalendarActionButton: Signal<Void>
         let tapListButton: Signal<Void>
         let tapSettingButton: Signal<Void>
-        let currentPageChanged: Signal<[String]>
+        let currentPageChanged: Signal<(year: Int, month: Int)>
         let tapKebabButton: Signal<Void>
         let tapDateButton: Signal<Void>
         let tapDeleteButton: Signal<Void>
     }
     
     struct Output {
-        let dateLabel: Driver<String>
-        let selectedDate: Driver<String>
+        let selectedMonthDay: Driver<String>
+        let selectedWeekDay: Driver<String>
         let diaryData: Driver<[DailyDiary]>
         let calendarData: Driver<[MonthlyDiary]>
-        let changeToList: Signal<Void>
-        let changeToSetting: Signal<Void>
+        let pushListViewController: Signal<Void>
+        let pushSettingViewController: Signal<Void>
         let showDeleteBottomSheet: Signal<Void>
         let showPickerView: Signal<Void>
-        let changeNavigationDate: Driver<String>
-        let cloverCount: Driver<Int>
-        let currentPage: Driver<[String]>
-        let diaryDeleted: Signal<Void>
-        let navigateToResponse: Signal<Void>
-        let showDelete: Signal<Void>
+        let changeCalendarDateText: Driver<String>
+        let changeCloverCount: Driver<Int>
+        let currentPage: Driver<(year: Int, month: Int)>
+        let pushWritingDiaryOrReplyWaitingVC: Signal<Void>
+        let showDeleteConfirmAlert: Signal<Void>
         let isLoading: Driver<Bool>
         let errorStatus: Driver<String>
         let diaryButtonState: Driver<DiaryButtonState>
@@ -49,7 +48,7 @@ final class CalendarViewModel: ViewModelType {
     let diaryButtonStateRelay = BehaviorRelay<DiaryButtonState>(value: .writeDisabled)
     let monthlyCalendarDataRelay = BehaviorRelay<CalendarMonthlyResponseDTO>(value: CalendarMonthlyResponseDTO(totalCloverCount: 0, diaries: [MonthlyDiary(diaryCount: 0, replyStatus: "", isDeleted: false)]))
     let dailyDiaryDataRelay = BehaviorRelay<GetDiaryResponseDTO>(value: GetDiaryResponseDTO(diaries: [], isDeleted: false))
-    let currentPageRelay = BehaviorRelay<[String]>(value: ["\(Date().dateToYearMonthDay().0)", "\(Date().dateToYearMonthDay().1)"])
+    let currentPageRelay = BehaviorRelay<(year: Int, month: Int)>(value: (Date().dateToYearMonthDay().year, Date().dateToYearMonthDay().month))
     let isLoadingRelay = PublishRelay<Bool>()
     let errorStatusRelay = PublishRelay<String>()
     
@@ -119,29 +118,20 @@ final class CalendarViewModel: ViewModelType {
         input.currentPageChanged
             .emit(onNext: { [weak self] date in
                 guard let self = self else { return }
-                self.currentPageRelay.accept(date)
-                let year = date[0]
-                let month = date[1]
-                
-                self.getMonthlyCalendar(year: Int(year) ?? 0, month: Int(month) ?? 0, completion: {})
+                getMonthlyCalendar(year: date.year, month: date.month, completion: {
+                    self.currentPageRelay.accept((date.year, date.month))
+                })
             })
             .disposed(by: disposeBag)
         
-        input.tapDeleteButton
-            .emit(onNext: { [weak self] in
-                guard let self = self else { return }
-                
-            })
-            .disposed(by: disposeBag)
-        
-        let dateLabel = selectedDateRelay
+        let selectedMonthDay = selectedDateRelay
             .map { date -> String in
-                let dateSelected = DateFormatter.string(from: date, format: "M.d")
-                return dateSelected
+                let selectedDate = DateFormatter.string(from: date, format: "M.d")
+                return selectedDate
             }
             .asDriver(onErrorJustReturn: "Error")
         
-        let selectedDate = selectedDateRelay
+        let selectedWeekDay = selectedDateRelay
             .map { date -> String in
                 let dateSelected = DateFormatter.string(from: date, format: "yyyy-MM-dd")
                 return dateSelected
@@ -156,25 +146,13 @@ final class CalendarViewModel: ViewModelType {
             .map { $0.diaries }
             .asDriver(onErrorJustReturn: [])
         
-        let cloverCount = monthlyCalendarDataRelay
+        let changeCloverCount = monthlyCalendarDataRelay
             .map { $0.totalCloverCount }
             .asDriver(onErrorJustReturn: 0)
         
-        let changeToList = input.tapListButton.asSignal()
-        
-        let changeToSetting = input.tapSettingButton.asSignal()
-        
-        let showDeleteBottomSheet = input.tapKebabButton.asSignal()
-        
-        let showPickerView = input.tapDateButton.asSignal()
-        
-        let changeNavigationDate = currentPageRelay
+        let changeCalendarDateText = currentPageRelay
             .map { date -> String in
-                let year = date[0]
-                guard let month = DateFormatter.convertToDoubleDigitMonth(from: date[1]) else { return ""}
-                let dateSelected = "\(year)년 \(month)월"
-                
-                return dateSelected
+                return "\(date.year)년 \(date.month)월"
             }
             .asDriver(onErrorJustReturn: "Error")
         
@@ -191,22 +169,59 @@ final class CalendarViewModel: ViewModelType {
         let errorStatus = errorStatusRelay.asDriver(onErrorJustReturn: "")
         
         let diaryButtonState = diaryButtonStateRelay.asDriver()
+     
+        let diaryButtonState = Observable
+            .combineLatest(dailyDiaryDataRelay, selectedDateRelay)
+            .map { dailyData, selectedDate -> DiaryButtonState in
+                let isNotEmpty = !dailyData.diaries.isEmpty
+                let isWritingAvailable = selectedDate.isWritingAvailable
+                let isDeleted = dailyData.isDeleted
+                
+                switch (isWritingAvailable, isNotEmpty, isDeleted) {
+                case (true, false, false):
+                    return .writeEnabled
+                case (true, false, true):
+                    return .writeEnabled
+                case (true, true, false):
+                    return .replyEnabled
+                case (true, true, true):
+                    return .replyDisabled
+                case (false, false, false):
+                    return .writeDisabled
+                case (false, false, true):
+                    return .writeDisabled
+                case (false, true, false):
+                    return .replyEnabled
+                case (false, true, true):
+                    return .replyDisabled
+                }
+            }
+            .asDriver(onErrorJustReturn: .writeDisabled)
+        
+        let pushListViewController = input.tapListButton.asSignal()
+        let pushSettingViewController = input.tapSettingButton.asSignal()
+        let showDeleteBottomSheet = input.tapKebabButton.asSignal()
+        let showPickerView = input.tapDateButton.asSignal()
+        let pushWritingDiaryOrReplyWaitingVC = input.tapCalendarActionButton.asSignal()
+        let currentPage = currentPageRelay.asDriver(onErrorJustReturn: (year: Date().dateToYearMonthDay().year, Date().dateToYearMonthDay().month))
+        let showDeleteConfirmAlert = input.tapDeleteButton.asSignal()
+        let isLoading = isLoadingRelay.asDriver(onErrorJustReturn: false)
+        let errorStatus = errorStatusRelay.asDriver(onErrorJustReturn: "")
         
         return Output(
-            dateLabel: dateLabel,
-            selectedDate: selectedDate,
+            selectedMonthDay: selectedMonthDay,
+            selectedWeekDay: selectedWeekDay,
             diaryData: diaryData,
             calendarData: calendarData,
-            changeToList: changeToList,
-            changeToSetting: changeToSetting,
+            pushListViewController: pushListViewController,
+            pushSettingViewController: pushSettingViewController,
             showDeleteBottomSheet: showDeleteBottomSheet,
             showPickerView: showPickerView,
-            changeNavigationDate: changeNavigationDate,
-            cloverCount: cloverCount,
+            changeCalendarDateText: changeCalendarDateText,
+            changeCloverCount: changeCloverCount,
             currentPage: currentPage,
-            diaryDeleted: diaryDeleted,
-            navigateToResponse: navigateToResponse,
-            showDelete: showDelete,
+            pushWritingDiaryOrReplyWaitingVC: pushWritingDiaryOrReplyWaitingVC,
+            showDeleteConfirmAlert: showDeleteConfirmAlert,
             isLoading: isLoading,
             errorStatus: errorStatus,
             diaryButtonState: diaryButtonState
@@ -215,6 +230,19 @@ final class CalendarViewModel: ViewModelType {
 }
 
 extension CalendarViewModel {
+    
+    func fetchData() {
+        let dailyYear = DateFormatter.string(from: selectedDateRelay.value, format: "yyyy")
+        let dailyMonth = DateFormatter.string(from: selectedDateRelay.value, format: "MM")
+        let dailyDay = DateFormatter.string(from: selectedDateRelay.value, format: "dd")
+        
+        let monthlyYear = currentPageRelay.value.year
+        let monthlyMonth = currentPageRelay.value.month
+        
+        self.getMonthlyCalendar(year: monthlyYear, month: monthlyMonth) {
+            self.getDailyCalendarData(year: Int(dailyYear) ?? 0, month: Int(dailyMonth) ?? 0, date: Int(dailyDay) ?? 0, completion: {})
+        }
+    }
     
     func getMonthlyCalendar(year: Int, month: Int, completion: @escaping () -> Void) {
         isLoadingRelay.accept(true)
@@ -232,7 +260,6 @@ extension CalendarViewModel {
             default:
                 self.errorStatusRelay.accept("unknownedView")
             }
-            self.currentPageRelay.accept([String(year), String(month)])
             self.isLoadingRelay.accept(false)
         }
     }
@@ -247,13 +274,13 @@ extension CalendarViewModel {
             case 200..<300:
                 guard let data = data.data else { return }
                 self.dailyDiaryDataRelay.accept(data)
+                completion()
             case -1:
                 self.errorStatusRelay.accept("networkAlert")
             default:
                 self.errorStatusRelay.accept("unknownedAlert")
             }
             self.isLoadingRelay.accept(false)
-            completion()  
         }
     }
     
@@ -271,19 +298,6 @@ extension CalendarViewModel {
                 self.errorStatusRelay.accept("unknownedAlert")
             }
             self.isLoadingRelay.accept(false)
-        })
-    }
-    
-    func fetchData() {
-        let dailyYear = DateFormatter.string(from: selectedDateRelay.value, format: "yyyy")
-        let dailyMonth = DateFormatter.string(from: selectedDateRelay.value, format: "MM")
-        let dailyDay = DateFormatter.string(from: selectedDateRelay.value, format: "dd")
-        
-        let monthlyYear = currentPageRelay.value[0]
-        let monthlyMonth = currentPageRelay.value[1]
-        
-        self.getMonthlyCalendar(year: Int(monthlyYear) ?? 0, month: Int(monthlyMonth) ?? 0, completion: {
-            self.getDailyCalendarData(year: Int(dailyYear) ?? 0, month: Int(dailyMonth) ?? 0, date: Int(dailyDay) ?? 0, completion: {})
         })
     }
     

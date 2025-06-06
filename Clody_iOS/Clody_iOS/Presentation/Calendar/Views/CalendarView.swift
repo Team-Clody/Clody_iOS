@@ -31,7 +31,7 @@ final class CalendarView: BaseView {
     )
     let emptyDiaryView = UIView()
     let emptyDiaryLabel = UILabel()
-    lazy var calendarButton = UIButton()
+    lazy var calendarActionButton = UIButton()
     
     
     // MARK: - Life Cycles
@@ -39,7 +39,7 @@ final class CalendarView: BaseView {
     override func setStyle() {
         self.backgroundColor = .white
         
-        calendarButton.do {
+        calendarActionButton.do {
             $0.makeCornerRound(radius: 10)
             $0.backgroundColor = .grey02
             $0.setAttributedTitle(UIFont.pretendardString(text: "답장 확인", style: .body1_semibold), for: .normal)
@@ -110,7 +110,7 @@ final class CalendarView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(scrollView, calendarButton)
+        self.addSubviews(scrollView, calendarActionButton)
         scrollView.addSubview(contentView)
         contentView.addSubviews(
             calendarNavigationView,
@@ -185,7 +185,7 @@ final class CalendarView: BaseView {
             $0.height.equalTo(ScreenUtils.getHeight(6))
         }
         
-        calendarButton.snp.makeConstraints {
+        calendarActionButton.snp.makeConstraints {
             $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(5))
             $0.centerX.equalToSuperview()
             $0.horizontalEdges.equalTo(mainCalendarView)
@@ -216,7 +216,7 @@ final class CalendarView: BaseView {
         emptyDiaryView.snp.makeConstraints {
             $0.horizontalEdges.equalTo(mainCalendarView)
             $0.top.equalTo(dayLabel.snp.bottom)
-            $0.bottom.equalTo(calendarButton.snp.top).offset(ScreenUtils.getHeight(6))
+            $0.bottom.equalTo(calendarActionButton.snp.top).offset(ScreenUtils.getHeight(6))
         }
         
         emptyDiaryLabel.snp.makeConstraints {
