@@ -10,4 +10,5 @@ import Foundation
 struct PostDiaryResponseDTO: Codable {
     let createdAt: String
     let replyType: String
+    let isFromDraft: Bool
 }

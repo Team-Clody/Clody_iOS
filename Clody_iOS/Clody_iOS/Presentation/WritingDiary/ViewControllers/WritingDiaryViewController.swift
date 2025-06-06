@@ -160,11 +160,11 @@ private extension WritingDiaryViewController {
                             from: self.date,
                             format: "yyyy-MM-dd"
                         )
-                        self.viewModel.postDiary(date: dateString, content: self.viewModel.diariesRelay.value, completion: {statusCode,type  in
+                        self.viewModel.postDiary(date: dateString, content: self.viewModel.diariesRelay.value, completion: {statusCode,type,isFromDraft  in
                             self.hideLoadingIndicator()
                             switch statusCode {
                             case .success:
-                                if type == "DELETED" {
+                                if type == "DELETED" || isFromDraft {
                                     self.navigationController?.popViewController(animated: true)
                                 } else {
                                     self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isHomeBackButton: true), animated: true)
@@ -281,9 +281,9 @@ private extension WritingDiaryViewController {
                     .disposed(by: cell.disposeBag)
                 
                 return cell
-            }
-        )
-    }
+                }
+            )
+        }
     
     private func updateTextViewHeightIfNeeded(for cell: WritingDiaryCell, _ collectionView: UICollectionView) {
         let size = CGSize(width: cell.textView.frame.width, height: .infinity)

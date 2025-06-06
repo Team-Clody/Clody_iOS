@@ -240,7 +240,7 @@ extension WritingDiaryViewModel {
         self.isFirstRelay.accept(isFirst)
     }
     
-    func postDiary(date: String, content: [String], completion: @escaping (NetworkViewJudge, String) -> ()) {
+    func postDiary(date: String, content: [String], completion: @escaping (NetworkViewJudge, String, Bool) -> ()) {
         let provider = Providers.diaryRouter
         let data = PostDiaryRequestDTO(date: date, content: content)
         
@@ -252,7 +252,7 @@ extension WritingDiaryViewModel {
             default: dataStatus = .unknowned
             }
             guard let data = data.data else { return }
-            completion(dataStatus, data.replyType)
+            completion(dataStatus, data.replyType, data.isFromDraft)
         }
     }
     
