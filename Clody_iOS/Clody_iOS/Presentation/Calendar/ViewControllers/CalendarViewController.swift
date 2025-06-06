@@ -238,7 +238,8 @@ private extension CalendarViewController {
                     navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: false), animated: true)
                 case .draftEnabled:
                     AmplitudeManager.shared.trackEvent("home_writing_diary")
-                    navigationController?.pushViewController(WritingDiaryViewController(date: date, isFromDraft: true), animated: true)              default:
+                    navigationController?.pushViewController(WritingDiaryViewController(date: date, isFromDraft: true), animated: true)
+                default:
                     print("navigate error")
                 }
             })

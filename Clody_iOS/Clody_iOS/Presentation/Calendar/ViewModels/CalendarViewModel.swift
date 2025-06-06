@@ -269,10 +269,15 @@ extension CalendarViewModel {
         let isWritingAvailable = date.isWritingAvailable
         let isDeleted = dailyData.isDeleted
         let isDraft = cloverType == .hasDraft
+        let isDraftDone = cloverType == .draftDone
         
         let buttonState: DiaryButtonState = {
             if isDraft {
                 return .draftEnabled
+            }
+            
+            if isDraftDone {
+                return .replyDisabled
             }
             
             switch (isWritingAvailable, isNotEmpty, isDeleted) {

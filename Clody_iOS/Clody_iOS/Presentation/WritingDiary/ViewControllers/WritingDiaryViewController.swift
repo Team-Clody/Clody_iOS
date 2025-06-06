@@ -179,6 +179,10 @@ private extension WritingDiaryViewController {
         output.showDraftAlert
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
+                if viewModel.diariesRelay.value.allSatisfy({ $0 == "" }) {
+                    self.navigationController?.popViewController(animated: true)
+                }
+
                 self.showAlert(
                     type: .draftDiary,
                     title: I18N.Alert.draftTitle,
