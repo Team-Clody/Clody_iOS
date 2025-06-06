@@ -178,6 +178,7 @@ private extension ReplyDetailViewController {
             self.nickname = data.nickname
             self.rootView.bindData(nickname: data.nickname, content: data.content)
             self.judgeIsAlert(isRead: data.isRead)
+            AppStoreReviewManager.markReplyAsViewed()
         }
     }
 }
