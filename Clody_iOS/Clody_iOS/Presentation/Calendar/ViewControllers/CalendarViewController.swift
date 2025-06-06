@@ -141,26 +141,26 @@ private extension CalendarViewController {
                             isEnabled: true
                         )
                     }
-            }()
-                   let emptyText: String = {
-                       switch state {
-                       case .draftEnabled:
-                           return I18N.Calendar.draft
-                       default:
-                           return I18N.Calendar.empty
-                       }
-                   }()
-                   self.rootView.emptyDiaryLabel.attributedText = UIFont.pretendardString(text: emptyText, style: .body3_regular)
-                   self.rootView.emptyDiaryView.isHidden = (state == .replyEnabled || state == .replyDisabled)
-                   self.rootView.kebabButton.isHidden = (state == .writeDisabled || state == .writeEnabled)
-                   self.rootView.calendarActionButton.setAttributedTitle(
+                }()
+                let emptyText: String = {
+                    switch state {
+                    case .draftEnabled:
+                        return I18N.Calendar.draft
+                    default:
+                        return I18N.Calendar.empty
+                    }
+                }()
+                self.rootView.emptyDiaryLabel.attributedText = UIFont.pretendardString(text: emptyText, style: .body3_regular)
+                self.rootView.emptyDiaryView.isHidden = (state == .replyEnabled || state == .replyDisabled)
+                self.rootView.kebabButton.isHidden = (state == .writeDisabled || state == .writeEnabled)
+                self.rootView.calendarActionButton.setAttributedTitle(
                     UIFont.pretendardString(text: config.text, style: .body1_semibold),
                     for: .normal
-                   )
-                   self.rootView.calendarActionButton.backgroundColor = config.backgroundColor
-                   self.rootView.calendarActionButton.setTitleColor(config.titleColor, for: .normal)
-                   self.rootView.calendarActionButton.isEnabled = config.isEnabled
-                   })
+                )
+                self.rootView.calendarActionButton.backgroundColor = config.backgroundColor
+                self.rootView.calendarActionButton.setTitleColor(config.titleColor, for: .normal)
+                self.rootView.calendarActionButton.isEnabled = config.isEnabled
+            })
             .disposed(by: disposeBag)
         
         output.diaryData
@@ -202,7 +202,6 @@ private extension CalendarViewController {
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 let date = viewModel.currentPageRelay.value
-                let cloverType = self.viewModel.selectedCloverTypeRelay.value
                 let selectedMonth = "\(date.year)년 \(date.month)월"
                 rootView.calendarNavigationView.dateText = selectedMonth
                 presentBottomSheet(datePickerView)
@@ -472,7 +471,6 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
         return cell
     }
-    
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         tapDateRelay.accept(date)
