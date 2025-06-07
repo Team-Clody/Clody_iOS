@@ -115,7 +115,7 @@ private extension WritingDiaryViewController {
             .disposed(by: disposeBag)
         
         
-        output.showSaveErrorToast
+        output.showSubmitErrorToast
             .emit(onNext: {
                 ClodyToast.show(toastType: .needToWriteAll)
             })
@@ -128,14 +128,14 @@ private extension WritingDiaryViewController {
             })
             .disposed(by: disposeBag)
         
-        output.showSaveAlert
+        output.showSubmitAlert
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.showAlert(
                     type: .logout,
-                    title: I18N.Alert.saveDiaryTitle,
-                    message: I18N.Alert.saveDiaryMessage,
-                    rightButtonText: I18N.Alert.save
+                    title: I18N.Alert.submitDiaryTitle,
+                    message: I18N.Alert.submitDiaryMessage,
+                    rightButtonText: I18N.Alert.submit
                 )
                 
                 self.alert?.leftButton.rx.tap

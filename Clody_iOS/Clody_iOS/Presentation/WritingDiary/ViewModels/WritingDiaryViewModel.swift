@@ -44,8 +44,8 @@ final class WritingDiaryViewModel: ViewModelType {
         let isFirst: Driver<[Bool]>
         let showDraftAlert: Signal<Void>
         let isAddButtonEnabled: Driver<Bool>
-        let showSaveErrorToast: Signal<Void>
-        let showSaveAlert: Signal<Void>
+        let showSubmitErrorToast: Signal<Void>
+        let showSubmitAlert: Signal<Void>
         let showDelete: Signal<Void>
         let showHelp: Driver<Bool>
     }
@@ -56,8 +56,8 @@ final class WritingDiaryViewModel: ViewModelType {
     let isFirstRelay = BehaviorRelay<[Bool]>(value: [true])
     let textDidEditing = PublishRelay<String>()
     let textEndEditing = PublishRelay<String>()
-    private let showSaveErrorToastRelay = PublishRelay<Void>()
-    private let showSaveAlertRelay = PublishRelay<Void>()
+    private let showSubmitErrorToastRelay = PublishRelay<Void>()
+    private let showSubmitAlertRelay = PublishRelay<Void>()
     private let showDeleteRelay = PublishRelay<Int>()
     private let deleteIndexRelay = BehaviorRelay<Int?>(value: nil)
     let isHiddenHelpRelay = BehaviorRelay<Bool>(value: true)
@@ -75,7 +75,7 @@ final class WritingDiaryViewModel: ViewModelType {
         input.tapSubmitButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.saveData()
+                self.submitData()
             })
             .disposed(by: disposeBag)
         
@@ -146,9 +146,9 @@ final class WritingDiaryViewModel: ViewModelType {
             .map { _, diaries in diaries.count < 5 }
             .asDriver(onErrorJustReturn: true)
         
-        let showSaveErrorToast = showSaveErrorToastRelay.asSignal()
+        let showSubmitErrorToast = showSubmitErrorToastRelay.asSignal()
         
-        let showSaveAlert = showSaveAlertRelay.asSignal()
+        let showSubmitAlert = showSubmitAlertRelay.asSignal()
         
         let showDelete = deleteIndexRelay
             .map { _ in }
@@ -162,8 +162,8 @@ final class WritingDiaryViewModel: ViewModelType {
             isFirst: isFirst,
             showDraftAlert: showDraftAlert,
             isAddButtonEnabled: isAddButtonEnabled,
-            showSaveErrorToast: showSaveErrorToast,
-            showSaveAlert: showSaveAlert,
+            showSubmitErrorToast: showSubmitErrorToast,
+            showSubmitAlert: showSubmitAlert,
             showDelete: showDelete, 
             showHelp: showHelp
         )
@@ -220,11 +220,11 @@ final class WritingDiaryViewModel: ViewModelType {
 
 extension WritingDiaryViewModel {
     
-    func saveData() {
+    func submitData() {
         if diariesRelay.value.contains("") {
-            self.showSaveErrorToastRelay.accept(())
+            self.showSubmitErrorToastRelay.accept(())
         } else {
-            self.showSaveAlertRelay.accept(())
+            self.showSubmitAlertRelay.accept(())
         }
     }
     
