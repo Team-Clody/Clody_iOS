@@ -213,16 +213,16 @@ private extension WritingDiaryViewController {
                 alert?.leftButton.rx.tap
                     .subscribe(onNext: { [weak self] in
                         guard let self = self else { return }
-                        showLoadingIndicator()
                         let hasEmpty = viewModel.diariesRelay.value.contains("")
-
                         if hasEmpty {
                             ClodyToast.show(toastType: .needToWriteAll)
                             hideAlert()
                             return
                         }
                         
+                        showLoadingIndicator()
                         let dateString = DateFormatter.string(from: date, format: "yyyy-MM-dd")
+                        
                         viewModel.postDraftDiary(
                             date: dateString,
                             content: viewModel.diariesRelay.value
