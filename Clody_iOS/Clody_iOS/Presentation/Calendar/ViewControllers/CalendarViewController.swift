@@ -138,14 +138,6 @@ private extension CalendarViewController {
                             titleColor: .grey02,
                             isEnabled: true
                         )
-                        
-                    case .draftAlert:
-                        return (
-                            text: I18N.Calendar.writeMore,
-                            backgroundColor: .mainYellow,
-                            titleColor: .grey02,
-                            isEnabled: true
-                        )
                     }
                 }()
                 let emptyText: String = {
@@ -242,12 +234,12 @@ private extension CalendarViewController {
                     AmplitudeManager.shared.trackEvent("home_reply")
                     navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: false), animated: true)
                 case .draftEnabled:
-                    AmplitudeManager.shared.trackEvent("home_writing_diary")
-                    navigationController?.pushViewController(WritingDiaryViewController(date: date, isFromDraft: true), animated: true)
-                case .draftAlert:
-                    AmplitudeManager.shared.trackEvent("home_writing_diary")
-                    // show Alert
-                    showDraftAlert(currentDate: date)
+                    if date.isWritingAvailable {
+                        navigationController?.pushViewController(WritingDiaryViewController(date: date, isFromDraft: true), animated: true)
+                        AmplitudeManager.shared.trackEvent("home_writing_diary")
+                    } else {
+                        showDraftAlert(currentDate: date)
+                    }
                 default:
                     print("navigate error")
                 }

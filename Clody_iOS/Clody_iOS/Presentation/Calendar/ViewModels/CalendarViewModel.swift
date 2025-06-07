@@ -279,7 +279,7 @@ extension CalendarViewModel {
         
         switch cloverType {
         case .hasDraft:
-            buttonState = isWritingAvailable ? .draftEnabled : .draftAlert
+            buttonState = .draftEnabled
         case .draftDone:
             buttonState = .replyDisabled
         default:
