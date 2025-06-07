@@ -370,7 +370,15 @@ private extension CalendarViewController {
                 guard let self = self else { return }
                 dismissBottomSheet(continueWritingAlarmBottomSheet, animated: true)
                 
-                // TODO: 알림 설정 API 호출
+                var notificationState = notificationStateRelay.value
+                notificationState.isContinueWritingAlarmOn = true
+                if !notificationState.isDiaryWritingAlarmOn {
+                    notificationState.alarmTime = "21:30"
+                }
+                notificationViewModel.postAlarmSetting(notificationState) { [weak self] _ in
+                    // TODO: 토스트메시지
+                    self?.notificationStateRelay.accept(notificationState)
+                }
             })
             .disposed(by: self.disposeBag)
         
