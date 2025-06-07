@@ -202,6 +202,14 @@ private extension WritingDiaryViewController {
                 
                 self.alert?.leftButton.rx.tap
                     .subscribe(onNext: {
+                        let hasEmpty = self.viewModel.diariesRelay.value.contains("")
+
+                        if hasEmpty {
+                            ClodyToast.show(toastType: .needToWriteAll)
+                            self.hideAlert()
+                            return
+                        }
+                        
                         self.showLoadingIndicator()
                         let dateString = DateFormatter.string(
                             from: self.date,
