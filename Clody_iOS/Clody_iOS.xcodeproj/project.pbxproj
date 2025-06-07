@@ -39,6 +39,8 @@
 		0B4A1BE82C456CD100E31EC4 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 0B4A1BE72C456CD100E31EC4 /* KakaoSDKUser */; };
 		0B4EF9CF2C478AAF00CAF1F6 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4EF9CE2C478AAF00CAF1F6 /* Date+.swift */; };
 		0B4EF9D12C48C39600CAF1F6 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4EF9D02C48C39600CAF1F6 /* PermissionManager.swift */; };
+		0B6AC2362DF27AEB00F625FA /* PostDraftDiaryRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6AC2352DF27AD100F625FA /* PostDraftDiaryRequestDTO.swift */; };
+		0B6AC2382DF27D7E00F625FA /* PostDiaryDraftResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6AC2372DF27D7C00F625FA /* PostDiaryDraftResponseDTO.swift */; };
 		0B6C07372C3B99970054A0B0 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 0B6C07362C3B99970054A0B0 /* Differentiator */; };
 		0B6C07392C3B99970054A0B0 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 0B6C07382C3B99970054A0B0 /* RxDataSources */; };
 		0B6C07432C3DC2DE0054A0B0 /* ListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C07422C3DC2DE0054A0B0 /* ListModel.swift */; };
@@ -64,6 +66,7 @@
 		0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */; };
 		0BABF7BE2C722313005A5CA1 /* AppVersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */; };
 		0BB898262C85BBBB0082F87B /* RevokeResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */; };
+		0BBD1CD32DF2E94D0063DD35 /* GetDraftDiariesResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */; };
 		0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC373522C3FCC2600C45072 /* ViewModelType.swift */; };
 		0BC373562C3FCF0F00C45072 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 0BC373552C3FCF0F00C45072 /* RxKeyboard */; };
 		0BC373592C4003A900C45072 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 0BC373582C4003A900C45072 /* RxGesture */; };
@@ -199,6 +202,8 @@
 		0B4A1BDD2C45686300E31EC4 /* EmptyResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponseDTO.swift; sourceTree = "<group>"; };
 		0B4EF9CE2C478AAF00CAF1F6 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		0B4EF9D02C48C39600CAF1F6 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
+		0B6AC2352DF27AD100F625FA /* PostDraftDiaryRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDraftDiaryRequestDTO.swift; sourceTree = "<group>"; };
+		0B6AC2372DF27D7C00F625FA /* PostDiaryDraftResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDiaryDraftResponseDTO.swift; sourceTree = "<group>"; };
 		0B6C07422C3DC2DE0054A0B0 /* ListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListModel.swift; sourceTree = "<group>"; };
 		0B6C07442C3DC2E90054A0B0 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0B6C07462C3DC2F40054A0B0 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
@@ -222,6 +227,7 @@
 		0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToastView.swift; sourceTree = "<group>"; };
 		0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionManager.swift; sourceTree = "<group>"; };
 		0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevokeResponseDTO.swift; sourceTree = "<group>"; };
+		0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDraftDiariesResponseDTO.swift; sourceTree = "<group>"; };
 		0BC373522C3FCC2600C45072 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		0BCD4FA22C35B59C006390D2 /* Clody_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clody_iOS.entitlements; sourceTree = "<group>"; };
 		0BDF13BF2C7D612800BA2E7C /* Config_Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config_Dev.xcconfig; sourceTree = "<group>"; };
@@ -561,6 +567,9 @@
 		0BE7E9FA2C465FB5000C5358 /* DiaryModel */ = {
 			isa = PBXGroup;
 			children = (
+				0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */,
+				0B6AC2372DF27D7C00F625FA /* PostDiaryDraftResponseDTO.swift */,
+				0B6AC2352DF27AD100F625FA /* PostDraftDiaryRequestDTO.swift */,
 				0BE7E9F42C4656EB000C5358 /* PostDiaryRequestDTO.swift */,
 				0BE7E9F62C46578F000C5358 /* PostDiaryResponseDTO.swift */,
 				0BE7E9F22C464444000C5358 /* GetDiaryResponseDTO.swift */,
@@ -1165,6 +1174,7 @@
 				0BABF7BE2C722313005A5CA1 /* AppVersionManager.swift in Sources */,
 				95310F902C40705600023C7B /* NicknameViewController.swift in Sources */,
 				0B7222342C65243A005EB365 /* ListEmptyView.swift in Sources */,
+				0B6AC2362DF27AEB00F625FA /* PostDraftDiaryRequestDTO.swift in Sources */,
 				95310FC22C45453F00023C7B /* NicknameViewModel.swift in Sources */,
 				0BE7EA0B2C46699F000C5358 /* GetAlarmResponseDTO.swift in Sources */,
 				95310FC62C45ACD000023C7B /* OnBoardingViewModel.swift in Sources */,
@@ -1186,6 +1196,7 @@
 				95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */,
 				0BFCC5CF2C2E8DAE00B5E0DB /* BaseTargetType.swift in Sources */,
 				95310F832C3FF53400023C7B /* LoginView.swift in Sources */,
+				0B6AC2382DF27D7E00F625FA /* PostDiaryDraftResponseDTO.swift in Sources */,
 				0BE7EA072C466793000C5358 /* MyPageRouter.swift in Sources */,
 				95A98EA12C9C5C1D0073AD3C /* AccountViewController.swift in Sources */,
 				0BE7E9F12C4636DE000C5358 /* CalendarMonthlyResponseDTO.swift in Sources */,
@@ -1224,6 +1235,7 @@
 				952EB1992C6BCF7E00D1E516 /* UIViewController+.swift in Sources */,
 				0B6C07432C3DC2DE0054A0B0 /* ListModel.swift in Sources */,
 				0B17F8052C368465008A9998 /* DailyCalendarCollectionViewCell.swift in Sources */,
+				0BBD1CD32DF2E94D0063DD35 /* GetDraftDiariesResponseDTO.swift in Sources */,
 				0B190F0D2C38111500D46CFC /* CalendarDailyModel.swift in Sources */,
 				0BE7E9EF2C461D0F000C5358 /* NotificationPickerView.swift in Sources */,
 				95310FC02C44431800023C7B /* TermsViewModel.swift in Sources */,

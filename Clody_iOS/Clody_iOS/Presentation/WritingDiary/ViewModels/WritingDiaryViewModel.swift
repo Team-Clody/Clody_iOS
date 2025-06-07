@@ -42,21 +42,22 @@ final class WritingDiaryViewModel: ViewModelType {
         let items: Driver<[WritingDiarySection]>
         let statuses: Driver<[Bool]>
         let isFirst: Driver<[Bool]>
-        let popToCalendar: Signal<Void>
+        let showDraftAlert: Signal<Void>
         let isAddButtonEnabled: Driver<Bool>
-        let showSaveErrorToast: Signal<Void>
-        let showSaveAlert: Signal<Void>
+        let showSubmitErrorToast: Signal<Void>
+        let showSubmitAlert: Signal<Void>
         let showDelete: Signal<Void>
         let showHelp: Driver<Bool>
     }
+    
     let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: [""]))
     let diariesRelay = BehaviorRelay<[String]>(value: [""])
     let textViewIsEmptyRelay = BehaviorRelay<[Bool]>(value: [true])
     let isFirstRelay = BehaviorRelay<[Bool]>(value: [true])
     let textDidEditing = PublishRelay<String>()
     let textEndEditing = PublishRelay<String>()
-    private let showSaveErrorToastRelay = PublishRelay<Void>()
-    private let showSaveAlertRelay = PublishRelay<Void>()
+    private let showSubmitErrorToastRelay = PublishRelay<Void>()
+    private let showSubmitAlertRelay = PublishRelay<Void>()
     private let showDeleteRelay = PublishRelay<Int>()
     private let deleteIndexRelay = BehaviorRelay<Int?>(value: nil)
     let isHiddenHelpRelay = BehaviorRelay<Bool>(value: true)
@@ -74,7 +75,7 @@ final class WritingDiaryViewModel: ViewModelType {
         input.tapSubmitButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.saveData()
+                self.submitData()
             })
             .disposed(by: disposeBag)
         
@@ -139,15 +140,15 @@ final class WritingDiaryViewModel: ViewModelType {
         let isFirst = isFirstRelay
             .asDriver(onErrorJustReturn: [])
         
-        let popToCalendar = input.tapBackButton.asSignal()
+        let showDraftAlert = input.tapBackButton.asSignal()
         
         let isAddButtonEnabled = Observable.combineLatest(input.tapAddButton.asObservable(), diariesRelay.asObservable())
             .map { _, diaries in diaries.count < 5 }
             .asDriver(onErrorJustReturn: true)
         
-        let showSaveErrorToast = showSaveErrorToastRelay.asSignal()
+        let showSubmitErrorToast = showSubmitErrorToastRelay.asSignal()
         
-        let showSaveAlert = showSaveAlertRelay.asSignal()
+        let showSubmitAlert = showSubmitAlertRelay.asSignal()
         
         let showDelete = deleteIndexRelay
             .map { _ in }
@@ -159,10 +160,10 @@ final class WritingDiaryViewModel: ViewModelType {
             items: items,
             statuses: statuses,
             isFirst: isFirst,
-            popToCalendar: popToCalendar,
+            showDraftAlert: showDraftAlert,
             isAddButtonEnabled: isAddButtonEnabled,
-            showSaveErrorToast: showSaveErrorToast,
-            showSaveAlert: showSaveAlert,
+            showSubmitErrorToast: showSubmitErrorToast,
+            showSubmitAlert: showSubmitAlert,
             showDelete: showDelete, 
             showHelp: showHelp
         )
@@ -177,15 +178,53 @@ final class WritingDiaryViewModel: ViewModelType {
         textViewIsEmptyRelay.accept(initialStatuses)
         isFirstRelay.accept(initialIsFirst)
     }
+    
+    func getDraftDiaryData(year: Int, month: Int, date: Int, completion: @escaping () -> Void) {
+        let provider = Providers.diaryRouter
+        
+        provider.request(target: .getDraftDiaryList(year: year, month: month, date: date), instance: BaseResponse<GetDraftDiariesResponseDTO>.self) { [weak self] data in
+            guard let self = self else { return }
+            switch data.status {
+            case 200..<300:
+                guard let data = data.data else { return }
+                
+                var items: [String] = []
+                var isEmpty: [Bool] = []
+                var isFirst: [Bool] = []
+
+                for draft in data.draftDiaries {
+                    items.append(draft)
+                    isEmpty.append(true)
+                    isFirst.append(false)
+                }
+
+                self.diariesRelay.accept(items)
+                self.textViewIsEmptyRelay.accept(isEmpty)
+                self.isFirstRelay.accept(isFirst)
+                
+                completion()
+            default:
+                print("error draft")
+            }
+        }
+    }
+
+    func fetchData(date: Date) {
+        if let year = Int(DateFormatter.string(from: date, format: "yyyy")),
+           let month = Int(DateFormatter.string(from: date, format: "MM")),
+           let day = Int(DateFormatter.string(from: date, format: "dd")) {
+            getDraftDiaryData(year: year, month: month, date: day, completion: {})
+        }
+    }
 }
 
 extension WritingDiaryViewModel {
     
-    func saveData() {
+    func submitData() {
         if diariesRelay.value.contains("") {
-            self.showSaveErrorToastRelay.accept(())
+            self.showSubmitErrorToastRelay.accept(())
         } else {
-            self.showSaveAlertRelay.accept(())
+            self.showSubmitAlertRelay.accept(())
         }
     }
     
@@ -201,19 +240,34 @@ extension WritingDiaryViewModel {
         self.isFirstRelay.accept(isFirst)
     }
     
-    func postDiary(date: String, content: [String], completion: @escaping (NetworkViewJudge, String) -> ()) {
+    func postDiary(date: String, content: [String], completion: @escaping (NetworkViewJudge, String, Bool) -> ()) {
         let provider = Providers.diaryRouter
         let data = PostDiaryRequestDTO(date: date, content: content)
         
         provider.request(target: .postDiary(data: data), instance: BaseResponse<PostDiaryResponseDTO>.self) { data in
-            var dataStatus = NetworkViewJudge.unknowned
+            var dataStatus: NetworkViewJudge
             switch data.status {
             case 200..<300: dataStatus = .success
             case -1: dataStatus = .network
             default: dataStatus = .unknowned
             }
             guard let data = data.data else { return }
-            completion(dataStatus, data.replyType)
+            completion(dataStatus, data.replyType, data.isFromDraft)
+        }
+    }
+    
+    func postDraftDiary(date: String, content: [String], completion: @escaping (NetworkViewJudge, String) -> ()) {
+        let provider = Providers.diaryRouter
+        let data = PostDraftDiaryRequestDTO(date: date, draftDiaries: content)
+        
+        provider.request(target: .postDraftDiary(data: data), instance: BaseResponse<PostDraftDiaryResponseDTO>.self) { data in
+            var dataStatus: NetworkViewJudge
+            switch data.status {
+            case 200..<300: dataStatus = .success
+            case -1: dataStatus = .network
+            default: dataStatus = .unknowned
+            }
+            completion(dataStatus, "")
         }
     }
 }

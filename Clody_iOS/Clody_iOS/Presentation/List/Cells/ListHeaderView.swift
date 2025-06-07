@@ -32,10 +32,10 @@ final class ListHeaderView: UICollectionReusableView {
     }
     
     override func prepareForReuse() {
-            super.prepareForReuse()
-            self.cellDisposeBag = DisposeBag()
+        super.prepareForReuse()
+        self.cellDisposeBag = DisposeBag()
     }
-
+    
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -59,12 +59,12 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         replyButton.do {
-             $0.backgroundColor = .lightBlue
-             $0.makeCornerRound(radius: 10)
-             $0.setTitleColor(.blueCustom, for: .normal)
+            $0.backgroundColor = .lightBlue
+            $0.makeCornerRound(radius: 10)
+            $0.setTitleColor(.blueCustom, for: .normal)
             let attributedTitle = UIFont.pretendardString(text: I18N.WritingDiary.replyButton, style: .detail1_semibold)
-             $0.setAttributedTitle(attributedTitle, for: .normal)
-         }
+            $0.setAttributedTitle(attributedTitle, for: .normal)
+        }
         
         newImageView.do {
             $0.image = .new
@@ -123,27 +123,24 @@ final class ListHeaderView: UICollectionReusableView {
             $0.size.equalTo(ScreenUtils.getWidth(28))
         }
     }
-
+    
     
     func bindData(diary: ListDiary) {
-        
-        if diary.isDeleted {
+        if diary.isDeleted || diary.replyStatus == "INVALID_DRAFT" {
             replyButton.backgroundColor = .grey08
             replyButton.isEnabled = false
             replyButton.setTitleColor(.grey06, for: .normal)
         }
         
-        if diary.replyStatus == "READY_READ" {
+        if diary.replyStatus == "INVALID_DRAFT" {
+            cloverImageView.image = .cloverDraftExpired
+        } else if diary.replyStatus == "READY_READ" {
             cloverImageView.image = UIImage(named: diary.diaryCount == 0 ? "clover0" : "clover\(diary.diaryCount)")
         } else {
             cloverImageView.image = .clover0
         }
-            
-        if diary.replyStatus == "READY_NOT_READ" {
-            newImageView.isHidden = false
-        } else {
-            newImageView.isHidden = true
-        }
+        
+        newImageView.isHidden = diary.replyStatus != "READY_NOT_READ"
         
         let dateOfContent = DateFormatter.date(from: diary.date)
         guard let dayOfContent = dateOfContent?.koreanDayOfWeek() else { return }

@@ -30,16 +30,23 @@ enum I18N {
         static let logoutMessage = "기다릴게요, 다음에 다시 만나요!"
         static let withdrawTitle = "서비스를 탈퇴하시겠어요?"
         static let withdrawMessage = "작성하신 일기와 받은 답장 및 클로버가 모두 삭제되며 복구할 수 없어요."
-        static let saveDiaryTitle = "일기를 저장할까요?"
-        static let saveDiaryMessage = "저장한 일기는 수정이 어려워요."
+        static let submitDiaryTitle = "일기를 저장할까요?"
+        static let submitDiaryMessage = "저장한 일기는 수정이 어려워요."
         static let deleteDiaryTitle = "정말 일기를 삭제할까요?"
         static let deleteDiaryMessage = "아직 답장이 오지 않았거나 삭제하고 다시 작성한 일기는 답장을 받을 수 없어요."
         static let cancel = "아니요"
         static let logout = "로그아웃"
         static let withdraw = "탈퇴할래요"
-        static let save = "저장하기"
+        static let submit = "보내기"
         static let delete = "삭제할래요"
         static let retry = "다시 시도"
+        static let draftTitle = "지금까지 쓴 일기를 임시저장할까요?"
+        static let draftMessage = "나가기를 누르면 작성 중인 내용이 모두 사라져요."
+        static let draft = "임시저장"
+        static let back = "나가기"
+        static let writeMoreTitle = "임시저장된 일기를 이어 쓸까요?"
+        static let writeMoreMessage = "답장 기한이 지나서 답장은 받을 수 없어요."
+        static let writeMore = "이어쓰기"
     }
     
     enum Toast {
@@ -139,9 +146,11 @@ enum I18N {
         static let reply = "답장 확인"
         static let writing = "일기 쓰기"
         static let empty = "아직 감사 일기가 없어요!"
+        static let draft = "임시저장된 일기가 있어요."
         static let delete = "삭제하기"
         static let otherDay = "다른 날짜 보기"
         static let complete = "완료"
+        static let writeMore = "이어쓰기"
     }
     
     enum Notification {

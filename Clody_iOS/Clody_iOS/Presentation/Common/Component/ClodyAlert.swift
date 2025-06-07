@@ -15,6 +15,8 @@ enum AlertType {
     case withdraw
     case deleteDiary
     case saveDiary
+    case draftDiary
+    case draftWriteMore
 }
 
 final class ClodyAlert: UIView {
@@ -31,7 +33,7 @@ final class ClodyAlert: UIView {
     var type: AlertType
     
     // MARK: - Life Cycles
-
+    
     init(
         type: AlertType,
         title: String,
@@ -66,13 +68,18 @@ extension ClodyAlert {
         makeCornerRound(radius: 12)
         
         switch type {
-        case .logout, .saveDiary:
+        case .logout, .saveDiary, .draftWriteMore:
             rightButton.backgroundColor = .mainYellow
             rightButton.setTitleColor(.grey01, for: .normal)
         case .withdraw, .deleteDiary:
             rightButton.backgroundColor = .redCustom
             rightButton.setTitleColor(.white, for: .normal)
+        case .draftDiary:
+            rightButton.backgroundColor = .redCustom
+            rightButton.setTitleColor(.white, for: .normal)
         }
+        
+        let leftButtonText = self.type == .draftDiary ? I18N.Alert.draft : I18N.Alert.cancel
         
         titleLabel.do {
             $0.textColor = .grey01
@@ -95,7 +102,7 @@ extension ClodyAlert {
         leftButton.do {
             $0.backgroundColor = .grey07
             $0.setTitleColor(.grey04, for: .normal)
-            $0.setAttributedTitle(UIFont.pretendardString(text: I18N.Alert.cancel, style: .body3_semibold), for: .normal)
+            $0.setAttributedTitle(UIFont.pretendardString(text: leftButtonText, style: .body3_semibold), for: .normal)
             $0.makeCornerRound(radius: 8)
         }
         
@@ -118,7 +125,9 @@ extension ClodyAlert {
         
         messageLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(8))
-            $0.horizontalEdges.greaterThanOrEqualToSuperview().inset(ScreenUtils.getWidth(58))
+            if type != .draftDiary && type != .draftWriteMore {
+                $0.horizontalEdges.greaterThanOrEqualToSuperview().inset(ScreenUtils.getWidth(58))
+            }
             $0.centerX.equalToSuperview()
         }
         

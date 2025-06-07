@@ -1,0 +1,12 @@
+//
+//  GetDraftDiariesDTO.swift
+//  Clody_iOS
+//
+//  Created by Seonwoo Kim on 6/6/25.
+//
+
+import Foundation
+
+struct GetDraftDiariesResponseDTO: Codable {
+    let draftDiaries: [String]
+}

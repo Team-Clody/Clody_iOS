@@ -22,7 +22,8 @@ final class WritingDiaryViewController: UIViewController {
     private let viewModel = WritingDiaryViewModel()
     private let disposeBag = DisposeBag()
     private let kebabButtonTap = PublishRelay<Int>()
-    private var date: Date
+    private let date: Date
+    private let isFromDraft: Bool
     private var textViewHeight: CGFloat = 0
     private var currentKeyboardVisible: Bool = false
     private var isAddButtonEnabled: Bool = true
@@ -38,8 +39,13 @@ final class WritingDiaryViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(date: Date, firstDraftSaveCompletion: (() -> Void)? = nil) {
+    init(
+        date: Date,
+        isFromDraft: Bool,
+        firstDraftSaveCompletion: (() -> Void)? = nil
+    ) {
         self.date = date
+        self.isFromDraft = isFromDraft
         self.firstDraftSaveCompletion = firstDraftSaveCompletion
         
         super.init(nibName: nil, bundle: nil)
@@ -65,6 +71,7 @@ final class WritingDiaryViewController: UIViewController {
         setupKeyboardHandling()
         setupDeleteBottomSheet()
         configureHeader()
+        configureDraft()
     }
 }
 
@@ -94,15 +101,6 @@ private extension WritingDiaryViewController {
         
         let dataSource = configureCollectionView()
         
-        output.popToCalendar
-            .emit(onNext: { [weak self] in
-                self?.navigationController?.popViewController(animated: true)
-                // TODO: 임시저장 후 pop될 때 시점으로 변경
-                self?.firstDraftSaveCompletion?()
-                AmplitudeManager.shared.trackEvent("writing_diary_back")
-            })
-            .disposed(by: disposeBag)
-        
         output.items
             .drive(rootView.writingCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
@@ -115,71 +113,138 @@ private extension WritingDiaryViewController {
                     ClodyToast.show(toastType: .limitFive)
                 }
                 
-                let imageName = self.currentKeyboardVisible
-                ? (isEnabled ? "smallAddButton" : "smallAddButtonOff")
-                : (isEnabled ? "bigAddButton" : "bigAddButtonOff")
-                self.rootView.addButton.setImage(UIImage(named: imageName), for: .normal)
+                let buttonImage: UIImage = currentKeyboardVisible
+                ? (isEnabled ? .smallAddButton : .smallAddButtonOff)
+                : (isEnabled ? .bigAddButton : .bigAddButtonOff)
+                self.rootView.addButton.setImage(buttonImage, for: .normal)
             })
             .disposed(by: disposeBag)
         
-        
-        output.showSaveErrorToast
+        output.showSubmitErrorToast
             .emit(onNext: {
                 ClodyToast.show(toastType: .needToWriteAll)
             })
             .disposed(by: disposeBag)
         
         output.showDelete
-            .emit(onNext: {
-                self.presentBottomSheet()
-                self.view.endEditing(true)
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                presentBottomSheet()
+                view.endEditing(true)
             })
             .disposed(by: disposeBag)
         
-        output.showSaveAlert
+        output.showSubmitAlert
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.showAlert(
+                showAlert(
                     type: .logout,
-                    title: I18N.Alert.saveDiaryTitle,
-                    message: I18N.Alert.saveDiaryMessage,
-                    rightButtonText: I18N.Alert.save
+                    title: I18N.Alert.submitDiaryTitle,
+                    message: I18N.Alert.submitDiaryMessage,
+                    rightButtonText: I18N.Alert.submit
                 )
                 
-                self.alert?.leftButton.rx.tap
-                    .subscribe(onNext: {
-                        self.hideAlert()
+                alert?.leftButton.rx.tap
+                    .subscribe(onNext: { [weak self] in
+                        self?.hideAlert()
                         AmplitudeManager.shared.trackEvent("writing_diary_no_complete")
                     })
-                    .disposed(by: self.disposeBag)
+                    .disposed(by: disposeBag)
                 
-                self.alert?.rightButton.rx.tap
-                    .subscribe(onNext: {
+                alert?.rightButton.rx.tap
+                    .subscribe(onNext: { [weak self] in
+                        guard let self = self else { return }
                         AmplitudeManager.shared.trackEvent("writing_diary_complete")
-                        self.showLoadingIndicator()
-                        let dateString = DateFormatter.string(
-                            from: self.date,
-                            format: "yyyy-MM-dd"
-                        )
-                        self.viewModel.postDiary(date: dateString, content: self.viewModel.diariesRelay.value, completion: {statusCode,type  in
-                            self.hideLoadingIndicator()
+                        showLoadingIndicator()
+                        let dateString = DateFormatter.string(from: date, format: "yyyy-MM-dd")
+                        
+                        viewModel.postDiary(
+                            date: dateString,
+                            content: viewModel.diariesRelay.value
+                        ) { [weak self] statusCode, type, isFromDraft in
+                            guard let self = self else { return }
+                            hideLoadingIndicator()
+                            
                             switch statusCode {
                             case .success:
-                                if type == "DELETED" {
-                                    self.navigationController?.popViewController(animated: true)
+                                // 임시저장본 보내기 성공 시? 답장 불가능 기간 홈으로 이동, 답장 가능시간 대기 화면으로 이동
+                                if type == "DELETED" || isFromDraft {
+                                    navigationController?.popViewController(animated: true)
                                 } else {
-                                    self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isHomeBackButton: true), animated: true)
+                                    navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isHomeBackButton: true), animated: true)
                                 }
                             case .network:
-                                self.showErrorAlert(isNetworkError: true)
+                                showErrorAlert(isNetworkError: true)
                             case .unknowned:
-                                self.showErrorAlert(isNetworkError: false)
+                                showErrorAlert(isNetworkError: false)
                             }
-                        })
+                        }
                         
-                        self.hideAlert()
+                        hideAlert()
                     })
-                    .disposed(by: self.disposeBag)
+                    .disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
+        
+        output.showDraftAlert
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                let isAllEmpty = viewModel.diariesRelay.value.allSatisfy { $0 == "" }
+                
+                if isAllEmpty {
+                    navigationController?.popViewController(animated: true)
+                }
+                
+                showAlert(
+                    type: .draftDiary,
+                    title: I18N.Alert.draftTitle,
+                    message: I18N.Alert.draftMessage,
+                    rightButtonText: I18N.Alert.back
+                )
+                
+                alert?.rightButton.rx.tap
+                    .subscribe(onNext: { [weak self] in
+                        self?.hideAlert()
+                        self?.navigationController?.popViewController(animated: true)
+                        AmplitudeManager.shared.trackEvent("writing_diary_back")
+                    })
+                    .disposed(by: disposeBag)
+                
+                alert?.leftButton.rx.tap
+                    .subscribe(onNext: { [weak self] in
+                        guard let self = self else { return }
+                        showLoadingIndicator()
+                        let hasEmpty = viewModel.diariesRelay.value.contains("")
+
+                        if hasEmpty {
+                            ClodyToast.show(toastType: .needToWriteAll)
+                            hideAlert()
+                            return
+                        }
+                        
+                        let dateString = DateFormatter.string(from: date, format: "yyyy-MM-dd")
+                        viewModel.postDraftDiary(
+                            date: dateString,
+                            content: viewModel.diariesRelay.value
+                        ) { [weak self] statusCode, type in
+                            guard let self = self else { return }
+                            hideLoadingIndicator()
+                            
+                            switch statusCode {
+                            case .success:
+                                navigationController?.popViewController(animated: true)
+                                AmplitudeManager.shared.trackEvent("writing_diary_back")
+                                firstDraftSaveCompletion?()
+                            case .network:
+                                showErrorAlert(isNetworkError: true)
+                            case .unknowned:
+                                showErrorAlert(isNetworkError: false)
+                            }
+                        }
+                        
+                        hideAlert()
+                    })
+                    .disposed(by: disposeBag)
             })
             .disposed(by: disposeBag)
         
@@ -201,6 +266,10 @@ private extension WritingDiaryViewController {
     
     func configureHeader() {
         rootView.headerView.bindData(dateData: self.date)
+    }
+    
+    func configureDraft() {
+        if isFromDraft { self.viewModel.fetchData(date: self.date) }
     }
     
     func configureCollectionView() -> RxCollectionViewSectionedReloadDataSource<WritingDiarySection> {
@@ -379,8 +448,6 @@ private extension WritingDiaryViewController {
             })
             .disposed(by: disposeBag)
     }
-    
-    
 }
 
 /// Alert 관련 함수입니다.
