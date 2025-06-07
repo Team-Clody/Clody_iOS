@@ -157,8 +157,9 @@ private extension WritingDiaryViewController {
                             self.hideLoadingIndicator()
                             switch statusCode {
                             case .success:
-                                // 임시저장본 보내기 성공 시? 답장 불가능 기간 홈으로 이동, 답장 가능시간 대기 화면으로 이동
-                                if type == "DELETED" || isFromDraft {
+                                let isWritingUnavailable = !self.date.isWritingAvailable
+                                
+                                if type == "DELETED" || isWritingUnavailable {
                                     self.navigationController?.popViewController(animated: true)
                                 } else {
                                     self.navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isHomeBackButton: true), animated: true)
