@@ -15,6 +15,7 @@ enum ToastType {
     case alarm
     case changeComplete
     case notificationTimeChangeComplete
+    case continueWritingAlarmChangeComplete
 }
 
 final class ClodyToast {

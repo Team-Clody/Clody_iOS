@@ -387,8 +387,9 @@ private extension CalendarViewController {
                     notificationState.alarmTime = "21:30"
                 }
                 notificationViewModel.postAlarmSetting(notificationState) { [weak self] _ in
-                    // TODO: 토스트메시지
-                    self?.notificationStateRelay.accept(notificationState)
+                    guard let self = self else { return }
+                    ClodyToast.show(toastType: .continueWritingAlarmChangeComplete)
+                    notificationStateRelay.accept(notificationState)
                 }
             })
             .disposed(by: self.disposeBag)
