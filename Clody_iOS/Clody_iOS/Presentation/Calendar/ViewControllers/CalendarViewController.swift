@@ -18,9 +18,11 @@ final class CalendarViewController: UIViewController {
     // MARK: - Properties
     
     private let viewModel = CalendarViewModel()
+    private let notificationViewModel = NotificationViewModel()
     private let disposeBag = DisposeBag()
     private let tapDateRelay = PublishRelay<Date>()
     private let currentPageChanged = PublishRelay<(year: Int, month: Int)>()
+    private lazy var notificationStateRelay = BehaviorRelay<NotificationState>(value: NotificationState())
     private var calendarData: [MonthlyDiary] {
         viewModel.monthlyCalendarDataRelay.value.diaries
     }
@@ -49,7 +51,7 @@ final class CalendarViewController: UIViewController {
         super.viewWillAppear(animated)
         
         AppStoreReviewManager.requestReviewIfNeeded()
-        viewModel.fetchData()
+        fetchData()
     }
     
     override func viewDidLoad() {
@@ -297,6 +299,22 @@ private extension CalendarViewController {
             .disposed(by: disposeBag)
     }
     
+    func fetchData() {
+        viewModel.fetchData()
+        if !UserManager.shared.hasViewedDraftAlarmBottomSheet {
+            notificationViewModel.getAlarmInfo() { [weak self] data in
+                guard let self = self else { return }
+                let notificationState = NotificationState(
+                    isDiaryWritingAlarmOn: data.isDiaryAlarm,
+                    isContinueWritingAlarmOn: data.isDraftAlarm,
+                    alarmTime: data.time,
+                    isReplyAlarmOn: data.isReplyAlarm
+                )
+                notificationStateRelay.accept(notificationState)
+            }
+        }
+    }
+    
     func setDelegate() {
         rootView.mainCalendarView.delegate = self
         rootView.mainCalendarView.dataSource = self
@@ -310,8 +328,10 @@ private extension CalendarViewController {
     func setUI() {
         self.navigationController?.isNavigationBarHidden = true
         setupDeleteBottomSheet()
-        setupDraftAlarmBottomSheet()
         setupPickerView()
+        if !UserManager.shared.hasViewedDraftAlarmBottomSheet {
+            setupDraftAlarmBottomSheet()
+        }
     }
     
     func setupDeleteBottomSheet() {
