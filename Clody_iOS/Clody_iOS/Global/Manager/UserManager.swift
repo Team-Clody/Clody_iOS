@@ -47,6 +47,11 @@ final class UserManager {
         set { keychain["appleEmail"] = newValue }
     }
     
+    var hasViewedDraftAlarmBottomSheet: Bool {
+        get { UserDefaults.standard.bool(forKey: "hasViewedDraftAlarmBottomSheet") }
+        set { UserDefaults.standard.set(newValue, forKey: "hasViewedDraftAlarmBottomSheet") }
+    }
+    
     var hasAccessToken: Bool { return self.accessToken != nil }
     var accessTokenValue: String { return self.accessToken ?? "" }
     var refreshTokenValue: String { return self.refreshToken ?? "" }
