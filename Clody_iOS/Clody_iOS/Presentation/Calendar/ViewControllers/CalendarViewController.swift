@@ -29,6 +29,9 @@ final class CalendarViewController: UIViewController {
     private var hasDailyDiary : Bool {
         viewModel.dailyDiaryDataRelay.value.diaries.count != 0
     }
+    private var hasViewedDraftAlarmBottomSheet: Bool {
+        UserManager.shared.hasViewedDraftAlarmBottomSheet
+    }
     
     // MARK: - UI Components
     
@@ -230,7 +233,14 @@ private extension CalendarViewController {
                 } else {
                     /// 일기 작성
                     AmplitudeManager.shared.trackEvent("home_writing_diary")
-                    navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
+                    let writingDiaryViewController = WritingDiaryViewController(
+                        date: date,
+                        firstDraftSaveCompletion: hasViewedDraftAlarmBottomSheet ? nil : { [weak self] in
+                            guard let self = self else { return }
+                            presentBottomSheet(continueWritingAlarmBottomSheet)
+                        }
+                    )
+                    navigationController?.pushViewController(writingDiaryViewController, animated: true)
                 }
             })
             .disposed(by: disposeBag)
@@ -301,7 +311,7 @@ private extension CalendarViewController {
     
     func fetchData() {
         viewModel.fetchData()
-        if !UserManager.shared.hasViewedDraftAlarmBottomSheet {
+        if !hasViewedDraftAlarmBottomSheet {
             notificationViewModel.getAlarmInfo() { [weak self] data in
                 guard let self = self else { return }
                 let notificationState = NotificationState(
@@ -329,7 +339,7 @@ private extension CalendarViewController {
         self.navigationController?.isNavigationBarHidden = true
         setupDeleteBottomSheet()
         setupPickerView()
-        if !UserManager.shared.hasViewedDraftAlarmBottomSheet {
+        if !hasViewedDraftAlarmBottomSheet {
             setupDraftAlarmBottomSheet()
         }
     }
@@ -369,6 +379,7 @@ private extension CalendarViewController {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 dismissBottomSheet(continueWritingAlarmBottomSheet, animated: true)
+                UserManager.shared.hasViewedDraftAlarmBottomSheet = true
                 
                 var notificationState = notificationStateRelay.value
                 notificationState.isContinueWritingAlarmOn = true
@@ -386,6 +397,7 @@ private extension CalendarViewController {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 dismissBottomSheet(continueWritingAlarmBottomSheet, animated: true)
+                UserManager.shared.hasViewedDraftAlarmBottomSheet = true
             })
             .disposed(by: self.disposeBag)
     }

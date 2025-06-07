@@ -26,6 +26,7 @@ final class WritingDiaryViewController: UIViewController {
     private var textViewHeight: CGFloat = 0
     private var currentKeyboardVisible: Bool = false
     private var isAddButtonEnabled: Bool = true
+    private let firstDraftSaveCompletion: (() -> Void)?
     
     // MARK: - UI Components
     
@@ -37,8 +38,9 @@ final class WritingDiaryViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(date: Date) {
+    init(date: Date, firstDraftSaveCompletion: (() -> Void)? = nil) {
         self.date = date
+        self.firstDraftSaveCompletion = firstDraftSaveCompletion
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -95,6 +97,8 @@ private extension WritingDiaryViewController {
         output.popToCalendar
             .emit(onNext: { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
+                // TODO: 임시저장 후 pop될 때 시점으로 변경
+                self?.firstDraftSaveCompletion?()
                 AmplitudeManager.shared.trackEvent("writing_diary_back")
             })
             .disposed(by: disposeBag)
