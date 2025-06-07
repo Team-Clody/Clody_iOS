@@ -16,6 +16,7 @@ enum AlertType {
     case deleteDiary
     case saveDiary
     case draftDiary
+    case draftWriteMore
 }
 
 final class ClodyAlert: UIView {
@@ -67,7 +68,7 @@ extension ClodyAlert {
         makeCornerRound(radius: 12)
         
         switch type {
-        case .logout, .saveDiary:
+        case .logout, .saveDiary, .draftWriteMore:
             rightButton.backgroundColor = .mainYellow
             rightButton.setTitleColor(.grey01, for: .normal)
         case .withdraw, .deleteDiary:
@@ -124,7 +125,7 @@ extension ClodyAlert {
         
         messageLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(8))
-            if type != .draftDiary {
+            if type != .draftDiary && type != .draftWriteMore {
                 $0.horizontalEdges.greaterThanOrEqualToSuperview().inset(ScreenUtils.getWidth(58))
             }
             $0.centerX.equalToSuperview()

@@ -141,6 +141,14 @@ private extension CalendarViewController {
                             titleColor: UIColor(named: "grey02"),
                             isEnabled: true
                         )
+                        
+                    case .draftAlert:
+                        return (
+                            text: I18N.Calendar.writeMore,
+                            backgroundColor: UIColor(named: "mainYellow"),
+                            titleColor: UIColor(named: "grey02"),
+                            isEnabled: true
+                        )
                     }
                 }()
                 let emptyText: String = {
@@ -239,6 +247,10 @@ private extension CalendarViewController {
                 case .draftEnabled:
                     AmplitudeManager.shared.trackEvent("home_writing_diary")
                     navigationController?.pushViewController(WritingDiaryViewController(date: date, isFromDraft: true), animated: true)
+                case .draftAlert:
+                    AmplitudeManager.shared.trackEvent("home_writing_diary")
+                    // show Alert
+                    showDraftAlert(currentDate: date)
                 default:
                     print("navigate error")
                 }
@@ -324,6 +336,31 @@ private extension CalendarViewController {
         setupDeleteBottomSheet()
         setupDraftAlarmBottomSheet()
         setupPickerView()
+    }
+    
+    func showDraftAlert(currentDate: Date) {
+        showAlert(
+            type: .draftWriteMore,
+            title: I18N.Alert.writeMoreTitle,
+            message: I18N.Alert.writeMoreMessage,
+            rightButtonText: I18N.Alert.writeMore
+        )
+
+        guard let alert = self.alert else { return }
+
+        alert.leftButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.hideAlert()
+            })
+            .disposed(by: disposeBag)
+
+        alert.rightButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.hideAlert()
+                self.navigationController?.pushViewController(WritingDiaryViewController(date: currentDate, isFromDraft: true), animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     func setupDeleteBottomSheet() {

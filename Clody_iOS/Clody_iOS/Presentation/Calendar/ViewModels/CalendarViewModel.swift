@@ -273,7 +273,11 @@ extension CalendarViewModel {
         
         let buttonState: DiaryButtonState = {
             if isDraft {
-                return .draftEnabled
+                if isWritingAvailable {
+                    return .draftEnabled
+                } else {
+                    return .draftAlert
+                }
             }
             
             if isDraftDone {

@@ -44,6 +44,9 @@ enum I18N {
         static let draftMessage = "나가기를 누르면 작성 중인 내용이 모두 사라져요."
         static let draft = "임시저장"
         static let back = "나가기"
+        static let writeMoreTitle = "임시저장된 일기를 이어 쓸까요?"
+        static let writeMoreMessage = "답장 기한이 지나서 답장은 받을 수 없어요."
+        static let writeMore = "이어쓰기"
     }
     
     enum Toast {
