@@ -16,6 +16,17 @@ enum ToastType {
     case changeComplete
     case notificationTimeChangeComplete
     case continueWritingAlarmChangeComplete
+    
+    var message: String {
+        switch self {
+        case .needToWriteAll: return I18N.Toast.needToWriteAll
+        case .limitFive: return I18N.Toast.limitFive
+        case .alarm: return I18N.Toast.alarm
+        case .changeComplete: return I18N.Toast.changeComplete
+        case .notificationTimeChangeComplete: return I18N.Toast.notificationTimeChangeComplete
+        case .continueWritingAlarmChangeComplete: return I18N.Toast.continueWritingAlarmChangeComplete
+        }
+    }
 }
 
 final class ClodyToast {

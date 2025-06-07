@@ -70,20 +70,7 @@ final class ClodyToastView: BaseView {
     }
     
     func bindData(toastType: ToastType) {
-        switch toastType {
-        case .needToWriteAll:
-            titleText = I18N.Toast.needToWriteAll
-        case .limitFive:
-            titleText = I18N.Toast.limitFive
-        case .alarm:
-            titleText = I18N.Toast.alarm
-        case .changeComplete:
-            titleText = I18N.Toast.changeComplete
-        case .notificationTimeChangeComplete:
-            titleText = I18N.Toast.notificationTimeChangeComplete
-        }
-        
-        textLabel.attributedText = UIFont.pretendardString(text: titleText, style: .body4_semibold)
+        textLabel.attributedText = UIFont.pretendardString(text: toastType.message, style: .body4_semibold)
         textLabel.sizeToFit()
         updateConstraint()
         layoutIfNeeded()
