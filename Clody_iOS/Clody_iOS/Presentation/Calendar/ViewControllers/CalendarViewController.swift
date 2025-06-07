@@ -238,7 +238,7 @@ private extension CalendarViewController {
                         navigationController?.pushViewController(WritingDiaryViewController(date: date, isFromDraft: true), animated: true)
                         AmplitudeManager.shared.trackEvent("home_writing_diary")
                     } else {
-                        showDraftAlert(currentDate: date)
+                        showNoReplyDraftAlert(currentDate: date)
                     }
                 default:
                     print("navigate error")
@@ -327,7 +327,7 @@ private extension CalendarViewController {
         setupPickerView()
     }
     
-    func showDraftAlert(currentDate: Date) {
+    func showNoReplyDraftAlert(currentDate: Date) {
         showAlert(
             type: .draftWriteMore,
             title: I18N.Alert.writeMoreTitle,
