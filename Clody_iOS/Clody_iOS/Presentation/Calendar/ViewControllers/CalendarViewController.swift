@@ -24,9 +24,6 @@ final class CalendarViewController: UIViewController {
     private var calendarData: [MonthlyDiary] {
         viewModel.monthlyCalendarDataRelay.value.diaries
     }
-    private var hasDailyDiary : Bool {
-        viewModel.dailyDiaryDataRelay.value.diaries.count != 0
-    }
     
     // MARK: - UI Components
     
@@ -137,16 +134,16 @@ private extension CalendarViewController {
                     case .draftEnabled:
                         return (
                             text: I18N.Calendar.writeMore,
-                            backgroundColor: UIColor(named: "mainYellow"),
-                            titleColor: UIColor(named: "grey02"),
+                            backgroundColor: .mainYellow,
+                            titleColor: .grey02,
                             isEnabled: true
                         )
                         
                     case .draftAlert:
                         return (
                             text: I18N.Calendar.writeMore,
-                            backgroundColor: UIColor(named: "mainYellow"),
-                            titleColor: UIColor(named: "grey02"),
+                            backgroundColor: .mainYellow,
+                            titleColor: .grey02,
                             isEnabled: true
                         )
                     }

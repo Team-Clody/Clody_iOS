@@ -140,7 +140,7 @@ final class WritingDiaryViewModel: ViewModelType {
         let isFirst = isFirstRelay
             .asDriver(onErrorJustReturn: [])
         
-        let popToCalendar = input.tapBackButton.asSignal()
+        let showDraftAlert = input.tapBackButton.asSignal()
         
         let isAddButtonEnabled = Observable.combineLatest(input.tapAddButton.asObservable(), diariesRelay.asObservable())
             .map { _, diaries in diaries.count < 5 }
@@ -160,7 +160,7 @@ final class WritingDiaryViewModel: ViewModelType {
             items: items,
             statuses: statuses,
             isFirst: isFirst,
-            showDraftAlert: popToCalendar,
+            showDraftAlert: showDraftAlert,
             isAddButtonEnabled: isAddButtonEnabled,
             showSaveErrorToast: showSaveErrorToast,
             showSaveAlert: showSaveAlert,
@@ -245,7 +245,7 @@ extension WritingDiaryViewModel {
         let data = PostDiaryRequestDTO(date: date, content: content)
         
         provider.request(target: .postDiary(data: data), instance: BaseResponse<PostDiaryResponseDTO>.self) { data in
-            var dataStatus = NetworkViewJudge.unknowned
+            var dataStatus: NetworkViewJudge
             switch data.status {
             case 200..<300: dataStatus = .success
             case -1: dataStatus = .network
@@ -261,13 +261,12 @@ extension WritingDiaryViewModel {
         let data = PostDraftDiaryRequestDTO(date: date, draftDiaries: content)
         
         provider.request(target: .postDraftDiary(data: data), instance: BaseResponse<PostDraftDiaryResponseDTO>.self) { data in
-            var dataStatus = NetworkViewJudge.unknowned
+            var dataStatus: NetworkViewJudge
             switch data.status {
             case 200..<300: dataStatus = .success
             case -1: dataStatus = .network
             default: dataStatus = .unknowned
             }
-            guard let data = data.data else { return }
             completion(dataStatus, "")
         }
     }

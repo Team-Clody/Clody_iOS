@@ -63,14 +63,19 @@ final class CalendarViewModel: ViewModelType {
         input.tapDateCell
             .emit(onNext: { [weak self] date in
                 guard let self = self else { return }
-                self.selectedDateRelay.accept(date)
+                selectedDateRelay.accept(date)
                 
                 let year = DateFormatter.string(from: date, format: "yyyy")
                 let month = DateFormatter.string(from: date, format: "MM")
                 let day = DateFormatter.string(from: date, format: "dd")
-                self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0, completion: {
-                    self.calculateCloverTypeAndButtonState()
-                })
+                
+                getDailyCalendarData(
+                    year: Int(year) ?? 0,
+                    month: Int(month) ?? 0,
+                    date: Int(day) ?? 0
+                ) { [weak self] in
+                    self?.calculateCloverTypeAndButtonState()
+                }
                 
                 AmplitudeManager.shared.trackEvent("home_calendar_clover")
             })
@@ -161,7 +166,8 @@ extension CalendarViewModel {
         
         self.getMonthlyCalendar(year: monthlyYear, month: monthlyMonth) {
             self.getDailyCalendarData(year: Int(dailyYear) ?? 0, month: Int(dailyMonth) ?? 0, date: Int(dailyDay) ?? 0, completion: {
-                self.calculateCloverTypeAndButtonState()
+                [weak self] in
+                self?.calculateCloverTypeAndButtonState()
             })
         }
     }
@@ -176,7 +182,6 @@ extension CalendarViewModel {
             case 200..<300:
                 guard let data = data.data else { return }
                 self.monthlyCalendarDataRelay.accept(data)
-                let date = selectedDateRelay.value
                 completion()
             case -1:
                 self.errorStatusRelay.accept("networkView")
@@ -262,50 +267,39 @@ extension CalendarViewModel {
     }
     
     func calculateCloverTypeAndButtonState() {
-        let date = self.selectedDateRelay.value
-        let cloverType = self.getCalendarCellViewData(for: date, calendarData: self.monthlyCalendarDataRelay.value.diaries).cloverType
-        let dailyData = self.dailyDiaryDataRelay.value
+        let date = selectedDateRelay.value
+        let dailyData = dailyDiaryDataRelay.value
+        let cloverType = getCalendarCellViewData(for: date, calendarData: monthlyCalendarDataRelay.value.diaries).cloverType
+        
         let isNotEmpty = !dailyData.diaries.isEmpty
         let isWritingAvailable = date.isWritingAvailable
         let isDeleted = dailyData.isDeleted
-        let isDraft = cloverType == .hasDraft
-        let isDraftDone = cloverType == .draftDone
         
-        let buttonState: DiaryButtonState = {
-            if isDraft {
-                if isWritingAvailable {
-                    return .draftEnabled
-                } else {
-                    return .draftAlert
-                }
-            }
-            
-            if isDraftDone {
-                return .replyDisabled
-            }
-            
+        let buttonState: DiaryButtonState
+        
+        switch cloverType {
+        case .hasDraft:
+            buttonState = isWritingAvailable ? .draftEnabled : .draftAlert
+        case .draftDone:
+            buttonState = .replyDisabled
+        default:
             switch (isWritingAvailable, isNotEmpty, isDeleted) {
-            case (true, false, false):
-                return .writeEnabled
-            case (true, false, true):
-                return .writeEnabled
+            case (true, false, _):
+                buttonState = .writeEnabled
             case (true, true, false):
-                return .replyEnabled
+                buttonState = .replyEnabled
             case (true, true, true):
-                return .replyDisabled
-            case (false, false, false):
-                return .writeDisabled
-            case (false, false, true):
-                return .writeDisabled
+                buttonState = .replyDisabled
+            case (false, false, _):
+                buttonState = .writeDisabled
             case (false, true, false):
-                return .replyEnabled
+                buttonState = .replyEnabled
             case (false, true, true):
-                return .replyDisabled
+                buttonState = .replyDisabled
             }
-        }()
+        }
         
-        
-        self.selectedCloverTypeRelay.accept(cloverType)
-        self.diaryButtonStateRelay.accept(buttonState)
+        selectedCloverTypeRelay.accept(cloverType)
+        diaryButtonStateRelay.accept(buttonState)
     }
 }

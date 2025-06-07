@@ -179,10 +179,12 @@ private extension WritingDiaryViewController {
         output.showDraftAlert
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                if viewModel.diariesRelay.value.allSatisfy({ $0 == "" }) {
+                let isAllEmpty = viewModel.diariesRelay.value.allSatisfy { $0 == "" }
+                
+                if isAllEmpty {
                     self.navigationController?.popViewController(animated: true)
                 }
-
+                
                 self.showAlert(
                     type: .draftDiary,
                     title: I18N.Alert.draftTitle,
@@ -324,9 +326,9 @@ private extension WritingDiaryViewController {
                     .disposed(by: cell.disposeBag)
                 
                 return cell
-                }
-            )
-        }
+            }
+        )
+    }
     
     private func updateTextViewHeightIfNeeded(for cell: WritingDiaryCell, _ collectionView: UICollectionView) {
         let size = CGSize(width: cell.textView.frame.width, height: .infinity)
@@ -425,8 +427,6 @@ private extension WritingDiaryViewController {
             })
             .disposed(by: disposeBag)
     }
-    
-    
 }
 
 /// Alert 관련 함수입니다.
