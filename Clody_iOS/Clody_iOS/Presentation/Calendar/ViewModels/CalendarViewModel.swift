@@ -49,6 +49,8 @@ final class CalendarViewModel: ViewModelType {
     let currentPageRelay = BehaviorRelay<(year: Int, month: Int)>(value: (Date().dateToYearMonthDay().year, Date().dateToYearMonthDay().month))
     let isLoadingRelay = PublishRelay<Bool>()
     let errorStatusRelay = PublishRelay<String>()
+    let selectedCloverTypeRelay = BehaviorRelay<CloverType>(value: .none)
+    let diaryButtonStateRelay = BehaviorRelay<DiaryButtonState>(value: .writeDisabled)
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
@@ -61,12 +63,20 @@ final class CalendarViewModel: ViewModelType {
         input.tapDateCell
             .emit(onNext: { [weak self] date in
                 guard let self = self else { return }
+                selectedDateRelay.accept(date)
+                
                 let year = DateFormatter.string(from: date, format: "yyyy")
                 let month = DateFormatter.string(from: date, format: "MM")
                 let day = DateFormatter.string(from: date, format: "dd")
                 
-                self.selectedDateRelay.accept(date)
-                self.getDailyCalendarData(year: Int(year) ?? 0, month: Int(month) ?? 0, date: Int(day) ?? 0, completion: {})
+                getDailyCalendarData(
+                    year: Int(year) ?? 0,
+                    month: Int(month) ?? 0,
+                    date: Int(day) ?? 0
+                ) { [weak self] in
+                    self?.calculateCloverTypeAndButtonState()
+                }
+                
                 AmplitudeManager.shared.trackEvent("home_calendar_clover")
             })
             .disposed(by: disposeBag)
@@ -111,34 +121,6 @@ final class CalendarViewModel: ViewModelType {
                 return "\(date.year)년 \(date.month)월"
             }
             .asDriver(onErrorJustReturn: "Error")
-     
-        let diaryButtonState = Observable
-            .combineLatest(dailyDiaryDataRelay, selectedDateRelay)
-            .map { dailyData, selectedDate -> DiaryButtonState in
-                let isNotEmpty = !dailyData.diaries.isEmpty
-                let isWritingAvailable = selectedDate.isWritingAvailable
-                let isDeleted = dailyData.isDeleted
-                
-                switch (isWritingAvailable, isNotEmpty, isDeleted) {
-                case (true, false, false):
-                    return .writeEnabled
-                case (true, false, true):
-                    return .writeEnabled
-                case (true, true, false):
-                    return .replyEnabled
-                case (true, true, true):
-                    return .replyDisabled
-                case (false, false, false):
-                    return .writeDisabled
-                case (false, false, true):
-                    return .writeDisabled
-                case (false, true, false):
-                    return .replyEnabled
-                case (false, true, true):
-                    return .replyDisabled
-                }
-            }
-            .asDriver(onErrorJustReturn: .writeDisabled)
         
         let pushListViewController = input.tapListButton.asSignal()
         let pushSettingViewController = input.tapSettingButton.asSignal()
@@ -149,6 +131,7 @@ final class CalendarViewModel: ViewModelType {
         let showDeleteConfirmAlert = input.tapDeleteButton.asSignal()
         let isLoading = isLoadingRelay.asDriver(onErrorJustReturn: false)
         let errorStatus = errorStatusRelay.asDriver(onErrorJustReturn: "")
+        let diaryButtonState = diaryButtonStateRelay.asDriver(onErrorJustReturn: .writeDisabled)
         
         return Output(
             selectedMonthDay: selectedMonthDay,
@@ -182,7 +165,10 @@ extension CalendarViewModel {
         let monthlyMonth = currentPageRelay.value.month
         
         self.getMonthlyCalendar(year: monthlyYear, month: monthlyMonth) {
-            self.getDailyCalendarData(year: Int(dailyYear) ?? 0, month: Int(dailyMonth) ?? 0, date: Int(dailyDay) ?? 0, completion: {})
+            self.getDailyCalendarData(year: Int(dailyYear) ?? 0, month: Int(dailyMonth) ?? 0, date: Int(dailyDay) ?? 0, completion: {
+                [weak self] in
+                self?.calculateCloverTypeAndButtonState()
+            })
         }
     }
     
@@ -251,35 +237,69 @@ extension CalendarViewModel {
         guard day >= 0, day < calendarData.count else {
             return CalendarCellViewData(cloverType: .none, showNewIcon: false)
         }
-
-        let data = calendarData[day]
-        var cloverType: CloverType = .none
-        var showNewIcon = false
-
-        if data.replyStatus == "READY_NOT_READ" {
-            showNewIcon = true
-        }
-
-        if data.replyStatus == "READY_READ" {
-            cloverType = CloverType.fromDiaryCount(data.diaryCount)
-        }
-
-        if data.isDeleted {
-            cloverType = .none
-        }
-
-        if date.isToday {
-            if data.diaryCount == 0 {
-                cloverType = .today
-            } else if data.isDeleted {
-                cloverType = .todayDone
-            } else {
-                cloverType = (data.replyStatus == "READY_READ")
-                    ? CloverType.fromDiaryCount(data.diaryCount)
-                    : .todayDone
+        
+        let diary = calendarData[day]
+        let isToday = date.isToday
+        let replyStatus = diary.replyStatus
+        
+        let cloverType: CloverType = {
+            switch replyStatus {
+            case "HAS_DRAFT":
+                return .hasDraft
+            case "INVALID_DRAFT":
+                return .draftDone
+            case "READY_READ":
+                return .fromDiaryCount(diary.diaryCount)
+            case "READY_NOT_READ", "UNREADY":
+                if isToday {
+                    return diary.diaryCount == 0 ? .today : .todayDone
+                } else {
+                    return .none
+                }
+            default:
+                return .none
+            }
+        }()
+        
+        let showNewIcon = (replyStatus == "READY_NOT_READ")
+        
+        return CalendarCellViewData(cloverType: cloverType, showNewIcon: showNewIcon)
+    }
+    
+    func calculateCloverTypeAndButtonState() {
+        let date = selectedDateRelay.value
+        let dailyData = dailyDiaryDataRelay.value
+        let cloverType = getCalendarCellViewData(for: date, calendarData: monthlyCalendarDataRelay.value.diaries).cloverType
+        
+        let isNotEmpty = !dailyData.diaries.isEmpty
+        let isWritingAvailable = date.isWritingAvailable
+        let isDeleted = dailyData.isDeleted
+        
+        let buttonState: DiaryButtonState
+        
+        switch cloverType {
+        case .hasDraft:
+            buttonState = .draftEnabled
+        case .draftDone:
+            buttonState = .replyDisabled
+        default:
+            switch (isWritingAvailable, isNotEmpty, isDeleted) {
+            case (true, false, _):
+                buttonState = .writeEnabled
+            case (true, true, false):
+                buttonState = .replyEnabled
+            case (true, true, true):
+                buttonState = .replyDisabled
+            case (false, false, _):
+                buttonState = .writeDisabled
+            case (false, true, false):
+                buttonState = .replyEnabled
+            case (false, true, true):
+                buttonState = .replyDisabled
             }
         }
-
-        return CalendarCellViewData(cloverType: cloverType, showNewIcon: showNewIcon)
+        
+        selectedCloverTypeRelay.accept(cloverType)
+        diaryButtonStateRelay.accept(buttonState)
     }
 }

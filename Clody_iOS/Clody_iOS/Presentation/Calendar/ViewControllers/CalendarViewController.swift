@@ -24,9 +24,6 @@ final class CalendarViewController: UIViewController {
     private var calendarData: [MonthlyDiary] {
         viewModel.monthlyCalendarDataRelay.value.diaries
     }
-    private var hasDailyDiary : Bool {
-        viewModel.dailyDiaryDataRelay.value.diaries.count != 0
-    }
     
     // MARK: - UI Components
     
@@ -133,9 +130,25 @@ private extension CalendarViewController {
                             titleColor: .grey04,
                             isEnabled: false
                         )
+                        
+                    case .draftEnabled:
+                        return (
+                            text: I18N.Calendar.writeMore,
+                            backgroundColor: .mainYellow,
+                            titleColor: .grey02,
+                            isEnabled: true
+                        )
                     }
                 }()
-                
+                let emptyText: String = {
+                    switch state {
+                    case .draftEnabled:
+                        return I18N.Calendar.draft
+                    default:
+                        return I18N.Calendar.empty
+                    }
+                }()
+                self.rootView.emptyDiaryLabel.attributedText = UIFont.pretendardString(text: emptyText, style: .body3_regular)
                 self.rootView.emptyDiaryView.isHidden = (state == .replyEnabled || state == .replyDisabled)
                 self.rootView.kebabButton.isHidden = (state == .writeDisabled || state == .writeEnabled)
                 self.rootView.calendarActionButton.setAttributedTitle(
@@ -211,24 +224,24 @@ private extension CalendarViewController {
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 let date = viewModel.selectedDateRelay.value
+                let status = viewModel.diaryButtonStateRelay.value
                 
-                if hasDailyDiary {
-                    /// 일기 답장
-//                    let dateIndex = Int(DateFormatter.string(from: viewModel.selectedDateRelay.value, format: "dd")) ?? 1
-//                    let diaries = viewModel.monthlyCalendarDataRelay.value.diaries
-//                    
-//                    let replyStatus: String
-//                    if diaries.indices.contains(dateIndex - 1) {
-//                        replyStatus = diaries[dateIndex - 1].replyStatus
-//                    } else {
-//                        replyStatus = "특정 값"
-//                    }
+                switch status {
+                case .writeEnabled:
+                    AmplitudeManager.shared.trackEvent("home_writing_diary")
+                    navigationController?.pushViewController(WritingDiaryViewController(date: date, isFromDraft: false), animated: true)
+                case .replyEnabled:
                     AmplitudeManager.shared.trackEvent("home_reply")
                     navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: false), animated: true)
-                } else {
-                    /// 일기 작성
-                    AmplitudeManager.shared.trackEvent("home_writing_diary")
-                    navigationController?.pushViewController(WritingDiaryViewController(date: date), animated: true)
+                case .draftEnabled:
+                    if date.isWritingAvailable {
+                        navigationController?.pushViewController(WritingDiaryViewController(date: date, isFromDraft: true), animated: true)
+                        AmplitudeManager.shared.trackEvent("home_writing_diary")
+                    } else {
+                        showNoReplyDraftAlert(currentDate: date)
+                    }
+                default:
+                    print("navigate error")
                 }
             })
             .disposed(by: disposeBag)
@@ -272,7 +285,7 @@ private extension CalendarViewController {
                 }
             })
             .disposed(by: disposeBag)
-
+        
         output.errorStatus
             .drive(onNext: { [weak self] errorStatus in
                 switch errorStatus {
@@ -312,6 +325,31 @@ private extension CalendarViewController {
         setupDeleteBottomSheet()
         setupDraftAlarmBottomSheet()
         setupPickerView()
+    }
+    
+    func showNoReplyDraftAlert(currentDate: Date) {
+        showAlert(
+            type: .draftWriteMore,
+            title: I18N.Alert.writeMoreTitle,
+            message: I18N.Alert.writeMoreMessage,
+            rightButtonText: I18N.Alert.writeMore
+        )
+
+        guard let alert = self.alert else { return }
+
+        alert.leftButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.hideAlert()
+            })
+            .disposed(by: disposeBag)
+
+        alert.rightButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.hideAlert()
+                self.navigationController?.pushViewController(WritingDiaryViewController(date: currentDate, isFromDraft: true), animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     func setupDeleteBottomSheet() {
@@ -439,13 +477,13 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         ) as? CalendarDateCell else {
             return FSCalendarCell()
         }
-
+        
         let isSelected = Calendar.current.isDate(date, inSameDayAs: viewModel.selectedDateRelay.value)
         let isToday = date.isToday
         let dateText = DateFormatter.string(from: date, format: "d")
         
         let viewData = viewModel.getCalendarCellViewData(for: date, calendarData: calendarData)
-
+        
         cell.configure(
             isSelected: isSelected,
             dateText: dateText,
@@ -453,10 +491,9 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
             showNewIcon: viewData.showNewIcon,
             isToday: isToday
         )
-
+        
         return cell
     }
-
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         tapDateRelay.accept(date)

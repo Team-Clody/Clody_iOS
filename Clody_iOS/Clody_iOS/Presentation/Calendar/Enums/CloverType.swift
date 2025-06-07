@@ -16,17 +16,21 @@ enum CloverType: Int {
     case five
     case today
     case todayDone
+    case hasDraft
+    case draftDone
 
     var image: UIImage? {
         switch self {
-        case .none: return UIImage(named: "clover0")
-        case .one: return UIImage(named: "clover1")
-        case .two: return UIImage(named: "clover2")
-        case .three: return UIImage(named: "clover3")
-        case .four: return UIImage(named: "clover4")
-        case .five: return UIImage(named: "clover5")
-        case .today: return UIImage(named: "cloverToday")
-        case .todayDone: return UIImage(named: "cloverTodayDone")
+        case .none: return .clover0
+        case .one: return .clover1
+        case .two: return .clover2
+        case .three: return .clover3
+        case .four: return .clover4
+        case .five: return .clover5
+        case .today: return .cloverToday
+        case .todayDone: return .cloverTodayDone
+        case .hasDraft: return .cloverDraft
+        case .draftDone: return .cloverDraftExpired
         }
     }
 
