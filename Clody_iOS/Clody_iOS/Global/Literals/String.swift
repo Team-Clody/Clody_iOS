@@ -50,7 +50,7 @@ enum I18N {
     }
     
     enum Toast {
-        static let needToWriteAll = "모든 감사 일기 작성이 필요해요."
+        static let needToWriteAll = "빈 칸을 채워야 보낼 수 있어요."
         static let limitFive = "일기는 5개까지만 작성할 수 있어요."
         static let alarm = "설정 > 알림 > 클로디에서 알림을 켜주세요."
         static let changeComplete = "변경을 완료했어요."
@@ -113,7 +113,7 @@ enum I18N {
     }
     
     enum List {
-        static let emptyList = "작성된 감사일기가 없어요"
+        static let emptyList = "작성된 감사일기가 없어요!"
     }
     
     enum Error {
@@ -145,7 +145,7 @@ enum I18N {
     enum Calendar {
         static let reply = "답장 확인"
         static let writing = "일기 쓰기"
-        static let empty = "아직 감사 일기가 없어요!"
+        static let empty = "작성된 감사 일기가 없어요!"
         static let draft = "임시저장된 일기가 있어요."
         static let delete = "삭제하기"
         static let otherDay = "다른 날짜 보기"
