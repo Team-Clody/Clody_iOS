@@ -55,6 +55,7 @@ enum I18N {
         static let alarm = "설정 > 알림 > 클로디에서 알림을 켜주세요."
         static let changeComplete = "변경을 완료했어요."
         static let notificationTimeChangeComplete = "알림 시간 설정을 완료했어요."
+        static let continueWritingAlarmChangeComplete = "이어쓰기 알림 설정을 완료했어요."
     }
     
     enum BottomSheet {
