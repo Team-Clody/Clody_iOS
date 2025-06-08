@@ -131,6 +131,8 @@ private extension WritingDiaryViewController {
         output.showSubmitAlert
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
+                self.view.endEditing(true)
+                
                 self.showAlert(
                     type: .logout,
                     title: I18N.Alert.submitDiaryTitle,
@@ -180,6 +182,8 @@ private extension WritingDiaryViewController {
         output.showDraftAlert
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
+                self.view.endEditing(true)
+                
                 let isAllEmpty = viewModel.diariesRelay.value.allSatisfy { $0 == "" }
                 
                 if isAllEmpty {
