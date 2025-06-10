@@ -18,11 +18,16 @@ final class CalendarViewController: UIViewController {
     // MARK: - Properties
     
     private let viewModel = CalendarViewModel()
+    private let notificationViewModel = NotificationViewModel()
     private let disposeBag = DisposeBag()
     private let tapDateRelay = PublishRelay<Date>()
     private let currentPageChanged = PublishRelay<(year: Int, month: Int)>()
+    private lazy var notificationStateRelay = BehaviorRelay<NotificationState>(value: NotificationState())
     private var calendarData: [MonthlyDiary] {
         viewModel.monthlyCalendarDataRelay.value.diaries
+    }
+    private var hasViewedDraftAlarmBottomSheet: Bool {
+        UserManager.shared.hasViewedDraftAlarmBottomSheet
     }
     
     // MARK: - UI Components
@@ -46,7 +51,7 @@ final class CalendarViewController: UIViewController {
         super.viewWillAppear(animated)
         
         AppStoreReviewManager.requestReviewIfNeeded()
-        viewModel.fetchData()
+        fetchData()
     }
     
     override func viewDidLoad() {
@@ -94,8 +99,6 @@ private extension CalendarViewController {
             })
             .disposed(by: disposeBag)
         
-        //데일리 다이어리 업데이트
-        
         output.diaryButtonState
             .drive(onNext: { [weak self] state in
                 guard let self = self else { return }
@@ -130,7 +133,6 @@ private extension CalendarViewController {
                             titleColor: .grey04,
                             isEnabled: false
                         )
-                        
                     case .draftEnabled:
                         return (
                             text: I18N.Calendar.writeMore,
@@ -140,24 +142,18 @@ private extension CalendarViewController {
                         )
                     }
                 }()
-                let emptyText: String = {
-                    switch state {
-                    case .draftEnabled:
-                        return I18N.Calendar.draft
-                    default:
-                        return I18N.Calendar.empty
-                    }
-                }()
-                self.rootView.emptyDiaryLabel.attributedText = UIFont.pretendardString(text: emptyText, style: .body3_regular)
-                self.rootView.emptyDiaryView.isHidden = (state == .replyEnabled || state == .replyDisabled)
-                self.rootView.kebabButton.isHidden = (state == .writeDisabled || state == .writeEnabled)
-                self.rootView.calendarActionButton.setAttributedTitle(
+                
+                let emptyText = .draftEnabled == state ? I18N.Calendar.draft : I18N.Calendar.empty
+                rootView.emptyDiaryLabel.attributedText = UIFont.pretendardString(text: emptyText, style: .body3_regular)
+                rootView.emptyDiaryView.isHidden = (state == .replyEnabled || state == .replyDisabled)
+                rootView.kebabButton.isHidden = (state == .writeDisabled || state == .writeEnabled)
+                rootView.calendarActionButton.setAttributedTitle(
                     UIFont.pretendardString(text: config.text, style: .body1_semibold),
                     for: .normal
                 )
-                self.rootView.calendarActionButton.backgroundColor = config.backgroundColor
-                self.rootView.calendarActionButton.setTitleColor(config.titleColor, for: .normal)
-                self.rootView.calendarActionButton.isEnabled = config.isEnabled
+                rootView.calendarActionButton.backgroundColor = config.backgroundColor
+                rootView.calendarActionButton.setTitleColor(config.titleColor, for: .normal)
+                rootView.calendarActionButton.isEnabled = config.isEnabled
             })
             .disposed(by: disposeBag)
         
@@ -167,7 +163,6 @@ private extension CalendarViewController {
             }
             .disposed(by: disposeBag)
         
-        // count와 reply를 담고 있는 배열
         output.calendarData
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
@@ -235,8 +230,17 @@ private extension CalendarViewController {
                     navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: false), animated: true)
                 case .draftEnabled:
                     if date.isWritingAvailable {
-                        navigationController?.pushViewController(WritingDiaryViewController(date: date, isFromDraft: true), animated: true)
                         AmplitudeManager.shared.trackEvent("home_writing_diary")
+                        
+                        let writingDiaryViewController = WritingDiaryViewController(
+                            date: date,
+                            isFromDraft: true,
+                            firstDraftSaveCompletion: hasViewedDraftAlarmBottomSheet ? nil : { [weak self] in
+                                guard let self = self else { return }
+                                presentBottomSheet(continueWritingAlarmBottomSheet)
+                            }
+                        )
+                        navigationController?.pushViewController(writingDiaryViewController, animated: true)
                     } else {
                         showNoReplyDraftAlert(currentDate: date)
                     }
@@ -310,6 +314,22 @@ private extension CalendarViewController {
             .disposed(by: disposeBag)
     }
     
+    func fetchData() {
+        viewModel.fetchData()
+        if !hasViewedDraftAlarmBottomSheet {
+            notificationViewModel.getAlarmInfo() { [weak self] data in
+                guard let self = self else { return }
+                let notificationState = NotificationState(
+                    isDiaryWritingAlarmOn: data.isDiaryAlarm,
+                    isContinueWritingAlarmOn: data.isDraftAlarm,
+                    alarmTime: data.time,
+                    isReplyAlarmOn: data.isReplyAlarm
+                )
+                notificationStateRelay.accept(notificationState)
+            }
+        }
+    }
+    
     func setDelegate() {
         rootView.mainCalendarView.delegate = self
         rootView.mainCalendarView.dataSource = self
@@ -323,8 +343,10 @@ private extension CalendarViewController {
     func setUI() {
         self.navigationController?.isNavigationBarHidden = true
         setupDeleteBottomSheet()
-        setupDraftAlarmBottomSheet()
         setupPickerView()
+        if !hasViewedDraftAlarmBottomSheet {
+            setupDraftAlarmBottomSheet()
+        }
     }
     
     func showNoReplyDraftAlert(currentDate: Date) {
@@ -387,8 +409,18 @@ private extension CalendarViewController {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 dismissBottomSheet(continueWritingAlarmBottomSheet, animated: true)
+                UserManager.shared.hasViewedDraftAlarmBottomSheet = true
                 
-                // TODO: 알림 설정 API 호출
+                var notificationState = notificationStateRelay.value
+                notificationState.isContinueWritingAlarmOn = true
+                if !notificationState.isDiaryWritingAlarmOn {
+                    notificationState.alarmTime = "21:30"
+                }
+                notificationViewModel.postAlarmSetting(notificationState) { [weak self] _ in
+                    guard let self = self else { return }
+                    ClodyToast.show(toastType: .continueWritingAlarmChangeComplete)
+                    notificationStateRelay.accept(notificationState)
+                }
             })
             .disposed(by: self.disposeBag)
         
@@ -396,6 +428,7 @@ private extension CalendarViewController {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 dismissBottomSheet(continueWritingAlarmBottomSheet, animated: true)
+                UserManager.shared.hasViewedDraftAlarmBottomSheet = true
             })
             .disposed(by: self.disposeBag)
     }
@@ -481,7 +514,6 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         let isSelected = Calendar.current.isDate(date, inSameDayAs: viewModel.selectedDateRelay.value)
         let isToday = date.isToday
         let dateText = DateFormatter.string(from: date, format: "d")
-        
         let viewData = viewModel.getCalendarCellViewData(for: date, calendarData: calendarData)
         
         cell.configure(
