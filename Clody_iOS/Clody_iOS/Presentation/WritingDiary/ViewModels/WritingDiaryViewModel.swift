@@ -18,7 +18,7 @@ struct WritingDiarySection {
 
 extension WritingDiarySection: SectionModelType {
     typealias Item = String
-    
+
     init(original: WritingDiarySection, items: [Item]) {
         self = original
         self.items = items
@@ -40,8 +40,6 @@ final class WritingDiaryViewModel: ViewModelType {
     
     struct Output {
         let items: Driver<[WritingDiarySection]>
-        let statuses: Driver<[Bool]>
-        let isFirst: Driver<[Bool]>
         let showDraftAlert: Signal<Void>
         let isAddButtonEnabled: Driver<Bool>
         let showSubmitErrorToast: Signal<Void>
@@ -50,12 +48,8 @@ final class WritingDiaryViewModel: ViewModelType {
         let showHelp: Driver<Bool>
     }
     
-    let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: [""]))
-    let diariesRelay = BehaviorRelay<[String]>(value: [""])
-    let textViewIsEmptyRelay = BehaviorRelay<[Bool]>(value: [true])
-    let isFirstRelay = BehaviorRelay<[Bool]>(value: [true])
-    let textDidEditing = PublishRelay<String>()
-    let textEndEditing = PublishRelay<String>()
+    let diaryTextsRelay = BehaviorRelay<[String]>(value: [""])
+    let isPlaceholderRelay = BehaviorRelay<[Bool]>(value: Array(repeating: true, count: 5))
     private let showSubmitErrorToastRelay = PublishRelay<Void>()
     private let showSubmitAlertRelay = PublishRelay<Void>()
     private let showDeleteRelay = PublishRelay<Int>()
@@ -83,18 +77,12 @@ final class WritingDiaryViewModel: ViewModelType {
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 AmplitudeManager.shared.trackEvent("writing_diary_add_list")
-                var items = self.diariesRelay.value
-                var isEmpty = self.textViewIsEmptyRelay.value
-                var isFirst = self.isFirstRelay.value
+                var items = self.diaryTextsRelay.value
                 if items.count < 5 {
                     items.append("")
-                    isEmpty.append(true)
-                    isFirst.append(true)
-                    self.diariesRelay.accept(items)
-                    self.textViewIsEmptyRelay.accept(isEmpty)
-                    self.isFirstRelay.accept(isFirst)
+                    self.diaryTextsRelay.accept(items)
                 } else {
-                    
+//                    ClodyToast.show(toastType: .limitFive)
                 }
             })
             .disposed(by: disposeBag)
@@ -107,7 +95,7 @@ final class WritingDiaryViewModel: ViewModelType {
         input.tapDeleteButton
             .emit(onNext: { [weak self] in
                 guard let self = self, let index = self.deleteIndexRelay.value else { return }
-                self.deleteData(index: index) {}
+                self.deleteData(index: index)
                 AmplitudeManager.shared.trackEvent("writing_diary_delete_list")
             })
             .disposed(by: disposeBag)
@@ -127,23 +115,18 @@ final class WritingDiaryViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
-        let items = diariesRelay
-            .observe(on: MainScheduler.asyncInstance)
-            .map { diaries in
-                [WritingDiarySection(header: "Diary Header", items: diaries)]
+        
+        let items: Driver<[WritingDiarySection]> = diaryTextsRelay
+            .map { models in
+                [WritingDiarySection(header: "Diary Header", items: models)]
             }
             .asDriver(onErrorJustReturn: [])
-        
-        let statuses = textViewIsEmptyRelay
-            .asDriver(onErrorJustReturn: [])
-        
-        let isFirst = isFirstRelay
-            .asDriver(onErrorJustReturn: [])
-        
+
+
         let showDraftAlert = input.tapBackButton.asSignal()
         
-        let isAddButtonEnabled = Observable.combineLatest(input.tapAddButton.asObservable(), diariesRelay.asObservable())
-            .map { _, diaries in diaries.count < 5 }
+        let isAddButtonEnabled = diaryTextsRelay
+            .map { $0.count < 5 }
             .asDriver(onErrorJustReturn: true)
         
         let showSubmitErrorToast = showSubmitErrorToastRelay.asSignal()
@@ -158,8 +141,6 @@ final class WritingDiaryViewModel: ViewModelType {
         
         return Output(
             items: items,
-            statuses: statuses,
-            isFirst: isFirst,
             showDraftAlert: showDraftAlert,
             isAddButtonEnabled: isAddButtonEnabled,
             showSubmitErrorToast: showSubmitErrorToast,
@@ -170,13 +151,8 @@ final class WritingDiaryViewModel: ViewModelType {
     }
     
     private func loadInitialData() {
-        let initialDiaries = [""]
-        let initialStatuses = [true]
-        let initialIsFirst = [true]
-        
-        diariesRelay.accept(initialDiaries)
-        textViewIsEmptyRelay.accept(initialStatuses)
-        isFirstRelay.accept(initialIsFirst)
+        let initialItem = ""
+        diaryTextsRelay.accept([initialItem])
     }
     
     func getDraftDiaryData(year: Int, month: Int, date: Int, completion: @escaping () -> Void) {
@@ -188,20 +164,7 @@ final class WritingDiaryViewModel: ViewModelType {
             case 200..<300:
                 guard let data = data.data else { return }
                 
-                var items: [String] = []
-                var isEmpty: [Bool] = []
-                var isFirst: [Bool] = []
-
-                for draft in data.draftDiaries {
-                    items.append(draft)
-                    isEmpty.append(true)
-                    isFirst.append(false)
-                }
-
-                self.diariesRelay.accept(items)
-                self.textViewIsEmptyRelay.accept(isEmpty)
-                self.isFirstRelay.accept(isFirst)
-                
+                self.diaryTextsRelay.accept(data.draftDiaries)
                 completion()
             default:
                 print("error draft")
@@ -221,23 +184,17 @@ final class WritingDiaryViewModel: ViewModelType {
 extension WritingDiaryViewModel {
     
     func submitData() {
-        if diariesRelay.value.contains("") {
+        if self.diaryTextsRelay.value.contains("") {
             self.showSubmitErrorToastRelay.accept(())
         } else {
             self.showSubmitAlertRelay.accept(())
         }
     }
     
-    func deleteData(index: Int, completion: @escaping () -> ()) {
-        var items = self.diariesRelay.value
-        var statuses = self.textViewIsEmptyRelay.value
-        var isFirst = self.isFirstRelay.value
+    func deleteData(index: Int) {
+        var items = self.diaryTextsRelay.value
         items.remove(at: index)
-        statuses.remove(at: index)
-        isFirst.remove(at: index)
-        self.diariesRelay.accept(items)
-        self.textViewIsEmptyRelay.accept(statuses)
-        self.isFirstRelay.accept(isFirst)
+        self.diaryTextsRelay.accept(items)
     }
     
     func postDiary(date: String, content: [String], completion: @escaping (NetworkViewJudge, String, Bool) -> ()) {

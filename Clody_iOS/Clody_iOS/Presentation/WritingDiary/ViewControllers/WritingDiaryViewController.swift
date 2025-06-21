@@ -162,7 +162,7 @@ private extension WritingDiaryViewController {
                         
                         viewModel.postDiary(
                             date: dateString,
-                            content: viewModel.diariesRelay.value
+                            content: viewModel.diaryTextsRelay.value
                         ) { [weak self] statusCode, type, isFromDraft in
                             guard let self = self else { return }
                             hideLoadingIndicator()
@@ -194,7 +194,9 @@ private extension WritingDiaryViewController {
                 guard let self = self else { return }
                 self.view.endEditing(true)
                 
-                let isAllEmpty = viewModel.diariesRelay.value.allSatisfy { $0 == "" }
+                let isAllEmpty = viewModel.diaryTextsRelay.value.allSatisfy {
+                    $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                }
                 
                 if isAllEmpty {
                     navigationController?.popViewController(animated: true)
@@ -218,7 +220,10 @@ private extension WritingDiaryViewController {
                 alert?.leftButton.rx.tap
                     .subscribe(onNext: { [weak self] in
                         guard let self = self else { return }
-                        let hasEmpty = viewModel.diariesRelay.value.contains("")
+                        let hasEmpty = viewModel.diaryTextsRelay.value.contains {
+                            $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                        }
+                        
                         if hasEmpty {
                             ClodyToast.show(toastType: .needToWriteAll)
                             hideAlert()
@@ -230,7 +235,7 @@ private extension WritingDiaryViewController {
                         
                         viewModel.postDraftDiary(
                             date: dateString,
-                            content: viewModel.diariesRelay.value
+                            content: viewModel.diaryTextsRelay.value
                         ) { [weak self] statusCode, type in
                             guard let self = self else { return }
                             hideLoadingIndicator()
@@ -281,14 +286,14 @@ private extension WritingDiaryViewController {
         return RxCollectionViewSectionedReloadDataSource<WritingDiarySection>(
             configureCell: { [weak self] dataSource, collectionView, indexPath, text in
                 guard let self = self else { return UICollectionViewCell() }
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WritingDiaryCell.description(), for: indexPath) as! WritingDiaryCell
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: WritingDiaryCell.description(),
+                    for: indexPath
+                ) as! WritingDiaryCell
                 
-                cell.bindData(
-                    index: indexPath.item + 1,
-                    text: text,
-                    isValid: self.viewModel.textViewIsEmptyRelay.value[indexPath.row],
-                    isFirst: self.viewModel.isFirstRelay.value[indexPath.row]
-                )
+                let isPlaceholder = self.viewModel.isPlaceholderRelay.value[indexPath.item]
+                
+                cell.bindData(index: indexPath.item + 1, text: text, isPlaceholder: isPlaceholder)
                 
                 cell.kebabButton.rx.tap
                     .map { indexPath.row }
@@ -309,45 +314,39 @@ private extension WritingDiaryViewController {
                     .disposed(by: cell.disposeBag)
                 
                 cell.textView.rx.didBeginEditing
-                    .subscribe(onNext: {
-                        cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
-                        if cell.textView.text == "일상 속 작은 감사함을 적어보세요." {
-                            cell.textView.text = ""
-                        }
+                    .subscribe(onNext: { [weak cell] in
+                        // placeholder 상태 업데이트
+                        var flags = self.viewModel.isPlaceholderRelay.value
+                        flags[indexPath.item] = false
+                        self.viewModel.isPlaceholderRelay.accept(flags)
+                        cell?.updateUIOnBeginEditing()
                         
-                        var isFirst = self.viewModel.isFirstRelay.value
-                        isFirst[indexPath.item] = false
-                        self.viewModel.isFirstRelay.accept(isFirst)
-                        cell.writingListNumberLabel.textColor = .grey02
-                        cell.textView.textColor = .grey03
-                        cell.writingContainer.backgroundColor = .white
-                        
-                        cell.textView.rx.text.orEmpty
+                        // 입력 길이 업데이트
+                        cell?.textView.rx.text.orEmpty
                             .map { "\($0.count)" }
-                            .bind(to: cell.textInputLabel.rx.text)
-                            .disposed(by: cell.disposeBag)
+                            .bind(to: cell!.textInputLabel.rx.text)
+                            .disposed(by: cell!.disposeBag)
                         
-                        cell.textView.rx.text.orEmpty
+                        // 글자 수 초과 시 표시
+                        cell?.textView.rx.text.orEmpty
                             .skip(1)
                             .map { $0.count != 50 }
-                            .subscribe(onNext: { isHidden in
+                            .subscribe(onNext: { isValid in
+                                guard let cell = cell else { return }
                                 self.updateTextViewHeightIfNeeded(for: cell, collectionView)
-                                cell.limitErrorLabel.isHidden = isHidden
-                                cell.writingContainer.makeBorder(width: 1, color: isHidden ? .mainYellow : .redCustom)
+                                cell.limitErrorLabel.isHidden = isValid
+                                cell.writingContainer.makeBorder(width: 1, color: isValid ? .mainYellow : .redCustom)
                             })
-                            .disposed(by: cell.disposeBag)
+                            .disposed(by: cell!.disposeBag)
                     })
                     .disposed(by: cell.disposeBag)
                 
                 cell.textView.rx.didEndEditing
-                    .subscribe(onNext: { [weak cell] in
-                        guard let cell = cell else { return }
-                        var status = self.viewModel.textViewIsEmptyRelay.value
-                        status[indexPath.item] = !cell.textView.text.isEmpty
-                        self.viewModel.textViewIsEmptyRelay.accept(status)
-                        var items = self.viewModel.diariesRelay.value
+                    .subscribe(onNext: { [weak self, weak cell] in
+                        guard let self = self, let cell = cell else { return }
+                        var items = self.viewModel.diaryTextsRelay.value
                         items[indexPath.item] = cell.textView.text
-                        self.viewModel.diariesRelay.accept(items)
+                        self.viewModel.diaryTextsRelay.accept(items)
                     })
                     .disposed(by: cell.disposeBag)
                 
@@ -355,6 +354,7 @@ private extension WritingDiaryViewController {
             }
         )
     }
+
     
     private func updateTextViewHeightIfNeeded(for cell: WritingDiaryCell, _ collectionView: UICollectionView) {
         let size = CGSize(width: cell.textView.frame.width, height: .infinity)
