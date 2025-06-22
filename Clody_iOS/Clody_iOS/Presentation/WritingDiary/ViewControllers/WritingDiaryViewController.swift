@@ -306,35 +306,39 @@ private extension WritingDiaryViewController {
                 
                 cell.textView.rx.text.orEmpty
                     .skip(1)
-                    .map { String($0.prefix(50)) }
-                    .bind(to: cell.textView.rx.text)
+                    .distinctUntilChanged()
+                    .do(onNext: { [weak cell] text in
+                        guard let cell = cell else { return }
+                        
+                        let limitedText = String(text.prefix(50))
+                        if cell.textView.text != limitedText {
+                            cell.textView.text = limitedText
+                        }
+
+                        cell.textInputLabel.text = "\(limitedText.count)"
+
+                        let isValid = limitedText.count < 50
+                        cell.limitErrorLabel.isHidden = isValid
+                        cell.writingContainer.makeBorder(
+                            width: 1,
+                            color: isValid ? .mainYellow : .redCustom
+                        )
+                    })
+                    .subscribe(onNext: { [weak self, weak cell] _ in
+                        guard let self = self, let cell = cell else { return }
+                        self.updateTextViewHeightIfNeeded(for: cell, collectionView)
+                    })
                     .disposed(by: cell.disposeBag)
-                
+       
                 cell.textView.rx.didBeginEditing
-                    .subscribe(onNext: { [weak cell] in
-                        // placeholder 상태 업데이트
+                    .subscribe(onNext: { [weak self, weak cell] in
+                        guard let self = self, let cell = cell else { return }
+                        
                         var flags = self.viewModel.isPlaceholderRelay.value
                         flags[indexPath.item] = false
                         self.viewModel.isPlaceholderRelay.accept(flags)
-                        cell?.updateUIOnBeginEditing()
                         
-                        // 입력 길이 업데이트
-                        cell?.textView.rx.text.orEmpty
-                            .map { "\($0.count)" }
-                            .bind(to: cell!.textInputLabel.rx.text)
-                            .disposed(by: cell!.disposeBag)
-                        
-                        // 글자 수 초과 시 표시
-                        cell?.textView.rx.text.orEmpty
-                            .skip(1)
-                            .map { $0.count != 50 }
-                            .subscribe(onNext: { isValid in
-                                guard let cell = cell else { return }
-                                self.updateTextViewHeightIfNeeded(for: cell, collectionView)
-                                cell.limitErrorLabel.isHidden = isValid
-                                cell.writingContainer.makeBorder(width: 1, color: isValid ? .mainYellow : .redCustom)
-                            })
-                            .disposed(by: cell!.disposeBag)
+                        cell.updateUIOnBeginEditing()
                     })
                     .disposed(by: cell.disposeBag)
                 

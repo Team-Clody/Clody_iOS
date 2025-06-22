@@ -184,7 +184,11 @@ final class WritingDiaryViewModel: ViewModelType {
 extension WritingDiaryViewModel {
     
     func submitData() {
-        if self.diaryTextsRelay.value.contains("") {
+        let isInvalid = diaryTextsRelay.value.contains {
+            $0.trimmingCharacters(in: .whitespacesAndNewlines).count < 2
+        }
+
+        if isInvalid {
             self.showSubmitErrorToastRelay.accept(())
         } else {
             self.showSubmitAlertRelay.accept(())
