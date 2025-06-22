@@ -81,8 +81,6 @@ final class WritingDiaryViewModel: ViewModelType {
                 if items.count < 5 {
                     items.append("")
                     self.diaryTextsRelay.accept(items)
-                } else {
-//                    ClodyToast.show(toastType: .limitFive)
                 }
             })
             .disposed(by: disposeBag)
