@@ -82,6 +82,8 @@ final class WritingDiaryCell: UICollectionViewCell {
             $0.returnKeyType = .default
             $0.showsVerticalScrollIndicator = false
             $0.showsHorizontalScrollIndicator = false
+            $0.autocapitalizationType = .none
+            $0.spellCheckingType = .no
         }
         
         kebabButton.do {
@@ -170,15 +172,14 @@ final class WritingDiaryCell: UICollectionViewCell {
         writingListNumberLabel.textColor = item.numberLabelColor
         textView.text = item.displayText
         textView.textColor = item.textColor
-        writingContainer.backgroundColor = item.containerBackgroundColor
         writingContainer.makeBorder(width: item.borderWidth, color: item.borderColor)
+        writingContainer.backgroundColor = item.containerBackgroundColor
         
         let textCount = item.text.count
         textInputLabel.text = "\(textCount)"
         limitErrorLabel.isHidden = !item.showErrorMessage
     }
 
-    
     func updateUIOnBeginEditing() {
         writingContainer.makeBorder(width: 1, color: .mainYellow)
         writingContainer.backgroundColor = .white
