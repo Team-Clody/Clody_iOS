@@ -180,6 +180,7 @@ private extension WritingDiaryViewController {
         output.showSubmitErrorToast
             .emit(onNext: { [weak self] in
                 self?.view.endEditing(true)
+                self?.viewModel.updateDiaryState()
                 ClodyToast.show(toastType: .needToWriteAll)
             })
             .disposed(by: disposeBag)
@@ -196,6 +197,7 @@ private extension WritingDiaryViewController {
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 view.endEditing(true)
+                viewModel.updateDiaryState()
                 
                 showAlert(
                     type: .logout,

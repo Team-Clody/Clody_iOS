@@ -84,6 +84,7 @@ final class WritingDiaryViewModel: ViewModelType {
                 let newState = currentDiaryState
                 newState.removeItem(at: index)
                 updateTextBuffer(newState)
+                updateDiaryState()
                 deleteIndexRelay.accept(nil)
             })
             .disposed(by: disposeBag)
@@ -153,10 +154,7 @@ final class WritingDiaryViewModel: ViewModelType {
     }
     
     func updateDiaryState() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            diaryStateRelay.accept(diaryTextBufferRelay.value)
-        }
+        diaryStateRelay.accept(diaryTextBufferRelay.value)
     }
     
     func updateTextBuffer(_ newState: DiaryState) {
