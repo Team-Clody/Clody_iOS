@@ -144,6 +144,9 @@ private extension WritingDiaryViewController {
                     })
                     .subscribe(onNext: { [weak self, weak cell] _ in
                         guard let self = self, let cell = cell else { return }
+                        var state = viewModel.currentBufferState
+                        state.updateItem(at: index, text: cell.textView.text)
+                        viewModel.updateTextBuffer(state)
                         updateTextViewHeightIfNeeded(for: cell, rootView.writingCollectionView)
                     })
                     .disposed(by: cell.disposeBag)
@@ -160,10 +163,6 @@ private extension WritingDiaryViewController {
                         guard let self = self, let cell = cell else { return }
                         let updatedItem = DiaryItem(text: cell.textView.text, isPlaceholder: false)
                         cell.bindData(index: index, item: updatedItem)
-                        
-                        let newState = viewModel.diaryTextBufferRelay.value
-                        newState.updateItem(at: index, text: cell.textView.text)
-                        viewModel.updateTextBuffer(newState)
                     })
                     .disposed(by: cell.disposeBag)
             }
