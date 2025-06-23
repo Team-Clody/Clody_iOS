@@ -80,7 +80,11 @@ private extension WritingDiaryViewController {
     
     func bindViewModel() {
         let input = WritingDiaryViewModel.Input(
-            tapSubmitButton: rootView.headerView.submitButton.rx.tap.asSignal(),
+            tapSubmitButton: rootView.headerView.submitButton.rx.tap
+                .do(onNext: { [weak self] in
+                    self?.view.endEditing(true)
+                })
+                .asSignal(onErrorJustReturn: ()),
             tapAddButton: rootView.addButton.rx.tap.asSignal(),
             tapBackButton: rootView.headerView.backButton.rx.tap.asSignal(),
             updateKebobRelay: kebabButtonTap,
@@ -178,9 +182,7 @@ private extension WritingDiaryViewController {
             .disposed(by: disposeBag)
         
         output.showSubmitErrorToast
-            .emit(onNext: { [weak self] in
-                self?.view.endEditing(true)
-                self?.viewModel.updateDiaryState()
+            .emit(onNext: {
                 ClodyToast.show(toastType: .needToWriteAll)
             })
             .disposed(by: disposeBag)
@@ -196,8 +198,6 @@ private extension WritingDiaryViewController {
         output.showSubmitAlert
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                view.endEditing(true)
-                viewModel.updateDiaryState()
                 
                 showAlert(
                     type: .logout,

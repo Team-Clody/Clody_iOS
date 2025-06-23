@@ -42,6 +42,9 @@ final class WritingDiaryViewModel: ViewModelType {
     var currentDiaryState: DiaryState {
         diaryStateRelay.value
     }
+    var currentBufferState: DiaryState {
+        diaryTextBufferRelay.value
+    }
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         
