@@ -44,11 +44,6 @@ final class DiaryState {
         items[index].isPlaceholder = isPlaceholder
     }
     
-    func setEditing(at index: Int, isEditing: Bool) {
-        guard index < items.count else { return }
-        items[index].isEditing = isEditing
-    }
-    
     func getTexts() -> [String] {
         items.map { $0.text }
     }

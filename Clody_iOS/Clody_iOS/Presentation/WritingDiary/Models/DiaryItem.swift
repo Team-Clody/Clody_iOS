@@ -45,6 +45,7 @@ struct DiaryItem {
     
     var borderColor: UIColor {
         if isPlaceholder { return .clear }
+        if isEditing { return .mainYellow }
         if showErrorMessage || isEmpty || trimmedText.count < 2 { return .redCustom }
         return .clear
     }

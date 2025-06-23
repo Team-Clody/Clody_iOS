@@ -165,60 +165,29 @@ final class WritingDiaryCell: UICollectionViewCell {
         limitTextLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
     
-    func bindData(index: Int, text: String, isPlaceholder: Bool) {
-        writingListNumberLabel.text = "\(index)."
-        let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        let textCount = trimmedText.count
+    func bindData(index: Int, item: DiaryItem) {
+        writingListNumberLabel.text = "\(index + 1)."
+        writingListNumberLabel.textColor = item.numberLabelColor
+        textView.text = item.displayText
+        textView.textColor = item.textColor
+        writingContainer.backgroundColor = item.containerBackgroundColor
+        writingContainer.makeBorder(width: item.borderWidth, color: item.borderColor)
+        
+        let textCount = item.text.count
         textInputLabel.text = "\(textCount)"
-
-        let isEmpty = trimmedText.isEmpty
-        let isTooShort = textCount < 2
-
-        if isEmpty {
-            if isPlaceholder {
-                // 아직 입력 안 한 상태
-                textView.text = I18N.WritingDiary.placeHolder
-                textView.textColor = .grey06
-                writingListNumberLabel.textColor = .grey06
-                writingContainer.backgroundColor = .grey09
-                writingContainer.makeBorder(width: 0, color: .clear)
-                limitErrorLabel.isHidden = true
-            } else {
-                // 입력했다가 다 지운 상태 → 에러
-                textView.text = ""
-                textView.textColor = .grey03
-                writingListNumberLabel.textColor = .grey02
-                writingContainer.backgroundColor = .white
-                writingContainer.makeBorder(width: 1, color: .red)
-                limitErrorLabel.isHidden = true
-            }
-        } else if isTooShort {
-            // 글자 수 1
-            textView.text = text
-            textView.textColor = .grey03
-            writingListNumberLabel.textColor = .grey02
-            writingContainer.backgroundColor = .white
-            writingContainer.makeBorder(width: 1, color: .red)
-            limitErrorLabel.isHidden = false
-        } else {
-            // 정상 입력 상태
-            textView.text = text
-            textView.textColor = .grey03
-            writingListNumberLabel.textColor = .grey02
-            writingContainer.backgroundColor = .grey09
-            writingContainer.makeBorder(width: 0, color: .clear)
-            limitErrorLabel.isHidden = true
-        }
+        limitErrorLabel.isHidden = !item.showErrorMessage
     }
 
     
     func updateUIOnBeginEditing() {
         writingContainer.makeBorder(width: 1, color: .mainYellow)
+        writingContainer.backgroundColor = .white
+        
         if textView.text == I18N.WritingDiary.placeHolder {
             textView.text = ""
         }
-        writingListNumberLabel.textColor = .grey02
         textView.textColor = .grey03
-        writingContainer.backgroundColor = .white
+        writingListNumberLabel.textColor = .grey02
+        limitErrorLabel.isHidden = true
     }
 }
