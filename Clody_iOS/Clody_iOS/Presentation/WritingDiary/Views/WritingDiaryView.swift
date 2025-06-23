@@ -74,7 +74,7 @@ final class WritingDiaryView: BaseView {
             section.contentInsets = NSDirectionalEdgeInsets(
                 top: 0,
                 leading: ScreenUtils.getWidth(24),
-                bottom: self.safeAreaLayoutGuide.layoutFrame.maxY - self.addButton.frame.minY + ScreenUtils.getHeight(10),
+                bottom: ScreenUtils.getHeight(48) + ScreenUtils.getHeight(18) * 2,
                 trailing: ScreenUtils.getWidth(24)
             )
             return section
