@@ -18,12 +18,12 @@ struct DiaryItem {
         self.isEditing = isEditing
     }
     
-    var trimmedText: String {
+    private var trimmedText: String {
         text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     var isValid: Bool {
-        !isPlaceholder && trimmedText.count >= 2
+        !isPlaceholder && !isEmpty && text.count >= 2 && text.count < 51
     }
     
     var isEmpty: Bool {
@@ -46,7 +46,7 @@ struct DiaryItem {
     var borderColor: UIColor {
         if isPlaceholder { return .clear }
         if isEditing { return .mainYellow }
-        if showErrorMessage || isEmpty || trimmedText.count < 2 { return .redCustom }
+        if showErrorMessage || isEmpty || text.count < 2 { return .redCustom }
         return .clear
     }
     
@@ -59,6 +59,6 @@ struct DiaryItem {
     }
     
     var showErrorMessage: Bool {
-        !isPlaceholder && !isEmpty && trimmedText.count < 2
+        !isPlaceholder && !isEmpty && text.count < 2
     }
 }
