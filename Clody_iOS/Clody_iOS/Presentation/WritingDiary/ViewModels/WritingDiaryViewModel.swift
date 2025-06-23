@@ -134,6 +134,18 @@ final class WritingDiaryViewModel: ViewModelType {
         )
     }
     
+    func fetchData(date: Date) {
+        if let year = Int(DateFormatter.string(from: date, format: "yyyy")),
+           let month = Int(DateFormatter.string(from: date, format: "MM")),
+           let day = Int(DateFormatter.string(from: date, format: "dd")) {
+            getDraftDiaryData(year: year, month: month, date: day) { [weak self] in
+                self?.updateDiaryState()
+            }
+        }
+    }
+    
+    func getCurrentTexts() -> [String] {
+        currentDiaryState.getTexts()
     }
     
     func hasAnyContent() -> Bool {
@@ -159,43 +171,18 @@ extension WritingDiaryViewModel {
         
         provider.request(target: .getDraftDiaryList(year: year, month: month, date: date), instance: BaseResponse<GetDraftDiariesResponseDTO>.self) { [weak self] data in
             guard let self = self else { return }
+            // TODO: 서버통신 에러 대응
             switch data.status {
             case 200..<300:
                 guard let data = data.data else { return }
+                let newState = DiaryState()
+                newState.loadDraftData(data.draftDiaries)
+                diaryTextBufferRelay.accept(newState)
                 completion()
             default:
                 print("error draft")
             }
         }
-    }
-
-    func fetchData(date: Date) {
-        if let year = Int(DateFormatter.string(from: date, format: "yyyy")),
-           let month = Int(DateFormatter.string(from: date, format: "MM")),
-           let day = Int(DateFormatter.string(from: date, format: "dd")) {
-            getDraftDiaryData(year: year, month: month, date: day, completion: {})
-        }
-    }
-}
-
-extension WritingDiaryViewModel {
-    
-    func submitData() {
-        let isInvalid = diaryTextsRelay.value.contains {
-            $0.trimmingCharacters(in: .whitespacesAndNewlines).count < 2
-        }
-
-        if isInvalid {
-            self.showSubmitErrorToastRelay.accept(())
-        } else {
-            self.showSubmitAlertRelay.accept(())
-        }
-    }
-    
-    func deleteData(index: Int) {
-        var items = self.diaryTextsRelay.value
-        items.remove(at: index)
-        self.diaryTextsRelay.accept(items)
     }
     
     func postDiary(date: String, content: [String], completion: @escaping (NetworkViewJudge, String, Bool) -> ()) {

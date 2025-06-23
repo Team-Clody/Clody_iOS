@@ -178,7 +178,8 @@ private extension WritingDiaryViewController {
             .disposed(by: disposeBag)
         
         output.showSubmitErrorToast
-            .emit(onNext: {
+            .emit(onNext: { [weak self] in
+                self?.view.endEditing(true)
                 ClodyToast.show(toastType: .needToWriteAll)
             })
             .disposed(by: disposeBag)
@@ -186,17 +187,17 @@ private extension WritingDiaryViewController {
         output.showDelete
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                presentBottomSheet()
                 view.endEditing(true)
+                presentBottomSheet()
             })
             .disposed(by: disposeBag)
         
         output.showSubmitAlert
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.view.endEditing(true)
+                view.endEditing(true)
                 
-                self.showAlert(
+                showAlert(
                     type: .logout,
                     title: I18N.Alert.submitDiaryTitle,
                     message: I18N.Alert.submitDiaryMessage,
@@ -219,19 +220,19 @@ private extension WritingDiaryViewController {
                         
                         viewModel.postDiary(
                             date: dateString,
-                            content: viewModel.diaryTextsRelay.value
+                            content: viewModel.getCurrentTexts()
                         ) { [weak self] statusCode, type, isFromDraft in
                             guard let self = self else { return }
                             hideLoadingIndicator()
                             
                             switch statusCode {
                             case .success:
-                                let isWritingUnavailable = !self.date.isWritingAvailable
+                                let isWritingUnavailable = !date.isWritingAvailable
                                 
                                 if type == "DELETED" || isWritingUnavailable {
-                                    self.navigationController?.popViewController(animated: true)
+                                    navigationController?.popViewController(animated: true)
                                 } else {
-                                    navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isHomeBackButton: true), animated: true)
+                                    navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: true), animated: true)
                                 }
                             case .network:
                                 showErrorAlert(isNetworkError: true)
@@ -249,14 +250,12 @@ private extension WritingDiaryViewController {
         output.showDraftAlert
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.view.endEditing(true)
+                view.endEditing(true)
+                viewModel.updateDiaryState()
                 
-                let isAllEmpty = viewModel.diaryTextsRelay.value.allSatisfy {
-                    $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                }
-                
-                if isAllEmpty {
+                if !viewModel.hasAnyContent() {
                     navigationController?.popViewController(animated: true)
+                    return
                 }
                 
                 showAlert(
@@ -277,11 +276,8 @@ private extension WritingDiaryViewController {
                 alert?.leftButton.rx.tap
                     .subscribe(onNext: { [weak self] in
                         guard let self = self else { return }
-                        let hasEmpty = viewModel.diaryTextsRelay.value.contains {
-                            $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                        }
                         
-                        if hasEmpty {
+                        if !viewModel.hasAnyContent() {
                             ClodyToast.show(toastType: .needToWriteAll)
                             hideAlert()
                             return
@@ -292,7 +288,7 @@ private extension WritingDiaryViewController {
                         
                         viewModel.postDraftDiary(
                             date: dateString,
-                            content: viewModel.diaryTextsRelay.value
+                            content: viewModel.getCurrentTexts()
                         ) { [weak self] statusCode, type in
                             guard let self = self else { return }
                             hideLoadingIndicator()
@@ -324,7 +320,7 @@ private extension WritingDiaryViewController {
     }
     
     func setStyle() {
-        self.navigationController?.isNavigationBarHidden = true
+        navigationController?.isNavigationBarHidden = true
     }
     
     func registerCells() {
@@ -344,15 +340,15 @@ private extension WritingDiaryViewController {
         let estimatedSize = cell.textView.sizeThatFits(size)
         
         /// UITextView 높이가 바뀌었을 때만 제약조건을 변경하고, 컬렉션뷰 고유 사이즈를 재계산합니다.
-        if self.textViewHeight != estimatedSize.height {
-            cell.textView.constraints.forEach { (constraint) in
+        if textViewHeight != estimatedSize.height {
+            cell.textView.constraints.forEach { constraint in
                 if constraint.firstAttribute == .height {
                     constraint.constant = estimatedSize.height
                     cell.invalidateIntrinsicContentSize()
                     collectionView.invalidateIntrinsicContentSize()
                 }
             }
-            self.textViewHeight = estimatedSize.height
+            textViewHeight = estimatedSize.height
         }
     }
     
@@ -409,18 +405,18 @@ private extension WritingDiaryViewController {
             .drive(onNext: { [weak self] keyboardVisibleHeight in
                 guard let self = self else { return }
                 let isKeyboardVisible = keyboardVisibleHeight > 0
-                self.currentKeyboardVisible = isKeyboardVisible  // 키보드 상태 기억
+                currentKeyboardVisible = isKeyboardVisible
                 
                 let addButtonPadding = isKeyboardVisible
                 ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + ScreenUtils.getHeight(20)
                 : ScreenUtils.getHeight(6)
                 
-                self.rootView.addButton.snp.updateConstraints {
+                rootView.addButton.snp.updateConstraints {
                     $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(addButtonPadding)
                     $0.height.equalTo(ScreenUtils.getHeight(isKeyboardVisible ? 48 : 42))
                 }
                 
-                self.rootView.writingCollectionView.snp.updateConstraints {
+                rootView.writingCollectionView.snp.updateConstraints {
                     $0.bottom.equalToSuperview().inset(isKeyboardVisible ? keyboardVisibleHeight : 0)
                 }
                 
@@ -429,10 +425,10 @@ private extension WritingDiaryViewController {
                 }
                 
                 let isEnabled = isAddButtonEnabled
-                let imageName = isKeyboardVisible
-                ? (isEnabled ? "smallAddButton" : "smallAddButtonOff")
-                : (isEnabled ? "bigAddButton" : "bigAddButtonOff")
-                self.rootView.addButton.setImage(UIImage(named: imageName), for: .normal)
+                let image: UIImage = isKeyboardVisible
+                ? (isEnabled ? .smallAddButton : .smallAddButtonOff)
+                : (isEnabled ? .bigAddButton : .bigAddButtonOff)
+                self.rootView.addButton.setImage(image, for: .normal)
             })
             .disposed(by: disposeBag)
     }
