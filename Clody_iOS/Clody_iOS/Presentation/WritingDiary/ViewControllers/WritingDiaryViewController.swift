@@ -11,7 +11,6 @@ import RxCocoa
 import RxSwift
 import RxKeyboard
 import RxGesture
-import RxDataSources
 import SnapKit
 import Then
 
@@ -81,7 +80,6 @@ private extension WritingDiaryViewController {
     
     func bindViewModel() {
         let input = WritingDiaryViewModel.Input(
-            viewDidLoad: Observable.just(()),
             tapSubmitButton: rootView.headerView.submitButton.rx.tap.asSignal(),
             tapAddButton: rootView.addButton.rx.tap.asSignal(),
             tapBackButton: rootView.headerView.backButton.rx.tap.asSignal(),
@@ -99,10 +97,72 @@ private extension WritingDiaryViewController {
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
-        let dataSource = configureCollectionView()
-        
-        output.items
-            .drive(rootView.writingCollectionView.rx.items(dataSource: dataSource))
+        output.diaryItems
+            .drive(rootView.writingCollectionView.rx.items(
+                cellIdentifier: WritingDiaryCell.description(),
+                cellType: WritingDiaryCell.self
+            )) { [weak self] index, item, cell in
+                guard let self = self else { return }
+                
+                cell.bindData(index: index, item: item)
+                
+                cell.kebabButton.rx.tap
+                    .map { index }
+                    .bind(to: self.kebabButtonTap)
+                    .disposed(by: cell.disposeBag)
+                
+                cell.writingContainer.rx.tapGesture()
+                    .when(.recognized)
+                    .subscribe(onNext: { [weak cell] _ in
+                        cell?.textView.becomeFirstResponder()
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                cell.textView.rx.text.orEmpty
+                    .skip(1)
+                    .distinctUntilChanged()
+                    .do(onNext: { [weak cell] text in
+                        guard let cell = cell else { return }
+                        
+                        let limitedText = String(text.prefix(50))
+                        if cell.textView.text != limitedText {
+                            cell.textView.text = limitedText
+                        }
+
+                        cell.textInputLabel.text = "\(limitedText.count)"
+
+                        let isValid = limitedText.count < 50
+                        cell.limitErrorLabel.isHidden = isValid
+                        cell.writingContainer.makeBorder(
+                            width: 1,
+                            color: isValid ? .mainYellow : .redCustom
+                        )
+                    })
+                    .subscribe(onNext: { [weak self, weak cell] _ in
+                        guard let self = self, let cell = cell else { return }
+                        updateTextViewHeightIfNeeded(for: cell, rootView.writingCollectionView)
+                    })
+                    .disposed(by: cell.disposeBag)
+
+                cell.textView.rx.didBeginEditing
+                    .subscribe(onNext: { [weak cell] in
+                        guard let cell = cell else { return }
+                        cell.updateUIOnBeginEditing()
+                    })
+                    .disposed(by: cell.disposeBag)
+
+                cell.textView.rx.didEndEditing
+                    .subscribe(onNext: { [weak self, weak cell] in
+                        guard let self = self, let cell = cell else { return }
+                        let updatedItem = DiaryItem(text: cell.textView.text, isPlaceholder: false)
+                        cell.bindData(index: index, item: updatedItem)
+                        
+                        let newState = viewModel.diaryTextBufferRelay.value
+                        newState.updateItem(at: index, text: cell.textView.text)
+                        viewModel.updateTextBuffer(newState)
+                    })
+                    .disposed(by: cell.disposeBag)
+            }
             .disposed(by: disposeBag)
         
         output.isAddButtonEnabled
@@ -278,84 +338,6 @@ private extension WritingDiaryViewController {
     func configureDraft() {
         if isFromDraft { self.viewModel.fetchData(date: self.date) }
     }
-    
-    func configureCollectionView() -> RxCollectionViewSectionedReloadDataSource<WritingDiarySection> {
-        return RxCollectionViewSectionedReloadDataSource<WritingDiarySection>(
-            configureCell: { [weak self] dataSource, collectionView, indexPath, text in
-                guard let self = self else { return UICollectionViewCell() }
-                let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: WritingDiaryCell.description(),
-                    for: indexPath
-                ) as! WritingDiaryCell
-                
-                let isPlaceholder = self.viewModel.isPlaceholderRelay.value[indexPath.item]
-                
-                cell.bindData(index: indexPath.item + 1, text: text, isPlaceholder: isPlaceholder)
-                
-                cell.kebabButton.rx.tap
-                    .map { indexPath.row }
-                    .bind(to: self.kebabButtonTap)
-                    .disposed(by: cell.disposeBag)
-                
-                cell.writingContainer.rx.tapGesture()
-                    .when(.recognized)
-                    .subscribe(onNext: { [weak cell] _ in
-                        cell?.textView.becomeFirstResponder()
-                    })
-                    .disposed(by: cell.disposeBag)
-                
-                cell.textView.rx.text.orEmpty
-                    .skip(1)
-                    .distinctUntilChanged()
-                    .do(onNext: { [weak cell] text in
-                        guard let cell = cell else { return }
-                        
-                        let limitedText = String(text.prefix(50))
-                        if cell.textView.text != limitedText {
-                            cell.textView.text = limitedText
-                        }
-
-                        cell.textInputLabel.text = "\(limitedText.count)"
-
-                        let isValid = limitedText.count < 50
-                        cell.limitErrorLabel.isHidden = isValid
-                        cell.writingContainer.makeBorder(
-                            width: 1,
-                            color: isValid ? .mainYellow : .redCustom
-                        )
-                    })
-                    .subscribe(onNext: { [weak self, weak cell] _ in
-                        guard let self = self, let cell = cell else { return }
-                        self.updateTextViewHeightIfNeeded(for: cell, collectionView)
-                    })
-                    .disposed(by: cell.disposeBag)
-       
-                cell.textView.rx.didBeginEditing
-                    .subscribe(onNext: { [weak self, weak cell] in
-                        guard let self = self, let cell = cell else { return }
-                        
-                        var flags = self.viewModel.isPlaceholderRelay.value
-                        flags[indexPath.item] = false
-                        self.viewModel.isPlaceholderRelay.accept(flags)
-                        
-                        cell.updateUIOnBeginEditing()
-                    })
-                    .disposed(by: cell.disposeBag)
-                
-                cell.textView.rx.didEndEditing
-                    .subscribe(onNext: { [weak self, weak cell] in
-                        guard let self = self, let cell = cell else { return }
-                        var items = self.viewModel.diaryTextsRelay.value
-                        items[indexPath.item] = cell.textView.text
-                        self.viewModel.diaryTextsRelay.accept(items)
-                    })
-                    .disposed(by: cell.disposeBag)
-                
-                return cell
-            }
-        )
-    }
-
     
     private func updateTextViewHeightIfNeeded(for cell: WritingDiaryCell, _ collectionView: UICollectionView) {
         let size = CGSize(width: cell.textView.frame.width, height: .infinity)

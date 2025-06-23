@@ -1,5 +1,5 @@
 //
-//  WritingDiaryModel.swift
+//  WritingDiaryViewModel.swift
 //  Clody_iOS
 //
 //  Created by Seonwoo Kim on 7/10/24.
@@ -9,26 +9,10 @@ import UIKit
 
 import RxSwift
 import RxCocoa
-import RxDataSources
-
-struct WritingDiarySection {
-    var header: String
-    var items: [Item]
-}
-
-extension WritingDiarySection: SectionModelType {
-    typealias Item = String
-
-    init(original: WritingDiarySection, items: [Item]) {
-        self = original
-        self.items = items
-    }
-}
 
 final class WritingDiaryViewModel: ViewModelType {
     
     struct Input {
-        let viewDidLoad: Observable<Void>
         let tapSubmitButton: Signal<Void>
         let tapAddButton: Signal<Void>
         let tapBackButton: Signal<Void>
@@ -39,7 +23,7 @@ final class WritingDiaryViewModel: ViewModelType {
     }
     
     struct Output {
-        let items: Driver<[WritingDiarySection]>
+        let diaryItems: Driver<[DiaryItem]>
         let showDraftAlert: Signal<Void>
         let isAddButtonEnabled: Driver<Bool>
         let showSubmitErrorToast: Signal<Void>
@@ -48,40 +32,41 @@ final class WritingDiaryViewModel: ViewModelType {
         let showHelp: Driver<Bool>
     }
     
-    let diaryTextsRelay = BehaviorRelay<[String]>(value: [""])
-    let isPlaceholderRelay = BehaviorRelay<[Bool]>(value: Array(repeating: true, count: 5))
+    let diaryStateRelay = BehaviorRelay<DiaryState>(value: DiaryState())
+    let diaryTextBufferRelay = BehaviorRelay<DiaryState>(value: DiaryState())
     private let showSubmitErrorToastRelay = PublishRelay<Void>()
     private let showSubmitAlertRelay = PublishRelay<Void>()
     private let showDeleteRelay = PublishRelay<Int>()
     private let deleteIndexRelay = BehaviorRelay<Int?>(value: nil)
-    let isHiddenHelpRelay = BehaviorRelay<Bool>(value: true)
+    private let isHiddenHelpRelay = BehaviorRelay<Bool>(value: true)
+    var currentDiaryState: DiaryState {
+        diaryStateRelay.value
+    }
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
-        
-        input.viewDidLoad
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                // 초기 데이터 로드 로직 추가 가능
-                self.loadInitialData()
-            })
-            .disposed(by: disposeBag)
         
         input.tapSubmitButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.submitData()
+                updateDiaryState()
+                if currentDiaryState.hasValidItems {
+                    showSubmitAlertRelay.accept(())
+                } else {
+                    showSubmitErrorToastRelay.accept(())
+                }
             })
             .disposed(by: disposeBag)
         
         input.tapAddButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
+                updateDiaryState()
                 AmplitudeManager.shared.trackEvent("writing_diary_add_list")
-                var items = self.diaryTextsRelay.value
-                if items.count < 5 {
-                    items.append("")
-                    self.diaryTextsRelay.accept(items)
-                }
+                
+                let state = currentDiaryState
+                state.addItem()
+                updateTextBuffer(state)
+                updateDiaryState()
             })
             .disposed(by: disposeBag)
         
@@ -92,9 +77,14 @@ final class WritingDiaryViewModel: ViewModelType {
         
         input.tapDeleteButton
             .emit(onNext: { [weak self] in
-                guard let self = self, let index = self.deleteIndexRelay.value else { return }
-                self.deleteData(index: index)
+                guard let self = self, let index = deleteIndexRelay.value else { return }
+                updateDiaryState()
                 AmplitudeManager.shared.trackEvent("writing_diary_delete_list")
+                
+                let newState = currentDiaryState
+                newState.removeItem(at: index)
+                updateTextBuffer(newState)
+                deleteIndexRelay.accept(nil)
             })
             .disposed(by: disposeBag)
         
@@ -113,18 +103,14 @@ final class WritingDiaryViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
-        
-        let items: Driver<[WritingDiarySection]> = diaryTextsRelay
-            .map { models in
-                [WritingDiarySection(header: "Diary Header", items: models)]
-            }
+        let diaryItems = diaryStateRelay
+            .map { $0.items }
             .asDriver(onErrorJustReturn: [])
-
-
+        
         let showDraftAlert = input.tapBackButton.asSignal()
         
-        let isAddButtonEnabled = diaryTextsRelay
-            .map { $0.count < 5 }
+        let isAddButtonEnabled = diaryStateRelay
+            .map { $0.canAddItem }
             .asDriver(onErrorJustReturn: true)
         
         let showSubmitErrorToast = showSubmitErrorToastRelay.asSignal()
@@ -138,20 +124,35 @@ final class WritingDiaryViewModel: ViewModelType {
         let showHelp = isHiddenHelpRelay.asDriver(onErrorJustReturn: true)
         
         return Output(
-            items: items,
+            diaryItems: diaryItems,
             showDraftAlert: showDraftAlert,
             isAddButtonEnabled: isAddButtonEnabled,
             showSubmitErrorToast: showSubmitErrorToast,
             showSubmitAlert: showSubmitAlert,
-            showDelete: showDelete, 
+            showDelete: showDelete,
             showHelp: showHelp
         )
     }
     
-    private func loadInitialData() {
-        let initialItem = ""
-        diaryTextsRelay.accept([initialItem])
     }
+    
+    func hasAnyContent() -> Bool {
+        currentDiaryState.hasAnyContent
+    }
+    
+    func updateDiaryState() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            diaryStateRelay.accept(diaryTextBufferRelay.value)
+        }
+    }
+    
+    func updateTextBuffer(_ newState: DiaryState) {
+        diaryTextBufferRelay.accept(newState)
+    }
+}
+
+extension WritingDiaryViewModel {
     
     func getDraftDiaryData(year: Int, month: Int, date: Int, completion: @escaping () -> Void) {
         let provider = Providers.diaryRouter
@@ -161,8 +162,6 @@ final class WritingDiaryViewModel: ViewModelType {
             switch data.status {
             case 200..<300:
                 guard let data = data.data else { return }
-                
-                self.diaryTextsRelay.accept(data.draftDiaries)
                 completion()
             default:
                 print("error draft")
