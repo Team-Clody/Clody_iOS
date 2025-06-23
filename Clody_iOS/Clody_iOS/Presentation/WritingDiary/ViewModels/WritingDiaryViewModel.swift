@@ -66,7 +66,7 @@ final class WritingDiaryViewModel: ViewModelType {
                 updateDiaryState()
                 AmplitudeManager.shared.trackEvent("writing_diary_add_list")
                 
-                let state = currentDiaryState
+                var state = currentDiaryState
                 state.addItem()
                 updateTextBuffer(state)
                 updateDiaryState()
@@ -84,9 +84,9 @@ final class WritingDiaryViewModel: ViewModelType {
                 updateDiaryState()
                 AmplitudeManager.shared.trackEvent("writing_diary_delete_list")
                 
-                let newState = currentDiaryState
-                newState.removeItem(at: index)
-                updateTextBuffer(newState)
+                var state = currentDiaryState
+                state.removeItem(at: index)
+                updateTextBuffer(state)
                 updateDiaryState()
                 deleteIndexRelay.accept(nil)
             })
@@ -157,7 +157,7 @@ final class WritingDiaryViewModel: ViewModelType {
     }
     
     func updateDiaryState() {
-        diaryStateRelay.accept(diaryTextBufferRelay.value)
+        diaryStateRelay.accept(currentBufferState)
     }
     
     func updateTextBuffer(_ newState: DiaryState) {
@@ -176,9 +176,9 @@ extension WritingDiaryViewModel {
             switch data.status {
             case 200..<300:
                 guard let data = data.data else { return }
-                let newState = DiaryState()
+                var newState = DiaryState()
                 newState.loadDraftData(data.draftDiaries)
-                diaryTextBufferRelay.accept(newState)
+                updateTextBuffer(newState)
                 completion()
             default:
                 print("error draft")
