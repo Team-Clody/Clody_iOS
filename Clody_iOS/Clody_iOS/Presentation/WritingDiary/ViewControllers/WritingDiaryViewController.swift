@@ -159,8 +159,8 @@ private extension WritingDiaryViewController {
                     .disposed(by: cell.disposeBag)
 
                 cell.textView.rx.didEndEditing
-                    .subscribe(onNext: { [weak self, weak cell] in
-                        guard let self = self, let cell = cell else { return }
+                    .subscribe(onNext: { [weak cell] in
+                        guard let cell = cell else { return }
                         let updatedItem = DiaryItem(text: cell.textView.text, isPlaceholder: false)
                         cell.bindData(index: index, item: updatedItem)
                     })
