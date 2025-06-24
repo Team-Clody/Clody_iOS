@@ -260,7 +260,7 @@ private extension WritingDiaryViewController {
                 view.endEditing(true)
                 viewModel.updateDiaryState()
                 
-                if !viewModel.hasAnyContent() {
+                if viewModel.isSameFromInitialDraft() {
                     navigationController?.popViewController(animated: true)
                     return
                 }

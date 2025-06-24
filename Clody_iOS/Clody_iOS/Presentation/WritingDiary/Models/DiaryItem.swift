@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct DiaryItem {
+struct DiaryItem: Equatable {
     var text: String
     var isPlaceholder: Bool
     var isEditing: Bool = false
