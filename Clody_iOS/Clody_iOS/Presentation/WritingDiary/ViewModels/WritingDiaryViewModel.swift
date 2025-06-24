@@ -41,7 +41,10 @@ final class WritingDiaryViewModel: ViewModelType {
     private let showDeleteRelay = PublishRelay<Int>()
     private let deleteIndexRelay = BehaviorRelay<Int?>(value: nil)
     private let isHiddenHelpRelay = BehaviorRelay<Bool>(value: true)
-    private var initialDraftState = DiaryState()
+    private var initialDraftState = [""]
+    var isSameFromInitialDraft: Bool {
+        currentDiaryState.getTexts() == initialDraftState
+    }
     var currentDiaryState: DiaryState {
         diaryStateRelay.value
     }
@@ -173,10 +176,6 @@ final class WritingDiaryViewModel: ViewModelType {
     func updateTextBuffer(_ newState: DiaryState) {
         diaryTextBufferRelay.accept(newState)
     }
-    
-    func isSameFromInitialDraft() -> Bool {
-        return currentDiaryState.items == initialDraftState.items
-    }
 }
 
 extension WritingDiaryViewModel {
@@ -193,7 +192,7 @@ extension WritingDiaryViewModel {
                 var newState = DiaryState()
                 newState.loadDraftData(data.draftDiaries)
                 updateTextBuffer(newState)
-                initialDraftState = newState
+                initialDraftState = newState.getTexts()
                 completion()
             default:
                 print("error draft")
