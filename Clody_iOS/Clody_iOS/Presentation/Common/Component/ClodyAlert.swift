@@ -79,7 +79,16 @@ extension ClodyAlert {
             rightButton.setTitleColor(.white, for: .normal)
         }
         
-        let leftButtonText = self.type == .draftDiary ? I18N.Alert.draft : I18N.Alert.cancel
+        let leftButtonText: String
+        
+        switch self.type {
+        case .draftDiary:
+            leftButtonText = I18N.Alert.draft
+        case .saveDiary:
+            leftButtonText = I18N.Alert.cancel
+        default:
+            leftButtonText = I18N.Alert.no
+        }
         
         titleLabel.do {
             $0.textColor = .grey01

@@ -205,7 +205,7 @@ private extension WritingDiaryViewController {
                 guard let self = self else { return }
                 
                 showAlert(
-                    type: .logout,
+                    type: .saveDiary,
                     title: I18N.Alert.submitDiaryTitle,
                     message: I18N.Alert.submitDiaryMessage,
                     rightButtonText: I18N.Alert.submit
