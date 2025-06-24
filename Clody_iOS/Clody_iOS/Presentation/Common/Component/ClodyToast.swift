@@ -11,6 +11,7 @@ import SnapKit
 
 enum ToastType {
     case needToWriteAll
+    case limitFive
     case alarm
     case changeComplete
     case notificationTimeChangeComplete
@@ -19,6 +20,7 @@ enum ToastType {
     var message: String {
         switch self {
         case .needToWriteAll: return I18N.Toast.needToWriteAll
+        case .limitFive: return I18N.Toast.limitFive
         case .alarm: return I18N.Toast.alarm
         case .changeComplete: return I18N.Toast.changeComplete
         case .notificationTimeChangeComplete: return I18N.Toast.notificationTimeChangeComplete
