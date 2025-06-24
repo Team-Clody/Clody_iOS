@@ -173,10 +173,6 @@ private extension WritingDiaryViewController {
                 guard let self = self else { return }
                 isAddButtonEnabled = isEnabled
                 
-                if !isEnabled {
-                    ClodyToast.show(toastType: .limitFive)
-                }
-                
                 let buttonImage: UIImage = currentKeyboardVisible
                 ? (isEnabled ? .smallAddButton : .smallAddButtonOff)
                 : (isEnabled ? .bigAddButton : .bigAddButtonOff)
@@ -187,6 +183,12 @@ private extension WritingDiaryViewController {
         output.showSubmitErrorToast
             .emit(onNext: {
                 ClodyToast.show(toastType: .needToWriteAll)
+            })
+            .disposed(by: disposeBag)
+        
+        output.showLimitFiveErrorToast
+            .emit(onNext: {
+                ClodyToast.show(toastType: .limitFive)
             })
             .disposed(by: disposeBag)
         

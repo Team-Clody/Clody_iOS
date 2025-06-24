@@ -27,6 +27,7 @@ final class WritingDiaryViewModel: ViewModelType {
         let showDraftAlert: Signal<Void>
         let isAddButtonEnabled: Driver<Bool>
         let showSubmitErrorToast: Signal<Void>
+        let showLimitFiveErrorToast: Signal<Void>
         let showSubmitAlert: Signal<Void>
         let showDelete: Signal<Void>
         let showHelp: Driver<Bool>
@@ -35,6 +36,7 @@ final class WritingDiaryViewModel: ViewModelType {
     let diaryStateRelay = BehaviorRelay<DiaryState>(value: DiaryState())
     let diaryTextBufferRelay = BehaviorRelay<DiaryState>(value: DiaryState())
     private let showSubmitErrorToastRelay = PublishRelay<Void>()
+    private let showLimitFiveErrorToastRelay = PublishRelay<Void>()
     private let showSubmitAlertRelay = PublishRelay<Void>()
     private let showDeleteRelay = PublishRelay<Int>()
     private let deleteIndexRelay = BehaviorRelay<Int?>(value: nil)
@@ -65,6 +67,10 @@ final class WritingDiaryViewModel: ViewModelType {
                 guard let self = self else { return }
                 updateDiaryState()
                 AmplitudeManager.shared.trackEvent("writing_diary_add_list")
+                
+                if !currentDiaryState.canAddItem {
+                    showLimitFiveErrorToastRelay.accept(())
+                }
                 
                 var state = currentDiaryState
                 state.addItem()
@@ -119,6 +125,8 @@ final class WritingDiaryViewModel: ViewModelType {
         
         let showSubmitErrorToast = showSubmitErrorToastRelay.asSignal()
         
+        let showLimitFiveErrorToast = showLimitFiveErrorToastRelay.asSignal()
+        
         let showSubmitAlert = showSubmitAlertRelay.asSignal()
         
         let showDelete = deleteIndexRelay
@@ -132,6 +140,7 @@ final class WritingDiaryViewModel: ViewModelType {
             showDraftAlert: showDraftAlert,
             isAddButtonEnabled: isAddButtonEnabled,
             showSubmitErrorToast: showSubmitErrorToast,
+            showLimitFiveErrorToast: showLimitFiveErrorToast,
             showSubmitAlert: showSubmitAlert,
             showDelete: showDelete,
             showHelp: showHelp
