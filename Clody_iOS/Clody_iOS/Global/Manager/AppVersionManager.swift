@@ -70,7 +70,8 @@ class AppVersionManager {
     }
     
     private func showForceUpdateAlert(appStoreVersion: String) {
-        guard let topViewController = UIApplication.shared.windows.first?.rootViewController else { return }
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let topViewController = windowScene.windows.first?.rootViewController else { return }
         
         let alert = UIAlertController(
             title: "필수 업데이트",
@@ -93,7 +94,8 @@ class AppVersionManager {
     }
     
     private func showOptionalUpdateAlert(appStoreVersion: String, completion: @escaping (Bool) -> Void) {
-        guard let topViewController = UIApplication.shared.keyWindow?.rootViewController else { return }
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let topViewController = windowScene.windows.first?.rootViewController else { return }
         
         let alert = UIAlertController(title: "업데이트 필요",
                                       message: "새로운 버전 \(appStoreVersion)을 사용할 수 있습니다. 지금 업데이트하시겠습니까?",
