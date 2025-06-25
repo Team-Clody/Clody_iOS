@@ -10,11 +10,11 @@ import UIKit
 import Alamofire
 import Moya
 
-///// 토큰 만료 시 자동으로 refresh를 위한 서버 통신
+/// 토큰 관련 사용자 인증 관리 및 토큰 만료 시 자동으로 refresh를 위한 서버 통신
 final class AuthInterceptor: RequestInterceptor {
-    
-    private var retryLimit = 2
     static let shared = AuthInterceptor()
+    
+    private let retryLimit = 2
     
     private init() {}
     
@@ -45,7 +45,14 @@ final class AuthInterceptor: RequestInterceptor {
             return
         }
         
-        guard let response = request.response, response.statusCode == 401 else {
+        guard let response = request.response else { return completion(.doNotRetryWithError(error)) }
+        
+        if response.statusCode == 404 {
+            print("❗️[404] 존재하지 않는 유저입니다❗️")
+            handleTokenFailure(completion: completion, error: error)
+        }
+        
+        guard response.statusCode == 401 else {
             completion(.doNotRetryWithError(error))
             return
         }
@@ -61,20 +68,20 @@ final class AuthInterceptor: RequestInterceptor {
                         completion(.retry)
                     } else {
                         print("🚨토큰 데이터가 없습니다🚨")
-                        self.handleTokenRefreshFailure(completion: completion, error: error)
+                        self.handleTokenFailure(completion: completion, error: error)
                     }
                 } else {
                     print("🚨토큰 재발급에 실패했습니다🚨")
-                    self.handleTokenRefreshFailure(completion: completion, error: error)
+                    self.handleTokenFailure(completion: completion, error: error)
                 }
             case .failure(let moyaError):
                 print("🚨토큰 재발급 중 오류 발생: \(moyaError)🚨")
-                self.handleTokenRefreshFailure(completion: completion, error: moyaError)
+                self.handleTokenFailure(completion: completion, error: moyaError)
             }
         }
     }
     
-    private func handleTokenRefreshFailure(completion: @escaping (RetryResult) -> Void, error: Error) {
+    private func handleTokenFailure(completion: @escaping (RetryResult) -> Void, error: Error) {
         UserManager.shared.clearAll()
         if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
             sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
