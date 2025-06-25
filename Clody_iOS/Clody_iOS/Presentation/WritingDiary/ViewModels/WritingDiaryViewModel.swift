@@ -1,5 +1,5 @@
 //
-//  WritingDiaryModel.swift
+//  WritingDiaryViewModel.swift
 //  Clody_iOS
 //
 //  Created by Seonwoo Kim on 7/10/24.
@@ -9,26 +9,10 @@ import UIKit
 
 import RxSwift
 import RxCocoa
-import RxDataSources
-
-struct WritingDiarySection {
-    var header: String
-    var items: [Item]
-}
-
-extension WritingDiarySection: SectionModelType {
-    typealias Item = String
-    
-    init(original: WritingDiarySection, items: [Item]) {
-        self = original
-        self.items = items
-    }
-}
 
 final class WritingDiaryViewModel: ViewModelType {
     
     struct Input {
-        let viewDidLoad: Observable<Void>
         let tapSubmitButton: Signal<Void>
         let tapAddButton: Signal<Void>
         let tapBackButton: Signal<Void>
@@ -39,63 +23,63 @@ final class WritingDiaryViewModel: ViewModelType {
     }
     
     struct Output {
-        let items: Driver<[WritingDiarySection]>
-        let statuses: Driver<[Bool]>
-        let isFirst: Driver<[Bool]>
+        let diaryItems: Driver<[DiaryItem]>
         let showDraftAlert: Signal<Void>
         let isAddButtonEnabled: Driver<Bool>
         let showSubmitErrorToast: Signal<Void>
+        let showLimitFiveErrorToast: Signal<Void>
         let showSubmitAlert: Signal<Void>
         let showDelete: Signal<Void>
         let showHelp: Driver<Bool>
     }
     
-    let writingDiaryDataRelay = BehaviorRelay<WritingDiaryModel>(value: WritingDiaryModel(date: "", content: [""]))
-    let diariesRelay = BehaviorRelay<[String]>(value: [""])
-    let textViewIsEmptyRelay = BehaviorRelay<[Bool]>(value: [true])
-    let isFirstRelay = BehaviorRelay<[Bool]>(value: [true])
-    let textDidEditing = PublishRelay<String>()
-    let textEndEditing = PublishRelay<String>()
+    let diaryStateRelay = BehaviorRelay<DiaryState>(value: DiaryState())
+    let diaryTextBufferRelay = BehaviorRelay<DiaryState>(value: DiaryState())
     private let showSubmitErrorToastRelay = PublishRelay<Void>()
+    private let showLimitFiveErrorToastRelay = PublishRelay<Void>()
     private let showSubmitAlertRelay = PublishRelay<Void>()
     private let showDeleteRelay = PublishRelay<Int>()
     private let deleteIndexRelay = BehaviorRelay<Int?>(value: nil)
-    let isHiddenHelpRelay = BehaviorRelay<Bool>(value: true)
+    private let isHiddenHelpRelay = BehaviorRelay<Bool>(value: true)
+    private var initialDraftState = [""]
+    var isSameFromInitialDraft: Bool {
+        currentDiaryState.getTexts() == initialDraftState
+    }
+    var currentDiaryState: DiaryState {
+        diaryStateRelay.value
+    }
+    var currentBufferState: DiaryState {
+        diaryTextBufferRelay.value
+    }
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
-        
-        input.viewDidLoad
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                // 초기 데이터 로드 로직 추가 가능
-                self.loadInitialData()
-            })
-            .disposed(by: disposeBag)
         
         input.tapSubmitButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.submitData()
+                updateDiaryState()
+                if currentDiaryState.hasValidItems {
+                    showSubmitAlertRelay.accept(())
+                } else {
+                    showSubmitErrorToastRelay.accept(())
+                }
             })
             .disposed(by: disposeBag)
         
         input.tapAddButton
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
+                updateDiaryState()
                 AmplitudeManager.shared.trackEvent("writing_diary_add_list")
-                var items = self.diariesRelay.value
-                var isEmpty = self.textViewIsEmptyRelay.value
-                var isFirst = self.isFirstRelay.value
-                if items.count < 5 {
-                    items.append("")
-                    isEmpty.append(true)
-                    isFirst.append(true)
-                    self.diariesRelay.accept(items)
-                    self.textViewIsEmptyRelay.accept(isEmpty)
-                    self.isFirstRelay.accept(isFirst)
-                } else {
-                    
+                
+                if !currentDiaryState.canAddItem {
+                    showLimitFiveErrorToastRelay.accept(())
                 }
+                
+                var state = currentDiaryState
+                state.addItem()
+                updateTextBuffer(state)
+                updateDiaryState()
             })
             .disposed(by: disposeBag)
         
@@ -106,9 +90,15 @@ final class WritingDiaryViewModel: ViewModelType {
         
         input.tapDeleteButton
             .emit(onNext: { [weak self] in
-                guard let self = self, let index = self.deleteIndexRelay.value else { return }
-                self.deleteData(index: index) {}
+                guard let self = self, let index = deleteIndexRelay.value else { return }
+                updateDiaryState()
                 AmplitudeManager.shared.trackEvent("writing_diary_delete_list")
+                
+                var state = currentDiaryState
+                state.removeItem(at: index)
+                updateTextBuffer(state)
+                updateDiaryState()
+                deleteIndexRelay.accept(nil)
             })
             .disposed(by: disposeBag)
         
@@ -127,26 +117,19 @@ final class WritingDiaryViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
-        let items = diariesRelay
-            .observe(on: MainScheduler.asyncInstance)
-            .map { diaries in
-                [WritingDiarySection(header: "Diary Header", items: diaries)]
-            }
-            .asDriver(onErrorJustReturn: [])
-        
-        let statuses = textViewIsEmptyRelay
-            .asDriver(onErrorJustReturn: [])
-        
-        let isFirst = isFirstRelay
+        let diaryItems = diaryStateRelay
+            .map { $0.items }
             .asDriver(onErrorJustReturn: [])
         
         let showDraftAlert = input.tapBackButton.asSignal()
         
-        let isAddButtonEnabled = Observable.combineLatest(input.tapAddButton.asObservable(), diariesRelay.asObservable())
-            .map { _, diaries in diaries.count < 5 }
+        let isAddButtonEnabled = diaryStateRelay
+            .map { $0.canAddItem }
             .asDriver(onErrorJustReturn: true)
         
         let showSubmitErrorToast = showSubmitErrorToastRelay.asSignal()
+        
+        let showLimitFiveErrorToast = showLimitFiveErrorToastRelay.asSignal()
         
         let showSubmitAlert = showSubmitAlertRelay.asSignal()
         
@@ -157,87 +140,64 @@ final class WritingDiaryViewModel: ViewModelType {
         let showHelp = isHiddenHelpRelay.asDriver(onErrorJustReturn: true)
         
         return Output(
-            items: items,
-            statuses: statuses,
-            isFirst: isFirst,
+            diaryItems: diaryItems,
             showDraftAlert: showDraftAlert,
             isAddButtonEnabled: isAddButtonEnabled,
             showSubmitErrorToast: showSubmitErrorToast,
+            showLimitFiveErrorToast: showLimitFiveErrorToast,
             showSubmitAlert: showSubmitAlert,
-            showDelete: showDelete, 
+            showDelete: showDelete,
             showHelp: showHelp
         )
     }
     
-    private func loadInitialData() {
-        let initialDiaries = [""]
-        let initialStatuses = [true]
-        let initialIsFirst = [true]
-        
-        diariesRelay.accept(initialDiaries)
-        textViewIsEmptyRelay.accept(initialStatuses)
-        isFirstRelay.accept(initialIsFirst)
+    func fetchData(date: Date) {
+        if let year = Int(DateFormatter.string(from: date, format: "yyyy")),
+           let month = Int(DateFormatter.string(from: date, format: "MM")),
+           let day = Int(DateFormatter.string(from: date, format: "dd")) {
+            getDraftDiaryData(year: year, month: month, date: day) { [weak self] in
+                self?.updateDiaryState()
+            }
+        }
     }
+    
+    func getCurrentTexts() -> [String] {
+        currentDiaryState.getTexts()
+    }
+    
+    func hasAnyContent() -> Bool {
+        currentDiaryState.hasAnyContent
+    }
+    
+    func updateDiaryState() {
+        diaryStateRelay.accept(currentBufferState)
+    }
+    
+    func updateTextBuffer(_ newState: DiaryState) {
+        diaryTextBufferRelay.accept(newState)
+    }
+}
+
+extension WritingDiaryViewModel {
     
     func getDraftDiaryData(year: Int, month: Int, date: Int, completion: @escaping () -> Void) {
         let provider = Providers.diaryRouter
         
         provider.request(target: .getDraftDiaryList(year: year, month: month, date: date), instance: BaseResponse<GetDraftDiariesResponseDTO>.self) { [weak self] data in
             guard let self = self else { return }
+            // TODO: 서버통신 에러 대응
             switch data.status {
             case 200..<300:
                 guard let data = data.data else { return }
-                
-                var items: [String] = []
-                var isEmpty: [Bool] = []
-                var isFirst: [Bool] = []
-
-                for draft in data.draftDiaries {
-                    items.append(draft)
-                    isEmpty.append(true)
-                    isFirst.append(false)
-                }
-
-                self.diariesRelay.accept(items)
-                self.textViewIsEmptyRelay.accept(isEmpty)
-                self.isFirstRelay.accept(isFirst)
-                
+                var newState = DiaryState()
+                newState.loadDraftData(data.draftDiaries)
+                updateTextBuffer(newState)
+                initialDraftState = newState.getTexts()
                 completion()
             default:
                 print("error draft")
             }
         }
-    }
-
-    func fetchData(date: Date) {
-        if let year = Int(DateFormatter.string(from: date, format: "yyyy")),
-           let month = Int(DateFormatter.string(from: date, format: "MM")),
-           let day = Int(DateFormatter.string(from: date, format: "dd")) {
-            getDraftDiaryData(year: year, month: month, date: day, completion: {})
-        }
-    }
-}
-
-extension WritingDiaryViewModel {
-    
-    func submitData() {
-        if diariesRelay.value.contains("") {
-            self.showSubmitErrorToastRelay.accept(())
-        } else {
-            self.showSubmitAlertRelay.accept(())
-        }
-    }
-    
-    func deleteData(index: Int, completion: @escaping () -> ()) {
-        var items = self.diariesRelay.value
-        var statuses = self.textViewIsEmptyRelay.value
-        var isFirst = self.isFirstRelay.value
-        items.remove(at: index)
-        statuses.remove(at: index)
-        isFirst.remove(at: index)
-        self.diariesRelay.accept(items)
-        self.textViewIsEmptyRelay.accept(statuses)
-        self.isFirstRelay.accept(isFirst)
     }
     
     func postDiary(date: String, content: [String], completion: @escaping (NetworkViewJudge, String, Bool) -> ()) {

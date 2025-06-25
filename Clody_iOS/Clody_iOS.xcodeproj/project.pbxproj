@@ -50,7 +50,6 @@
 		0B6C074B2C3DC3070054A0B0 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C074A2C3DC3070054A0B0 /* ListCollectionViewCell.swift */; };
 		0B6C074D2C3DC6C70054A0B0 /* ListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C074C2C3DC6C70054A0B0 /* ListHeaderView.swift */; };
 		0B6C074F2C3DD3DF0054A0B0 /* ListBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C074E2C3DD3DF0054A0B0 /* ListBackgroundView.swift */; };
-		0B6C07572C3E7D340054A0B0 /* WritingDiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C07562C3E7D340054A0B0 /* WritingDiaryModel.swift */; };
 		0B6C07592C3E7D480054A0B0 /* WritingDiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C07582C3E7D480054A0B0 /* WritingDiaryViewModel.swift */; };
 		0B6C075B2C3E7D570054A0B0 /* WritingDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C075A2C3E7D570054A0B0 /* WritingDiaryViewController.swift */; };
 		0B6C075D2C3E7D660054A0B0 /* WritingDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C075C2C3E7D660054A0B0 /* WritingDiaryView.swift */; };
@@ -117,6 +116,8 @@
 		2CE3AB2F2C36E9F50042085A /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */; };
 		950CF0652DEF36280054F971 /* ContinueWritingAlarmBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950CF0642DEF36280054F971 /* ContinueWritingAlarmBottomSheet.swift */; };
 		950CF0672DF145C70054F971 /* BottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950CF0662DF145C70054F971 /* BottomSheet.swift */; };
+		950D39362E0872C10037A8D6 /* DiaryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D39352E0872C10037A8D6 /* DiaryItem.swift */; };
+		950D39382E0872D80037A8D6 /* DiaryState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D39372E0872D80037A8D6 /* DiaryState.swift */; };
 		952EB1992C6BCF7E00D1E516 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952EB1982C6BCF7E00D1E516 /* UIViewController+.swift */; };
 		95310F722C3C39FE00023C7B /* ClodyNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F712C3C39FE00023C7B /* ClodyNavigationBar.swift */; };
 		95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95310F732C3C765C00023C7B /* ClodyTextField.swift */; };
@@ -211,7 +212,6 @@
 		0B6C074A2C3DC3070054A0B0 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		0B6C074C2C3DC6C70054A0B0 /* ListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderView.swift; sourceTree = "<group>"; };
 		0B6C074E2C3DD3DF0054A0B0 /* ListBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListBackgroundView.swift; sourceTree = "<group>"; };
-		0B6C07562C3E7D340054A0B0 /* WritingDiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingDiaryModel.swift; sourceTree = "<group>"; };
 		0B6C07582C3E7D480054A0B0 /* WritingDiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingDiaryViewModel.swift; sourceTree = "<group>"; };
 		0B6C075A2C3E7D570054A0B0 /* WritingDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingDiaryViewController.swift; sourceTree = "<group>"; };
 		0B6C075C2C3E7D660054A0B0 /* WritingDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingDiaryView.swift; sourceTree = "<group>"; };
@@ -267,6 +267,8 @@
 		2CE3AB2E2C36E9F50042085A /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		950CF0642DEF36280054F971 /* ContinueWritingAlarmBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueWritingAlarmBottomSheet.swift; sourceTree = "<group>"; };
 		950CF0662DF145C70054F971 /* BottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheet.swift; sourceTree = "<group>"; };
+		950D39352E0872C10037A8D6 /* DiaryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryItem.swift; sourceTree = "<group>"; };
+		950D39372E0872D80037A8D6 /* DiaryState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryState.swift; sourceTree = "<group>"; };
 		952EB1982C6BCF7E00D1E516 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		95310F712C3C39FE00023C7B /* ClodyNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyNavigationBar.swift; sourceTree = "<group>"; };
 		95310F732C3C765C00023C7B /* ClodyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyTextField.swift; sourceTree = "<group>"; };
@@ -530,7 +532,8 @@
 		0B6C07552C3E7D180054A0B0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0B6C07562C3E7D340054A0B0 /* WritingDiaryModel.swift */,
+				950D39352E0872C10037A8D6 /* DiaryItem.swift */,
+				950D39372E0872D80037A8D6 /* DiaryState.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1162,7 +1165,6 @@
 				95A98E7E2C9C39A40073AD3C /* SettingTableViewCell.swift in Sources */,
 				0BE7E9F72C46578F000C5358 /* PostDiaryResponseDTO.swift in Sources */,
 				95A98EA32C9C5C1D0073AD3C /* AccountViewModel.swift in Sources */,
-				0B6C07572C3E7D340054A0B0 /* WritingDiaryModel.swift in Sources */,
 				0BFCC5DF2C2E8F1F00B5E0DB /* CalendarViewModel.swift in Sources */,
 				950CF0652DEF36280054F971 /* ContinueWritingAlarmBottomSheet.swift in Sources */,
 				0B4A1BD22C45410000E31EC4 /* CalendarListResponseDTO.swift in Sources */,
@@ -1170,6 +1172,7 @@
 				0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */,
 				0B4EF9D12C48C39600CAF1F6 /* PermissionManager.swift in Sources */,
 				95310F7C2C3DD36100023C7B /* ClodyPickerView.swift in Sources */,
+				950D39382E0872D80037A8D6 /* DiaryState.swift in Sources */,
 				95310FB72C43B07100023C7B /* ReplyWaitingViewModel.swift in Sources */,
 				0BABF7BE2C722313005A5CA1 /* AppVersionManager.swift in Sources */,
 				95310F902C40705600023C7B /* NicknameViewController.swift in Sources */,
@@ -1217,6 +1220,7 @@
 				0BE7EA042C4665FC000C5358 /* TokenRefreshResponseDTO.swift in Sources */,
 				95310F722C3C39FE00023C7B /* ClodyNavigationBar.swift in Sources */,
 				95310FBE2C4434B500023C7B /* LoginViewModel.swift in Sources */,
+				950D39362E0872C10037A8D6 /* DiaryItem.swift in Sources */,
 				95310F9E2C410DCB00023C7B /* DiaryNotificationViewController.swift in Sources */,
 				95A98EA02C9C5C1D0073AD3C /* NotificationTableViewCell.swift in Sources */,
 				0BE7EA132C466C91000C5358 /* PatchNicknameRequestDTO.swift in Sources */,
@@ -1418,7 +1422,7 @@
 				CODE_SIGN_ENTITLEMENTS = Clody_iOS/Clody_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = GKV299JR6D;
@@ -1434,7 +1438,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Clody.Clody;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1456,7 +1460,7 @@
 				CODE_SIGN_ENTITLEMENTS = Clody_iOS/Clody_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GKV299JR6D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Clody_iOS/Info.plist;
@@ -1470,7 +1474,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Clody.Clody;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

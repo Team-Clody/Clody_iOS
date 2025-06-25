@@ -73,36 +73,37 @@ private extension ReplyDetailViewController {
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
         output.getReply
-            .drive(onNext: {
-                self.showLoadingIndicator()
-                self.getReply()
+            .drive(onNext: { [weak self] in
+                self?.showLoadingIndicator()
+                self?.getReply()
                 AmplitudeManager.shared.trackEvent("reply")
             })
             .disposed(by: disposeBag)
         
         output.dismissAlert
-            .drive(onNext: {
-                self.hideAlert()
+            .drive(onNext: { [weak self] in
+                self?.hideAlert()
             })
             .disposed(by: disposeBag)
         
         output.popViewController
-            .drive(onNext: {
-                self.navigationController?.popViewController(animated: true)
+            .drive(onNext: { [weak self] in
+                self?.navigationController?.popToRootViewController(animated: true)
             })
             .disposed(by: disposeBag)
         
         viewModel.errorStatus
-            .bind(onNext: { networkViewJudge in
-                self.hideLoadingIndicator()
+            .bind(onNext: { [weak self] networkViewJudge in
+                guard let self = self else { return }
+                hideLoadingIndicator()
                 
                 switch networkViewJudge {
                 case .network:
-                    self.showRetryView(isNetworkError: true) {
+                    showRetryView(isNetworkError: true) {
                         self.getReply()
                     }
                 case .unknowned:
-                    self.showRetryView(isNetworkError: false) {
+                    showRetryView(isNetworkError: false) {
                         self.getReply()
                     }
                 default:
@@ -155,17 +156,17 @@ private extension ReplyDetailViewController {
         UIView.animate(withDuration: 1.0,
                        delay: 0,
                        options: .curveEaseInOut,
-                       animations: {
-            self.getClodyAlertView.alpha = 1
+                       animations: { [weak self] in
+            self?.getClodyAlertView.alpha = 1
         })
     }
     
     func hideAlert() {
         UIView.animate(withDuration: 0.5, animations: {
             self.getClodyAlertView.alpha = 0
-        }) { _ in
-            self.dimmingView.removeFromSuperview()
-            self.getClodyAlertView.removeFromSuperview()
+        }) { [weak self] _ in
+            self?.dimmingView.removeFromSuperview()
+            self?.getClodyAlertView.removeFromSuperview()
         }
     }
 }
@@ -173,11 +174,12 @@ private extension ReplyDetailViewController {
 private extension ReplyDetailViewController {
     
     func getReply() {
-        viewModel.getReply(year: year, month: month, date: day) { data in
-            self.hideLoadingIndicator()
-            self.nickname = data.nickname
-            self.rootView.bindData(nickname: data.nickname, content: data.content)
-            self.judgeIsAlert(isRead: data.isRead)
+        viewModel.getReply(year: year, month: month, date: day) { [weak self] data in
+            guard let self = self else { return }
+            hideLoadingIndicator()
+            nickname = data.nickname
+            rootView.bindData(nickname: data.nickname, content: data.content)
+            judgeIsAlert(isRead: data.isRead)
             AppStoreReviewManager.markReplyAsViewed()
         }
     }

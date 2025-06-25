@@ -11,7 +11,6 @@ import RxCocoa
 import RxSwift
 import RxKeyboard
 import RxGesture
-import RxDataSources
 import SnapKit
 import Then
 
@@ -81,8 +80,11 @@ private extension WritingDiaryViewController {
     
     func bindViewModel() {
         let input = WritingDiaryViewModel.Input(
-            viewDidLoad: Observable.just(()),
-            tapSubmitButton: rootView.headerView.submitButton.rx.tap.asSignal(),
+            tapSubmitButton: rootView.headerView.submitButton.rx.tap
+                .do(onNext: { [weak self] in
+                    self?.view.endEditing(true)
+                })
+                .asSignal(onErrorJustReturn: ()),
             tapAddButton: rootView.addButton.rx.tap.asSignal(),
             tapBackButton: rootView.headerView.backButton.rx.tap.asSignal(),
             updateKebobRelay: kebabButtonTap,
@@ -99,19 +101,77 @@ private extension WritingDiaryViewController {
         
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
-        let dataSource = configureCollectionView()
-        
-        output.items
-            .drive(rootView.writingCollectionView.rx.items(dataSource: dataSource))
+        output.diaryItems
+            .drive(rootView.writingCollectionView.rx.items(
+                cellIdentifier: WritingDiaryCell.description(),
+                cellType: WritingDiaryCell.self
+            )) { [weak self] index, item, cell in
+                guard let self = self else { return }
+                
+                cell.bindData(index: index, item: item)
+                
+                cell.kebabButton.rx.tap
+                    .map { index }
+                    .bind(to: self.kebabButtonTap)
+                    .disposed(by: cell.disposeBag)
+                
+                cell.writingContainer.rx.tapGesture()
+                    .when(.recognized)
+                    .subscribe(onNext: { [weak cell] _ in
+                        cell?.textView.becomeFirstResponder()
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                cell.textView.rx.text.orEmpty
+                    .skip(1)
+                    .distinctUntilChanged()
+                    .do(onNext: { [weak cell] text in
+                        guard let cell = cell else { return }
+                        
+                        let limitedText = String(text.prefix(50))
+                        if cell.textView.text != limitedText {
+                            cell.textView.text = limitedText
+                        }
+
+                        cell.textInputLabel.text = "\(limitedText.count)"
+
+                        let isValid = limitedText.count < 50
+                        cell.limitErrorLabel.isHidden = isValid
+                        cell.writingContainer.makeBorder(
+                            width: 1,
+                            color: isValid ? .mainYellow : .redCustom
+                        )
+                    })
+                    .subscribe(onNext: { [weak self, weak cell] _ in
+                        guard let self = self, let cell = cell else { return }
+                        var state = viewModel.currentBufferState
+                        state.updateItem(at: index, text: cell.textView.text)
+                        viewModel.updateTextBuffer(state)
+                        updateTextViewHeightIfNeeded(for: cell, rootView.writingCollectionView)
+                    })
+                    .disposed(by: cell.disposeBag)
+
+                cell.textView.rx.didBeginEditing
+                    .subscribe(onNext: { [weak cell] in
+                        guard let cell = cell else { return }
+                        cell.updateUIOnBeginEditing()
+                    })
+                    .disposed(by: cell.disposeBag)
+
+                cell.textView.rx.didEndEditing
+                    .subscribe(onNext: { [weak cell] in
+                        guard let cell = cell else { return }
+                        let updatedItem = DiaryItem(text: cell.textView.text, isPlaceholder: false)
+                        cell.bindData(index: index, item: updatedItem)
+                    })
+                    .disposed(by: cell.disposeBag)
+            }
             .disposed(by: disposeBag)
         
         output.isAddButtonEnabled
             .drive(onNext: { [weak self] isEnabled in
                 guard let self = self else { return }
                 isAddButtonEnabled = isEnabled
-                if !isEnabled {
-                    ClodyToast.show(toastType: .limitFive)
-                }
                 
                 let buttonImage: UIImage = currentKeyboardVisible
                 ? (isEnabled ? .smallAddButton : .smallAddButtonOff)
@@ -126,19 +186,26 @@ private extension WritingDiaryViewController {
             })
             .disposed(by: disposeBag)
         
+        output.showLimitFiveErrorToast
+            .emit(onNext: {
+                ClodyToast.show(toastType: .limitFive)
+            })
+            .disposed(by: disposeBag)
+        
         output.showDelete
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                presentBottomSheet()
                 view.endEditing(true)
+                presentBottomSheet()
             })
             .disposed(by: disposeBag)
         
         output.showSubmitAlert
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
+                
                 showAlert(
-                    type: .logout,
+                    type: .saveDiary,
                     title: I18N.Alert.submitDiaryTitle,
                     message: I18N.Alert.submitDiaryMessage,
                     rightButtonText: I18N.Alert.submit
@@ -160,18 +227,19 @@ private extension WritingDiaryViewController {
                         
                         viewModel.postDiary(
                             date: dateString,
-                            content: viewModel.diariesRelay.value
+                            content: viewModel.getCurrentTexts()
                         ) { [weak self] statusCode, type, isFromDraft in
                             guard let self = self else { return }
                             hideLoadingIndicator()
                             
                             switch statusCode {
                             case .success:
-                                // 임시저장본 보내기 성공 시? 답장 불가능 기간 홈으로 이동, 답장 가능시간 대기 화면으로 이동
-                                if type == "DELETED" || isFromDraft {
+                                let isWritingUnavailable = !date.isWritingAvailable
+                                
+                                if type == "DELETED" || isWritingUnavailable {
                                     navigationController?.popViewController(animated: true)
                                 } else {
-                                    navigationController?.pushViewController(ReplyWaitingViewController(date: self.date, isHomeBackButton: true), animated: true)
+                                    navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: true), animated: true)
                                 }
                             case .network:
                                 showErrorAlert(isNetworkError: true)
@@ -189,10 +257,12 @@ private extension WritingDiaryViewController {
         output.showDraftAlert
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                let isAllEmpty = viewModel.diariesRelay.value.allSatisfy { $0 == "" }
+                view.endEditing(true)
+                viewModel.updateDiaryState()
                 
-                if isAllEmpty {
+                if viewModel.isSameFromInitialDraft {
                     navigationController?.popViewController(animated: true)
+                    return
                 }
                 
                 showAlert(
@@ -213,8 +283,8 @@ private extension WritingDiaryViewController {
                 alert?.leftButton.rx.tap
                     .subscribe(onNext: { [weak self] in
                         guard let self = self else { return }
-                        let hasEmpty = viewModel.diariesRelay.value.contains("")
-                        if hasEmpty {
+                        
+                        if !viewModel.hasAnyContent() {
                             ClodyToast.show(toastType: .needToWriteAll)
                             hideAlert()
                             return
@@ -225,7 +295,7 @@ private extension WritingDiaryViewController {
                         
                         viewModel.postDraftDiary(
                             date: dateString,
-                            content: viewModel.diariesRelay.value
+                            content: viewModel.getCurrentTexts()
                         ) { [weak self] statusCode, type in
                             guard let self = self else { return }
                             hideLoadingIndicator()
@@ -257,7 +327,7 @@ private extension WritingDiaryViewController {
     }
     
     func setStyle() {
-        self.navigationController?.isNavigationBarHidden = true
+        navigationController?.isNavigationBarHidden = true
     }
     
     func registerCells() {
@@ -272,99 +342,20 @@ private extension WritingDiaryViewController {
         if isFromDraft { self.viewModel.fetchData(date: self.date) }
     }
     
-    func configureCollectionView() -> RxCollectionViewSectionedReloadDataSource<WritingDiarySection> {
-        return RxCollectionViewSectionedReloadDataSource<WritingDiarySection>(
-            configureCell: { [weak self] dataSource, collectionView, indexPath, text in
-                guard let self = self else { return UICollectionViewCell() }
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WritingDiaryCell.description(), for: indexPath) as! WritingDiaryCell
-                
-                cell.bindData(
-                    index: indexPath.item + 1,
-                    text: text,
-                    isValid: self.viewModel.textViewIsEmptyRelay.value[indexPath.row],
-                    isFirst: self.viewModel.isFirstRelay.value[indexPath.row]
-                )
-                
-                cell.kebabButton.rx.tap
-                    .map { indexPath.row }
-                    .bind(to: self.kebabButtonTap)
-                    .disposed(by: cell.disposeBag)
-                
-                cell.writingContainer.rx.tapGesture()
-                    .when(.recognized)
-                    .subscribe(onNext: { [weak cell] _ in
-                        cell?.textView.becomeFirstResponder()
-                    })
-                    .disposed(by: cell.disposeBag)
-                
-                cell.textView.rx.text.orEmpty
-                    .skip(1)
-                    .map { String($0.prefix(50)) }
-                    .bind(to: cell.textView.rx.text)
-                    .disposed(by: cell.disposeBag)
-                
-                cell.textView.rx.didBeginEditing
-                    .subscribe(onNext: {
-                        cell.writingContainer.makeBorder(width: 1, color: .mainYellow)
-                        if cell.textView.text == "일상 속 작은 감사함을 적어보세요." {
-                            cell.textView.text = ""
-                        }
-                        
-                        var isFirst = self.viewModel.isFirstRelay.value
-                        isFirst[indexPath.item] = false
-                        self.viewModel.isFirstRelay.accept(isFirst)
-                        cell.writingListNumberLabel.textColor = .grey02
-                        cell.textView.textColor = .grey03
-                        cell.writingContainer.backgroundColor = .white
-                        
-                        cell.textView.rx.text.orEmpty
-                            .map { "\($0.count)" }
-                            .bind(to: cell.textInputLabel.rx.text)
-                            .disposed(by: cell.disposeBag)
-                        
-                        cell.textView.rx.text.orEmpty
-                            .skip(1)
-                            .map { $0.count != 50 }
-                            .subscribe(onNext: { isHidden in
-                                self.updateTextViewHeightIfNeeded(for: cell, collectionView)
-                                cell.limitErrorLabel.isHidden = isHidden
-                                cell.writingContainer.makeBorder(width: 1, color: isHidden ? .mainYellow : .redCustom)
-                            })
-                            .disposed(by: cell.disposeBag)
-                    })
-                    .disposed(by: cell.disposeBag)
-                
-                cell.textView.rx.didEndEditing
-                    .subscribe(onNext: { [weak cell] in
-                        guard let cell = cell else { return }
-                        var status = self.viewModel.textViewIsEmptyRelay.value
-                        status[indexPath.item] = !cell.textView.text.isEmpty
-                        self.viewModel.textViewIsEmptyRelay.accept(status)
-                        var items = self.viewModel.diariesRelay.value
-                        items[indexPath.item] = cell.textView.text
-                        self.viewModel.diariesRelay.accept(items)
-                    })
-                    .disposed(by: cell.disposeBag)
-                
-                return cell
-            }
-        )
-    }
-    
     private func updateTextViewHeightIfNeeded(for cell: WritingDiaryCell, _ collectionView: UICollectionView) {
         let size = CGSize(width: cell.textView.frame.width, height: .infinity)
         let estimatedSize = cell.textView.sizeThatFits(size)
         
         /// UITextView 높이가 바뀌었을 때만 제약조건을 변경하고, 컬렉션뷰 고유 사이즈를 재계산합니다.
-        if self.textViewHeight != estimatedSize.height {
-            cell.textView.constraints.forEach { (constraint) in
+        if textViewHeight != estimatedSize.height {
+            cell.textView.constraints.forEach { constraint in
                 if constraint.firstAttribute == .height {
                     constraint.constant = estimatedSize.height
                     cell.invalidateIntrinsicContentSize()
                     collectionView.invalidateIntrinsicContentSize()
                 }
             }
-            self.textViewHeight = estimatedSize.height
+            textViewHeight = estimatedSize.height
         }
     }
     
@@ -421,18 +412,18 @@ private extension WritingDiaryViewController {
             .drive(onNext: { [weak self] keyboardVisibleHeight in
                 guard let self = self else { return }
                 let isKeyboardVisible = keyboardVisibleHeight > 0
-                self.currentKeyboardVisible = isKeyboardVisible  // 키보드 상태 기억
+                currentKeyboardVisible = isKeyboardVisible
                 
                 let addButtonPadding = isKeyboardVisible
                 ? keyboardVisibleHeight - self.view.safeAreaInsets.bottom + ScreenUtils.getHeight(20)
                 : ScreenUtils.getHeight(6)
                 
-                self.rootView.addButton.snp.updateConstraints {
+                rootView.addButton.snp.updateConstraints {
                     $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(addButtonPadding)
                     $0.height.equalTo(ScreenUtils.getHeight(isKeyboardVisible ? 48 : 42))
                 }
                 
-                self.rootView.writingCollectionView.snp.updateConstraints {
+                rootView.writingCollectionView.snp.updateConstraints {
                     $0.bottom.equalToSuperview().inset(isKeyboardVisible ? keyboardVisibleHeight : 0)
                 }
                 
@@ -441,10 +432,10 @@ private extension WritingDiaryViewController {
                 }
                 
                 let isEnabled = isAddButtonEnabled
-                let imageName = isKeyboardVisible
-                ? (isEnabled ? "smallAddButton" : "smallAddButtonOff")
-                : (isEnabled ? "bigAddButton" : "bigAddButtonOff")
-                self.rootView.addButton.setImage(UIImage(named: imageName), for: .normal)
+                let image: UIImage = isKeyboardVisible
+                ? (isEnabled ? .smallAddButton : .smallAddButtonOff)
+                : (isEnabled ? .bigAddButton : .bigAddButtonOff)
+                self.rootView.addButton.setImage(image, for: .normal)
             })
             .disposed(by: disposeBag)
     }

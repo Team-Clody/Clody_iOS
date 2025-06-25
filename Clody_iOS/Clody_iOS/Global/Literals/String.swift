@@ -30,11 +30,12 @@ enum I18N {
         static let logoutMessage = "기다릴게요, 다음에 다시 만나요!"
         static let withdrawTitle = "서비스를 탈퇴하시겠어요?"
         static let withdrawMessage = "작성하신 일기와 받은 답장 및 클로버가 모두 삭제되며 복구할 수 없어요."
-        static let submitDiaryTitle = "일기를 저장할까요?"
-        static let submitDiaryMessage = "저장한 일기는 수정이 어려워요."
+        static let submitDiaryTitle = "일기를 로디에게 보낼까요?"
+        static let submitDiaryMessage = "보낸 일기는 수정이 어려워요."
         static let deleteDiaryTitle = "정말 일기를 삭제할까요?"
         static let deleteDiaryMessage = "아직 답장이 오지 않았거나 삭제하고 다시 작성한 일기는 답장을 받을 수 없어요."
-        static let cancel = "아니요"
+        static let no = "아니요"
+        static let cancel = "취소"
         static let logout = "로그아웃"
         static let withdraw = "탈퇴할래요"
         static let submit = "보내기"
@@ -50,7 +51,7 @@ enum I18N {
     }
     
     enum Toast {
-        static let needToWriteAll = "모든 감사 일기 작성이 필요해요."
+        static let needToWriteAll = "빈 칸을 채워야 보낼 수 있어요."
         static let limitFive = "일기는 5개까지만 작성할 수 있어요."
         static let alarm = "설정 > 알림 > 클로디에서 알림을 켜주세요."
         static let changeComplete = "변경을 완료했어요."
@@ -113,7 +114,7 @@ enum I18N {
     }
     
     enum List {
-        static let emptyList = "작성된 감사일기가 없어요"
+        static let emptyList = "작성된 감사일기가 없어요!"
     }
     
     enum Error {
@@ -145,7 +146,7 @@ enum I18N {
     enum Calendar {
         static let reply = "답장 확인"
         static let writing = "일기 쓰기"
-        static let empty = "아직 감사 일기가 없어요!"
+        static let empty = "작성된 감사 일기가 없어요!"
         static let draft = "임시저장된 일기가 있어요."
         static let delete = "삭제하기"
         static let otherDay = "다른 날짜 보기"

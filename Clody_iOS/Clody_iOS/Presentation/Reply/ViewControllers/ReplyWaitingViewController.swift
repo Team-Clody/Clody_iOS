@@ -178,8 +178,10 @@ private extension ReplyWaitingViewController {
         output.pushViewController
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
-                pushViewController(date: self.date)
                 AmplitudeManager.shared.trackEvent("waiting_diary_reply")
+                totalSecondsSubject.onNext(0)
+                adLoadCompletionSubject.onCompleted()
+                pushViewController(date: date)
             })
             .disposed(by: disposeBag)
         

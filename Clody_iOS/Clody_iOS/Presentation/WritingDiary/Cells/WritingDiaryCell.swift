@@ -82,6 +82,8 @@ final class WritingDiaryCell: UICollectionViewCell {
             $0.returnKeyType = .default
             $0.showsVerticalScrollIndicator = false
             $0.showsHorizontalScrollIndicator = false
+            $0.autocapitalizationType = .none
+            $0.spellCheckingType = .no
         }
         
         kebabButton.do {
@@ -165,23 +167,28 @@ final class WritingDiaryCell: UICollectionViewCell {
         limitTextLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
     
-    func bindData(index: Int, text: String, isValid: Bool, isFirst: Bool) {
-        writingListNumberLabel.text = "\(index)."
-        textInputLabel.text = "\(text.count)"
-        writingListNumberLabel.textColor = isFirst ? .grey06 : .grey02
-        textView.textColor = isFirst ? .grey06 : .grey03
-        limitErrorLabel.isHidden = true
+    func bindData(index: Int, item: DiaryItem) {
+        writingListNumberLabel.text = "\(index + 1)."
+        writingListNumberLabel.textColor = item.numberLabelColor
+        textView.text = item.displayText
+        textView.textColor = item.textColor
+        writingContainer.makeBorder(width: item.borderWidth, color: item.borderColor)
+        writingContainer.backgroundColor = item.containerBackgroundColor
         
-        if isValid {
-            textView.text = text.isEmpty ? I18N.WritingDiary.placeHolder : text
-            writingContainer.backgroundColor = .grey09
-            writingContainer.makeBorder(width: 0, color: .clear)
-        } else {
-            writingContainer.backgroundColor = .white
-            writingContainer.makeBorder(width: 1, color: .red)
+        let textCount = item.text.count
+        textInputLabel.text = "\(textCount)"
+        limitErrorLabel.isHidden = !item.showErrorMessage
+    }
+
+    func updateUIOnBeginEditing() {
+        writingContainer.makeBorder(width: 1, color: .mainYellow)
+        writingContainer.backgroundColor = .white
+        
+        if textView.text == I18N.WritingDiary.placeHolder {
             textView.text = ""
-            textInputLabel.text = "0"
-            limitErrorLabel.isHidden = false
         }
+        textView.textColor = .grey03
+        writingListNumberLabel.textColor = .grey02
+        limitErrorLabel.isHidden = true
     }
 }
