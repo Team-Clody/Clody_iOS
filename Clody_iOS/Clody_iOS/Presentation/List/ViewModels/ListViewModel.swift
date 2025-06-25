@@ -69,8 +69,6 @@ final class ListViewModel: ViewModelType {
         
         let changeToCalendar = input.tapCalendarButton.asSignal()
         
-        let showDeleteBottomSheet = input.tapKebabButton.asSignal()
-        
         let showPickerView = input.tapDateButton.asSignal()
         
         let changeNavigationDate = selectedMonthRelay
@@ -151,7 +149,6 @@ extension ListViewModel {
         provider.request(target: .deleteDiary(year: year, month: month, date: date), instance: BaseResponse<EmptyResponseDTO>.self, completion: { data in
             switch data.status {
             case 200..<300:
-                guard let data = data.data else { return }
                 self.getListData(year: year, month: month)
             case -1:
                 self.errorStatusRelay.accept("networkView")
