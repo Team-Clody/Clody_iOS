@@ -29,7 +29,14 @@ final class AccountViewModel: ViewModelType {
         let popViewController: Driver<Void>
     }
     
-    let getUserInfoErrorStatus = PublishRelay<NetworkViewJudge>()
+    enum NetworkUserInfoViewJudge {
+        case success
+        case network
+        case unknowned
+        case login
+    }
+    
+    let getUserInfoErrorStatus = PublishRelay<NetworkUserInfoViewJudge>()
     let patchNicknameErrorStatus = PublishRelay<NetworkViewJudge>()
     
     func transform(from input: Input, disposeBag: RxSwift.DisposeBag) -> Output {
@@ -85,6 +92,10 @@ extension AccountViewModel {
                 guard let data = response.data else { return }
                 self.getUserInfoErrorStatus.accept(.success)
                 completion(data)
+            case 404:
+                print("❗️[404] 존재하지 않는 유저입니다❗️")
+                UserManager.shared.clearAll()
+                self.getUserInfoErrorStatus.accept(.login)
             case -1:
                 self.getUserInfoErrorStatus.accept(.network)
             default:

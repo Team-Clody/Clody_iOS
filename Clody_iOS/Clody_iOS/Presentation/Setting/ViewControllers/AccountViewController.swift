@@ -199,6 +199,10 @@ final class AccountViewController: UIViewController {
                 self.hideLoadingIndicator()
                 
                 switch networkViewJudge {
+                case .login:
+                    if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                        sceneDelegate.changeRootViewController(LoginViewController(), animated: true)
+                    }
                 case .network:
                     self.showRetryView(isNetworkError: true) {
                         self.getUserInfo()

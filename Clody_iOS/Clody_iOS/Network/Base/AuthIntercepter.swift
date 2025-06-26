@@ -45,16 +45,8 @@ final class AuthInterceptor: RequestInterceptor {
             return
         }
         
-        guard let response = request.response else { return completion(.doNotRetryWithError(error)) }
-        
-        if response.statusCode == 404 {
-            print("❗️[404] 존재하지 않는 유저입니다❗️")
-            handleTokenFailure(completion: completion, error: error)
-        }
-        
-        guard response.statusCode == 401 else {
-            completion(.doNotRetryWithError(error))
-            return
+        guard let response = request.response, response.statusCode == 401 else {
+            return completion(.doNotRetryWithError(error))
         }
         
         let provider = MoyaProvider<AuthRouter>()
