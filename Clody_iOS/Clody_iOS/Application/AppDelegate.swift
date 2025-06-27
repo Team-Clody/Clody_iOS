@@ -77,12 +77,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 }
 
 extension AppDelegate: MessagingDelegate {
-    
     // 파이어베이스 MessagingDelegate 설정
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("Firebase registration token: \(String(describing: fcmToken))")
         if let fcmToken {
             UserManager.shared.updateFcmToken(fcmToken)
+            UserManager.shared.clearAll()
         }
 
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
