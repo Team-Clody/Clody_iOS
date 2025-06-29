@@ -25,8 +25,6 @@ final class UserManager {
         set { keychain["refreshToken"] = newValue }
     }
     
-    var authCode: String?
-    
     var idToken: String? {
         get { return keychain["idToken"] }
         set { keychain["idToken"] = newValue }
@@ -60,7 +58,6 @@ final class UserManager {
     private var hasAccessToken: Bool { return self.accessToken != nil }
     var accessTokenValue: String { return self.accessToken ?? "" }
     var refreshTokenValue: String { return self.refreshToken ?? "" }
-    var authCodeValue: String { return self.authCode ?? "" }
     var idTokenValue: String { return self.idToken ?? "" }
     var platformValue: String { return self.platform ?? "" }
     var fcmTokenValue: String { return self.fcmToken ?? "" }
