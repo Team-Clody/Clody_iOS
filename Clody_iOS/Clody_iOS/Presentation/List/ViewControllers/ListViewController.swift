@@ -91,10 +91,8 @@ private extension ListViewController {
         output.replyDate
             .drive(onNext: { [weak self] date in
                 guard let self = self else { return }
-                let dateData = DateFormatter.date(from: date)
-                let diaryStatus = viewModel.listDataRelay.value.diaries.first(where: { $0.date == date})?.replyStatus
-                
                 AmplitudeManager.shared.trackEvent("list_reply")
+                let dateData = DateFormatter.date(from: date)
                 self.navigationController?.pushViewController(ReplyWaitingViewController(date: dateData ?? Date(), isHomeBackButton: false), animated: true)
             })
             .disposed(by: disposeBag)
