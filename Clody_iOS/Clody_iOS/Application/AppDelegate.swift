@@ -82,7 +82,6 @@ extension AppDelegate: MessagingDelegate {
         print("Firebase registration token: \(String(describing: fcmToken))")
         if let fcmToken {
             UserManager.shared.updateFcmToken(fcmToken)
-            UserManager.shared.clearAll()
         }
 
         let dataDict: [String: String] = ["token": fcmToken ?? ""]

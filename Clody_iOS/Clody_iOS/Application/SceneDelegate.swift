@@ -31,7 +31,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func proceedToNextViewController() {
         print("RefreshToken: 🍒\(UserManager.shared.refreshTokenValue)")
-        UserManager.shared.clearAll()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             DispatchQueue.main.async {
