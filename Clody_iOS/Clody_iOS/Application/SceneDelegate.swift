@@ -33,12 +33,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         print("RefreshToken: 🍒\(UserManager.shared.refreshTokenValue)")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            DispatchQueue.main.async {
-                if UserManager.shared.hasAccessToken {
-                    self.window?.rootViewController = UINavigationController(rootViewController: CalendarViewController())
-                } else {
-                    self.window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
-                }
+            if UserManager.shared.isAutoLoginEnabled {
+                self.window?.rootViewController = UINavigationController(rootViewController: CalendarViewController())
+            } else {
+                UserManager.shared.clearAll()
+                self.window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
             }
         }
     }

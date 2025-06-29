@@ -52,7 +52,12 @@ final class UserManager {
         set { UserDefaults.standard.set(newValue, forKey: "hasViewedDraftAlarmBottomSheet") }
     }
     
-    var hasAccessToken: Bool { return self.accessToken != nil }
+    var isAutoLoginEnabled: Bool {
+        get { UserDefaults.standard.bool(forKey: "isAutoLoginEnabled") && hasAccessToken }
+        set { UserDefaults.standard.set(newValue, forKey: "isAutoLoginEnabled") }
+    }
+    
+    private var hasAccessToken: Bool { return self.accessToken != nil }
     var accessTokenValue: String { return self.accessToken ?? "" }
     var refreshTokenValue: String { return self.refreshToken ?? "" }
     var authCodeValue: String { return self.authCode ?? "" }
@@ -63,9 +68,11 @@ final class UserManager {
 }
 
 extension UserManager {
+    
     func updateToken(_ accessToken: String, _ refreshToken: String) {
         self.accessToken = accessToken
         self.refreshToken = refreshToken
+        isAutoLoginEnabled = true
     }
     
     func updateFcmToken(_ fcmToken: String) {
@@ -73,9 +80,10 @@ extension UserManager {
     }
     
     func clearAll() {
-        self.accessToken = nil
-        self.refreshToken = nil
-        self.idToken = nil
-        self.platform = nil
+        accessToken = nil
+        refreshToken = nil
+        idToken = nil
+        platform = nil
+        isAutoLoginEnabled = false
     }
 }
