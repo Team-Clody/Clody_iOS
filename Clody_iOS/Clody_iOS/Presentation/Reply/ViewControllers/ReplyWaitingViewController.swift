@@ -179,7 +179,7 @@ private extension ReplyWaitingViewController {
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
                 AmplitudeManager.shared.trackEvent("waiting_diary_reply")
-                totalSecondsSubject.onNext(0)
+                totalSecondsSubject.onCompleted()
                 adLoadCompletionSubject.onCompleted()
                 pushViewController(date: date)
             })
@@ -188,7 +188,7 @@ private extension ReplyWaitingViewController {
         output.popViewController
             .drive(onNext: { [weak self] in
                 guard let self = self else { return }
-                totalSecondsSubject.onNext(0)
+                totalSecondsSubject.onCompleted()
                 adLoadCompletionSubject.onCompleted()
                 
                 if isHomeBackButton {
