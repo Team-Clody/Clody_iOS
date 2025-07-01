@@ -283,13 +283,6 @@ private extension WritingDiaryViewController {
                 alert?.leftButton.rx.tap
                     .subscribe(onNext: { [weak self] in
                         guard let self = self else { return }
-                        
-                        if !viewModel.hasAnyContent() {
-                            ClodyToast.show(toastType: .needToWriteAll)
-                            hideAlert()
-                            return
-                        }
-                        
                         showLoadingIndicator()
                         let dateString = DateFormatter.string(from: date, format: "yyyy-MM-dd")
                         
