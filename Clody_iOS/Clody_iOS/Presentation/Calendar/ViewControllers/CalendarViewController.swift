@@ -224,28 +224,31 @@ private extension CalendarViewController {
                 switch status {
                 case .writeEnabled:
                     AmplitudeManager.shared.trackEvent("home_writing_diary")
-                    navigationController?.pushViewController(WritingDiaryViewController(date: date, isFromDraft: false), animated: true)
+                    pushWritingDiaryVC(isFromDraft: false)
                 case .replyEnabled:
                     AmplitudeManager.shared.trackEvent("home_reply")
                     navigationController?.pushViewController(ReplyWaitingViewController(date: date, isHomeBackButton: false), animated: true)
                 case .draftEnabled:
                     if date.isWritingAvailable {
                         AmplitudeManager.shared.trackEvent("home_writing_diary")
-                        
-                        let writingDiaryViewController = WritingDiaryViewController(
-                            date: date,
-                            isFromDraft: true,
-                            firstDraftSaveCompletion: hasViewedDraftAlarmBottomSheet ? nil : { [weak self] in
-                                guard let self = self else { return }
-                                presentBottomSheet(continueWritingAlarmBottomSheet)
-                            }
-                        )
-                        navigationController?.pushViewController(writingDiaryViewController, animated: true)
+                        pushWritingDiaryVC(isFromDraft: true)
                     } else {
                         showNoReplyDraftAlert(currentDate: date)
                     }
                 default:
                     print("navigate error")
+                }
+                
+                func pushWritingDiaryVC(isFromDraft: Bool) {
+                    let writingDiaryViewController = WritingDiaryViewController(
+                        date: date,
+                        isFromDraft: isFromDraft,
+                        firstDraftSaveCompletion: hasViewedDraftAlarmBottomSheet ? nil : { [weak self] in
+                            guard let self = self else { return }
+                            presentBottomSheet(continueWritingAlarmBottomSheet)
+                        }
+                    )
+                    navigationController?.pushViewController(writingDiaryViewController, animated: true)
                 }
             })
             .disposed(by: disposeBag)
