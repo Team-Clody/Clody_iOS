@@ -6,49 +6,47 @@
 //
 
 import UIKit
+import FirebaseRemoteConfig
 
 class AppVersionManager {
     
     private enum UpdateType {
         case force, optional, none
     }
-    
+
     static let shared = AppVersionManager()
     
+    private let remoteConfig = RemoteConfig.remoteConfig()
+    
+    private init() {
+        let settings = RemoteConfigSettings()
+        settings.minimumFetchInterval = 0
+        remoteConfig.configSettings = settings
+    }
+    
     func checkForUpdateAndProceed(completion: @escaping (Bool) -> Void) {
-        if let url = URL(string: "https://itunes.apple.com/lookup?bundleId=\(Bundle.main.bundleIdentifier!)") {
-            let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                guard let data = data, error == nil else {
-                    completion(true) // 네트워크 오류가 발생한 경우 계속 진행
-                    return
-                }
-                
-                if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                   let results = json["results"] as? [[String: Any]],
-                   let appStoreVersion = results.first?["version"] as? String {
-                    
-                    let currentVersion = self.currentAppVersion()
-                    
-                    switch self.compareVersion(currentVersion, appStoreVersion) {
-                    case .force:
-                        DispatchQueue.main.async {
-                            self.showForceUpdateAlert(appStoreVersion: appStoreVersion)
-                            completion(false)
-                        }
-                    case .optional:
-                        DispatchQueue.main.async {
-                            self.showOptionalUpdateAlert(appStoreVersion: appStoreVersion, completion: completion)
-                        }
-                    case .none:
-                        completion(true)
-                    }
-                } else {
-                    completion(true)
-                }
+        remoteConfig.fetchAndActivate { status, error in
+            guard error == nil else {
+                completion(true) // 네트워크 오류가 발생한 경우 계속 진행
+                return
             }
-            task.resume()
-        } else {
-            completion(true) // URL 오류가 발생한 경우 계속 진행
+
+            let latestVersion = self.remoteConfig["latest_version_iOS"].stringValue ?? "1.0.0"
+            let currentVersion = self.currentAppVersion()
+
+            switch self.compareVersion(currentVersion, latestVersion) {
+            case .force:
+                DispatchQueue.main.async {
+                    self.showForceUpdateAlert(appStoreVersion: latestVersion)
+                    completion(false)
+                }
+            case .optional:
+                DispatchQueue.main.async {
+                    self.showOptionalUpdateAlert(appStoreVersion: latestVersion, completion: completion)
+                }
+            case .none:
+                completion(true)
+            }
         }
     }
     
