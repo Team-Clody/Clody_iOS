@@ -33,7 +33,7 @@ final class SplashViewController: UIViewController {
         }
         
         introImageView.do {
-            $0.image = .imgSlogan
+            $0.image = LanguageManager.shared.isKorean ? .imgSlogan : .imgSloganEn
             $0.contentMode = .scaleAspectFit
         }
         
