@@ -13,7 +13,7 @@ class AppVersionManager {
     private enum UpdateType {
         case force, optional, none
     }
-
+    
     static let shared = AppVersionManager()
     
     private let remoteConfig = RemoteConfig.remoteConfig()
@@ -30,10 +30,10 @@ class AppVersionManager {
                 completion(true) // 네트워크 오류가 발생한 경우 계속 진행
                 return
             }
-
+            
             let latestVersion = self.remoteConfig["latest_version_iOS"].stringValue ?? "1.0.0"
             let currentVersion = self.currentAppVersion()
-
+            
             switch self.compareVersion(currentVersion, latestVersion) {
             case .force:
                 DispatchQueue.main.async {
@@ -72,16 +72,16 @@ class AppVersionManager {
               let topViewController = windowScene.windows.first?.rootViewController else { return }
         
         let alert = UIAlertController(
-            title: "필수 업데이트",
-            message: "버전 \(appStoreVersion)으로 업데이트가 필요합니다.",
+            title: I18N.AppVersion.forceTitle,
+            message: I18N.AppVersion.forceMessage(appStoreVersion),
             preferredStyle: .alert
         )
         
-        let updateAction = UIAlertAction(title: "업데이트", style: .default) { _ in
+        let updateAction = UIAlertAction(title: I18N.AppVersion.update, style: .default) { _ in
             self.openAppStore()
         }
         
-        let exitAction = UIAlertAction(title: "앱 종료", style: .destructive) { _ in
+        let exitAction = UIAlertAction(title: I18N.AppVersion.exit, style: .destructive) { _ in
             exit(0)
         }
         
@@ -95,16 +95,16 @@ class AppVersionManager {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let topViewController = windowScene.windows.first?.rootViewController else { return }
         
-        let alert = UIAlertController(title: "업데이트 필요",
-                                      message: "새로운 버전 \(appStoreVersion)을 사용할 수 있습니다. 지금 업데이트하시겠습니까?",
+        let alert = UIAlertController(title: I18N.AppVersion.optionalTitle,
+                                      message: I18N.AppVersion.optionalMessage(appStoreVersion),
                                       preferredStyle: .alert)
         
-        let updateAction = UIAlertAction(title: "업데이트", style: .default) { _ in
+        let updateAction = UIAlertAction(title: I18N.AppVersion.update, style: .default) { _ in
             self.openAppStore()
             completion(false) // 업데이트를 선택한 경우 스플래시에서 중지
         }
         
-        let cancelAction = UIAlertAction(title: "나중에", style: .cancel) { _ in
+        let cancelAction = UIAlertAction(title: I18N.AppVersion.later, style: .cancel) { _ in
             completion(true) // 나중에를 선택한 경우
         }
         
