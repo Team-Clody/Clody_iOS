@@ -18,12 +18,19 @@ final class LanguageManager {
     private init() {
         let langCode = Locale.current.languageCode
         self.currentLanguage = (langCode == "ko") ? .korean : .english
-        print(currentLanguage, "🎁")
+        
+        let region = Locale.current.regionCode ?? "KR"
+        self.currentRegion = region
     }
 
     private let currentLanguage: AppLanguage
+    private let currentRegion: String
 
     var isKorean: Bool {
         currentLanguage == .korean
+    }
+    
+    var region: String {
+        currentRegion
     }
 }
