@@ -26,16 +26,12 @@ class AppVersionManager {
     
     func checkForUpdateAndProceed(completion: @escaping (Bool) -> Void) {
         remoteConfig.fetchAndActivate { status, error in
-            guard error == nil else {
-                completion(true) // 네트워크 오류가 발생한 경우 계속 진행
-                return
-            }
-            
-            guard let latestVersion = self.remoteConfig["latest_version_iOS"].stringValue else {
+            guard error == nil, let latestVersion = self.remoteConfig["latest_version_iOS"].stringValue else {
                 completion(true)
                 return
             }
-
+            
+            
             let currentVersion = self.currentAppVersion()
             
             switch self.compareVersion(currentVersion, latestVersion) {
