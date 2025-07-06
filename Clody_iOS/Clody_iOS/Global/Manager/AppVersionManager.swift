@@ -31,7 +31,11 @@ class AppVersionManager {
                 return
             }
             
-            let latestVersion = self.remoteConfig["latest_version_iOS"].stringValue ?? "1.0.0"
+            guard let latestVersion = self.remoteConfig["latest_version_iOS"].stringValue else {
+                completion(true)
+                return
+            }
+
             let currentVersion = self.currentAppVersion()
             
             switch self.compareVersion(currentVersion, latestVersion) {
