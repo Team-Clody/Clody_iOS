@@ -5,3 +5,6 @@
 //  Created by Seonwoo Kim on 7/6/25.
 //
 
+"calendar_empty" = "No gratitude diary written yet!";
+"calendar_reply" = "Check reply";
+"calendar_draft" = "You have a saved draft diary.";

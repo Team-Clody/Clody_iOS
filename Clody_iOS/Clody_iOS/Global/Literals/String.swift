@@ -146,7 +146,9 @@ enum I18N {
     enum Calendar {
         static let reply = "답장 확인"
         static let writing = "일기 쓰기"
-        static let empty = "작성된 감사 일기가 없어요!"
+        static var empty: String {
+            return LanguageManager.shared.isKorean ? "작성된 감사 일기가 없어요!" : "No gratitude diary written yet!"
+        }
         static let draft = "임시저장된 일기가 있어요."
         static let delete = "삭제하기"
         static let otherDay = "다른 날짜 보기"
