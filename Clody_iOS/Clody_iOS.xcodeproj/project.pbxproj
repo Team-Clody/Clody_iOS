@@ -65,6 +65,7 @@
 		0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */; };
 		0BABF7BE2C722313005A5CA1 /* AppVersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */; };
 		0BB74F862E1A7926001C1975 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0BB74F852E1A7926001C1975 /* Localizable.strings */; };
+		0BB74F8A2E1A7A85001C1975 /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB74F892E1A7A7D001C1975 /* LocalizationManager.swift */; };
 		0BB898262C85BBBB0082F87B /* RevokeResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */; };
 		0BBD1CD32DF2E94D0063DD35 /* GetDraftDiariesResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */; };
 		0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC373522C3FCC2600C45072 /* ViewModelType.swift */; };
@@ -229,6 +230,7 @@
 		0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionManager.swift; sourceTree = "<group>"; };
 		0BB74F842E1A7926001C1975 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0BB74F882E1A793A001C1975 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0BB74F892E1A7A7D001C1975 /* LocalizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
 		0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevokeResponseDTO.swift; sourceTree = "<group>"; };
 		0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDraftDiariesResponseDTO.swift; sourceTree = "<group>"; };
 		0BC373522C3FCC2600C45072 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
@@ -561,6 +563,7 @@
 		0BE7E9E82C45B0AA000C5358 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				0BB74F892E1A7A7D001C1975 /* LocalizationManager.swift */,
 				0B02A8472D6B44B20011AA48 /* AmplitudeManager.swift */,
 				0BE7E9E92C45B0B8000C5358 /* UserManager.swift */,
 				0B4EF9D02C48C39600CAF1F6 /* PermissionManager.swift */,
@@ -1158,6 +1161,7 @@
 				0B6C075D2C3E7D660054A0B0 /* WritingDiaryView.swift in Sources */,
 				0BE7EA152C466CC2000C5358 /* PatchNicknameResponseDTO.swift in Sources */,
 				0B3DC0882C6CD77C0021AC61 /* ClodyErrorRetryView.swift in Sources */,
+				0BB74F8A2E1A7A85001C1975 /* LocalizationManager.swift in Sources */,
 				0B4A1BC82C45402800E31EC4 /* NetworkResult.swift in Sources */,
 				2C0B3C822C30DB56002EB1A3 /* UIFont+.swift in Sources */,
 				95A98E772C9C2E730073AD3C /* SettingViewController.swift in Sources */,
