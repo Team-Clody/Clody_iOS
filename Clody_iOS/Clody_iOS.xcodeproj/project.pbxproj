@@ -65,6 +65,7 @@
 		0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */; };
 		0BABF7BE2C722313005A5CA1 /* AppVersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */; };
 		0BB74F8A2E1A7A85001C1975 /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB74F892E1A7A7D001C1975 /* LocalizationManager.swift */; };
+		0BB74F8E2E1AA6D2001C1975 /* LocalizationConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB74F8D2E1AA6C1001C1975 /* LocalizationConstant.swift */; };
 		0BB898262C85BBBB0082F87B /* RevokeResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */; };
 		0BBD1CD32DF2E94D0063DD35 /* GetDraftDiariesResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */; };
 		0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC373522C3FCC2600C45072 /* ViewModelType.swift */; };
@@ -228,6 +229,7 @@
 		0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToastView.swift; sourceTree = "<group>"; };
 		0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionManager.swift; sourceTree = "<group>"; };
 		0BB74F892E1A7A7D001C1975 /* LocalizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
+		0BB74F8D2E1AA6C1001C1975 /* LocalizationConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationConstant.swift; sourceTree = "<group>"; };
 		0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevokeResponseDTO.swift; sourceTree = "<group>"; };
 		0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDraftDiariesResponseDTO.swift; sourceTree = "<group>"; };
 		0BC373522C3FCC2600C45072 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
@@ -817,6 +819,7 @@
 		0BFCC5F12C306D1D00B5E0DB /* Literals */ = {
 			isa = PBXGroup;
 			children = (
+				0BB74F8D2E1AA6C1001C1975 /* LocalizationConstant.swift */,
 				0BFCC5F22C306D3B00B5E0DB /* String.swift */,
 			);
 			path = Literals;
@@ -1266,6 +1269,7 @@
 				95310F782C3D6DF800023C7B /* ClodyAlert.swift in Sources */,
 				0B4A1BCA2C45403A00E31EC4 /* NetworkRequest.swift in Sources */,
 				0B6C07492C3DC2FC0054A0B0 /* ListView.swift in Sources */,
+				0BB74F8E2E1AA6D2001C1975 /* LocalizationConstant.swift in Sources */,
 				0B6C07612C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift in Sources */,
 				95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */,
 				0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */,
