@@ -17,7 +17,7 @@ final class LanguageManager {
     
     private init() {
         let langCode = Locale.current.languageCode
-        self.currentLanguage = (langCode == "ko") ? .english : .english
+        self.currentLanguage = (langCode == "ko") ? .korean : .english
         print(currentLanguage, "🎁")
     }
 

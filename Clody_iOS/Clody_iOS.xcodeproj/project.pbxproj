@@ -64,9 +64,7 @@
 		0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6522C43D74D00174A9D /* ClodyToast.swift */; };
 		0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */; };
 		0BABF7BE2C722313005A5CA1 /* AppVersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */; };
-		0BB74F862E1A7926001C1975 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0BB74F852E1A7926001C1975 /* Localizable.strings */; };
 		0BB74F8A2E1A7A85001C1975 /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB74F892E1A7A7D001C1975 /* LocalizationManager.swift */; };
-		0BB74F8C2E1A847D001C1975 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB74F8B2E1A8479001C1975 /* String+.swift */; };
 		0BB898262C85BBBB0082F87B /* RevokeResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */; };
 		0BBD1CD32DF2E94D0063DD35 /* GetDraftDiariesResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */; };
 		0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC373522C3FCC2600C45072 /* ViewModelType.swift */; };
@@ -229,10 +227,7 @@
 		0BAAC6522C43D74D00174A9D /* ClodyToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToast.swift; sourceTree = "<group>"; };
 		0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToastView.swift; sourceTree = "<group>"; };
 		0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionManager.swift; sourceTree = "<group>"; };
-		0BB74F842E1A7926001C1975 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
-		0BB74F882E1A793A001C1975 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0BB74F892E1A7A7D001C1975 /* LocalizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
-		0BB74F8B2E1A8479001C1975 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevokeResponseDTO.swift; sourceTree = "<group>"; };
 		0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDraftDiariesResponseDTO.swift; sourceTree = "<group>"; };
 		0BC373522C3FCC2600C45072 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
@@ -616,7 +611,6 @@
 		0BFCC5BF2C2E8C0000B5E0DB /* Global */ = {
 			isa = PBXGroup;
 			children = (
-				0BB74F852E1A7926001C1975 /* Localizable.strings */,
 				0BE7E9E82C45B0AA000C5358 /* Manager */,
 				95310F862C40042600023C7B /* Utils */,
 				0BFCC5C02C2E8C1A00B5E0DB /* Extensions */,
@@ -631,7 +625,6 @@
 		0BFCC5C02C2E8C1A00B5E0DB /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				0BB74F8B2E1A8479001C1975 /* String+.swift */,
 				0BFCC5ED2C2F850400B5E0DB /* UIView+.swift */,
 				0BFCC5EF2C2F852D00B5E0DB /* UIStackView+.swift */,
 				2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */,
@@ -1113,7 +1106,6 @@
 				0B20F3E62C2C4DAB00F8D62D /* Assets.xcassets in Resources */,
 				0B03B1A02C86D2AD00144596 /* waitingLody.json in Resources */,
 				0B20F3E92C2C4DAB00F8D62D /* Base in Resources */,
-				0BB74F862E1A7926001C1975 /* Localizable.strings in Resources */,
 				2CE3AB2F2C36E9F50042085A /* Pretendard-Regular.otf in Resources */,
 				2C0B3C862C30DD55002EB1A3 /* Pretendard-Medium.otf in Resources */,
 				2C0B3C882C30DD5B002EB1A3 /* Pretendard-SemiBold.otf in Resources */,
@@ -1236,7 +1228,6 @@
 				95310FBE2C4434B500023C7B /* LoginViewModel.swift in Sources */,
 				950D39362E0872C10037A8D6 /* DiaryItem.swift in Sources */,
 				95310F9E2C410DCB00023C7B /* DiaryNotificationViewController.swift in Sources */,
-				0BB74F8C2E1A847D001C1975 /* String+.swift in Sources */,
 				95A98EA02C9C5C1D0073AD3C /* NotificationTableViewCell.swift in Sources */,
 				0BE7EA132C466C91000C5358 /* PatchNicknameRequestDTO.swift in Sources */,
 				0B6C075F2C3E7D8E0054A0B0 /* WritingDiaryCell.swift in Sources */,
@@ -1302,15 +1293,6 @@
 				0B20F3E82C2C4DAB00F8D62D /* Base */,
 			);
 			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		0BB74F852E1A7926001C1975 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0BB74F842E1A7926001C1975 /* ko */,
-				0BB74F882E1A793A001C1975 /* en */,
-			);
-			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
