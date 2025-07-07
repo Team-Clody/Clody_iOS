@@ -21,10 +21,14 @@ final class LocalizationManager {
         
         let region = Locale.current.regionCode ?? "KR"
         self.currentRegion = region
+        
+        
+        self.currentTimeZone = TimeZone.current
     }
 
     private let currentLanguage: AppLanguage
     private let currentRegion: String
+    private let currentTimeZone: TimeZone
 
     var isKorean: Bool {
         currentLanguage == .korean
@@ -32,5 +36,9 @@ final class LocalizationManager {
     
     var region: String {
         currentRegion
+    }
+    
+    var timeZone: TimeZone {
+        currentTimeZone
     }
 }
