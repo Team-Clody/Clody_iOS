@@ -9,7 +9,7 @@ import Foundation
 
 enum I18N {
     private static func localized(ko: String, en: String) -> String {
-        LanguageManager.shared.isKorean ? ko : en
+        LocalizationManager.shared.isKorean ? ko : en
     }
     
     enum Common {
