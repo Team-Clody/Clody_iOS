@@ -12,8 +12,8 @@ enum AppLanguage: String {
     case english = "en"
 }
 
-final class LanguageManager {
-    static let shared = LanguageManager()
+final class LocalizationManager {
+    static let shared = LocalizationManager()
     
     private init() {
         let langCode = Locale.current.languageCode

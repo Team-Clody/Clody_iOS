@@ -9,8 +9,8 @@ import Foundation
 
 enum LocalizationConstant {
     
-    private static let isKorean = LanguageManager.shared.isKorean
-    private static let region = LanguageManager.shared.region
+    private static let isKorean = LocalizationManager.shared.isKorean
+    private static let region = LocalizationManager.shared.region
     
     enum Calendar {
         static var calendarLocale: Locale {
