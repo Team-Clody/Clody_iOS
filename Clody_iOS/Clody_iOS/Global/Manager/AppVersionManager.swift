@@ -20,7 +20,7 @@ class AppVersionManager {
     
     private init() {
         let settings = RemoteConfigSettings()
-        settings.minimumFetchInterval = 0
+        settings.minimumFetchInterval = 300
         remoteConfig.configSettings = settings
     }
     
