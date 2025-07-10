@@ -107,7 +107,7 @@ private extension CalendarViewController {
                     switch state {
                     case .writeEnabled:
                         return (
-                            text: I18N.Calendar.writing,
+                            text: .writeDiary,
                             backgroundColor: .mainYellow,
                             titleColor: .grey02,
                             isEnabled: true

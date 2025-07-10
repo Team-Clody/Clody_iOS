@@ -70,7 +70,7 @@ final class CalendarView: BaseView {
             $0.appearance.borderDefaultColor = .clear
             $0.scope = .month
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.locale = Locale(identifier: "ko_KR")
+            $0.locale = LocalizationConstant.Calendar.calendarLocale
             $0.headerHeight = 0
             $0.weekdayHeight = ScreenUtils.getHeight(32)
             $0.rowHeight = ScreenUtils.getHeight(71)
