@@ -64,6 +64,7 @@
 		0BAAC6532C43D74D00174A9D /* ClodyToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6522C43D74D00174A9D /* ClodyToast.swift */; };
 		0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */; };
 		0BABF7BE2C722313005A5CA1 /* AppVersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */; };
+		0BB74F722E1A6A9B001C1975 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 0BB74F712E1A6A9B001C1975 /* FirebaseRemoteConfig */; };
 		0BB898262C85BBBB0082F87B /* RevokeResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */; };
 		0BBD1CD32DF2E94D0063DD35 /* GetDraftDiariesResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */; };
 		0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC373522C3FCC2600C45072 /* ViewModelType.swift */; };
@@ -329,6 +330,7 @@
 				0BCD4FA52C363C90006390D2 /* FirebaseMessaging in Frameworks */,
 				0B02A8462D6B3D420011AA48 /* AmplitudeSwift in Frameworks */,
 				0BC373592C4003A900C45072 /* RxGesture in Frameworks */,
+				0BB74F722E1A6A9B001C1975 /* FirebaseRemoteConfig in Frameworks */,
 				0BC373562C3FCF0F00C45072 /* RxKeyboard in Frameworks */,
 				0BFCC5B22C2E86EF00B5E0DB /* Lottie in Frameworks */,
 				0BFCC5B92C2E892300B5E0DB /* RxBlocking in Frameworks */,
@@ -1039,6 +1041,7 @@
 				0BCE8F782C908D8500356F53 /* FirebaseCrashlytics */,
 				0B02A8452D6B3D420011AA48 /* AmplitudeSwift */,
 				95CE94DD2D7266790028D308 /* GoogleMobileAds */,
+				0BB74F712E1A6A9B001C1975 /* FirebaseRemoteConfig */,
 			);
 			productName = Clody_iOS;
 			productReference = 0B20F3D92C2C4DAA00F8D62D /* Clody_iOS.app */;
@@ -1652,6 +1655,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0B6C07352C3B99960054A0B0 /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
+		};
+		0BB74F712E1A6A9B001C1975 /* FirebaseRemoteConfig */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BCD4FA32C363C90006390D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseRemoteConfig;
 		};
 		0BC373552C3FCF0F00C45072 /* RxKeyboard */ = {
 			isa = XCSwiftPackageProductDependency;
