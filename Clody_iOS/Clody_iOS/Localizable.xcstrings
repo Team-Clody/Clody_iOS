@@ -1,18 +1,137 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Calendar.write" : {
-      "extractionState" : "manual",
+    "calendar.complete" : {
+      "comment" : "완료",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "writing"
+            "value" : "Done"
           }
         },
         "ko" : {
           "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "완료"
+          }
+        }
+      }
+    },
+    "calendar.delete" : {
+      "comment" : "삭제하기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
             "state" : "translated",
+            "value" : "Delete"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "삭제하기"
+          }
+        }
+      }
+    },
+    "calendar.draft" : {
+      "comment" : "임시저장된 일기가 있어요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are existing entries in drafts."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "임시저장된 일기가 있어요."
+          }
+        }
+      }
+    },
+    "calendar.empty" : {
+      "comment" : "작성된 감사 일기가 없어요!",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No gratitude entries yet."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "작성된 감사 일기가 없어요!"
+          }
+        }
+      }
+    },
+    "calendar.otherDay" : {
+      "comment" : "다른 날짜 보기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View Another Day"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "다른 날짜 보기"
+          }
+        }
+      }
+    },
+    "calendar.reply" : {
+      "comment" : "답장 확인",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See My Reply"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "답장 확인"
+          }
+        }
+      }
+    },
+    "calendar.writeMore" : {
+      "comment" : "이어쓰기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue Writing"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "이어쓰기"
+          }
+        }
+      }
+    },
+    "calendar.writing" : {
+      "comment" : "일기 쓰기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Write a Journal"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "일기 쓰기"
           }
         }

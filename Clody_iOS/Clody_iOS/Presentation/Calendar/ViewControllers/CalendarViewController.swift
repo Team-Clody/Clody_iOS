@@ -107,35 +107,35 @@ private extension CalendarViewController {
                     switch state {
                     case .writeEnabled:
                         return (
-                            text: .writeDiary,
+                            text: .Calendar.calendarWriting,
                             backgroundColor: .mainYellow,
                             titleColor: .grey02,
                             isEnabled: true
                         )
                     case .writeDisabled:
                         return (
-                            text: I18N.Calendar.writing,
+                            text: .Calendar.calendarWriting,
                             backgroundColor: .lightYellow,
                             titleColor: .grey06,
                             isEnabled: false
                         )
                     case .replyEnabled:
                         return (
-                            text: I18N.Calendar.reply,
+                            text: .Calendar.calendarReply,
                             backgroundColor: .grey01,
                             titleColor: .white,
                             isEnabled: true
                         )
                     case .replyDisabled:
                         return (
-                            text: I18N.Calendar.reply,
+                            text: .Calendar.calendarReply,
                             backgroundColor: .grey07,
                             titleColor: .grey04,
                             isEnabled: false
                         )
                     case .draftEnabled:
                         return (
-                            text: I18N.Calendar.writeMore,
+                            text: .Calendar.calendarWriteMore,
                             backgroundColor: .mainYellow,
                             titleColor: .grey02,
                             isEnabled: true
@@ -143,7 +143,7 @@ private extension CalendarViewController {
                     }
                 }()
                 
-                let emptyText = .draftEnabled == state ? I18N.Calendar.draft : I18N.Calendar.empty
+                let emptyText = .draftEnabled == state ? String.Calendar.calendarDraft : String.Calendar.calendarEmpty
                 rootView.emptyDiaryLabel.attributedText = UIFont.pretendardString(text: emptyText, style: .body3_regular)
                 rootView.emptyDiaryView.isHidden = (state == .replyEnabled || state == .replyDisabled)
                 rootView.kebabButton.isHidden = (state == .writeDisabled || state == .writeEnabled)

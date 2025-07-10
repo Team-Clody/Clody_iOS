@@ -104,7 +104,7 @@ final class CalendarView: BaseView {
         }
         
         emptyDiaryLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: I18N.Calendar.empty, style: .body3_regular)
+            $0.attributedText = UIFont.pretendardString(text: .Calendar.calendarEmpty, style: .body3_regular)
             $0.textColor = .grey05
         }
     }
