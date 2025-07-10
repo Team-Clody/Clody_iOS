@@ -9,11 +9,12 @@ import Foundation
 
 enum LocalizationConstant {
     
-    private static let languageCode = Locale.current.languageCode
-    private static let regionCode = Locale.current.regionCode
+    private static let languageCode = Locale.current.languageCode ?? "ko"
+    private static let regionCode = Locale.current.regionCode ?? "KR"
     
     enum Calendar {
         static var calendarLocale: Locale {
+            print("🎁",languageCode, regionCode)
             return Locale(identifier: "\(languageCode)_\(regionCode)")
         }
     }
