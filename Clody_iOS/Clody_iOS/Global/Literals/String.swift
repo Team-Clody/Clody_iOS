@@ -148,20 +148,4 @@ enum I18N {
         static let time = "알림 시간"
         static let replyReceived = "답장 도착 알림 받기"
     }
-    
-    enum AppVersion {
-        static let forceTitle = "필수 업데이트"
-        static func forceMessage(_ version: String) -> String {
-            return "버전 \(version)으로 업데이트가 필요합니다."
-        }
-
-        static let optionalTitle = "업데이트 필요"
-        static func optionalMessage(_ version: String) -> String {
-            return "새로운 버전 \(version)을 사용할 수 있습니다. 지금 업데이트하시겠습니까?"
-        }
-
-        static let update = "업데이트"
-        static let exit = "앱 종료"
-        static let later = "나중에"
-    }
 }

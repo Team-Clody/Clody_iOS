@@ -21,5 +21,21 @@ extension String {
             return String(format: String(localized: "calendar.cloverCount", comment: "클로버 n개"), count)
         }
     }
+    
+    enum AppVersion {
+        static let forceTitle = String(localized: "appVersion.forceTitle", comment: "필수 업데이트")
+        static func forceMessage(_ version: String) -> String {
+            return String(format: String(localized: "appVersion.forceMessage", comment: "버전 x.x.x으로 업데이트가 필요합니다."), version)
+        }
+
+        static let optionalTitle = String(localized: "appVersion.optionalTitle", comment: "업데이트 필요")
+        static func optionalMessage(_ version: String) -> String {
+            return String(format: String(localized: "appVersion.optionalMessage", comment: "새로운 버전 x.x.x 사용 가능"))
+        }
+
+        static let update = String(localized: "appVersion.update", comment: "업데이트")
+        static let exit = String(localized: "appVersion.exit", comment: "앱 종료")
+        static let later = String(localized: "appVersion.later", comment: "나중에")
+    }
 }
 
