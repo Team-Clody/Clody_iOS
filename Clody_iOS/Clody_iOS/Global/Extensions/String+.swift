@@ -17,6 +17,9 @@ extension String {
         static let calendarOtherDay = String(localized: "calendar.otherDay", comment: "다른 날짜 보기")
         static let calendarComplete = String(localized: "calendar.complete", comment: "완료")
         static let calendarWriteMore = String(localized: "calendar.writeMore", comment: "이어쓰기")
+        static func cloverCount(_ count: Int) -> String {
+            return String(format: String(localized: "calendar.cloverCount", comment: "클로버 n개"), count)
+        }
     }
 }
 

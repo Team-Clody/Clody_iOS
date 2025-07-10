@@ -211,7 +211,7 @@ private extension CalendarViewController {
         output.changeCloverCount
             .drive(onNext: { [weak self] data in
                 guard let self = self else { return }
-                rootView.cloverLabel.text = "클로버 \(data)개"
+                rootView.cloverLabel.text = .Calendar.cloverCount(data)
             })
             .disposed(by: disposeBag)
         

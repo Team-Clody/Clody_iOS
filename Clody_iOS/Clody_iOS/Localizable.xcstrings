@@ -1,6 +1,23 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "calendar.cloverCount" : {
+      "comment" : "클로버 n개",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " %d Clovers"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "클로버 %d개"
+          }
+        }
+      }
+    },
     "calendar.complete" : {
       "comment" : "완료",
       "localizations" : {
