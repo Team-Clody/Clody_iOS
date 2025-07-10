@@ -71,13 +71,6 @@ enum I18N {
         }
     }
     
-    enum TermsURL {
-        static let terms = "https://www.notion.so/1c7e3fedb3f4802c8db1f3056c03973f?pvs=21"
-        static let privacy = "https://www.notion.so/1c7e3fedb3f48024a334c8116255b378?pvs=21"
-        static let announcement = "https://www.notion.so/1c7e3fedb3f48029b36cf9d76c5fb6d6?pvs=21"
-        static let contactUs = "https://docs.google.com/forms/d/e/1FAIpQLSeCS3Z9ctFyqHZH7qkryOEQYQdhvNCMPT6QJ3J2GQw86WId4Q/viewform"
-    }
-    
     enum Auth {
         static let kakaoLogin = "카카오로 로그인"
         static let appleLogin = "Apple로 로그인"

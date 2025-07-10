@@ -113,13 +113,13 @@ extension SettingViewController: UITableViewDelegate {
         case .notification:
             navigationController?.pushViewController(NotificationViewController(), animated: true)
         case .terms:
-            linkToURL(url: I18N.TermsURL.terms)
+            linkToURL(url: .TermsURL.terms)
         case .privacy:
-            linkToURL(url: I18N.TermsURL.privacy)
+            linkToURL(url: .TermsURL.privacy)
         case .announcement:
-            linkToURL(url: I18N.TermsURL.announcement)
+            linkToURL(url: .TermsURL.announcement)
         case .contactUs:
-            linkToURL(url: I18N.TermsURL.contactUs)
+            linkToURL(url: .TermsURL.contactUs)
         default:
             return
         }
