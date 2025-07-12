@@ -272,6 +272,23 @@
           }
         }
       }
+    },
+    "list.emptyList" : {
+      "comment" : "작성된 감사일기가 없어요!",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No gratitude entries yet."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "작성된 감사일기가 없어요!"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

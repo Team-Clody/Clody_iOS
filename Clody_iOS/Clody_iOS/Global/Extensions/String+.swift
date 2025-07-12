@@ -29,6 +29,10 @@ extension String {
         static let contactUs = "https://docs.google.com/forms/d/e/1FAIpQLSeCS3Z9ctFyqHZH7qkryOEQYQdhvNCMPT6QJ3J2GQw86WId4Q/viewform"
     }
     
+    enum List {
+        static let emptyList = String(localized: "list.emptyList", comment: "작성된 감사일기가 없어요!")
+    }
+    
     enum AppVersion {
         static let forceTitle = String(localized: "appVersion.forceTitle", comment: "필수 업데이트")
         static func forceMessage(_ version: String) -> String {
