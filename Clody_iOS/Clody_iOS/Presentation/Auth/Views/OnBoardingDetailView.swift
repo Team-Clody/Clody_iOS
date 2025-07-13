@@ -73,13 +73,13 @@ final class OnBoardingDetailView: BaseView {
         titleLabel.attributedText = UIFont.pretendardString(
             text: type.title,
             style: .head1,
-            lineHeightMultiple: 1.5,
+            applyLineHeight: true,
             align: .center
         )
         subTitleLabel.attributedText = UIFont.pretendardString(
             text: type.subTitle,
             style: .body1_medium,
-            lineHeightMultiple: 1.5,
+            applyLineHeight: true,
             align: .center
         )
         imageView.image = type.image

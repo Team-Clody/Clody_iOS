@@ -102,7 +102,7 @@ extension ClodyAlert {
             $0.attributedText = UIFont.pretendardString(
                 text: message,
                 style: .body3_regular,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
             $0.textAlignment = .center
             $0.numberOfLines = 0

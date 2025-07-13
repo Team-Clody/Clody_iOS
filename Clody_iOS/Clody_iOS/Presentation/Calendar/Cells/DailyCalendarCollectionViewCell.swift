@@ -66,12 +66,12 @@ final class DailyCalendarCollectionViewCell: UICollectionViewCell {
 
     func bindData(data: String, index: String) {
         listNumberLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: index, style: .body3_medium, lineHeightMultiple: 1.5)
+            $0.attributedText = UIFont.pretendardString(text: index, style: .body3_medium, applyLineHeight: true)
             $0.textColor = .grey02
         }
         
         diaryTextLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: data, style: .body3_medium, lineHeightMultiple: 1.5)
+            $0.attributedText = UIFont.pretendardString(text: data, style: .body3_medium, applyLineHeight: true)
             $0.textColor = .grey03
             $0.numberOfLines = 0
         }

@@ -32,7 +32,7 @@ final class ClodyErrorRetryView: BaseView {
             $0.attributedText = UIFont.pretendardString(
                 text: I18N.Error.unKnown,
                 style: .body2_semibold,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
             $0.numberOfLines = 2
             $0.textAlignment = .center

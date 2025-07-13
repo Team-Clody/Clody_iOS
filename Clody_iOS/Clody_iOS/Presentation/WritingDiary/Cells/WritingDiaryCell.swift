@@ -63,7 +63,7 @@ final class WritingDiaryCell: UICollectionViewCell {
             $0.attributedText = UIFont.pretendardString(
                 text: "1.",
                 style: .body3_semibold,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
             $0.textColor = .grey06
         }
@@ -72,7 +72,7 @@ final class WritingDiaryCell: UICollectionViewCell {
             $0.attributedText = UIFont.pretendardString(
                 text: I18N.WritingDiary.placeHolder,
                 style: .body3_medium,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
             $0.textColor = .grey06
             $0.backgroundColor = .clear
@@ -95,7 +95,7 @@ final class WritingDiaryCell: UICollectionViewCell {
             $0.attributedText = UIFont.pretendardString(
                 text: "0",
                 style: .detail1_medium,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
             $0.textColor = .grey04
         }
@@ -104,7 +104,7 @@ final class WritingDiaryCell: UICollectionViewCell {
             $0.attributedText = UIFont.pretendardString(
                 text: "/ 50",
                 style: .detail1_medium,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
             $0.textColor = .grey06
         }
@@ -113,7 +113,7 @@ final class WritingDiaryCell: UICollectionViewCell {
             $0.attributedText = UIFont.pretendardString(
                 text: I18N.WritingDiary.inputLimitError,
                 style: .detail1_medium,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
             $0.textColor = .redCustom
             $0.isHidden = true

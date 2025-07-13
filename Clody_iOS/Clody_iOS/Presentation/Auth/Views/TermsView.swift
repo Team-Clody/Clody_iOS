@@ -37,7 +37,7 @@ final class TermsView: BaseView {
             $0.attributedText = UIFont.pretendardString(
                 text: I18N.Auth.termsIntro,
                 style: .head1,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
             $0.numberOfLines = 0
         }
