@@ -1,0 +1,115 @@
+//
+//  MaintenanceView.swift
+//  Clody_iOS
+//
+//  Created by Seonwoo Kim on 7/13/25.
+//
+
+import UIKit
+
+import SnapKit
+import Then
+
+final class MaintenanceView: BaseView {
+    
+    // MARK: - UI Components
+    
+    private let containerView = UIView()
+    private let maintenanceImageView = UIImageView()
+    private let titleLabel = UILabel()
+    private let timeLabel = UILabel()
+    let confirmButton = UIButton()
+    
+    init() {
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setStyle() {
+        backgroundColor = .mainYellow
+
+        containerView.do {
+            $0.backgroundColor = .white
+            $0.makeCornerRound(radius: 12)
+        }
+        
+        maintenanceImageView.do {
+            $0.image = .maintenance
+            $0.contentMode = .scaleAspectFit
+        }
+
+        titleLabel.do {
+            $0.textColor = .grey03
+            $0.textAlignment = .center
+            $0.numberOfLines = 0
+            $0.attributedText = UIFont.pretendardString(
+                text: "보다 안정적인 클로디 서비스를 위해\n시스템 점검 중이에요. 곧 다시 만나요!",
+                style: .body3_medium
+            )
+        }
+
+        timeLabel.do {
+            $0.textColor = .grey04
+            $0.attributedText = UIFont.pretendardString(
+                text: "",
+                style: .body3_medium
+            )
+        }
+
+        confirmButton.do {
+            $0.setTitleColor(.grey02, for: .normal)
+            $0.backgroundColor = .mainYellow
+            $0.makeCornerRound(radius: 8)
+            let attributedTitle = UIFont.pretendardString(text: I18N.Common.ok, style: .body3_semibold)
+            $0.setAttributedTitle(attributedTitle, for: .normal)
+        }
+    }
+    
+    override func setHierarchy() {
+        addSubview(containerView)
+        containerView.addSubviews(
+            maintenanceImageView,
+            titleLabel,
+            timeLabel,
+            confirmButton
+        )
+    }
+    
+    override func setLayout() {
+           containerView.snp.makeConstraints {
+               $0.center.equalToSuperview()
+               $0.leading.trailing.equalToSuperview().inset(20)
+           }
+
+           maintenanceImageView.snp.makeConstraints {
+               $0.top.equalToSuperview().inset(20)
+               $0.centerX.equalToSuperview()
+               $0.width.equalTo(175)
+           }
+
+           titleLabel.snp.makeConstraints {
+               $0.top.equalTo(maintenanceImageView.snp.bottom).offset(20)
+               $0.centerX.equalToSuperview()
+           }
+        
+           timeLabel.snp.makeConstraints {
+               $0.top.equalTo(titleLabel.snp.bottom).offset(6)
+               $0.centerX.equalToSuperview()
+           }
+
+           confirmButton.snp.makeConstraints {
+               $0.top.equalTo(timeLabel.snp.bottom).offset(25)
+               $0.height.equalTo(42)
+               $0.horizontalEdges.equalToSuperview().inset(20)
+               $0.bottom.equalToSuperview().inset(20)
+           }
+       }
+
+    func configureContent(time: String) {
+           timeLabel.attributedText = UIFont.pretendardString(text: time, style: .body3_regular)
+       }
+}
+

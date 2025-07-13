@@ -25,7 +25,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         AppVersionManager.shared.checkForUpdateAndProceed { [weak self] shouldProceed in
             guard shouldProceed else { return }
-            self?.proceedToNextViewController()
+
+            AppVersionManager.shared.checkForDowntimeAndProceed { canProceed in
+                guard canProceed else { return }
+                self?.proceedToNextViewController()
+            }
         }
     }
     
