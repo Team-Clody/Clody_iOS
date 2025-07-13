@@ -16,7 +16,7 @@ final class DatePickerView: BaseView, BottomSheet {
     
     let dimmedView = UIView()
     let backgroundView = UIView()
-    let navigationBar = ClodyNavigationBar(type: .bottomSheet, title: I18N.Calendar.otherDay)
+    let navigationBar = ClodyNavigationBar(type: .bottomSheet, title: .Calendar.otherDay)
     let pickerView = ClodyPickerView(type: .calendar)
     lazy var completeButton = UIButton()
     
@@ -36,7 +36,7 @@ final class DatePickerView: BaseView, BottomSheet {
             $0.backgroundColor = .mainYellow
             $0.makeCornerRound(radius: 10)
             $0.setTitleColor(.grey01, for: .normal)
-            let attributedTitle = UIFont.pretendardString(text: I18N.Calendar.complete, style: .body2_semibold)
+            let attributedTitle = UIFont.pretendardString(text: .Calendar.complete, style: .body2_semibold)
             $0.setAttributedTitle(attributedTitle, for: .normal)
         }
     }

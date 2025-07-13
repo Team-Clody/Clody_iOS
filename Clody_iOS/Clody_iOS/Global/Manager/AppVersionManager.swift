@@ -72,16 +72,16 @@ class AppVersionManager {
               let topViewController = windowScene.windows.first?.rootViewController else { return }
         
         let alert = UIAlertController(
-            title: I18N.AppVersion.forceTitle,
-            message: I18N.AppVersion.forceMessage(appStoreVersion),
+            title: .AppVersion.forceTitle,
+            message: .AppVersion.forceMessage(appStoreVersion),
             preferredStyle: .alert
         )
         
-        let updateAction = UIAlertAction(title: I18N.AppVersion.update, style: .default) { _ in
+        let updateAction = UIAlertAction(title: .AppVersion.update, style: .default) { _ in
             self.openAppStore()
         }
         
-        let exitAction = UIAlertAction(title: I18N.AppVersion.exit, style: .destructive) { _ in
+        let exitAction = UIAlertAction(title: .AppVersion.exit, style: .destructive) { _ in
             exit(0)
         }
         
@@ -95,16 +95,16 @@ class AppVersionManager {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let topViewController = windowScene.windows.first?.rootViewController else { return }
         
-        let alert = UIAlertController(title: I18N.AppVersion.optionalTitle,
-                                      message: I18N.AppVersion.optionalMessage(appStoreVersion),
+        let alert = UIAlertController(title: .AppVersion.optionalTitle,
+                                      message: .AppVersion.optionalMessage(appStoreVersion),
                                       preferredStyle: .alert)
         
-        let updateAction = UIAlertAction(title: I18N.AppVersion.update, style: .default) { _ in
+        let updateAction = UIAlertAction(title: .AppVersion.update, style: .default) { _ in
             self.openAppStore()
             completion(false) // 업데이트를 선택한 경우 스플래시에서 중지
         }
         
-        let cancelAction = UIAlertAction(title: I18N.AppVersion.later, style: .cancel) { _ in
+        let cancelAction = UIAlertAction(title: .AppVersion.later, style: .cancel) { _ in
             completion(true) // 나중에를 선택한 경우
         }
         

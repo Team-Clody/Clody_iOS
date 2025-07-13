@@ -65,6 +65,9 @@
 		0BAAC6552C43D77B00174A9D /* ClodyToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */; };
 		0BABF7BE2C722313005A5CA1 /* AppVersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */; };
 		0BB74F722E1A6A9B001C1975 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 0BB74F712E1A6A9B001C1975 /* FirebaseRemoteConfig */; };
+		0BB74F8E2E1AA6D2001C1975 /* LocalizationConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB74F8D2E1AA6C1001C1975 /* LocalizationConstant.swift */; };
+		0BB74F902E1F488E001C1975 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 0BB74F8F2E1F488E001C1975 /* Localizable.xcstrings */; };
+		0BB74F922E1F4BED001C1975 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB74F912E1F4BE9001C1975 /* String+.swift */; };
 		0BB898262C85BBBB0082F87B /* RevokeResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */; };
 		0BBD1CD32DF2E94D0063DD35 /* GetDraftDiariesResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */; };
 		0BBE39112E237E2600B6C6BE /* MaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBE39102E237E1E00B6C6BE /* MaintenanceViewController.swift */; };
@@ -229,6 +232,9 @@
 		0BAAC6522C43D74D00174A9D /* ClodyToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToast.swift; sourceTree = "<group>"; };
 		0BAAC6542C43D77B00174A9D /* ClodyToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClodyToastView.swift; sourceTree = "<group>"; };
 		0BABF7BD2C722313005A5CA1 /* AppVersionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionManager.swift; sourceTree = "<group>"; };
+		0BB74F8D2E1AA6C1001C1975 /* LocalizationConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationConstant.swift; sourceTree = "<group>"; };
+		0BB74F8F2E1F488E001C1975 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = ../../Localizable.xcstrings; sourceTree = "<group>"; };
+		0BB74F912E1F4BE9001C1975 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevokeResponseDTO.swift; sourceTree = "<group>"; };
 		0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDraftDiariesResponseDTO.swift; sourceTree = "<group>"; };
 		0BBE39102E237E1E00B6C6BE /* MaintenanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintenanceViewController.swift; sourceTree = "<group>"; };
@@ -653,6 +659,7 @@
 		0BFCC5C02C2E8C1A00B5E0DB /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				0BB74F912E1F4BE9001C1975 /* String+.swift */,
 				0BFCC5ED2C2F850400B5E0DB /* UIView+.swift */,
 				0BFCC5EF2C2F852D00B5E0DB /* UIStackView+.swift */,
 				2C0B3C812C30DB56002EB1A3 /* UIFont+.swift */,
@@ -675,6 +682,7 @@
 		0BFCC5C32C2E8C4600B5E0DB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0BB74F8F2E1F488E001C1975 /* Localizable.xcstrings */,
 				0B03B19F2C86D2AD00144596 /* waitingLody.json */,
 				0BE7EA182C46AE25000C5358 /* replyLody.json */,
 				0BFCC5C62C2E8C9C00B5E0DB /* Font */,
@@ -846,6 +854,7 @@
 		0BFCC5F12C306D1D00B5E0DB /* Literals */ = {
 			isa = PBXGroup;
 			children = (
+				0BB74F8D2E1AA6C1001C1975 /* LocalizationConstant.swift */,
 				0BFCC5F22C306D3B00B5E0DB /* String.swift */,
 			);
 			path = Literals;
@@ -1139,6 +1148,7 @@
 				2C0B3C862C30DD55002EB1A3 /* Pretendard-Medium.otf in Resources */,
 				2C0B3C882C30DD5B002EB1A3 /* Pretendard-SemiBold.otf in Resources */,
 				95310F8A2C401A1F00023C7B /* GoogleService-Info.plist in Resources */,
+				0BB74F902E1F488E001C1975 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1282,6 +1292,7 @@
 				0B4A1BCF2C4540C600E31EC4 /* CalendarRouter.swift in Sources */,
 				0B6C074D2C3DC6C70054A0B0 /* ListHeaderView.swift in Sources */,
 				0B4A1BBC2C453F8400E31EC4 /* AuthIntercepter.swift in Sources */,
+				0BB74F922E1F4BED001C1975 /* String+.swift in Sources */,
 				95A98E7C2C9C2EAD0073AD3C /* SettingViewModel.swift in Sources */,
 				0BFCC5F02C2F852D00B5E0DB /* UIStackView+.swift in Sources */,
 				950CF0672DF145C70054F971 /* BottomSheet.swift in Sources */,
@@ -1296,6 +1307,7 @@
 				0B4A1BCA2C45403A00E31EC4 /* NetworkRequest.swift in Sources */,
 				0B6C07492C3DC2FC0054A0B0 /* ListView.swift in Sources */,
 				0BBE39112E237E2600B6C6BE /* MaintenanceViewController.swift in Sources */,
+				0BB74F8E2E1AA6D2001C1975 /* LocalizationConstant.swift in Sources */,
 				0B6C07612C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift in Sources */,
 				95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */,
 				0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */,
@@ -1334,6 +1346,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1390,6 +1403,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1399,6 +1413,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1448,6 +1463,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1465,6 +1481,7 @@
 				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Clody_iOS/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "클로디Dev";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1500,6 +1517,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Clody_iOS/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "클로디";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

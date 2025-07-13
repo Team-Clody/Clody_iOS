@@ -3,10 +3,23 @@
     {
       "filename" : "img_slogan.svg",
       "idiom" : "universal"
+    },
+    {
+      "filename" : "img_slogan 1.svg",
+      "idiom" : "universal",
+      "locale" : "ko"
+    },
+    {
+      "filename" : "One Journal, One Lucky Day.svg",
+      "idiom" : "universal",
+      "locale" : "en"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
   }
 }
