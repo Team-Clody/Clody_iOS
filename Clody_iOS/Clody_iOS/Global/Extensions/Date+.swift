@@ -10,7 +10,7 @@ import Foundation
 extension Date {
     func koreanDayOfWeek() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.locale = LocalizationConstant.Calendar.calendarLocale
         dateFormatter.dateFormat = "EEEE" // "EEEE" 포맷은 전체 요일 이름을 반환합니다.
         return dateFormatter.string(from: self)
     }
