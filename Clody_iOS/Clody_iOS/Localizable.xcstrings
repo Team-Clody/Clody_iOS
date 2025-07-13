@@ -24,13 +24,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Please update to version %1$@ to continue "
+            "value" : "Please update to version %@ to continue "
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "버전 %1$@으로 업데이트가 필요합니다."
+            "state" : "translated",
+            "value" : "버전 %@으로 업데이트가 필요합니다."
           }
         }
       }
@@ -75,13 +75,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A new version %1$@ is available. Do you want to update now?"
+            "value" : "A new version %@ is available. Do you want to update now?"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "새로운 버전 %1$@을 사용할 수 있습니다. 지금 업데이트하시겠습니까?"
+            "state" : "translated",
+            "value" : "새로운 버전 %@을 사용할 수 있습니다. 지금 업데이트하시겠습니까?"
           }
         }
       }
@@ -131,7 +131,7 @@
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "클로버 %d개"
           }
         }
