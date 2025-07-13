@@ -152,7 +152,7 @@ extension AppVersionManager {
     private func presentMaintenanceScreen(message: String) {
         
         let viewController = MaintenanceViewController()
-        viewController.configureContent(time: "점검시간 : 7/15(화) 15시~ 7/16(수) 03시")
+        viewController.configureContent(time: message)
         viewController.modalPresentationStyle = .overFullScreen
 
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,

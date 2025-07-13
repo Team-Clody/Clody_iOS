@@ -30,7 +30,7 @@ final class MaintenanceView: BaseView {
     
     override func setStyle() {
         backgroundColor = .mainYellow
-
+        
         containerView.do {
             $0.backgroundColor = .white
             $0.makeCornerRound(radius: 12)
@@ -40,7 +40,7 @@ final class MaintenanceView: BaseView {
             $0.image = .maintenance
             $0.contentMode = .scaleAspectFit
         }
-
+        
         titleLabel.do {
             $0.textColor = .grey03
             $0.textAlignment = .center
@@ -50,7 +50,7 @@ final class MaintenanceView: BaseView {
                 style: .body3_medium
             )
         }
-
+        
         timeLabel.do {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(
@@ -58,7 +58,7 @@ final class MaintenanceView: BaseView {
                 style: .body3_medium
             )
         }
-
+        
         confirmButton.do {
             $0.setTitleColor(.grey02, for: .normal)
             $0.backgroundColor = .mainYellow
@@ -79,37 +79,38 @@ final class MaintenanceView: BaseView {
     }
     
     override func setLayout() {
-           containerView.snp.makeConstraints {
-               $0.center.equalToSuperview()
-               $0.leading.trailing.equalToSuperview().inset(20)
-           }
-
-           maintenanceImageView.snp.makeConstraints {
-               $0.top.equalToSuperview().inset(20)
-               $0.centerX.equalToSuperview()
-               $0.width.equalTo(175)
-           }
-
-           titleLabel.snp.makeConstraints {
-               $0.top.equalTo(maintenanceImageView.snp.bottom).offset(20)
-               $0.centerX.equalToSuperview()
-           }
+        containerView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(ScreenUtils.getWidth(20))
+        }
         
-           timeLabel.snp.makeConstraints {
-               $0.top.equalTo(titleLabel.snp.bottom).offset(6)
-               $0.centerX.equalToSuperview()
-           }
-
-           confirmButton.snp.makeConstraints {
-               $0.top.equalTo(timeLabel.snp.bottom).offset(25)
-               $0.height.equalTo(42)
-               $0.horizontalEdges.equalToSuperview().inset(20)
-               $0.bottom.equalToSuperview().inset(20)
-           }
-       }
-
+        maintenanceImageView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(20))
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(ScreenUtils.getWidth(175))
+        }
+        
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(maintenanceImageView.snp.bottom).offset(ScreenUtils.getHeight(20))
+            $0.centerX.equalToSuperview()
+        }
+        
+        timeLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(6))
+            $0.centerX.equalToSuperview()
+        }
+        
+        confirmButton.snp.makeConstraints {
+            $0.top.equalTo(timeLabel.snp.bottom).offset(ScreenUtils.getHeight(25))
+            $0.height.equalTo(ScreenUtils.getHeight(42))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(20))
+            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(20))
+        }
+    }
+    
     func configureContent(time: String) {
-           timeLabel.attributedText = UIFont.pretendardString(text: time, style: .body3_regular)
-       }
+        let messaage = "점검 시간: " + time
+        timeLabel.attributedText = UIFont.pretendardString(text: messaage, style: .body3_regular)
+    }
 }
 
