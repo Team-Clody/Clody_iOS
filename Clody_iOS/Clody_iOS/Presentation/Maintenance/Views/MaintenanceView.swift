@@ -14,6 +14,7 @@ final class MaintenanceView: BaseView {
     
     // MARK: - UI Components
     
+    private let dimmedView = UIView()
     private let containerView = UIView()
     private let maintenanceImageView = UIImageView()
     private let titleLabel = UILabel()
@@ -30,6 +31,10 @@ final class MaintenanceView: BaseView {
     
     override func setStyle() {
         backgroundColor = .mainYellow
+        
+        dimmedView.do {
+            $0.backgroundColor = UIColor.black.withAlphaComponent(0.4)
+        }
         
         containerView.do {
             $0.backgroundColor = .white
@@ -54,7 +59,7 @@ final class MaintenanceView: BaseView {
         timeLabel.do {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(
-                text: "",
+                text: "점검 중",
                 style: .body3_medium
             )
         }
@@ -69,7 +74,7 @@ final class MaintenanceView: BaseView {
     }
     
     override func setHierarchy() {
-        addSubview(containerView)
+        self.addSubviews(dimmedView, containerView)
         containerView.addSubviews(
             maintenanceImageView,
             titleLabel,
@@ -79,6 +84,10 @@ final class MaintenanceView: BaseView {
     }
     
     override func setLayout() {
+        dimmedView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         containerView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(ScreenUtils.getWidth(20))
