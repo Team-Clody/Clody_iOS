@@ -23,7 +23,7 @@ struct DiaryItem {
     }
     
     var isValid: Bool {
-        !isPlaceholder && !isEmpty && text.count >= 2 && text.count < 51
+        !isPlaceholder && !isEmpty && text.count >= 2 && text.count < LocalizationConstant.WritingDiary.maxLength + 1
     }
     
     var isEmpty: Bool {

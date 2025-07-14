@@ -17,5 +17,11 @@ enum LocalizationConstant {
             return Locale(identifier: "\(languageCode)_\(regionCode)")
         }
     }
+    
+    enum WritingDiary {
+        static var maxLength: Int {
+            return LocalizationConstant.languageCode == "ko" ? 50 : 100
+        }
+    }
 }
 

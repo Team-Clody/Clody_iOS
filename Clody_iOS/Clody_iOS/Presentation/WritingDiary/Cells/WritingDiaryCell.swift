@@ -102,7 +102,7 @@ final class WritingDiaryCell: UICollectionViewCell {
         
         limitTextLabel.do {
             $0.attributedText = UIFont.pretendardString(
-                text: "/ 50",
+                text: "/ \(LocalizationConstant.WritingDiary.maxLength)",
                 style: .detail1_medium,
                 lineHeightMultiple: 1.5
             )

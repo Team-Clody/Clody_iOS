@@ -128,14 +128,14 @@ private extension WritingDiaryViewController {
                     .do(onNext: { [weak cell] text in
                         guard let cell = cell else { return }
                         
-                        let limitedText = String(text.prefix(50))
+                        let limitedText = String(text.prefix(LocalizationConstant.WritingDiary.maxLength))
                         if cell.textView.text != limitedText {
                             cell.textView.text = limitedText
                         }
 
                         cell.textInputLabel.text = "\(limitedText.count)"
 
-                        let isValid = limitedText.count < 50
+                        let isValid = limitedText.count < LocalizationConstant.WritingDiary.maxLength
                         cell.limitErrorLabel.isHidden = isValid
                         cell.writingContainer.makeBorder(
                             width: 1,
