@@ -136,15 +136,12 @@ extension AppVersionManager {
                 return
             }
 
-            let message = self.remoteConfig["downtime_message_iOS"].stringValue ?? "none"
-
-            if message != "none" {
-                DispatchQueue.main.async {
-                    self.presentMaintenanceScreen(message: message)
-                    completion(false) // 진행 중단
-                }
+            if let message = self.remoteConfig["downtime_message_iOS"].stringValue,
+               !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                presentMaintenanceScreen(message: message)
+                completion(false)
             } else {
-                completion(true) // 계속 진행
+                completion(true)
             }
         }
     }

@@ -23,11 +23,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
         self.window = window
         
-        AppVersionManager.shared.checkForUpdateAndProceed { [weak self] shouldProceed in
-            guard shouldProceed else { return }
+        AppVersionManager.shared.checkForUpdateAndProceed { [weak self] isAppUpToDate in
+            guard isAppUpToDate else { return }
 
-            AppVersionManager.shared.checkForDowntimeAndProceed { canProceed in
-                guard canProceed else { return }
+            AppVersionManager.shared.checkForDowntimeAndProceed { isNotInDowntime in
+                guard isNotInDowntime else { return }
                 self?.proceedToNextViewController()
             }
         }

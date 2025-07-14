@@ -21,14 +21,6 @@ final class MaintenanceView: BaseView {
     private let timeLabel = UILabel()
     let confirmButton = UIButton()
     
-    init() {
-        super.init(frame: .zero)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func setStyle() {
         backgroundColor = .mainYellow
         
@@ -90,7 +82,7 @@ final class MaintenanceView: BaseView {
         
         containerView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(ScreenUtils.getWidth(20))
+            $0.leading.trailing.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         maintenanceImageView.snp.makeConstraints {
