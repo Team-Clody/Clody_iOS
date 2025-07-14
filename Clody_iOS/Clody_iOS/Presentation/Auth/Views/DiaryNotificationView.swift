@@ -32,7 +32,7 @@ final class DiaryNotificationView: BaseView {
             $0.attributedText = UIFont.pretendardString(
                 text: I18N.Auth.notificationIntro,
                 style: .head1,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
             $0.numberOfLines = 0
         }

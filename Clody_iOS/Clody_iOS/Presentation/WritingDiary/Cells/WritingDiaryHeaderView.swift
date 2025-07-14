@@ -142,6 +142,6 @@ final class WritingDiaryHeaderView: UIView {
         let dayOfContent = DateFormatter.date(from: dateString)
         
         let dateText = month + "월 " + date + "일 " + (dayOfContent?.koreanDayOfWeek() ?? "")
-        dateLabel.attributedText = UIFont.pretendardString(text: dateText, style: .head2, lineHeightMultiple: 1.5)
+        dateLabel.attributedText = UIFont.pretendardString(text: dateText, style: .head2, applyLineHeight: true)
     }
 }

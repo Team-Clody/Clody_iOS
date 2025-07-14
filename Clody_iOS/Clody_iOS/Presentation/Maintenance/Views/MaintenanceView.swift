@@ -45,7 +45,7 @@ final class MaintenanceView: BaseView {
             $0.attributedText = UIFont.pretendardString(
                 text: "보다 안정적인 클로디 서비스를 위해\n시스템 점검 중이에요. 곧 다시 만나요!",
                 style: .body3_medium,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
         }
         

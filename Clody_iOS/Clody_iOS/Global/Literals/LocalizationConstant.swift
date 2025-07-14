@@ -9,7 +9,7 @@ import Foundation
 
 enum LocalizationConstant {
     
-    private static let languageCode = Locale.current.languageCode ?? "ko"
+    static let languageCode = Locale.current.languageCode ?? "ko"
     private static let regionCode = Locale.current.regionCode ?? "KR"
     
     enum Calendar {

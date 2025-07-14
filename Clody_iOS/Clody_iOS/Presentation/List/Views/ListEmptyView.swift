@@ -24,7 +24,7 @@ final class ListEmptyView: BaseView {
             $0.attributedText = UIFont.pretendardString(
                 text: .List.emptyList,
                 style: .body2_semibold,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
             $0.numberOfLines = 0
         }

@@ -17,7 +17,7 @@ enum FontName {
     case detail2_semibold, detail2_medium
     case letter_medium
 
-    var rawValue: String {
+    var pretendardFont: String {
         switch self {
         case .head1, .head2, .head3, .head4, .body1_semibold, .body2_semibold, .body3_semibold, .body4_semibold, .detail1_semibold, .detail2_semibold:
             return "Pretendard-SemiBold"
@@ -52,74 +52,74 @@ enum FontName {
             return 10
         }
     }
+    
+    var lineHeightMultiple: CGFloat {
+        switch LocalizationConstant.languageCode {
+        case "ko": return ko_lineHeightMultiple
+        default: return en_lineHeightMultiple
+        }
+    }
+    
+    private var en_lineHeightMultiple: CGFloat {
+        switch self {
+        case .head1, .head2, .head3, .head3_medium, .head4:
+            return 1.4
+        case .body1_semibold, .body1_medium,
+                .body2_semibold, .body2_medium,
+                .body3_semibold, .body3_medium, .body3_regular,
+                .body4_semibold, .body4_medium,
+                .detail1_semibold, .detail1_medium, .detail1_regular,
+                .detail2_semibold, .detail2_medium:
+            return 1.3
+        case .letter_medium:
+            return 1.8
+        }
+    }
+    
+    private var ko_lineHeightMultiple: CGFloat {
+        self == .letter_medium ? 1.9 : 1.5
+    }
+    
+    var letterSpacing: CGFloat {
+        switch LocalizationConstant.languageCode {
+        case "ko": return -0.003
+        default: return 0
+        }
+    }
 }
 
 extension UIFont {
     static func pretendard(_ style: FontName) -> UIFont {
-        return UIFont(name: style.rawValue, size: style.size)!
+        return UIFont(name: style.pretendardFont, size: style.size)!
     }
     
     static func pretendardString(
         text: String, 
         style: FontName,
-        lineHeightMultiple: CGFloat? = nil
+        color: UIColor? = nil,
+        applyLineHeight: Bool = false,
+        align: NSTextAlignment? = nil
     ) -> NSAttributedString {
         let font = UIFont.pretendard(style)
-        let letterSpacing = -0.003 * style.size
-        
+        let letterSpacingValue = style.letterSpacing * style.size
         let paragraphStyle = NSMutableParagraphStyle()
-        if let lineHeightMultiple = lineHeightMultiple {
-            paragraphStyle.minimumLineHeight = style.size * lineHeightMultiple
-            paragraphStyle.maximumLineHeight = style.size * lineHeightMultiple
+        if applyLineHeight {
+            paragraphStyle.minimumLineHeight = style.size * style.lineHeightMultiple
+            paragraphStyle.maximumLineHeight = style.size * style.lineHeightMultiple
+        }
+        if let alignment = align {
+            paragraphStyle.alignment = alignment
         }
         
-        let attributes: [NSAttributedString.Key: Any] = [
+        var attributes: [NSAttributedString.Key: Any] = [
             .font: font,
-            .kern: letterSpacing,
+            .kern: letterSpacingValue,
             .paragraphStyle: paragraphStyle
         ]
         
-        return NSAttributedString(string: text, attributes: attributes)
-    }
-    
-    static func pretendardString(
-        text: String,
-        style: FontName,
-        color: UIColor
-    ) -> NSAttributedString {
-        let font = UIFont.pretendard(style)
-        let letterSpacing = -0.003 * style.size
-        
-        let attributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: color,
-            .font: font,
-            .kern: letterSpacing
-        ]
-        
-        return NSAttributedString(string: text, attributes: attributes)
-    }
-    
-    static func pretendardString(
-        text: String,
-        style: FontName,
-        lineHeightMultiple: CGFloat? = nil,
-        align: NSTextAlignment = .natural
-    ) -> NSAttributedString {
-        let font = UIFont.pretendard(style)
-        let letterSpacing = -0.003 * style.size
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = align
-        if let lineHeightMultiple = lineHeightMultiple {
-            paragraphStyle.minimumLineHeight = style.size * lineHeightMultiple
-            paragraphStyle.maximumLineHeight = style.size * lineHeightMultiple
+        if let color = color {
+            attributes[.foregroundColor] = color
         }
-        
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: font,
-            .kern: letterSpacing,
-            .paragraphStyle: paragraphStyle
-        ]
         
         return NSAttributedString(string: text, attributes: attributes)
     }
