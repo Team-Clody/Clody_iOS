@@ -70,6 +70,8 @@
 		0BB74F922E1F4BED001C1975 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB74F912E1F4BE9001C1975 /* String+.swift */; };
 		0BB898262C85BBBB0082F87B /* RevokeResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */; };
 		0BBD1CD32DF2E94D0063DD35 /* GetDraftDiariesResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */; };
+		0BBE39112E237E2600B6C6BE /* MaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBE39102E237E1E00B6C6BE /* MaintenanceViewController.swift */; };
+		0BBE39132E237E2D00B6C6BE /* MaintenanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBE39122E237E2A00B6C6BE /* MaintenanceView.swift */; };
 		0BC373532C3FCC2600C45072 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC373522C3FCC2600C45072 /* ViewModelType.swift */; };
 		0BC373562C3FCF0F00C45072 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 0BC373552C3FCF0F00C45072 /* RxKeyboard */; };
 		0BC373592C4003A900C45072 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 0BC373582C4003A900C45072 /* RxGesture */; };
@@ -235,6 +237,8 @@
 		0BB74F912E1F4BE9001C1975 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		0BB898252C85BBBB0082F87B /* RevokeResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevokeResponseDTO.swift; sourceTree = "<group>"; };
 		0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDraftDiariesResponseDTO.swift; sourceTree = "<group>"; };
+		0BBE39102E237E1E00B6C6BE /* MaintenanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintenanceViewController.swift; sourceTree = "<group>"; };
+		0BBE39122E237E2A00B6C6BE /* MaintenanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintenanceView.swift; sourceTree = "<group>"; };
 		0BC373522C3FCC2600C45072 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		0BCD4FA22C35B59C006390D2 /* Clody_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clody_iOS.entitlements; sourceTree = "<group>"; };
 		0BDF13BF2C7D612800BA2E7C /* Config_Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config_Dev.xcconfig; sourceTree = "<group>"; };
@@ -556,6 +560,31 @@
 			path = Enums;
 			sourceTree = "<group>";
 		};
+		0BBE39092E237DF700B6C6BE /* Maintenance */ = {
+			isa = PBXGroup;
+			children = (
+				0BBE390F2E237E1800B6C6BE /* ViewControllers */,
+				0BBE390A2E237E0100B6C6BE /* Views */,
+			);
+			path = Maintenance;
+			sourceTree = "<group>";
+		};
+		0BBE390A2E237E0100B6C6BE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0BBE39122E237E2A00B6C6BE /* MaintenanceView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0BBE390F2E237E1800B6C6BE /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0BBE39102E237E1E00B6C6BE /* MaintenanceViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		0BCE8F742C9087A200356F53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -744,6 +773,7 @@
 		0BFCC5D02C2E8E3600B5E0DB /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				0BBE39092E237DF700B6C6BE /* Maintenance */,
 				95310FA72C42D97000023C7B /* Reply */,
 				95310F7D2C3FF37500023C7B /* Auth */,
 				95A98E9F2C9C5C1D0073AD3C /* Setting */,
@@ -1073,12 +1103,11 @@
 			};
 			buildConfigurationList = 0B20F3D42C2C4DAA00F8D62D /* Build configuration list for PBXProject "Clody_iOS" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				ko,
 				Base,
-				en,
 			);
 			mainGroup = 0B20F3D02C2C4DAA00F8D62D;
 			packageReferences = (
@@ -1258,6 +1287,7 @@
 				0B190F0D2C38111500D46CFC /* CalendarDailyModel.swift in Sources */,
 				0BE7E9EF2C461D0F000C5358 /* NotificationPickerView.swift in Sources */,
 				95310FC02C44431800023C7B /* TermsViewModel.swift in Sources */,
+				0BBE39132E237E2D00B6C6BE /* MaintenanceView.swift in Sources */,
 				95310F942C40776200023C7B /* OnBoardingViewController.swift in Sources */,
 				0B4A1BCF2C4540C600E31EC4 /* CalendarRouter.swift in Sources */,
 				0B6C074D2C3DC6C70054A0B0 /* ListHeaderView.swift in Sources */,
@@ -1276,6 +1306,7 @@
 				95310F782C3D6DF800023C7B /* ClodyAlert.swift in Sources */,
 				0B4A1BCA2C45403A00E31EC4 /* NetworkRequest.swift in Sources */,
 				0B6C07492C3DC2FC0054A0B0 /* ListView.swift in Sources */,
+				0BBE39112E237E2600B6C6BE /* MaintenanceViewController.swift in Sources */,
 				0BB74F8E2E1AA6D2001C1975 /* LocalizationConstant.swift in Sources */,
 				0B6C07612C3E83DD0054A0B0 /* WritingDiaryHeaderView.swift in Sources */,
 				95A89E772C36EE4100E07ABC /* BaseView.swift in Sources */,

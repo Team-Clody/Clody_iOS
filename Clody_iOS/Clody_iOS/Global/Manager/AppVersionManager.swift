@@ -127,3 +127,35 @@ class AppVersionManager {
         return "최신 버전"
     }
 }
+
+extension AppVersionManager {
+    func checkForDowntimeAndProceed(completion: @escaping (Bool) -> Void) {
+        remoteConfig.fetchAndActivate { [weak self] status, error in
+            guard let self = self else {
+                completion(true)
+                return
+            }
+
+            if let message = self.remoteConfig["downtime_message_iOS"].stringValue,
+               !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                presentMaintenanceScreen(message: message)
+                completion(false)
+            } else {
+                completion(true)
+            }
+        }
+    }
+
+    private func presentMaintenanceScreen(message: String) {
+        
+        let viewController = MaintenanceViewController()
+        viewController.configureContent(time: message)
+        viewController.modalPresentationStyle = .overFullScreen
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let top = windowScene.windows.first?.rootViewController else { return }
+
+        top.present(viewController, animated: false)
+    }
+
+}
