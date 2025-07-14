@@ -8,7 +8,6 @@
 import Foundation
 
 enum I18N {
-    
     enum Common {
         static let year = "년"
         static let month = "월"
@@ -72,13 +71,6 @@ enum I18N {
         }
     }
     
-    enum TermsURL {
-        static let terms = "https://www.notion.so/1c7e3fedb3f4802c8db1f3056c03973f?pvs=21"
-        static let privacy = "https://www.notion.so/1c7e3fedb3f48024a334c8116255b378?pvs=21"
-        static let announcement = "https://www.notion.so/1c7e3fedb3f48029b36cf9d76c5fb6d6?pvs=21"
-        static let contactUs = "https://docs.google.com/forms/d/e/1FAIpQLSeCS3Z9ctFyqHZH7qkryOEQYQdhvNCMPT6QJ3J2GQw86WId4Q/viewform"
-    }
-    
     enum Auth {
         static let kakaoLogin = "카카오로 로그인"
         static let appleLogin = "Apple로 로그인"
@@ -113,10 +105,6 @@ enum I18N {
         static let getClover = "1개의 네잎클로버 획득"
     }
     
-    enum List {
-        static let emptyList = "작성된 감사일기가 없어요!"
-    }
-    
     enum Error {
         static let network = "서비스 접속이 원활하지 않아요.\n네트워크 연결을 확인해주세요."
         static let unKnown = "일시적인 오류가 발생했어요.\n잠시 후 다시 시도해주세요."
@@ -142,38 +130,11 @@ enum I18N {
         static let replyButton = "답장 확인"
         static let inputLimitError = "2~50자까지 입력할 수 있어요."
     }
-    
-    enum Calendar {
-        static let reply = "답장 확인"
-        static let writing = "일기 쓰기"
-        static let empty = "작성된 감사 일기가 없어요!"
-        static let draft = "임시저장된 일기가 있어요."
-        static let delete = "삭제하기"
-        static let otherDay = "다른 날짜 보기"
-        static let complete = "완료"
-        static let writeMore = "이어쓰기"
-    }
-    
+        
     enum Notification {
         static let diaryWriting = "일기 작성 알림 받기"
         static let continueWriting = "이어쓰기 알림 받기"
         static let time = "알림 시간"
         static let replyReceived = "답장 도착 알림 받기"
-    }
-    
-    enum AppVersion {
-        static let forceTitle = "필수 업데이트"
-        static func forceMessage(_ version: String) -> String {
-            return "버전 \(version)으로 업데이트가 필요합니다."
-        }
-
-        static let optionalTitle = "업데이트 필요"
-        static func optionalMessage(_ version: String) -> String {
-            return "새로운 버전 \(version)을 사용할 수 있습니다. 지금 업데이트하시겠습니까?"
-        }
-
-        static let update = "업데이트"
-        static let exit = "앱 종료"
-        static let later = "나중에"
     }
 }

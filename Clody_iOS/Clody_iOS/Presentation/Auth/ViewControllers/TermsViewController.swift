@@ -109,13 +109,13 @@ private extension TermsViewController {
         
         output.linkToTermsDetail
             .drive(onNext: {
-                self.linkToURL(url: I18N.TermsURL.terms)
+                self.linkToURL(url: .TermsURL.terms)
             })
             .disposed(by: disposeBag)
         
         output.linkToPrivacyDetail
             .drive(onNext: {
-                self.linkToURL(url: I18N.TermsURL.privacy)
+                self.linkToURL(url: .TermsURL.privacy)
             })
             .disposed(by: disposeBag)
         
