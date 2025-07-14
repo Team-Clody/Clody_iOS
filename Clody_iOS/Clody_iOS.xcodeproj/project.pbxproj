@@ -239,7 +239,6 @@
 		0BBD1CD22DF2E9430063DD35 /* GetDraftDiariesResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDraftDiariesResponseDTO.swift; sourceTree = "<group>"; };
 		0BBE39102E237E1E00B6C6BE /* MaintenanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintenanceViewController.swift; sourceTree = "<group>"; };
 		0BBE39122E237E2A00B6C6BE /* MaintenanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintenanceView.swift; sourceTree = "<group>"; };
-		0BBE39142E254F8400B6C6BE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		0BC373522C3FCC2600C45072 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		0BCD4FA22C35B59C006390D2 /* Clody_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clody_iOS.entitlements; sourceTree = "<group>"; };
 		0BDF13BF2C7D612800BA2E7C /* Config_Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config_Dev.xcconfig; sourceTree = "<group>"; };
@@ -1335,7 +1334,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				0B20F3E82C2C4DAB00F8D62D /* Base */,
-				0BBE39142E254F8400B6C6BE /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
