@@ -13,7 +13,7 @@ import Then
 
 final class AccountView: BaseView {
     
-    let navigationBar = ClodyNavigationBar(type: .setting, title: I18N.Setting.profile)
+    let navigationBar = ClodyNavigationBar(type: .setting, title: .Setting.profile)
     private let profileImageView = UIImageView()
     private let nicknameLabel = UILabel()
     let changeProfileButton = UIButton()
@@ -60,25 +60,25 @@ final class AccountView: BaseView {
         }
         
         changeProfileButton.do {
-            let attributedTitle = UIFont.pretendardString(text: I18N.Setting.edit, style: .body4_medium)
+            let attributedTitle = UIFont.pretendardString(text: .Setting.edit, style: .body4_medium)
             $0.setAttributedTitle(attributedTitle, for: .normal)
             $0.setTitleColor(.grey05, for: .normal)
         }
         
         logoutButton.do {
-            let attributedTitle = UIFont.pretendardString(text: I18N.Setting.logout, style: .body4_medium)
+            let attributedTitle = UIFont.pretendardString(text: .Setting.logout, style: .body4_medium)
             $0.setAttributedTitle(attributedTitle, for: .normal)
             $0.setTitleColor(.grey05, for: .normal)
         }
         
         deleteAccountButton.do {
-            let attributedTitle = UIFont.pretendardString(text: I18N.Setting.revoke, style: .body4_medium)
+            let attributedTitle = UIFont.pretendardString(text: .Setting.revoke, style: .body4_medium)
             $0.setAttributedTitle(attributedTitle, for: .normal)
             $0.setTitleColor(.grey05, for: .normal)
         }
         
         deleteConfirmationLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: I18N.Setting.delete, style: .body4_medium)
+            $0.attributedText = UIFont.pretendardString(text: .Setting.delete, style: .body4_medium)
             $0.textColor = .grey05
         }
         

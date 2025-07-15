@@ -58,5 +58,11 @@ extension String {
         static let privacy = String(localized: "setting.privacy", comment: "개인정보 처리방침")
         static let version = String(localized: "setting.version", comment: "앱 버전")
         static let latestVersion = String(localized: "setting.latestVersion", comment: "최신 버전")
+        static let logout = String(localized: "setting.logout", comment: "로그아웃")
+        static let revoke = String(localized: "setting.revoke", comment: "회원탈퇴")
+        static let delete = String(localized: "setting.delete", comment: "계정을 삭제하시겠어요?")
+        static let nickNameEdit = String(localized: "setting.nickNameEdit", comment: "닉네임 변경")
+        static let edit = String(localized: "setting.edit", comment: "변경하기")
+        static let save = String(localized: "setting.save", comment: "변경하기(닉네임 저장)")
     }
 }

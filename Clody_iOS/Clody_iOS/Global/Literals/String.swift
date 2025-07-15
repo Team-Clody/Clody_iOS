@@ -110,17 +110,6 @@ enum I18N {
         static let unKnown = "일시적인 오류가 발생했어요.\n잠시 후 다시 시도해주세요."
     }
     
-    enum Setting {
-        static let setting = "설정"
-        static let profile = "프로필 및 계정 관리"
-        static let logout = "로그아웃"
-        static let revoke = "회원탈퇴"
-        static let delete = "계정을 삭제하시겠어요?"
-        static let alarmSet = "알림 설정"
-        static let nickNameEdit = "닉네임 변경"
-        static let edit = "변경하기"
-    }
-    
     enum WritingDiary {
         static let save = "저장"
         static let submit = "보내기"

@@ -324,6 +324,40 @@
         }
       }
     },
+    "setting.delete" : {
+      "comment" : "계정을 삭제하시겠어요?",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to\ndelete your account?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "계정을 삭제하시겠어요?"
+          }
+        }
+      }
+    },
+    "setting.edit" : {
+      "comment" : "변경하기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "변경하기"
+          }
+        }
+      }
+    },
     "setting.latestVersion" : {
       "comment" : "최신 버전",
       "localizations" : {
@@ -337,6 +371,40 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "최신 버전"
+          }
+        }
+      }
+    },
+    "setting.logout" : {
+      "comment" : "로그아웃",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logout"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "로그아웃"
+          }
+        }
+      }
+    },
+    "setting.nickNameEdit" : {
+      "comment" : "닉네임 변경",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Nickname"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "닉네임 변경"
           }
         }
       }
@@ -388,6 +456,57 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "프로필 및 계정 관리"
+          }
+        }
+      }
+    },
+    "setting.revoke" : {
+      "comment" : "회원탈퇴",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Withdraw"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "회원탈퇴"
+          }
+        }
+      }
+    },
+    "setting.save" : {
+      "comment" : "변경하기(닉네임 저장)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "변경하기"
+          }
+        }
+      }
+    },
+    "setting.settings" : {
+      "comment" : "설정",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "설정"
           }
         }
       }
