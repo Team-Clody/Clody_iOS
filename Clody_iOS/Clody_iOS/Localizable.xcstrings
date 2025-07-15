@@ -289,6 +289,125 @@
           }
         }
       }
+    },
+    "setting.announcement" : {
+      "comment" : "공지사항",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notices"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "공지사항"
+          }
+        }
+      }
+    },
+    "setting.contactUs" : {
+      "comment" : "문의/제안하기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support/Feedback"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "문의/제안하기"
+          }
+        }
+      }
+    },
+    "setting.notification" : {
+      "comment" : "알림 설정",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "알림 설정"
+          }
+        }
+      }
+    },
+    "setting.privacy" : {
+      "comment" : "개인정보 처리방침",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "개인정보 처리방침"
+          }
+        }
+      }
+    },
+    "setting.profile" : {
+      "comment" : "프로필 및 계정 관리",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profile and Account"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "프로필 및 계정 관리"
+          }
+        }
+      }
+    },
+    "setting.terms" : {
+      "comment" : "서비스 이용 약관",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of Service"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "서비스 이용 약관"
+          }
+        }
+      }
+    },
+    "setting.version" : {
+      "comment" : "앱 버전",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "앱 버전"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

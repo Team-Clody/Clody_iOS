@@ -48,5 +48,14 @@ extension String {
         static let exit = String(localized: "appVersion.exit", comment: "앱 종료")
         static let later = String(localized: "appVersion.later", comment: "나중에")
     }
+    
+    enum Setting {
+        static let profile = String(localized: "setting.profile", comment: "프로필 및 계정 관리")
+        static let notification = String(localized: "setting.notification", comment: "알림 설정")
+        static let announcement = String(localized: "setting.announcement", comment: "공지사항")
+        static let contactUs = String(localized: "setting.contactUs", comment: "문의/제안하기")
+        static let terms = String(localized: "setting.terms", comment: "서비스 이용 약관")
+        static let privacy = String(localized: "setting.privacy", comment: "개인정보 처리방침")
+        static let version = String(localized: "setting.version", comment: "앱 버전")
+    }
 }
-
