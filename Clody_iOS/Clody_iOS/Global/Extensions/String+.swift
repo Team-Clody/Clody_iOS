@@ -57,5 +57,6 @@ extension String {
         static let terms = String(localized: "setting.terms", comment: "서비스 이용 약관")
         static let privacy = String(localized: "setting.privacy", comment: "개인정보 처리방침")
         static let version = String(localized: "setting.version", comment: "앱 버전")
+        static let latestVersion = String(localized: "setting.latestVersion", comment: "최신 버전")
     }
 }

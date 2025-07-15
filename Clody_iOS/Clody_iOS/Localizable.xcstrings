@@ -324,6 +324,23 @@
         }
       }
     },
+    "setting.latestVersion" : {
+      "comment" : "최신 버전",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latest version"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "최신 버전"
+          }
+        }
+      }
+    },
     "setting.notification" : {
       "comment" : "알림 설정",
       "localizations" : {

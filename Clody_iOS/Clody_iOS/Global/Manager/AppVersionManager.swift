@@ -19,17 +19,20 @@ class AppVersionManager {
     private let remoteConfig = RemoteConfig.remoteConfig()
     private let latestVersion: String?
     private let currentVersion: String?
-    var version: String {
-        guard let latestVersion, let currentVersion else { return  "" }
-        return latestVersion == currentVersion ? .Setting.latestVersion : currentVersion
-    }
+    let version: String
     
     private init() {
         let settings = RemoteConfigSettings()
         settings.minimumFetchInterval = 300
         remoteConfig.configSettings = settings
+        
         latestVersion = remoteConfig["latest_version_iOS"].stringValue
         currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        if let latestVersion, let currentVersion {
+            version = latestVersion <= currentVersion ? .Setting.latestVersion : currentVersion
+        } else {
+            version = ""
+        }
     }
     
     func checkForUpdateAndProceed(completion: @escaping (Bool) -> Void) {
