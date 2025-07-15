@@ -21,6 +21,8 @@
 	</array>
 	<key>GADApplicationIdentifier</key>
 	<string>$(AD_APP_ID)</string>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
 	<key>KAKAO_KEY</key>
 	<string>$(KAKAO_KEY)</string>
 	<key>LSApplicationQueriesSchemes</key>
