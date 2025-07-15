@@ -50,6 +50,7 @@ extension String {
     }
     
     enum Setting {
+        static let settings = String(localized: "setting.settings", comment: "설정")
         static let profile = String(localized: "setting.profile", comment: "프로필 및 계정 관리")
         static let notification = String(localized: "setting.notification", comment: "알림 설정")
         static let announcement = String(localized: "setting.announcement", comment: "공지사항")
@@ -64,5 +65,12 @@ extension String {
         static let nickNameEdit = String(localized: "setting.nickNameEdit", comment: "닉네임 변경")
         static let edit = String(localized: "setting.edit", comment: "변경하기")
         static let save = String(localized: "setting.save", comment: "변경하기(닉네임 저장)")
+    }
+    
+    enum Notification {
+        static let diaryWriting = String(localized: "notification.diaryWriting", comment: "일기 작성 알림 받기")
+        static let continueWriting = String(localized: "notification.continueWriting", comment: "이어쓰기 알림 받기")
+        static let time = String(localized: "notification.time", comment: "알림 시간")
+        static let replyReceived = String(localized: "notification.replyReceived", comment: "답장 도착 알림 받기")
     }
 }

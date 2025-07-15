@@ -290,6 +290,74 @@
         }
       }
     },
+    "notification.continueWriting" : {
+      "comment" : "이어쓰기 알림 받기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Draft Reminder"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "이어쓰기 알림 받기"
+          }
+        }
+      }
+    },
+    "notification.diaryWriting" : {
+      "comment" : "일기 작성 알림 받기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Journal Reminder"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "일기 작성 알림 받기"
+          }
+        }
+      }
+    },
+    "notification.replyReceived" : {
+      "comment" : "답장 도착 알림 받기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reply Notification"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "답장 도착 알림 받기"
+          }
+        }
+      }
+    },
+    "notification.time" : {
+      "comment" : "알림 시간",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminder Time"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "알림 시간"
+          }
+        }
+      }
+    },
     "setting.announcement" : {
       "comment" : "공지사항",
       "localizations" : {

@@ -118,11 +118,4 @@ enum I18N {
         static let replyButton = "답장 확인"
         static let inputLimitError = "2~50자까지 입력할 수 있어요."
     }
-        
-    enum Notification {
-        static let diaryWriting = "일기 작성 알림 받기"
-        static let continueWriting = "이어쓰기 알림 받기"
-        static let time = "알림 시간"
-        static let replyReceived = "답장 도착 알림 받기"
-    }
 }
