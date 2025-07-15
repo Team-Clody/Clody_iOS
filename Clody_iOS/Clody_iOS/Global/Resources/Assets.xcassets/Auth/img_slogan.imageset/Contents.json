@@ -1,16 +1,14 @@
 {
   "images" : [
     {
-      "filename" : "img_slogan.svg",
+      "filename" : "img_slogan 1.svg",
       "idiom" : "universal"
     },
     {
-      "filename" : "img_slogan 1.svg",
       "idiom" : "universal",
       "locale" : "ko"
     },
     {
-      "filename" : "One Journal, One Lucky Day.svg",
       "idiom" : "universal",
       "locale" : "en"
     }
