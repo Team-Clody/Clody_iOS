@@ -1,15 +1,9 @@
 {
-  "sourceLanguage" : "en",
+  "sourceLanguage" : "ko",
   "strings" : {
     "appVersion.exit" : {
       "comment" : "앱 종료",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Exit App"
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -21,12 +15,6 @@
     "appVersion.forceMessage" : {
       "comment" : "버전 x.x.x으로 업데이트가 필요합니다.",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Please update to version %@ to continue "
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38,12 +26,6 @@
     "appVersion.forceTitle" : {
       "comment" : "필수 업데이트",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Update Required"
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -55,12 +37,6 @@
     "appVersion.later" : {
       "comment" : "나중에",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Later"
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -72,12 +48,6 @@
     "appVersion.optionalMessage" : {
       "comment" : "새로운 버전 x.x.x 사용 가능",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A new version %@ is available. Do you want to update now?"
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -89,12 +59,6 @@
     "appVersion.optionalTitle" : {
       "comment" : "업데이트 필요",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Update Required"
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -106,12 +70,6 @@
     "appVersion.update" : {
       "comment" : "업데이트",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Update"
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -123,12 +81,6 @@
     "calendar.cloverCount" : {
       "comment" : "클로버 n개",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : " %d Clovers"
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -140,12 +92,6 @@
     "calendar.complete" : {
       "comment" : "완료",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Done"
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -157,12 +103,6 @@
     "calendar.delete" : {
       "comment" : "삭제하기",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete"
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -174,12 +114,6 @@
     "calendar.draft" : {
       "comment" : "임시저장된 일기가 있어요.",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "There are existing entries in drafts."
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -191,12 +125,6 @@
     "calendar.empty" : {
       "comment" : "작성된 감사 일기가 없어요!",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No gratitude entries yet."
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -208,12 +136,6 @@
     "calendar.otherDay" : {
       "comment" : "다른 날짜 보기",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View Another Day"
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -225,12 +147,6 @@
     "calendar.reply" : {
       "comment" : "답장 확인",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "See My Reply"
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -242,12 +158,6 @@
     "calendar.writeMore" : {
       "comment" : "이어쓰기",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continue Writing"
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -259,12 +169,6 @@
     "calendar.writing" : {
       "comment" : "일기 쓰기",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Write a Journal"
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -276,12 +180,6 @@
     "list.emptyList" : {
       "comment" : "작성된 감사일기가 없어요!",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No gratitude entries yet."
-          }
-        },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -289,6 +187,9 @@
           }
         }
       }
+    },
+    "reply.navigationTitle" : {
+      "comment" : "m월 d일"
     }
   },
   "version" : "1.0"
