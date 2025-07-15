@@ -14,7 +14,7 @@ enum LocalizationConstant {
     
     enum Calendar {
         static var calendarLocale: Locale {
-            return Locale(identifier: "\(languageCode)_\(regionCode)")
+            return Locale(identifier: "ko_KR")
         }
     }
 }

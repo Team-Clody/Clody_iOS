@@ -187,9 +187,6 @@
           }
         }
       }
-    },
-    "reply.navigationTitle" : {
-      "comment" : "m월 d일"
     }
   },
   "version" : "1.0"
