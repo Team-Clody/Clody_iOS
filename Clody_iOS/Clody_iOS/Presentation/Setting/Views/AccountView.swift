@@ -80,6 +80,7 @@ final class AccountView: BaseView {
         deleteConfirmationLabel.do {
             $0.attributedText = UIFont.pretendardString(text: .Setting.delete, style: .body4_medium)
             $0.textColor = .grey05
+            $0.numberOfLines = 0
         }
         
         separatorLine.do {
