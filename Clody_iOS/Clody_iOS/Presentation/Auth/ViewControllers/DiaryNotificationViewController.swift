@@ -23,7 +23,7 @@ final class DiaryNotificationViewController: UIViewController {
     // MARK: - UI Components
      
     private let rootView = DiaryNotificationView()
-    private let timePickerView = NotificationPickerView(title: I18N.BottomSheet.changeTime)
+    private let timePickerView = NotificationPickerView(title: .BottomSheet.changeTime)
     
     // MARK: - Life Cycles
     

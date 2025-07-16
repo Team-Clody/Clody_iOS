@@ -93,13 +93,20 @@ extension String {
         static let clodyTerms = String(localized: "auth.clodyTerms", comment: "Clody 이용약관")
         static let privacy = String(localized: "auth.privacy", comment: "개인정보 처리방침")
         static let nickNameIntro = String(localized: "auth.nickNameIntro", comment: "만나서 반가워요! 어떻게 불러드릴까요?")
+        static let notificationIntro = String(localized: "auth.notificationIntro", comment: "몇 시에 감사일기 작성 알림을 드릴까요?")
+        static let skipForNow = String(localized: "auth.skipForNow", comment: "다음에 설정할게요")
     }
     
     enum Common {
         static let next = String(localized: "common.next", comment: "다음")
+        static let complete = String(localized: "common.complete", comment: "완료")
         static let enterNickname = String(localized: "common.enterNickname", comment: "닉네임을 입력해주세요")
         static let nicknameCondition = String(localized: "common.nicknameCondition", comment: "특수문자, 띄어쓰기 없이 작성해주세요")
         static let nicknameError = String(localized: "common.nicknameError", comment: "사용할 수 없는 닉네임이에요")
         static let charLimit = "/ 10"
+    }
+    
+    enum BottomSheet {
+        static let changeTime = String(localized: "bottomSheet.changeTime", comment: "발송 시간 변경")
     }
 }

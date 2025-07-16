@@ -296,13 +296,30 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nice to meet you!\nWhat should I call you ?"
+            "value" : "Nice to meet you!\nWhat should I call you?"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "만나서 반가워요!\n어떻게 불러드릴까요?"
+          }
+        }
+      }
+    },
+    "auth.notificationIntro" : {
+      "comment" : "몇 시에 감사일기 작성 알림을 드릴까요?",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What time would you\nlike us to remind you to write?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "몇 시에 감사일기\n작성 알림을 드릴까요?"
           }
         }
       }
@@ -341,6 +358,23 @@
         }
       }
     },
+    "auth.skipForNow" : {
+      "comment" : "다음에 설정할게요",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip for now"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "다음에 설정할게요"
+          }
+        }
+      }
+    },
     "auth.termsIntro" : {
       "comment" : "Clody 이용을 위해 약관에 동의해 주세요",
       "localizations" : {
@@ -354,6 +388,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Clody 이용을 위해\n약관에 동의해 주세요"
+          }
+        }
+      }
+    },
+    "bottomSheet.changeTime" : {
+      "comment" : "발송 시간 변경",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change reminder time"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "발송 시간 변경"
           }
         }
       }
@@ -507,6 +558,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "일기 쓰기"
+          }
+        }
+      }
+    },
+    "common.complete" : {
+      "comment" : "완료",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "완료"
           }
         }
       }

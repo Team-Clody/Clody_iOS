@@ -11,7 +11,6 @@ enum I18N {
     enum Common {
         static let year = "년"
         static let month = "월"
-        static let complete = "완료"
         static let ok = "확인"
         static let bundleID = "com.Clody.Clody"
         static let appLink = "https://apps.apple.com/app/6511215518"
@@ -45,7 +44,6 @@ enum I18N {
     }
     
     enum BottomSheet {
-        static let changeTime = "발송 시간 변경"
         static let viewOtherTimes = "다른 시간 보기"
         
         enum ContinueWriting {
@@ -66,8 +64,6 @@ enum I18N {
         static let onboarding_3_sub = "그전이나 다음날의 일기는 작성할 수\n없으니, 잊지 말고 기록해 주세요"
         static let onboarding_4_title = "이제 일기를 써볼까요?\n기다리고 있을게요!"
         static let onboarding_4_sub = "두번째 일기부터는 네잎클로버를 찾는 데\n12시간이 걸리니 조금만 기다려 주세요"
-        static let notificationIntro = "몇 시에 감사일기\n작성 알림을 드릴까요?"
-        static let setNext = "다음에 설정할게요"
         static let start = "시작하기"
     }
     

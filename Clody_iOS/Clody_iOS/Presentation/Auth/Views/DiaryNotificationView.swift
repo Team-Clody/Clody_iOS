@@ -19,7 +19,7 @@ final class DiaryNotificationView: BaseView {
     let timeLabel = UILabel()
     private let downButton = UIButton()
     private let divider = UIView()
-    let completeButton = ClodyBottomButton(title: I18N.Common.complete)
+    let completeButton = ClodyBottomButton(title: .Common.complete)
     let setNextButton = UIButton()
     
     // MARK: - Methods
@@ -30,7 +30,7 @@ final class DiaryNotificationView: BaseView {
         introLabel.do {
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.Auth.notificationIntro,
+                text: .Auth.notificationIntro,
                 style: .head1,
                 applyLineHeight: true
             )
@@ -61,7 +61,7 @@ final class DiaryNotificationView: BaseView {
                 .font: UIFont.pretendard(.detail1_medium),
                 .underlineStyle: NSUnderlineStyle.single.rawValue
             ]
-            let attributedTitle = NSAttributedString(string: I18N.Auth.setNext, attributes: attributes)
+            let attributedTitle = NSAttributedString(string: .Auth.skipForNow, attributes: attributes)
             $0.setAttributedTitle(attributedTitle, for: .normal)
         }
     }
