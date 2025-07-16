@@ -87,7 +87,7 @@ extension ClodyAlert {
         case .saveDiary:
             leftButtonText = I18N.Alert.cancel
         default:
-            leftButtonText = I18N.Alert.no
+            leftButtonText = .Alert.no
         }
         
         titleLabel.do {

@@ -73,4 +73,14 @@ extension String {
         static let time = String(localized: "notification.time", comment: "알림 시간")
         static let replyReceived = String(localized: "notification.replyReceived", comment: "답장 도착 알림 받기")
     }
+    
+    enum Alert {
+        static let logoutTitle = String(localized: "alert.logoutTitle", comment: "로그아웃 하시겠어요?")
+        static let logoutMessage = String(localized: "alert.logoutMessage", comment: "기다릴게요, 다음에 다시 만나요!")
+        static let withdrawTitle = String(localized: "alert.withdrawTitle", comment: "서비스를 탈퇴하시겠어요?")
+        static let withdrawMessage = String(localized: "alert.withdrawMessage", comment: "작성하신 일기와 받은 답장 및 클로버가 모두 삭제되며 복구할 수 없어요.")
+        static let logout = String(localized: "alert.logout", comment: "로그아웃")
+        static let withdraw = String(localized: "alert.withdraw", comment: "탈퇴할래요")
+        static let no = String(localized: "alert.no", comment: "아니요")
+    }
 }

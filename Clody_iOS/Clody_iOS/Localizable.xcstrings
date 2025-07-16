@@ -1,6 +1,125 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "alert.logout" : {
+      "comment" : "로그아웃",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logout"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "로그아웃"
+          }
+        }
+      }
+    },
+    "alert.logoutMessage" : {
+      "comment" : "기다릴게요, 다음에 다시 만나요!",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I’ll be here, see you again soon!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "기다릴게요, 다음에 다시 만나요!"
+          }
+        }
+      }
+    },
+    "alert.logoutTitle" : {
+      "comment" : "로그아웃 하시겠어요?",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log out now?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "로그아웃 하시겠어요?"
+          }
+        }
+      }
+    },
+    "alert.no" : {
+      "comment" : "아니요",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "아니요"
+          }
+        }
+      }
+    },
+    "alert.withdraw" : {
+      "comment" : "탈퇴할래요",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Withdraw"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "탈퇴할래요"
+          }
+        }
+      }
+    },
+    "alert.withdrawMessage" : {
+      "comment" : "작성하신 일기와 받은 답장 및 클로버가 모두 삭제되며 복구할 수 없어요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your journals, replies, and clovers will be\npermanently deleted and can’t be restored."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "작성하신 일기와 받은 답장 및 클로버가\n모두 삭제되며 복구할 수 없어요."
+          }
+        }
+      }
+    },
+    "alert.withdrawTitle" : {
+      "comment" : "서비스를 탈퇴하시겠어요?",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete your account?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "서비스를 탈퇴하시겠어요?"
+          }
+        }
+      }
+    },
     "appVersion.exit" : {
       "comment" : "앱 종료",
       "localizations" : {
