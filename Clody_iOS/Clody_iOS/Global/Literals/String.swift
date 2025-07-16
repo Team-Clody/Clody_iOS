@@ -65,8 +65,6 @@ enum I18N {
     }
     
     enum Auth {
-        static let kakaoLogin = "카카오로 로그인"
-        static let appleLogin = "Apple로 로그인"
         static let termsIntro = "Clody 이용을 위해\n약관에 동의해 주세요"
         static let allAgree = "전체 동의"
         static let required = "(필수)"

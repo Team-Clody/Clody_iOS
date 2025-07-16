@@ -239,6 +239,23 @@
         }
       }
     },
+    "auth.appleLogin" : {
+      "comment" : "Apple로 로그인",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign up with Apple"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple로 로그인"
+          }
+        }
+      }
+    },
     "calendar.cloverCount" : {
       "comment" : "클로버 n개",
       "localizations" : {

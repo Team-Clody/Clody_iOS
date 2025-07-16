@@ -83,4 +83,9 @@ extension String {
         static let withdraw = String(localized: "alert.withdraw", comment: "탈퇴할래요")
         static let no = String(localized: "alert.no", comment: "아니요")
     }
+    
+    enum Auth {
+        static let kakaoLogin = "카카오로 로그인"
+        static let appleLogin = String(localized: "auth.appleLogin", comment: "Apple로 로그인")
+    }
 }
