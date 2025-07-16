@@ -121,15 +121,6 @@ enum I18N {
         static let nickNameEdit = "닉네임 변경"
         static let edit = "변경하기"
     }
-    
-    enum WritingDiary {
-        static let save = "저장"
-        static let submit = "보내기"
-        static let placeHolder = "일상 속 작은 감사함을 적어보세요."
-        static let helpMessage = "신조어, 비속어, 이모지 작성은 불가능해요"
-        static let replyButton = "답장 확인"
-        static let inputLimitError = "2~50자까지 입력할 수 있어요."
-    }
         
     enum Notification {
         static let diaryWriting = "일기 작성 알림 받기"

@@ -22,6 +22,14 @@ extension String {
         }
     }
     
+    enum WritingDiary {
+        static let submit = String(localized: "writingDiary.submit", comment: "보내기")
+        static let placeHolder = String(localized: "writingDiary.placeHolder", comment: "일상 속 작은 감사함을 적어보세요.")
+        static let helpMessage = String(localized: "writingDiary.helpMessage", comment: "신조어, 비속어, 이모지 작성은 불가능해요")
+        static let replyButton = String(localized: "writingDiary.replyButton", comment: "답장 확인")
+        static let inputLimitError = String(localized: "writingDiary.inputLimitError", comment: "2~50자까지 입력할 수 있어요.")
+    }
+    
     enum TermsURL {
         static let terms = "https://www.notion.so/1c7e3fedb3f4802c8db1f3056c03973f?pvs=21"
         static let privacy = "https://www.notion.so/1c7e3fedb3f48024a334c8116255b378?pvs=21"

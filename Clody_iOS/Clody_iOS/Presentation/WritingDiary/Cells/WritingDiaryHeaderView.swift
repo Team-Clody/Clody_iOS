@@ -46,7 +46,7 @@ final class WritingDiaryHeaderView: UIView {
         
         submitButton.do {
             $0.setTitleColor(.grey01, for: .normal)
-            let attributedTitle = UIFont.pretendardString(text: I18N.WritingDiary.submit, style: .body2_semibold)
+            let attributedTitle = UIFont.pretendardString(text: .WritingDiary.submit, style: .body2_semibold)
             $0.setAttributedTitle(attributedTitle, for: .normal)
         }
         
@@ -71,7 +71,7 @@ final class WritingDiaryHeaderView: UIView {
         }
         
         helpMessageLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: I18N.WritingDiary.helpMessage, style: .detail1_medium)
+            $0.attributedText = UIFont.pretendardString(text: .WritingDiary.helpMessage, style: .detail1_medium)
             $0.textColor = .blueCustom
         }
         

@@ -31,7 +31,7 @@ struct DiaryItem {
     }
     
     var displayText: String {
-        isPlaceholder ? I18N.WritingDiary.placeHolder : text
+        isPlaceholder ? .WritingDiary.placeHolder : text
     }
     
     var textColor: UIColor {
