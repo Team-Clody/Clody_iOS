@@ -130,5 +130,12 @@ extension String {
         static let replyReceived = String(localized: "reply.replyReceived", comment: "로디가 쓴 행운의 답장이 도착했어요!")
         static let quickReplyAfterAd = String(localized: "reply.quickReplyAfterAd", comment: "광고 보고 바로 답장 받기")
         static let open = String(localized: "reply.open", comment: "열어보기")
+        static func luckyReplyFor(_ nickname: String) -> String {
+            return String(format: String(localized: "reply.luckyReplyForYou", comment: "님을 위한 행운의 답장"), nickname)
+        }
+        static func luckIsHere(_ nickname: String) -> String {
+            return String(format: String(localized: "reply.luckIsHere", comment: "님을 위한 행운 도착"), nickname)
+        }
+        static let getClover = String(localized: "reply.getClover", comment: "1개의 네잎클로버 획득")
     }
 }

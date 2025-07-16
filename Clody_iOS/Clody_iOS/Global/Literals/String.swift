@@ -11,7 +11,6 @@ enum I18N {
     enum Common {
         static let year = "년"
         static let month = "월"
-        static let ok = "확인"
         static let bundleID = "com.Clody.Clody"
         static let appLink = "https://apps.apple.com/app/6511215518"
     }
@@ -53,12 +52,6 @@ enum I18N {
             static let enableNotification = "알림 받기"
             static let skipForNow = "다음에 하기"
         }
-    }
-    
-    enum Reply {
-        static let luckyReplyForYou = "님을 위한 행운의 답장"
-        static let goodLuckToYou = "님을 위한 행운 도착"
-        static let getClover = "1개의 네잎클로버 획득"
     }
     
     enum Error {

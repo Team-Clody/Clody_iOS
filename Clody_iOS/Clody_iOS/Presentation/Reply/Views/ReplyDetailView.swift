@@ -96,7 +96,7 @@ extension ReplyDetailView {
     
     func setStyleForData() {
         titleLabel.do {
-            let title = nickname + I18N.Reply.luckyReplyForYou
+            let title = String.Reply.luckyReplyFor(nickname)
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(text: title, style: .body2_semibold)
             $0.numberOfLines = 0

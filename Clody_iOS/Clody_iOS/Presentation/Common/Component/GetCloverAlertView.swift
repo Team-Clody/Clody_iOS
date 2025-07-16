@@ -22,7 +22,7 @@ final class GetCloverAlertView: BaseView {
             titleLabel.do {
                 $0.textColor = .grey05
                 $0.attributedText = UIFont.pretendardString(
-                    text: nickname + I18N.Reply.goodLuckToYou,
+                    text: .Reply.luckIsHere(nickname),
                     style: .detail1_medium,
                     color: .grey05
                 )
@@ -44,7 +44,7 @@ final class GetCloverAlertView: BaseView {
         contentLabel.do {
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.Reply.getClover,
+                text: .Reply.getClover,
                 style: .head3,
                 color: .grey01
             )
@@ -54,7 +54,7 @@ final class GetCloverAlertView: BaseView {
             $0.setTitleColor(.darkYellow, for: .normal)
             $0.setAttributedTitle(
                 UIFont.pretendardString(
-                    text: I18N.Common.ok,
+                    text: .Common.ok,
                     style: .body2_semibold
                 ),
                 for: .normal
@@ -67,24 +67,26 @@ final class GetCloverAlertView: BaseView {
     }
     
     override func setLayout() {
+        let isKorean = LocalizationConstant.languageCode == "ko"
+        
         cloverImageView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(ScreenUtils.getHeight(19))
             $0.centerX.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(cloverImageView.snp.bottom).offset(ScreenUtils.getHeight(22))
+            $0.top.equalTo(cloverImageView.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 22 : 19))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         contentLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(4))
+            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 4 : 10))
             $0.centerX.equalToSuperview()
         }
         
         okButton.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getHeight(40))
-            $0.top.equalTo(contentLabel.snp.bottom).offset(ScreenUtils.getHeight(21.5))
+            $0.top.equalTo(contentLabel.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 21.5 : 22.5))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(11))
             $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(11.5))
         }

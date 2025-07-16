@@ -681,6 +681,23 @@
         }
       }
     },
+    "common.ok" : {
+      "comment" : "확인",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "확인"
+          }
+        }
+      }
+    },
     "list.emptyList" : {
       "comment" : "작성된 감사일기가 없어요!",
       "localizations" : {
@@ -915,6 +932,57 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "시작하기"
+          }
+        }
+      }
+    },
+    "reply.getClover" : {
+      "comment" : "1개의 네잎클로버 획득",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 Four-Leaf Clover"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "1개의 네잎클로버 획득"
+          }
+        }
+      }
+    },
+    "reply.luckIsHere" : {
+      "comment" : "님을 위한 행운 도착",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, your luck is here!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@님을 위한 행운 도착"
+          }
+        }
+      }
+    },
+    "reply.luckyReplyForYou" : {
+      "comment" : "님을 위한 행운의 답장",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A lucky reply for %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@님을 위한 행운의 답장"
           }
         }
       }
