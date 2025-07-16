@@ -19,26 +19,26 @@ enum OnBoardingType: CaseIterable {
     var title: String {
         switch self {
         case .intro:
-            return I18N.Auth.onboarding_1_title
+            return .Onboarding.onboarding_1_title
         case .clover:
-            return I18N.Auth.onboarding_2_title
+            return .Onboarding.onboarding_2_title
         case .today:
-            return I18N.Auth.onboarding_3_title
+            return .Onboarding.onboarding_3_title
         case .write:
-            return I18N.Auth.onboarding_4_title
+            return .Onboarding.onboarding_4_title
         }
     }
     
     var subTitle: String {
         switch self {
         case .intro:
-            return I18N.Auth.onboarding_1_sub
+            return .Onboarding.onboarding_1_sub
         case .clover:
-            return I18N.Auth.onboarding_2_sub
+            return .Onboarding.onboarding_2_sub
         case .today:
-            return I18N.Auth.onboarding_3_sub
+            return .Onboarding.onboarding_3_sub
         case .write:
-            return I18N.Auth.onboarding_4_sub
+            return .Onboarding.onboarding_4_sub
         }
     }
     
@@ -63,7 +63,6 @@ final class OnBoardingDetailView: BaseView {
     private let titleLabel = UILabel()
     private let subTitleLabel = UILabel()
     private let imageView = UIImageView()
-    private let layoutGuide = UILayoutGuide()
     
     // MARK: - Life Cycles
     
@@ -111,29 +110,24 @@ final class OnBoardingDetailView: BaseView {
     
     override func setHierarchy() {
         self.addSubviews(titleLabel, subTitleLabel, imageView)
-        self.addLayoutGuide(layoutGuide)
     }
     
     override func setLayout() {
-        layoutGuide.snp.makeConstraints {
-            $0.top.equalTo(subTitleLabel.snp.bottom)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
-        }
+        let isKorean = LocalizationConstant.languageCode == "ko"
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(113))
+            $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(isKorean ? 113 : 76))
             $0.centerX.equalToSuperview()
         }
         
         subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(16))
+            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 16 : 20))
             $0.centerX.equalToSuperview()
         }
         
         imageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.centerY.equalTo(layoutGuide)
+            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(110))
         }
     }
 }

@@ -111,4 +111,16 @@ extension String {
         static let am = String(localized: "bottomSheet.am", comment: "오전")
         static let pm = String(localized: "bottomSheet.pm", comment: "오후")
     }
+    
+    enum Onboarding {
+        static let onboarding_1_title = String(localized: "onboarding.onboarding_1_title", comment: "안녕하세요! 저는 로디라고 해요")
+        static let onboarding_1_sub = String(localized: "onboarding.onboarding_1_sub", comment: "여러분이 써준 감사일기를 받고, 칭찬과 응원을 담아 답장을 쓴답니다")
+        static let onboarding_2_title = String(localized: "onboarding.onboarding_2_title", comment: "답장마다 행운의 네잎클로버를 함께 드려요")
+        static let onboarding_2_sub = String(localized: "onboarding.onboarding_2_sub", comment: "하루에 받은 감사의 수가 많을수록 색이 진한 네잎클로버를 전달해요")
+        static let onboarding_3_title = String(localized: "onboarding.onboarding_3_title", comment: "오늘과 전날 일기만 작성할 수 있어요")
+        static let onboarding_3_sub = String(localized: "onboarding.onboarding_3_sub", comment: "그전이나 다음날의 일기는 작성할 수 없으니, 잊지 말고 기록해 주세요")
+        static let onboarding_4_title = String(localized: "onboarding.onboarding_4_title", comment: "이제 일기를 써볼까요?\n기다리고 있을게요!")
+        static let onboarding_4_sub = String(localized: "onboarding.onboarding_4_sub", comment: "두번째 일기부터는 네잎클로버를 찾는 데 12시간이 걸리니 조금만 기다려 주세요")
+        static let start = String(localized: "onboarding.start", comment: "시작하기")
+    }
 }
