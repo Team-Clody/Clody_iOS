@@ -123,4 +123,12 @@ extension String {
         static let onboarding_4_sub = String(localized: "onboarding.onboarding_4_sub", comment: "두번째 일기부터는 네잎클로버를 찾는 데 12시간이 걸리니 조금만 기다려 주세요")
         static let start = String(localized: "onboarding.start", comment: "시작하기")
     }
+    
+    enum Reply {
+        static let writingReply = String(localized: "reply.writingReply", comment: "로디가 열심히 답장을 쓰고 있어요!")
+        static let waitAfterAd = String(localized: "reply.waitAfterAd", comment: "로디가 답장을 거의 다 써가요!\n조금만 기다려주세요")
+        static let replyReceived = String(localized: "reply.replyReceived", comment: "로디가 쓴 행운의 답장이 도착했어요!")
+        static let quickReplyAfterAd = String(localized: "reply.quickReplyAfterAd", comment: "광고 보고 바로 답장 받기")
+        static let open = String(localized: "reply.open", comment: "열어보기")
+    }
 }

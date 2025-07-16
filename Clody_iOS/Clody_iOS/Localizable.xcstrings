@@ -919,6 +919,91 @@
         }
       }
     },
+    "reply.open" : {
+      "comment" : "열어보기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Reply"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "열어보기"
+          }
+        }
+      }
+    },
+    "reply.quickReplyAfterAd" : {
+      "comment" : "광고 보고 바로 답장 받기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watch Ad for Instant Reply"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "광고 보고 바로 답장 받기"
+          }
+        }
+      }
+    },
+    "reply.replyReceived" : {
+      "comment" : "로디가 쓴 행운의 답장이 도착했어요!",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You’ve got a lucky reply from Lody!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "로디가 쓴 행운의 답장이 도착했어요!"
+          }
+        }
+      }
+    },
+    "reply.waitAfterAd" : {
+      "comment" : "로디가 답장을 거의 다 써가요!\n조금만 기다려주세요",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lody’s almost done writing your reply\njust a little longer!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "로디가 답장을 거의 다 써가요!\n조금만 기다려주세요"
+          }
+        }
+      }
+    },
+    "reply.writingReply" : {
+      "comment" : "로디가 열심히 답장을 쓰고 있어요!",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lody’s working hard on your reply!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "로디가 열심히 답장을 쓰고 있어요!"
+          }
+        }
+      }
+    },
     "setting.announcement" : {
       "comment" : "공지사항",
       "localizations" : {
