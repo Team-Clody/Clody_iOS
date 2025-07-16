@@ -72,8 +72,10 @@ final class DiaryNotificationView: BaseView {
     }
     
     override func setLayout() {
+        let isKorean = LocalizationConstant.languageCode == "ko"
+        
         introLabel.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(84))
+            $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(isKorean ? 84 : 76))
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
@@ -97,7 +99,7 @@ final class DiaryNotificationView: BaseView {
         
         timeSettingView.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getHeight(27))
-            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(49))
+            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 49 : 100))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         

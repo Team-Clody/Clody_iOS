@@ -39,11 +39,11 @@ final class ClodyTextField: BaseView {
         }
     }
     
+    private let isKorean = LocalizationConstant.languageCode == "ko"
+    
     // MARK: - Methods
     
     override func setStyle() {
-        let isKorean = LocalizationConstant.languageCode == "ko"
-        
         textField.do {
             $0.autocapitalizationType = .none
             $0.spellCheckingType = .no
@@ -95,14 +95,14 @@ final class ClodyTextField: BaseView {
         
         underline.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getHeight(2))
-            $0.top.equalTo(textField.snp.bottom).offset(ScreenUtils.getHeight(4))
+            $0.top.equalTo(textField.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 4 : 7))
             $0.horizontalEdges.equalTo(textField.snp.horizontalEdges)
         }
         
         messageLabel.snp.makeConstraints {
             $0.top.equalTo(underline.snp.bottom).offset(ScreenUtils.getHeight(3))
             $0.leading.equalToSuperview()
-            $0.trailing.equalTo(countLabel.snp.leading).offset(-ScreenUtils.getWidth(16))
+            $0.trailing.equalTo(countLabel.snp.leading).offset(-ScreenUtils.getWidth(8))
             $0.bottom.equalToSuperview()
         }
         

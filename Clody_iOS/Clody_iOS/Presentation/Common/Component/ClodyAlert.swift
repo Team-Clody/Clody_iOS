@@ -134,9 +134,7 @@ extension ClodyAlert {
         
         messageLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(8))
-            if type != .draftDiary && type != .draftWriteMore {
-                $0.horizontalEdges.greaterThanOrEqualToSuperview().inset(ScreenUtils.getWidth(58))
-            }
+            $0.horizontalEdges.greaterThanOrEqualToSuperview().inset(ScreenUtils.getWidth(20))
             $0.centerX.equalToSuperview()
         }
         

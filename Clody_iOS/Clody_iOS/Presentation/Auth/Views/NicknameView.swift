@@ -59,7 +59,7 @@ final class NicknameView: BaseView {
         }
         
         textField.snp.makeConstraints {
-            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 40 : 77))
+            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 40 : 92))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
