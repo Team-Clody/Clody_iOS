@@ -392,6 +392,23 @@
         }
       }
     },
+    "bottomSheet.am" : {
+      "comment" : "오전",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AM"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "오전"
+          }
+        }
+      }
+    },
     "bottomSheet.changeTime" : {
       "comment" : "발송 시간 변경",
       "localizations" : {
@@ -405,6 +422,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "발송 시간 변경"
+          }
+        }
+      }
+    },
+    "bottomSheet.pm" : {
+      "comment" : "오후",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PM"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "오후"
           }
         }
       }

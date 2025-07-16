@@ -84,7 +84,7 @@ private extension NotificationViewController {
                 else { return }
                 
                 let hour24: Int
-                if timePeriods == "오전" {
+                if timePeriods == .BottomSheet.am {
                     hour24 = (hour == 12) ? 0 : hour
                 } else {
                     hour24 = (hour == 12) ? 12 : hour + 12
