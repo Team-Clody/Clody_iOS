@@ -32,6 +32,7 @@ final class ClodyTextField: BaseView {
             underline.backgroundColor  = .redCustom
         }
     }
+    
     var count: Int = 0 {
         didSet {
             countLabel.attributedText = UIFont.pretendardString(text: "\(count)", style: .detail1_medium)
@@ -41,9 +42,10 @@ final class ClodyTextField: BaseView {
     // MARK: - Methods
     
     override func setStyle() {
+        let isKorean = LocalizationConstant.languageCode == "ko"
+        
         textField.do {
             $0.autocapitalizationType = .none
-            $0.autocorrectionType = .no
             $0.spellCheckingType = .no
             $0.backgroundColor = .clear
             $0.font = .pretendard(.body1_medium)
@@ -63,7 +65,7 @@ final class ClodyTextField: BaseView {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(
                 text: .Common.nicknameCondition,
-                style: .detail1_regular
+                style: isKorean ? .detail1_regular : .detail1_medium
             )
         }
         
@@ -74,7 +76,10 @@ final class ClodyTextField: BaseView {
         
         charLimitLabel.do {
             $0.textColor = .grey06
-            $0.attributedText = UIFont.pretendardString(text: .Common.charLimit, style: .detail1_medium)
+            $0.attributedText = UIFont.pretendardString(
+                text: .Common.charLimit,
+                style: isKorean ? .detail1_medium : .detail1_semibold
+            )
         }
     }
     
@@ -103,12 +108,12 @@ final class ClodyTextField: BaseView {
         
         countLabel.snp.makeConstraints {
             $0.trailing.equalTo(charLimitLabel.snp.leading).offset(-ScreenUtils.getWidth(3))
-            $0.centerY.equalTo(charLimitLabel)
+            $0.centerY.equalTo(messageLabel)
         }
         
         charLimitLabel.snp.makeConstraints {
-            $0.top.equalTo(underline.snp.bottom).offset(ScreenUtils.getHeight(2))
-            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(2))
+            $0.trailing.equalToSuperview()
+            $0.centerY.equalTo(messageLabel)
         }
     }
 }

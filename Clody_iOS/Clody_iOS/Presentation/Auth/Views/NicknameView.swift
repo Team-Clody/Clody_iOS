@@ -45,6 +45,8 @@ final class NicknameView: BaseView {
     }
     
     override func setLayout() {
+        let isKorean = LocalizationConstant.languageCode == "ko"
+        
         navigationBar.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getHeight(44))
             $0.top.equalTo(safeAreaLayoutGuide)
@@ -52,12 +54,12 @@ final class NicknameView: BaseView {
         }
         
         introLabel.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(40))
+            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 40 : 32))
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         textField.snp.makeConstraints {
-            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(40))
+            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 40 : 77))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
