@@ -17,7 +17,6 @@ enum I18N {
         static let nicknameError = "사용할 수 없는 닉네임이에요"
         static let emailError = "이메일 형식을 확인해주세요"
         static let charLimit = "/ 10"
-        static let next = "다음"
         static let complete = "완료"
         static let ok = "확인"
         static let bundleID = "com.Clody.Clody"
@@ -65,11 +64,6 @@ enum I18N {
     }
     
     enum Auth {
-        static let termsIntro = "Clody 이용을 위해\n약관에 동의해 주세요"
-        static let allAgree = "전체 동의"
-        static let required = "(필수)"
-        static let clodyTerms = "Clody 이용약관"
-        static let privacy = "개인정보 처리방침"
         static let emailIntro = "행운을 전하는 감사일기,\nClody예요"
         static let nickNameIntro = "만나서 반가워요!\n어떻게 불러드릴까요?"
         static let onboarding_1_title = "안녕하세요!\n저는 로디라고 해요"

@@ -239,6 +239,23 @@
         }
       }
     },
+    "auth.allAgree" : {
+      "comment" : "전체 동의",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agree to all"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "전체 동의"
+          }
+        }
+      }
+    },
     "auth.appleLogin" : {
       "comment" : "Apple로 로그인",
       "localizations" : {
@@ -252,6 +269,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apple로 로그인"
+          }
+        }
+      }
+    },
+    "auth.clodyTerms" : {
+      "comment" : "Clody 이용약관",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of Service"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Clody 이용약관"
+          }
+        }
+      }
+    },
+    "auth.privacy" : {
+      "comment" : "개인정보 처리방침",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "개인정보 처리방침"
+          }
+        }
+      }
+    },
+    "auth.required" : {
+      "comment" : "(필수)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(Required)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "(필수)"
+          }
+        }
+      }
+    },
+    "auth.termsIntro" : {
+      "comment" : "Clody 이용을 위해 약관에 동의해 주세요",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To use Clody, \nPlease agree to the terms \nand conditions "
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Clody 이용을 위해\n약관에 동의해 주세요"
           }
         }
       }
@@ -405,6 +490,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "일기 쓰기"
+          }
+        }
+      }
+    },
+    "common.next" : {
+      "comment" : "다음",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "next"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "다음"
           }
         }
       }

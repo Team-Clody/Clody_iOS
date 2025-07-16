@@ -87,5 +87,14 @@ extension String {
     enum Auth {
         static let kakaoLogin = "카카오로 로그인"
         static let appleLogin = String(localized: "auth.appleLogin", comment: "Apple로 로그인")
+        static let termsIntro = String(localized: "auth.termsIntro", comment: "Clody 이용을 위해 약관에 동의해 주세요")
+        static let allAgree = String(localized: "auth.allAgree", comment: "전체 동의")
+        static let required = String(localized: "auth.required", comment: "(필수)")
+        static let clodyTerms = String(localized: "auth.clodyTerms", comment: "Clody 이용약관")
+        static let privacy = String(localized: "auth.privacy", comment: "개인정보 처리방침")
+    }
+    
+    enum Common {
+        static let next = String(localized: "common.next", comment: "다음")
     }
 }

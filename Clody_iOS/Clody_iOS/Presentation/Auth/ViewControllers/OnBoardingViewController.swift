@@ -124,7 +124,7 @@ private extension OnBoardingViewController {
         } else {
             rootView.nextButton.setAttributedTitle(
                 UIFont.pretendardString(
-                    text: I18N.Common.next,
+                    text: .Common.next,
                     style: .body2_semibold,
                     color: .grey01
                 ),
