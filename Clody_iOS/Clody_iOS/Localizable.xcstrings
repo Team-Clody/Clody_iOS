@@ -290,6 +290,23 @@
         }
       }
     },
+    "auth.nickNameIntro" : {
+      "comment" : "만나서 반가워요! 어떻게 불러드릴까요?",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nice to meet you!\nWhat should I call you ?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "만나서 반가워요!\n어떻게 불러드릴까요?"
+          }
+        }
+      }
+    },
     "auth.privacy" : {
       "comment" : "개인정보 처리방침",
       "localizations" : {
@@ -494,6 +511,23 @@
         }
       }
     },
+    "common.enterNickname" : {
+      "comment" : "닉네임을 입력해주세요",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please enter your nickname"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "닉네임을 입력해주세요"
+          }
+        }
+      }
+    },
     "common.next" : {
       "comment" : "다음",
       "localizations" : {
@@ -507,6 +541,40 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "다음"
+          }
+        }
+      }
+    },
+    "common.nicknameCondition" : {
+      "comment" : "특수문자, 띄어쓰기 없이 작성해주세요",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please write without spaces or special characters"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "특수문자, 띄어쓰기 없이 작성해주세요"
+          }
+        }
+      }
+    },
+    "common.nicknameError" : {
+      "comment" : "사용할 수 없는 닉네임이에요",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This nickname isn’t available"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "사용할 수 없는 닉네임이에요"
           }
         }
       }

@@ -50,7 +50,7 @@ final class ClodyTextField: BaseView {
             $0.textColor = .grey03
             $0.clearButtonMode = .always
             $0.attributedPlaceholder = NSAttributedString(
-                string: I18N.Common.enterNickname,
+                string: .Common.enterNickname,
                 attributes: [NSAttributedString.Key.foregroundColor : UIColor.grey05]
             )
         }
@@ -62,7 +62,7 @@ final class ClodyTextField: BaseView {
         messageLabel.do {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.Common.nicknameCondition,
+                text: .Common.nicknameCondition,
                 style: .detail1_regular
             )
         }
@@ -74,7 +74,7 @@ final class ClodyTextField: BaseView {
         
         charLimitLabel.do {
             $0.textColor = .grey06
-            $0.attributedText = UIFont.pretendardString(text: I18N.Common.charLimit, style: .detail1_medium)
+            $0.attributedText = UIFont.pretendardString(text: .Common.charLimit, style: .detail1_medium)
         }
     }
     
@@ -128,7 +128,7 @@ extension ClodyTextField {
         messageLabel.do {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.Common.nicknameCondition,
+                text: .Common.nicknameCondition,
                 style: .detail1_regular
             )
         }

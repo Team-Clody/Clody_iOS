@@ -27,7 +27,7 @@ final class NicknameView: BaseView {
         introLabel.do {
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.Auth.nickNameIntro,
+                text: .Auth.nickNameIntro,
                 style: .head1,
                 applyLineHeight: true
             )

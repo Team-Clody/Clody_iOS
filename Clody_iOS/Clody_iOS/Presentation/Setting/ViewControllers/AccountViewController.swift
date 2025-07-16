@@ -101,7 +101,7 @@ final class AccountViewController: UIViewController {
                     self.changeNicknameBottomSheet.clodyTextField.hideErrorMessage()
                     output.isDoneButtonEnabled.accept(false)
                 case .error:
-                    self.changeNicknameBottomSheet.clodyTextField.showErrorMessage(I18N.Common.nicknameError)
+                    self.changeNicknameBottomSheet.clodyTextField.showErrorMessage(.Common.nicknameError)
                     output.isDoneButtonEnabled.accept(false)
                 case .normal:
                     self.changeNicknameBottomSheet.clodyTextField.hideErrorMessage()

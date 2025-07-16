@@ -11,12 +11,6 @@ enum I18N {
     enum Common {
         static let year = "년"
         static let month = "월"
-        static let enterNickname = "닉네임을 입력해주세요"
-        static let enterEmail = "이메일을 입력해주세요"
-        static let nicknameCondition = "특수문자, 띄어쓰기 없이 작성해주세요"
-        static let nicknameError = "사용할 수 없는 닉네임이에요"
-        static let emailError = "이메일 형식을 확인해주세요"
-        static let charLimit = "/ 10"
         static let complete = "완료"
         static let ok = "확인"
         static let bundleID = "com.Clody.Clody"
@@ -64,8 +58,6 @@ enum I18N {
     }
     
     enum Auth {
-        static let emailIntro = "행운을 전하는 감사일기,\nClody예요"
-        static let nickNameIntro = "만나서 반가워요!\n어떻게 불러드릴까요?"
         static let onboarding_1_title = "안녕하세요!\n저는 로디라고 해요"
         static let onboarding_1_sub = "여러분이 써준 감사일기를 받고,\n칭찬과 응원을 담아 답장을 쓴답니다"
         static let onboarding_2_title = "답장마다 행운의\n네잎클로버를 함께 드려요"
