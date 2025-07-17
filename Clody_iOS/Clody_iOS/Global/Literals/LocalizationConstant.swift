@@ -85,6 +85,10 @@ enum LocalizationConstant {
             return isKorean ? ScreenUtils.getWidth(8) : ScreenUtils.getWidth(9)
         }
         
+        static var cancelHelpButtonLeading: CGFloat {
+            return ScreenUtils.getWidth(isKorean ? -3 : 0)
+        }
+        
         static func headerDate(from date: Date) -> String {
             let formatter = DateFormatter()
             formatter.locale = Locale(identifier: "\(languageCode)_\(regionCode)")

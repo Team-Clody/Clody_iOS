@@ -111,8 +111,6 @@ final class WritingDiaryHeaderView: UIView {
 
         helpMessageContainer.snp.makeConstraints {
             $0.bottom.equalTo(helpMessageDownArrowImage.snp.top).offset(ScreenUtils.getHeight(4))
-            $0.width.equalTo(LocalizationConstant.WritingDiary.helpMessageContainerWidth)
-            $0.height.equalTo(ScreenUtils.getHeight(28))
         }
         
         helpMessageDownArrowImage.snp.makeConstraints {
@@ -128,7 +126,7 @@ final class WritingDiaryHeaderView: UIView {
         cancelHelpButton.snp.makeConstraints {
             $0.size.equalTo(ScreenUtils.getWidth(28))
             $0.top.equalToSuperview()
-            $0.leading.equalTo(helpMessageLabel.snp.trailing).offset(-3)
+            $0.leading.equalTo(helpMessageLabel.snp.trailing).offset(LocalizationConstant.WritingDiary.cancelHelpButtonLeading)
             $0.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
             $0.centerX.equalTo(helpMessageDownArrowImage)
