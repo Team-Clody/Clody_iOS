@@ -95,6 +95,8 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
     }
     
     override func setLayout() {
+        let isKorean = LocalizationConstant.languageCode == "ko"
+        
         dimmedView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -104,12 +106,12 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(20))
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(isKorean ? 20 : 22))
             $0.centerX.equalToSuperview()
         }
         
         subtitleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(10))
+            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 10 : 12))
             $0.centerX.equalToSuperview()
         }
         
@@ -120,14 +122,14 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
         
         enableNotificationButton.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getHeight(48))
-            $0.top.equalTo(settingPathLabel.snp.bottom).offset(ScreenUtils.getHeight(28))
+            $0.top.equalTo(settingPathLabel.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 28 : 37))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         skipForNowButton.snp.makeConstraints {
-            $0.height.equalTo(ScreenUtils.getHeight(40))
+            $0.height.equalTo(ScreenUtils.getHeight(isKorean ? 40 : 37))
             $0.top.equalTo(enableNotificationButton.snp.bottom)
-            $0.bottom.equalTo(safeAreaLayoutGuide)
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(isKorean ? 0 : 3))
             $0.centerX.equalToSuperview()
         }
     }
