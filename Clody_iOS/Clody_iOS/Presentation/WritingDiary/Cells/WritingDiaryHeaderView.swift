@@ -136,12 +136,7 @@ final class WritingDiaryHeaderView: UIView {
     }
 
     func bindData(dateData: Date) {
-        let month = DateFormatter.string(from: dateData, format: "M")
-        let date = DateFormatter.string(from: dateData, format: "d")
-        let dateString = DateFormatter.string(from: dateData, format: "yyyy-MM-dd")
-        let dayOfContent = DateFormatter.date(from: dateString)
-        
-        let dateText = month + "월 " + date + "일 " + (dayOfContent?.koreanDayOfWeek() ?? "")
+        let dateText = LocalizationConstant.WritingDiary.headerDate(from: dateData)
         dateLabel.attributedText = UIFont.pretendardString(text: dateText, style: .head2, applyLineHeight: true)
     }
 }

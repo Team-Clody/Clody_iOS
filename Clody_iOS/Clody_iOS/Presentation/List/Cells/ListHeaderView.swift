@@ -143,7 +143,7 @@ final class ListHeaderView: UICollectionReusableView {
         newImageView.isHidden = diary.replyStatus != "READY_NOT_READ"
         
         let dateOfContent = DateFormatter.date(from: diary.date)
-        guard let dayOfContent = dateOfContent?.koreanDayOfWeek() else { return }
+        guard let dayOfContent = dateOfContent?.dayOfWeek() else { return }
         dayLabel.text = "/\(dayOfContent)"
         if let date = DateFormatter.date(from: diary.date) {
             let formattedDate = DateFormatter.string(from: date, format: "dd")
