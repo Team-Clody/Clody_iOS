@@ -22,7 +22,7 @@ final class DiaryNotificationViewModel: ViewModelType {
         let showBottomSheet: Driver<Void>
         let setupNotification: Driver<Void>
         let setupNotificationNext: Driver<Void>
-        let selectedTimeRelay = BehaviorRelay<[Any]>(value: ["오후", 9, 30])
+        let selectedTimeRelay = BehaviorRelay<[Any]>(value: [String.BottomSheet.pm, 9, 30])
     }
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {

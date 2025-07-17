@@ -95,6 +95,13 @@ extension String {
         static let nickNameIntro = String(localized: "auth.nickNameIntro", comment: "만나서 반가워요! 어떻게 불러드릴까요?")
         static let notificationIntro = String(localized: "auth.notificationIntro", comment: "몇 시에 감사일기 작성 알림을 드릴까요?")
         static let skipForNow = String(localized: "auth.skipForNow", comment: "다음에 설정할게요")
+        static func notificationTime(
+            timePeriod: String,
+            hour: Int,
+            minute: Int
+        ) -> String {
+            return String(format: String(localized: "auth.notificationTime", comment: "오후 9시 30분"), timePeriod, hour, minute)
+        }
     }
     
     enum Common {
