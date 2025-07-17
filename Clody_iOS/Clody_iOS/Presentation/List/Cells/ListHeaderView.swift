@@ -147,10 +147,10 @@ final class ListHeaderView: UICollectionReusableView {
         dayLabel.text = "/\(dayOfContent)"
         if let date = DateFormatter.date(from: diary.date) {
             let formattedDate = DateFormatter.string(from: date, format: "dd")
-            dateLabel.text = LocalizationConstant.List.localizedDayString(from: formattedDate)
+            dateLabel.text = .List.date(date: formattedDate)
         } else {
             let day = diary.date.split(separator: "-").last.map(String.init) ?? ""
-            dateLabel.text = LocalizationConstant.List.localizedDayString(from: day)
+            dateLabel.text = .List.date(date: day)
         }
     }
 }

@@ -970,6 +970,23 @@
         }
       }
     },
+    "list.date" : {
+      "comment" : "d일",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "%@일"
+          }
+        }
+      }
+    },
     "error.network" : {
       "comment" : "서비스 접속이 원활하지 않아요. 네트워크 연결을 확인해주세요.",
       "localizations" : {
