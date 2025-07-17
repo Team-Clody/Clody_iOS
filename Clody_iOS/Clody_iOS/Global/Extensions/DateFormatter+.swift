@@ -56,4 +56,21 @@ extension DateFormatter {
         dateFormatter.locale = Locale(identifier: "ko_KR")
         return dateFormatter.string(from: date)
     }
+    
+    static func convertTo24HourFormat(
+        isAM: Bool,
+        hour12: Int,
+        minute: Int
+    ) -> String {
+        let hour24 = isAM ? (hour12 == 12 ? 0 : hour12) : (hour12 == 12 ? 12 : hour12 + 12)
+                
+        let components = DateComponents(hour: hour24, minute: minute)
+        guard let date = Calendar.current.date(from: components) else {
+            return ""
+        }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: date)
+    }
 }

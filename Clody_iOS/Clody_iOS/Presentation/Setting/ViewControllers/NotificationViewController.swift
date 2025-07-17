@@ -78,23 +78,18 @@ private extension NotificationViewController {
         output.selectedTimeRelay
             .bind(onNext: { [weak self] values in
                 guard let self = self,
-                      let timePeriods = values[0] as? String,
+                      let timePeriod = values[0] as? String,
                       let hour = values[1] as? Int,
                       let minute = values[2] as? Int
                 else { return }
                 
-                let hour24: Int
-                if timePeriods == .BottomSheet.am {
-                    hour24 = (hour == 12) ? 0 : hour
-                } else {
-                    hour24 = (hour == 12) ? 12 : hour + 12
-                }
-                let hourString = hour24 < 10 ? "0\(hour24)" : "\(hour24)"
-                let minuteString = minute < 10 ? "0\(minute)" : "\(minute)"
-                let convertedTime = "\(hourString):\(minuteString)"
-                
+                let time = DateFormatter.convertTo24HourFormat(
+                    isAM: timePeriod == .BottomSheet.am,
+                    hour12: hour,
+                    minute: minute
+                )
                 var state = viewModel.alarmStatesRelay.value
-                state.alarmTime = convertedTime
+                state.alarmTime = time
                 output.postAlarmSetting.accept((.time, state))
             })
             .disposed(by: disposeBag)
@@ -131,7 +126,7 @@ private extension NotificationViewController {
                     let selectedHour = self.timePickerView.pickerView.hours[selectedHourIndex]
                     let selectedMinute = self.timePickerView.pickerView.minutes[selectedMinuteIndex]
                     
-                    let selectedTime = ["\(selectedTimePeriods)", selectedHour, selectedMinute]
+                    let selectedTime = [selectedTimePeriods, selectedHour, selectedMinute]
                     output.selectedTimeRelay.accept(selectedTime)
                 }
             })

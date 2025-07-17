@@ -74,7 +74,7 @@ private extension DiaryNotificationViewController {
                     let selectedHour = self.timePickerView.pickerView.hours[selectedHourIndex]
                     let selectedMinute = self.timePickerView.pickerView.minutes[selectedMinuteIndex]
                     
-                    let selectedTime = ["\(selectedTimePeriods)", selectedHour, selectedMinute]
+                    let selectedTime = [selectedTimePeriods, selectedHour, selectedMinute]
                     output.selectedTimeRelay.accept(selectedTime)
                 }
             })
@@ -115,22 +115,23 @@ private extension DiaryNotificationViewController {
         output.selectedTimeRelay
             .bind(onNext: { [weak self] values in
                 guard let self = self,
-                      let timePeriods = values[0] as? String,
+                      let timePeriod = values[0] as? String,
                       let hour = values[1] as? Int,
                       let minute = values[2] as? Int else {
                     return
                 }
                 
-                let hour24: Int
-                if timePeriods == .BottomSheet.am {
-                    hour24 = (hour == 12) ? 0 : hour
-                } else {
-                    hour24 = (hour == 12) ? 12 : hour + 12
-                }
-                let hourString = hour24 < 10 ? "0\(hour24)" : "\(hour24)"
-                let minuteString = minute < 10 ? "0\(minute)" : "\(minute)"
-                time = "\(hourString):\(minuteString)"
-                let timeText = "\(timePeriods) \(hour)시 \(minute)분"
+                time = DateFormatter.convertTo24HourFormat(
+                    isAM: timePeriod == .BottomSheet.am,
+                    hour12: hour,
+                    minute: minute
+                )
+                
+                let timeText: String = .Auth.notificationTime(
+                    timePeriod: timePeriod,
+                    hour: hour,
+                    minute: minute
+                )
                 rootView.timeLabel.attributedText = UIFont.pretendardString(text: timeText, style: .body1_semibold)
             })
             .disposed(by: disposeBag)
