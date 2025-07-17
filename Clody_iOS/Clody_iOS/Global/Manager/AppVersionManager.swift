@@ -149,7 +149,7 @@ private extension AppVersionManager {
     
     /// 업데이트를 위해 앱스토어로 이동
     func openAppStore() {
-        if let url = URL(string: I18N.Common.appLink) {
+        if let url = URL(string: .Common.appLink) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }

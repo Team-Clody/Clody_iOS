@@ -140,6 +140,8 @@ extension String {
     }
     
     enum Common {
+        static let bundleID = "com.Clody.Clody"
+        static let appLink = "https://apps.apple.com/app/6511215518"
         static let next = String(localized: "common.next", comment: "다음")
         static let complete = String(localized: "common.complete", comment: "완료")
         static let ok = String(localized: "common.ok", comment: "확인")
