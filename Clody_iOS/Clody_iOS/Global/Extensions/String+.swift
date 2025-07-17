@@ -119,6 +119,14 @@ extension String {
         static let viewOtherTimes = String(localized: "bottomSheet.viewOtherTimes", comment: "다른 시간 보기")
         static let am = String(localized: "bottomSheet.am", comment: "오전")
         static let pm = String(localized: "bottomSheet.pm", comment: "오후")
+        
+        enum ContinueWriting {
+            static let title = String(localized: "bottomSheet.continueWriting.title", comment: "기한이 지나면 로디의 답장을 받을 수 없어요!")
+            static let subtitle = String(localized: "bottomSheet.continueWriting.subtitle", comment: "답장 마감 전에 일기를 이어쓸 수 있도록 알려 드리기 위해서는 알림 설정이 필요해요.")
+            static let notificationSettingPath = String(localized: "bottomSheet.continueWriting.notificationSettingPath", comment: "[설정 > 앱 > 클로디 알림 허용]")
+            static let enableNotification = String(localized: "bottomSheet.continueWriting.enableNotification", comment: "알림 받기")
+            static let skipForNow = String(localized: "bottomSheet.continueWriting.skipForNow", comment: "다음에 하기")
+        }
     }
     
     enum Onboarding {

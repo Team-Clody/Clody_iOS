@@ -443,6 +443,91 @@
         }
       }
     },
+    "bottomSheet.continueWriting.enableNotification" : {
+      "comment" : "알림 받기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn On Notifications"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "알림 받기"
+          }
+        }
+      }
+    },
+    "bottomSheet.continueWriting.notificationSettingPath" : {
+      "comment" : "[설정 > 앱 > 클로디 알림 허용]",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[Settings > Apps > Clody > Notifications]"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "[설정 > 앱 > 클로디 알림 허용]"
+          }
+        }
+      }
+    },
+    "bottomSheet.continueWriting.skipForNow" : {
+      "comment" : "다음에 하기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip for now"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "다음에 하기"
+          }
+        }
+      }
+    },
+    "bottomSheet.continueWriting.subtitle" : {
+      "comment" : "답장 마감 전에 일기를 이어쓸 수 있도록 알려 드리기 위해서는 알림 설정이 필요해요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To receive a reminder before the reply deadline, \nconfirm notification permissions."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "답장 마감 전에 일기를 이어쓸 수 있도록\n알려 드리기 위해서는 알림 설정이 필요해요."
+          }
+        }
+      }
+    },
+    "bottomSheet.continueWriting.title" : {
+      "comment" : "기한이 지나면 로디의 답장을 받을 수 없어요!",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heads up- drafts expire\nDon't miss Lody's reply!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "기한이 지나면\n로디의 답장을 받을 수 없어요!"
+          }
+        }
+      }
+    },
     "bottomSheet.pm" : {
       "comment" : "오후",
       "localizations" : {

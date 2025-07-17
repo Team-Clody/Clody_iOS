@@ -42,16 +42,6 @@ enum I18N {
         static let continueWritingAlarmChangeComplete = "이어쓰기 알림 설정을 완료했어요."
     }
     
-    enum BottomSheet {
-        enum ContinueWriting {
-            static let title = "기한이 지나면\n로디의 답장을 받을 수 없어요!"
-            static let subtitle = "답장 마감 전에 일기를 이어쓸 수 있도록\n알려 드리기 위해서는 알림 설정이 필요해요."
-            static let notificationSettingPath = "[설정 > 앱 > 클로디 알림 허용]"
-            static let enableNotification = "알림 받기"
-            static let skipForNow = "다음에 하기"
-        }
-    }
-    
     enum Error {
         static let network = "서비스 접속이 원활하지 않아요.\n네트워크 연결을 확인해주세요."
         static let unKnown = "일시적인 오류가 발생했어요.\n잠시 후 다시 시도해주세요."

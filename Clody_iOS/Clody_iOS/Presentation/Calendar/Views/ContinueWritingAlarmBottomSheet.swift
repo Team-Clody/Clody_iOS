@@ -36,7 +36,7 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
         titleLabel.do {
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.BottomSheet.ContinueWriting.title,
+                text: .BottomSheet.ContinueWriting.title,
                 style: .head3,
                 applyLineHeight: true
             )
@@ -47,7 +47,7 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
         subtitleLabel.do {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.BottomSheet.ContinueWriting.subtitle,
+                text: .BottomSheet.ContinueWriting.subtitle,
                 style: .body3_regular,
                 applyLineHeight: true
             )
@@ -58,7 +58,7 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
         settingPathLabel.do {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.BottomSheet.ContinueWriting.notificationSettingPath,
+                text: .BottomSheet.ContinueWriting.notificationSettingPath,
                 style: .body3_regular,
                 applyLineHeight: true
             )
@@ -67,7 +67,7 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
         enableNotificationButton.do {
             $0.setAttributedTitle(
                 UIFont.pretendardString(
-                    text: I18N.BottomSheet.ContinueWriting.enableNotification,
+                    text: .BottomSheet.ContinueWriting.enableNotification,
                     style: .body2_semibold,
                     color: .grey01
                 ),
@@ -80,7 +80,7 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
         skipForNowButton.do {
             $0.setAttributedTitle(
                 UIFont.pretendardString(
-                    text: I18N.BottomSheet.ContinueWriting.skipForNow,
+                    text: .BottomSheet.ContinueWriting.skipForNow,
                     style: .body4_medium,
                     color: .grey05
                 ),
