@@ -34,5 +34,3 @@ final class PermissionManager: NSObject {
         }
     }
 }
-
-

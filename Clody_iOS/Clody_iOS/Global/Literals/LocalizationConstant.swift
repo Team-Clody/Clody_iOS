@@ -94,5 +94,10 @@ enum LocalizationConstant {
             return formatter.string(from: date)
         }
     }
+    
+    enum Common {
+        static var nicknameMaxLength: Int {
+            return isKorean ? 10 : 15
+        }
+    }
 }
-

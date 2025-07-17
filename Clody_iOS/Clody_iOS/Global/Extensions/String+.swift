@@ -148,7 +148,6 @@ extension String {
         static let enterNickname = String(localized: "common.enterNickname", comment: "닉네임을 입력해주세요")
         static let nicknameCondition = String(localized: "common.nicknameCondition", comment: "특수문자, 띄어쓰기 없이 작성해주세요")
         static let nicknameError = String(localized: "common.nicknameError", comment: "사용할 수 없는 닉네임이에요")
-        static let charLimit = "/ 10"
     }
     
     enum BottomSheet {
