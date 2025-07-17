@@ -39,7 +39,14 @@ final class DiaryNotificationView: BaseView {
         
         timeLabel.do {
             $0.textColor = .grey03
-            $0.attributedText = UIFont.pretendardString(text: "오후 9시 30분", style: .body1_semibold)
+            $0.attributedText = UIFont.pretendardString(
+                text: .Auth.notificationTime(
+                    timePeriod: .BottomSheet.pm,
+                    hour: 9,
+                    minute: 30
+                ),
+                style: .body1_semibold
+            )
         }
         
         downButton.do {
