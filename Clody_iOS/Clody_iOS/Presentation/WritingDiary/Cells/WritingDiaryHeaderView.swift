@@ -16,7 +16,7 @@ final class WritingDiaryHeaderView: UIView {
     
     private let dateLabel = UILabel()
     lazy var infoButton = UIButton()
-    let helpMessageContainer = UIImageView()
+    let helpMessageContainer = UIView()
     let helpMessageDownArrowImage = UIImageView()
     private let helpMessageLabel = UILabel()
     let cancelHelpButton = UIButton()
@@ -60,10 +60,8 @@ final class WritingDiaryHeaderView: UIView {
         }
         
         helpMessageContainer.do {
-            $0.image = .helpBox
-            $0.contentMode = .scaleAspectFit
-            $0.isUserInteractionEnabled = true
-            $0.bringSubviewToFront(cancelHelpButton)
+            $0.backgroundColor = .lightBlue
+            $0.makeCornerRound(radius: 4)
         }
         
         helpMessageDownArrowImage.do {
@@ -113,6 +111,8 @@ final class WritingDiaryHeaderView: UIView {
 
         helpMessageContainer.snp.makeConstraints {
             $0.bottom.equalTo(helpMessageDownArrowImage.snp.top).offset(ScreenUtils.getHeight(4))
+            $0.width.equalTo(LocalizationConstant.WritingDiary.helpMessageContainerWidth)
+            $0.height.equalTo(ScreenUtils.getHeight(28))
         }
         
         helpMessageDownArrowImage.snp.makeConstraints {
@@ -122,7 +122,7 @@ final class WritingDiaryHeaderView: UIView {
 
         helpMessageLabel.snp.makeConstraints {
             $0.centerY.equalTo(cancelHelpButton)
-            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(8))
+            $0.leading.equalToSuperview().inset(LocalizationConstant.WritingDiary.helpMessageLabelLeading)
         }
 
         cancelHelpButton.snp.makeConstraints {
