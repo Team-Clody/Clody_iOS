@@ -46,6 +46,7 @@ final class ListHeaderView: UICollectionReusableView {
         
         cloverImageView.do {
             $0.image = .clover0
+            $0.contentMode = .scaleAspectFit
         }
         
         dateLabel.do {
@@ -77,10 +78,12 @@ final class ListHeaderView: UICollectionReusableView {
         newImageView.do {
             $0.image = .new
             $0.isHidden = true
+            $0.contentMode = .scaleAspectFit
         }
         
         kebabButton.do {
             $0.setImage(.kebob, for: .normal)
+            $0.contentMode = .scaleAspectFit
         }
     }
     
@@ -113,6 +116,7 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         replyButton.snp.makeConstraints {
+            $0.height.equalTo(ScreenUtils.getHeight(28))
             $0.centerY.equalTo(kebabButton)
             $0.trailing.equalTo(kebabButton.snp.leading).offset(LocalizationConstant.List.replyButtonTrailing)
         }
@@ -129,7 +133,6 @@ final class ListHeaderView: UICollectionReusableView {
             $0.bottom.equalToSuperview()
         }
     }
-    
     
     func bindData(diary: ListDiary) {
         if diary.isDeleted || diary.replyStatus == "INVALID_DRAFT" {
