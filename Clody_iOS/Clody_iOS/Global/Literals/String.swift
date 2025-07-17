@@ -17,8 +17,6 @@ enum I18N {
     }
     
     enum BottomSheet {
-        static let viewOtherTimes = "다른 시간 보기"
-        
         enum ContinueWriting {
             static let title = "기한이 지나면\n로디의 답장을 받을 수 없어요!"
             static let subtitle = "답장 마감 전에 일기를 이어쓸 수 있도록\n알려 드리기 위해서는 알림 설정이 필요해요."
