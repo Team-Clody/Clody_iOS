@@ -1,23 +1,62 @@
 {
   "images" : [
     {
-      "filename" : "type=icon-text, state=default, mode=Default.png",
+      "filename" : "Group 2085665919.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "type=icon-text, state=default, mode=Default@2x.png",
+      "filename" : "Group 2085665919@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "type=icon-text, state=default, mode=Default@3x.png",
+      "filename" : "Group 2085665919@3x.png",
       "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "type=icon-text, state=default, mode=Default 1.png",
+      "idiom" : "universal",
+      "locale" : "ko",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "type=icon-text, state=default, mode=Default@2x 1.png",
+      "idiom" : "universal",
+      "locale" : "ko",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "type=icon-text, state=default, mode=Default@3x 1.png",
+      "idiom" : "universal",
+      "locale" : "ko",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "Group 2085665920.png",
+      "idiom" : "universal",
+      "locale" : "en",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Group 2085665919@2x 1.png",
+      "idiom" : "universal",
+      "locale" : "en",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Group 2085665919@3x 1.png",
+      "idiom" : "universal",
+      "locale" : "en",
       "scale" : "3x"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
   }
 }

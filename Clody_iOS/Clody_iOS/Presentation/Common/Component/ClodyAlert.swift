@@ -83,9 +83,9 @@ extension ClodyAlert {
         
         switch self.type {
         case .draftDiary:
-            leftButtonText = I18N.Alert.draft
+            leftButtonText = .Alert.draft
         case .saveDiary:
-            leftButtonText = I18N.Alert.cancel
+            leftButtonText = .Alert.cancel
         default:
             leftButtonText = .Alert.no
         }

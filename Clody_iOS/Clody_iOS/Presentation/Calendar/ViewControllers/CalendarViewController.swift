@@ -95,7 +95,7 @@ private extension CalendarViewController {
                 guard let self = self else { return }
                 rootView.mainCalendarView.reloadData()
                 let dayOfContent = DateFormatter.date(from: data)
-                rootView.dayLabel.text = dayOfContent?.koreanDayOfWeek()
+                rootView.dayLabel.text = dayOfContent?.dayOfWeek()
             })
             .disposed(by: disposeBag)
         
@@ -195,7 +195,7 @@ private extension CalendarViewController {
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 let date = viewModel.currentPageRelay.value
-                let selectedMonth = "\(date.year)년 \(date.month)월"
+                let selectedMonth = LocalizationConstant.Calendar.localizedYearMonthString(year: date.year, month: date.month)
                 rootView.calendarNavigationView.dateText = selectedMonth
                 presentBottomSheet(datePickerView)
             })
@@ -258,9 +258,9 @@ private extension CalendarViewController {
                 guard let self = self else { return }
                 showAlert(
                     type: .deleteDiary,
-                    title: I18N.Alert.deleteDiaryTitle,
-                    message: I18N.Alert.deleteDiaryMessage,
-                    rightButtonText: I18N.Alert.delete
+                    title: .Alert.deleteDiaryTitle,
+                    message: .Alert.deleteDiaryMessage,
+                    rightButtonText: .Alert.delete
                 )
                 
                 alert?.leftButton.rx.tap
@@ -355,9 +355,9 @@ private extension CalendarViewController {
     func showNoReplyDraftAlert(currentDate: Date) {
         showAlert(
             type: .draftWriteMore,
-            title: I18N.Alert.writeMoreTitle,
-            message: I18N.Alert.writeMoreMessage,
-            rightButtonText: I18N.Alert.writeMore
+            title: .Alert.writeMoreTitle,
+            message: .Alert.writeMoreMessage,
+            rightButtonText: .Alert.writeMore
         )
 
         guard let alert = self.alert else { return }
@@ -455,8 +455,8 @@ private extension CalendarViewController {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 dismissBottomSheet(datePickerView, animated: true) {
-                    let selectedYearIndex = self.datePickerView.pickerView.selectedRow(inComponent: 0)
-                    let selectedMonthIndex = self.datePickerView.pickerView.selectedRow(inComponent: 1)
+                    let selectedYearIndex = self.datePickerView.pickerView.selectedRow(inComponent: LocalizationConstant.Calendar.yearPickerIndex)
+                    let selectedMonthIndex = self.datePickerView.pickerView.selectedRow(inComponent: LocalizationConstant.Calendar.monthPickerIndex)
                     let selectedYear = self.datePickerView.pickerView.years[selectedYearIndex]
                     let selectedMonth = self.datePickerView.pickerView.months[selectedMonthIndex]
                     

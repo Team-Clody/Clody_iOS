@@ -45,7 +45,7 @@ final class WritingDiaryCell: UICollectionViewCell {
     }
     
     private func resetCellState() {
-        textView.text = I18N.WritingDiary.placeHolder
+        textView.text = .WritingDiary.placeHolder
         textInputLabel.text = "0"
         writingContainer.makeBorder(width: 0, color: .clear)
         writingContainer.backgroundColor = .white
@@ -70,7 +70,7 @@ final class WritingDiaryCell: UICollectionViewCell {
         
         textView.do {
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.WritingDiary.placeHolder,
+                text: .WritingDiary.placeHolder,
                 style: .body3_medium,
                 applyLineHeight: true
             )
@@ -102,7 +102,7 @@ final class WritingDiaryCell: UICollectionViewCell {
         
         limitTextLabel.do {
             $0.attributedText = UIFont.pretendardString(
-                text: "/ 50",
+                text: "/ \(LocalizationConstant.WritingDiary.maxLength)",
                 style: .detail1_medium,
                 applyLineHeight: true
             )
@@ -111,7 +111,7 @@ final class WritingDiaryCell: UICollectionViewCell {
         
         limitErrorLabel.do {
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.WritingDiary.inputLimitError,
+                text: .WritingDiary.inputLimitError,
                 style: .detail1_medium,
                 applyLineHeight: true
             )
@@ -184,7 +184,7 @@ final class WritingDiaryCell: UICollectionViewCell {
         writingContainer.makeBorder(width: 1, color: .mainYellow)
         writingContainer.backgroundColor = .white
         
-        if textView.text == I18N.WritingDiary.placeHolder {
+        if textView.text == .WritingDiary.placeHolder {
             textView.text = ""
         }
         textView.textColor = .grey03

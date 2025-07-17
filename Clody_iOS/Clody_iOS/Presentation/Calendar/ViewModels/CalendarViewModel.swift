@@ -118,7 +118,7 @@ final class CalendarViewModel: ViewModelType {
         
         let changeCalendarDateText = currentPageRelay
             .map { date -> String in
-                return "\(date.year)년 \(date.month)월"
+                return LocalizationConstant.Calendar.localizedYearMonthString(year: date.year, month: date.month)
             }
             .asDriver(onErrorJustReturn: "Error")
         
