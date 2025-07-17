@@ -153,9 +153,9 @@ private extension ListViewController {
                 guard let self = self else { return }
                 self.showAlert(
                     type: .deleteDiary,
-                    title: I18N.Alert.deleteDiaryTitle,
-                    message: I18N.Alert.deleteDiaryMessage,
-                    rightButtonText: I18N.Alert.delete
+                    title: .Alert.deleteDiaryTitle,
+                    message: .Alert.deleteDiaryMessage,
+                    rightButtonText: .Alert.delete
                 )
                 
                 self.alert?.leftButton.rx.tap

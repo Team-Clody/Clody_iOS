@@ -258,9 +258,9 @@ private extension CalendarViewController {
                 guard let self = self else { return }
                 showAlert(
                     type: .deleteDiary,
-                    title: I18N.Alert.deleteDiaryTitle,
-                    message: I18N.Alert.deleteDiaryMessage,
-                    rightButtonText: I18N.Alert.delete
+                    title: .Alert.deleteDiaryTitle,
+                    message: .Alert.deleteDiaryMessage,
+                    rightButtonText: .Alert.delete
                 )
                 
                 alert?.leftButton.rx.tap
@@ -355,9 +355,9 @@ private extension CalendarViewController {
     func showNoReplyDraftAlert(currentDate: Date) {
         showAlert(
             type: .draftWriteMore,
-            title: I18N.Alert.writeMoreTitle,
-            message: I18N.Alert.writeMoreMessage,
-            rightButtonText: I18N.Alert.writeMore
+            title: .Alert.writeMoreTitle,
+            message: .Alert.writeMoreMessage,
+            rightButtonText: .Alert.writeMore
         )
 
         guard let alert = self.alert else { return }

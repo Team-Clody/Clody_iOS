@@ -37,6 +37,15 @@ extension String {
         static let contactUs = "https://docs.google.com/forms/d/e/1FAIpQLSeCS3Z9ctFyqHZH7qkryOEQYQdhvNCMPT6QJ3J2GQw86WId4Q/viewform"
     }
     
+    enum Toast {
+        static let needToWriteAll = String(localized: "toast.needToWriteAll", comment: "빈 칸을 채워야 보낼 수 있어요.")
+        static let limitFive = String(localized: "toast.limitFive", comment: "일기는 5개까지만 작성할 수 있어요.")
+        static let alarm = String(localized: "toast.alarm", comment: "설정 > 알림 > 클로디에서 알림을 켜주세요.")
+        static let changeComplete = String(localized: "toast.changeComplete", comment: "변경을 완료했어요.")
+        static let notificationTimeChangeComplete = String(localized: "toast.notificationTimeChangeComplete", comment: "알림 시간 설정을 완료했어요.")
+        static let continueWritingAlarmChangeComplete = String(localized: "toast.continueWritingAlarmChangeComplete", comment: "이어쓰기 알림 설정을 완료했어요.")
+    }
+    
     enum List {
         static let emptyList = String(localized: "list.emptyList", comment: "작성된 감사일기가 없어요!")
         static func date(date: String) -> String {
@@ -93,6 +102,21 @@ extension String {
         static let logout = String(localized: "alert.logout", comment: "로그아웃")
         static let withdraw = String(localized: "alert.withdraw", comment: "탈퇴할래요")
         static let no = String(localized: "alert.no", comment: "아니요")
+        static let submitDiaryTitle = String(localized: "alert.submitDiaryTitle", comment: "일기를 로디에게 보낼까요?")
+        static let submitDiaryMessage = String(localized: "alert.submitDiaryMessage", comment: "보낸 일기는 수정이 어려워요.")
+        static let deleteDiaryTitle = String(localized: "alert.deleteDiaryTitle", comment: "정말 일기를 삭제할까요?")
+        static let deleteDiaryMessage = String(localized: "alert.deleteDiaryMessage", comment: "아직 답장이 오지 않았거나 삭제하고 다시 작성한 일기는 답장을 받을 수 없어요.")
+        static let cancel = String(localized: "alert.cancel", comment: "취소")
+        static let submit = String(localized: "alert.submit", comment: "보내기")
+        static let delete = String(localized: "alert.delete", comment: "삭제할래요")
+        static let retry = String(localized: "alert.retry", comment: "다시 시도")
+        static let draftTitle = String(localized: "alert.draftTitle", comment: "지금까지 쓴 일기를 임시저장할까요?")
+        static let draftMessage = String(localized: "alert.draftMessage", comment: "나가기를 누르면 작성 중인 내용이 모두 사라져요.")
+        static let draft = String(localized: "alert.draft", comment: "임시저장")
+        static let back = String(localized: "alert.back", comment: "나가기")
+        static let writeMoreTitle = String(localized: "alert.writeMoreTitle", comment: "임시저장된 일기를 이어 쓸까요?")
+        static let writeMoreMessage = String(localized: "alert.writeMoreMessage", comment: "답장 기한이 지나서 답장은 받을 수 없어요.")
+        static let writeMore = String(localized: "alert.writeMore", comment: "이어쓰기")
     }
     
     enum Auth {
@@ -141,5 +165,16 @@ extension String {
         static let onboarding_4_title = String(localized: "onboarding.onboarding_4_title", comment: "이제 일기를 써볼까요?\n기다리고 있을게요!")
         static let onboarding_4_sub = String(localized: "onboarding.onboarding_4_sub", comment: "두번째 일기부터는 네잎클로버를 찾는 데 12시간이 걸리니 조금만 기다려 주세요")
         static let start = String(localized: "onboarding.start", comment: "시작하기")
+    }
+    
+    enum Error {
+        static let network = String(
+            localized: "error.network",
+            comment: "서비스 접속이 원활하지 않아요. 네트워크 연결을 확인해주세요."
+        )
+        static let unKnown = String(
+            localized: "error.unknown",
+            comment: "일시적인 오류가 발생했어요. 잠시 후 다시 시도해주세요."
+        )
     }
 }
