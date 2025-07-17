@@ -94,27 +94,28 @@ private extension DiaryNotificationViewController {
             .disposed(by: disposeBag)
         
         output.showBottomSheet
-            .drive(onNext: {
-                self.presentBottomSheet()
+            .drive(onNext: { [weak self] in
+                self?.presentBottomSheet()
             })
             .disposed(by: disposeBag)
         
         output.setupNotification
-            .drive(onNext: {
-                self.showLoadingIndicator()
-                self.setupNotification()
+            .drive(onNext: { [weak self] in
+                self?.showLoadingIndicator()
+                self?.setupNotification()
             })
             .disposed(by: disposeBag)
         
         output.setupNotificationNext
-            .drive(onNext: {
-                self.navigationController?.pushViewController(OnBoardingViewController(), animated: true)
+            .drive(onNext: { [weak self] in
+                self?.navigationController?.pushViewController(OnBoardingViewController(), animated: true)
             })
             .disposed(by: disposeBag)
         
         output.selectedTimeRelay
-            .bind(onNext: { values in
-                guard let timePeriods = values[0] as? String,
+            .bind(onNext: { [weak self] values in
+                guard let self = self,
+                      let timePeriods = values[0] as? String,
                       let hour = values[1] as? Int,
                       let minute = values[2] as? Int else {
                     return
@@ -128,9 +129,9 @@ private extension DiaryNotificationViewController {
                 }
                 let hourString = hour24 < 10 ? "0\(hour24)" : "\(hour24)"
                 let minuteString = minute < 10 ? "0\(minute)" : "\(minute)"
-                self.time = "\(hourString):\(minuteString)"
+                time = "\(hourString):\(minuteString)"
                 let timeText = "\(timePeriods) \(hour)시 \(minute)분"
-                self.rootView.timeLabel.attributedText = UIFont.pretendardString(text: timeText, style: .body1_semibold)
+                rootView.timeLabel.attributedText = UIFont.pretendardString(text: timeText, style: .body1_semibold)
             })
             .disposed(by: disposeBag)
     }
@@ -154,8 +155,8 @@ private extension DiaryNotificationViewController {
     }
     
     private func dismissPickerView(animated: Bool, completion: (() -> Void)?) {
-        timePickerView.animateHide {
-            self.timePickerView.isHidden = true
+        timePickerView.animateHide { [weak self] in
+            self?.timePickerView.isHidden = true
             completion?()
         }
     }
@@ -174,16 +175,16 @@ private extension DiaryNotificationViewController {
 extension DiaryNotificationViewController {
     
     func setupNotification() {
-        viewModel.setupNotification(time: time) { dataStatus in 
-            self.hideLoadingIndicator()
+        viewModel.setupNotification(time: time) { [weak self] dataStatus in
+            self?.hideLoadingIndicator()
             
             switch dataStatus {
             case .success:
-                self.navigationController?.pushViewController(OnBoardingViewController(), animated: true)
+                self?.navigationController?.pushViewController(OnBoardingViewController(), animated: true)
             case .network:
-                self.showErrorAlert(isNetworkError: true)
+                self?.showErrorAlert(isNetworkError: true)
             case .unknowned:
-                self.showErrorAlert(isNetworkError: false)
+                self?.showErrorAlert(isNetworkError: false)
             }
         }
     }
