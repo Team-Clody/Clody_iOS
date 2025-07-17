@@ -79,9 +79,17 @@ final class ListViewModel: ViewModelType {
                 
                 self.getListData(year: Int(year) ?? 0, month: Int(month) ?? 0)
                 
-                let convertYear = date[0]
-                guard let convertMonth = DateFormatter.convertToDoubleDigitMonth(from: date[1]) else { return "" }
-                let dateSelected = "\(convertYear)년 \(convertMonth)월"
+                let yearString = date[0]
+                
+                guard let monthString = DateFormatter.convertToDoubleDigitMonth(from: date[1]),
+                    let year = Int(yearString),
+                    let month = Int(monthString)
+                else {
+                    return ""
+                }
+                
+                let dateSelected = LocalizationConstant.Calendar.localizedYearMonthString(year: year, month: month)
+                
                 return dateSelected
             }
             .asDriver(onErrorJustReturn: "Error")

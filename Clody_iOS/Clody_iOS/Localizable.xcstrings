@@ -715,6 +715,23 @@
         }
       }
     },
+    "list.date" : {
+      "comment" : "d일",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "%@일"
+          }
+        }
+      }
+    },
     "list.emptyList" : {
       "comment" : "작성된 감사일기가 없어요!",
       "localizations" : {
@@ -1204,6 +1221,91 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "앱 버전"
+          }
+        }
+      }
+    },
+    "writingDiary.helpMessage" : {
+      "comment" : "신조어, 비속어, 이모지 작성은 불가능해요",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please avoid using slang, profanity, or emojis."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "신조어, 비속어, 이모지 작성은 불가능해요"
+          }
+        }
+      }
+    },
+    "writingDiary.inputLimitError" : {
+      "comment" : "2~50자까지 입력할 수 있어요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please enter between 2 and 100 characters."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "2~50자까지 입력할 수 있어요."
+          }
+        }
+      }
+    },
+    "writingDiary.placeHolder" : {
+      "comment" : "일상 속 작은 감사함을 적어보세요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something you’re grateful for today"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "일상 속 작은 감사함을 적어보세요."
+          }
+        }
+      }
+    },
+    "writingDiary.replyButton" : {
+      "comment" : "답장 확인",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reply"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "답장 확인"
+          }
+        }
+      }
+    },
+    "writingDiary.submit" : {
+      "comment" : "보내기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "보내기"
           }
         }
       }
