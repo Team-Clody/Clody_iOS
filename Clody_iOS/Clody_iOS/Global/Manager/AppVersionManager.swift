@@ -28,8 +28,13 @@ class AppVersionManager {
         
         latestVersion = remoteConfig["latest_version_iOS"].stringValue
         currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-        if let latestVersion, let currentVersion {
-            version = latestVersion <= currentVersion ? .Setting.latestVersion : currentVersion
+        
+        if let currentVersion,
+           let latestVersion,
+           !latestVersion.isEmpty {
+            let result = latestVersion.compare(currentVersion, options: .numeric)
+            // latestVersion <= currentVersion 인 경우
+            version = result != .orderedDescending ? .Setting.latestVersion : currentVersion
         } else {
             version = ""
         }
@@ -45,7 +50,7 @@ class AppVersionManager {
                 return
             }
             
-            switch compareVersion(currentVersion, latestVersion) {
+            switch compareVersion() {
             case .force:
                 DispatchQueue.main.async {
                     self.showForceUpdateAlert(appStoreVersion: latestVersion)
@@ -81,9 +86,14 @@ class AppVersionManager {
 
 private extension AppVersionManager {
     
-    func compareVersion(_ current: String, _ store: String) -> UpdateType {
-        let currentComponents = current.split(separator: ".").map { Int($0) ?? 0 }
-        let storeComponents = store.split(separator: ".").map { Int($0) ?? 0 }
+    func compareVersion() -> UpdateType {
+        guard let currentVersion,
+              let latestVersion,
+              !latestVersion.isEmpty else {
+            return .none
+        }
+        let currentComponents = currentVersion.split(separator: ".").map { Int($0) ?? 0 }
+        let storeComponents = latestVersion.split(separator: ".").map { Int($0) ?? 0 }
         
         for i in 0..<3 {
             let currentPart = currentComponents[i]
