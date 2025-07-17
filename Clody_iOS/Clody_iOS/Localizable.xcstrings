@@ -324,6 +324,23 @@
         }
       }
     },
+    "auth.notificationTime" : {
+      "comment" : "오후 9시 30분",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$d:%3$02d %1$@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$d시 %3$02d분"
+          }
+        }
+      }
+    },
     "auth.privacy" : {
       "comment" : "개인정보 처리방침",
       "localizations" : {
@@ -439,6 +456,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "오후"
+          }
+        }
+      }
+    },
+    "bottomSheet.viewOtherTimes" : {
+      "comment" : "다른 시간 보기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose another time"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "다른 시간 보기"
           }
         }
       }
