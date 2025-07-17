@@ -115,6 +115,7 @@ extension String {
     
     enum BottomSheet {
         static let changeTime = String(localized: "bottomSheet.changeTime", comment: "발송 시간 변경")
+        static let viewOtherTimes = String(localized: "bottomSheet.viewOtherTimes", comment: "다른 시간 보기")
         static let am = String(localized: "bottomSheet.am", comment: "오전")
         static let pm = String(localized: "bottomSheet.pm", comment: "오후")
     }

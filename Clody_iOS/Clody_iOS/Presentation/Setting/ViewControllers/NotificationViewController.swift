@@ -15,7 +15,7 @@ final class NotificationViewController: UIViewController {
     // MARK: - UI Components
 
     private let rootView = NotificationView()
-    private let timePickerView = NotificationPickerView(title: I18N.BottomSheet.viewOtherTimes)
+    private let timePickerView = NotificationPickerView(title: .BottomSheet.viewOtherTimes)
 
     // MARK: - Life Cycles
 
