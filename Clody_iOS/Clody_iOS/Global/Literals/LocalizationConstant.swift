@@ -20,6 +20,22 @@ enum LocalizationConstant {
         static var calendarLocale: Locale {
             return Locale(identifier: "\(languageCode)_\(regionCode)")
         }
+        
+        static func localizedYearMonthString(year: Int, month: Int) -> String {
+            var components = DateComponents()
+            components.year = year
+            components.month = month
+            components.day = 1 
+            let calendar = Foundation.Calendar(identifier: .gregorian)
+            guard let date = calendar.date(from: components) else {
+                return "\(year)-\(month)"
+            }
+
+            let formatter = DateFormatter()
+            formatter.locale = calendarLocale
+            formatter.dateFormat = isKorean ? "yyyy년 M월" : "MMMM yyyy"
+            return formatter.string(from: date)
+        }
     }
     
     enum WritingDiary {

@@ -195,7 +195,7 @@ private extension CalendarViewController {
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
                 let date = viewModel.currentPageRelay.value
-                let selectedMonth = "\(date.year)년 \(date.month)월"
+                let selectedMonth = LocalizationConstant.Calendar.localizedYearMonthString(year: date.year, month: date.month)
                 rootView.calendarNavigationView.dateText = selectedMonth
                 presentBottomSheet(datePickerView)
             })
