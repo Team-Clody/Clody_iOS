@@ -19,13 +19,13 @@ enum SettingList: CaseIterable {
 
     var title: String {
         switch self {
-        case .profile: return "프로필 및 계정 관리"
-        case .notification: return "알림 설정"
-        case .announcement: return "공지사항"
-        case .contactUs: return "문의/제안하기"
-        case .terms: return "서비스 이용 약관"
-        case .privacy: return "개인정보 처리방침"
-        case .version: return "앱 버전"
+        case .profile: return .Setting.profile
+        case .notification: return .Setting.notification
+        case .announcement: return .Setting.announcement
+        case .contactUs: return .Setting.contactUs
+        case .terms: return .Setting.terms
+        case .privacy: return .Setting.privacy
+        case .version: return .Setting.version
         }
     }
 

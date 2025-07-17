@@ -23,7 +23,7 @@ final class DiaryNotificationViewController: UIViewController {
     // MARK: - UI Components
      
     private let rootView = DiaryNotificationView()
-    private let timePickerView = NotificationPickerView(title: I18N.BottomSheet.changeTime)
+    private let timePickerView = NotificationPickerView(title: .BottomSheet.changeTime)
     
     // MARK: - Life Cycles
     
@@ -74,7 +74,7 @@ private extension DiaryNotificationViewController {
                     let selectedHour = self.timePickerView.pickerView.hours[selectedHourIndex]
                     let selectedMinute = self.timePickerView.pickerView.minutes[selectedMinuteIndex]
                     
-                    let selectedTime = ["\(selectedTimePeriods)", selectedHour, selectedMinute]
+                    let selectedTime = [selectedTimePeriods, selectedHour, selectedMinute]
                     output.selectedTimeRelay.accept(selectedTime)
                 }
             })
@@ -94,43 +94,45 @@ private extension DiaryNotificationViewController {
             .disposed(by: disposeBag)
         
         output.showBottomSheet
-            .drive(onNext: {
-                self.presentBottomSheet()
+            .drive(onNext: { [weak self] in
+                self?.presentBottomSheet()
             })
             .disposed(by: disposeBag)
         
         output.setupNotification
-            .drive(onNext: {
-                self.showLoadingIndicator()
-                self.setupNotification()
+            .drive(onNext: { [weak self] in
+                self?.showLoadingIndicator()
+                self?.setupNotification()
             })
             .disposed(by: disposeBag)
         
         output.setupNotificationNext
-            .drive(onNext: {
-                self.navigationController?.pushViewController(OnBoardingViewController(), animated: true)
+            .drive(onNext: { [weak self] in
+                self?.navigationController?.pushViewController(OnBoardingViewController(), animated: true)
             })
             .disposed(by: disposeBag)
         
         output.selectedTimeRelay
-            .bind(onNext: { values in
-                guard let timePeriods = values[0] as? String,
+            .bind(onNext: { [weak self] values in
+                guard let self = self,
+                      let timePeriod = values[0] as? String,
                       let hour = values[1] as? Int,
                       let minute = values[2] as? Int else {
                     return
                 }
                 
-                let hour24: Int
-                if timePeriods == "오전" {
-                    hour24 = (hour == 12) ? 0 : hour
-                } else {
-                    hour24 = (hour == 12) ? 12 : hour + 12
-                }
-                let hourString = hour24 < 10 ? "0\(hour24)" : "\(hour24)"
-                let minuteString = minute < 10 ? "0\(minute)" : "\(minute)"
-                self.time = "\(hourString):\(minuteString)"
-                let timeText = "\(timePeriods) \(hour)시 \(minute)분"
-                self.rootView.timeLabel.attributedText = UIFont.pretendardString(text: timeText, style: .body1_semibold)
+                time = DateFormatter.convertTo24HourFormat(
+                    isAM: timePeriod == .BottomSheet.am,
+                    hour12: hour,
+                    minute: minute
+                )
+                
+                let timeText: String = .Auth.notificationTime(
+                    timePeriod: timePeriod,
+                    hour: hour,
+                    minute: minute
+                )
+                rootView.timeLabel.attributedText = UIFont.pretendardString(text: timeText, style: .body1_semibold)
             })
             .disposed(by: disposeBag)
     }
@@ -154,8 +156,8 @@ private extension DiaryNotificationViewController {
     }
     
     private func dismissPickerView(animated: Bool, completion: (() -> Void)?) {
-        timePickerView.animateHide {
-            self.timePickerView.isHidden = true
+        timePickerView.animateHide { [weak self] in
+            self?.timePickerView.isHidden = true
             completion?()
         }
     }
@@ -174,16 +176,16 @@ private extension DiaryNotificationViewController {
 extension DiaryNotificationViewController {
     
     func setupNotification() {
-        viewModel.setupNotification(time: time) { dataStatus in 
-            self.hideLoadingIndicator()
+        viewModel.setupNotification(time: time) { [weak self] dataStatus in
+            self?.hideLoadingIndicator()
             
             switch dataStatus {
             case .success:
-                self.navigationController?.pushViewController(OnBoardingViewController(), animated: true)
+                self?.navigationController?.pushViewController(OnBoardingViewController(), animated: true)
             case .network:
-                self.showErrorAlert(isNetworkError: true)
+                self?.showErrorAlert(isNetworkError: true)
             case .unknowned:
-                self.showErrorAlert(isNetworkError: false)
+                self?.showErrorAlert(isNetworkError: false)
             }
         }
     }

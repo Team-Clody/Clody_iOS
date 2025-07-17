@@ -48,18 +48,23 @@ final class SplashViewController: UIViewController {
     }
     
     private func setLayout() {
+        let isKorean = LocalizationConstant.languageCode == "ko"
+        
         symbolImageView.snp.makeConstraints {
+            $0.width.equalTo(ScreenUtils.getWidth(87))
+            $0.height.equalTo(ScreenUtils.getHeight(85))
             $0.top.equalToSuperview().inset(ScreenUtils.getHeight(296))
             $0.centerX.equalToSuperview()
         }
         
         introImageView.snp.makeConstraints {
-            $0.top.equalTo(symbolImageView.snp.bottom).offset(ScreenUtils.getHeight(21))
+            $0.top.equalTo(symbolImageView.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 21 : 19.5))
             $0.centerX.equalToSuperview()
         }
         
         clodyLogoImageView.snp.makeConstraints {
-            $0.top.equalTo(introImageView.snp.bottom).offset(ScreenUtils.getHeight(11))
+            $0.top.equalTo(introImageView.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 11 : 4.5))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(isKorean ? 120 : 106))
             $0.centerX.equalToSuperview()
         }
     }

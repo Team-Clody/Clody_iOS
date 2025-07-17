@@ -25,7 +25,7 @@ final class TermsView: BaseView {
     private let requiredPrivacyLabel = UILabel()
     let viewPrivacyDetailButton = UIButton()
     let agreePrivacyIconButton = UIButton()
-    let nextButton = ClodyBottomButton(title: I18N.Common.next)
+    let nextButton = ClodyBottomButton(title: .Common.next)
     
     // MARK: - Methods
     
@@ -35,7 +35,7 @@ final class TermsView: BaseView {
         introLabel.do {
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.Auth.termsIntro,
+                text: .Auth.termsIntro,
                 style: .head1,
                 applyLineHeight: true
             )
@@ -43,7 +43,7 @@ final class TermsView: BaseView {
         }
         
         allAgreeTextButton.do {
-            $0.setAttributedTitle(UIFont.pretendardString(text: I18N.Auth.allAgree, style: .head3), for: .normal)
+            $0.setAttributedTitle(UIFont.pretendardString(text: .Auth.allAgree, style: .head3), for: .normal)
             $0.setTitleColor(.grey01, for: .normal)
         }
         
@@ -57,12 +57,12 @@ final class TermsView: BaseView {
         }
         
         requiredTermsLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: I18N.Auth.required, style: .body1_medium)
+            $0.attributedText = UIFont.pretendardString(text: .Auth.required, style: .body1_medium)
             $0.textColor = .grey01
         }
         
         requiredPrivacyLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: I18N.Auth.required, style: .body1_medium)
+            $0.attributedText = UIFont.pretendardString(text: .Auth.required, style: .body1_medium)
             $0.textColor = .grey01
         }
         
@@ -70,7 +70,7 @@ final class TermsView: BaseView {
             $0.configuration = UIButton.Configuration.plain()
             $0.configuration?.baseForegroundColor = .grey01
             $0.configuration?.attributedTitle = AttributedString(
-                UIFont.pretendardString(text: I18N.Auth.clodyTerms, style: .body1_medium)
+                UIFont.pretendardString(text: .Auth.clodyTerms, style: .body1_medium)
             )
             $0.configuration?.image = .icArrowRight
             $0.configuration?.imagePlacement = .trailing
@@ -81,7 +81,7 @@ final class TermsView: BaseView {
             $0.configuration = UIButton.Configuration.plain()
             $0.configuration?.baseForegroundColor = .grey01
             $0.configuration?.attributedTitle = AttributedString(
-                UIFont.pretendardString(text: I18N.Auth.privacy, style: .body1_medium)
+                UIFont.pretendardString(text: .Auth.privacy, style: .body1_medium)
             )
             $0.configuration?.image = .icArrowRight
             $0.configuration?.imagePlacement = .trailing
@@ -122,6 +122,8 @@ final class TermsView: BaseView {
     }
     
     override func setLayout() {
+        let isKorean = LocalizationConstant.languageCode == "ko"
+        
         navigationBar.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getWidth(44))
             $0.top.equalTo(safeAreaLayoutGuide)
@@ -129,12 +131,12 @@ final class TermsView: BaseView {
         }
         
         introLabel.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(40))
+            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 40 : 32))
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         allAgreeTextButton.snp.makeConstraints {
-            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(49))
+            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 49 : 52))
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
@@ -146,7 +148,7 @@ final class TermsView: BaseView {
         
         divider.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getHeight(1))
-            $0.top.equalTo(allAgreeTextButton.snp.bottom).offset(ScreenUtils.getHeight(15))
+            $0.top.equalTo(allAgreeTextButton.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 15 : 17))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         

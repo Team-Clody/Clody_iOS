@@ -20,7 +20,7 @@ final class ClodyPickerView: UIPickerView {
     // MARK: - Properties
     
     var type: PickerType
-    lazy var timePeriods = ["오전", "오후"]
+    lazy var timePeriods: [String] = [.BottomSheet.am, .BottomSheet.pm]
     lazy var hours = Array(1...12)
     lazy var minutes = [0, 10, 20, 30, 40, 50]
     lazy var years = Array(2000...2030)
