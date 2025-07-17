@@ -99,6 +99,10 @@ enum LocalizationConstant {
         static var replyButtonVerticalInset: CGFloat {
             return ScreenUtils.getWidth(isKorean ? 5 : 6)
         }
+        
+        static var replyButtonTrailing: CGFloat {
+            return ScreenUtils.getWidth(isKorean ? -4 : -2)
+        }
     }
     
     enum Common {

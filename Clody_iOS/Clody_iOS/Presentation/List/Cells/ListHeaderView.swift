@@ -85,7 +85,6 @@ final class ListHeaderView: UICollectionReusableView {
     }
     
     func setHierarchy() {
-        
         self.addSubviews(
             cloverImageView,
             dateLabel,
@@ -97,25 +96,25 @@ final class ListHeaderView: UICollectionReusableView {
     }
     
     func setLayout() {
-        
         cloverImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(30))
-            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(20))
+            $0.width.equalTo(ScreenUtils.getWidth(24))
+            $0.height.equalTo(ScreenUtils.getHeight(23))
+            $0.top.leading.equalToSuperview().inset(ScreenUtils.getHeight(20))
         }
         
         dateLabel.snp.makeConstraints {
-            $0.centerY.equalTo(cloverImageView)
             $0.leading.equalTo(cloverImageView.snp.trailing).offset(ScreenUtils.getWidth(6))
+            $0.centerY.equalTo(cloverImageView)
         }
         
         dayLabel.snp.makeConstraints {
+            $0.leading.equalTo(dateLabel.snp.trailing).offset(ScreenUtils.getWidth(3))
             $0.bottom.equalTo(dateLabel)
-            $0.leading.equalTo(dateLabel.snp.trailing).offset(ScreenUtils.getWidth(2))
         }
         
         replyButton.snp.makeConstraints {
-            $0.centerY.equalTo(dateLabel)
-            $0.trailing.equalTo(kebabButton.snp.leading).offset(-ScreenUtils.getWidth(4))
+            $0.centerY.equalTo(kebabButton)
+            $0.trailing.equalTo(kebabButton.snp.leading).offset(LocalizationConstant.List.replyButtonTrailing)
         }
         
         newImageView.snp.makeConstraints {
@@ -124,9 +123,10 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         kebabButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(4))
-            $0.centerY.equalTo(dateLabel)
             $0.size.equalTo(ScreenUtils.getWidth(28))
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(18))
+            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(4))
+            $0.bottom.equalToSuperview()
         }
     }
     
