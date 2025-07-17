@@ -30,7 +30,7 @@ enum LocalizationConstant {
             guard let date = calendar.date(from: components) else {
                 return "\(year)-\(month)"
             }
-
+            
             let formatter = DateFormatter()
             formatter.locale = calendarLocale
             formatter.dateFormat = isKorean ? "yyyy년 M월" : "MMMM yyyy"
@@ -56,11 +56,14 @@ enum LocalizationConstant {
         static var yearPickerIndex: Int {
             return isKorean ? 0 : 1
         }
-
+        
         static var monthPickerIndex: Int {
             return isKorean ? 1 : 0
         }
-
+        
+        static var pickerViewWidth: CGFloat {
+            return isKorean ? ScreenUtils.getWidth(90) : ScreenUtils.getWidth(120)
+        }
     }
     
     enum List {

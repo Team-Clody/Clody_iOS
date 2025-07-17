@@ -80,17 +80,17 @@ extension ClodyPickerView {
                 let calendar = Calendar.current
                 let hour = calendar.component(.hour, from: date)
                 let minute = calendar.component(.minute, from: date)
-
+                
                 // 오전/오후 설정
                 let periodIndex = (hour >= 12) ? 1 : 0
                 selectRow(periodIndex, inComponent: 0, animated: false)
-
+                
                 // 시간 설정
                 let adjustedHour = hour % 12
                 if let hourIndex = hours.firstIndex(of: adjustedHour == 0 ? 12 : adjustedHour) {
                     selectRow(hourIndex, inComponent: 1, animated: false)
                 }
-
+                
                 // 분 설정
                 if let minuteIndex = minutes.firstIndex(of: minute) {
                     selectRow(minuteIndex, inComponent: 2, animated: false)
@@ -109,7 +109,7 @@ extension ClodyPickerView: UIPickerViewDelegate {
         case .notification:
             return ScreenUtils.getWidth(65)
         case .calendar:
-            return ScreenUtils.getWidth(90)
+            return LocalizationConstant.Calendar.pickerViewWidth
         }
     }
     
