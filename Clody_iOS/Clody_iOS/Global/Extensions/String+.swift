@@ -37,6 +37,15 @@ extension String {
         static let contactUs = "https://docs.google.com/forms/d/e/1FAIpQLSeCS3Z9ctFyqHZH7qkryOEQYQdhvNCMPT6QJ3J2GQw86WId4Q/viewform"
     }
     
+    enum Toast {
+        static let needToWriteAll = String(localized: "toast.needToWriteAll", comment: "빈 칸을 채워야 보낼 수 있어요.")
+        static let limitFive = String(localized: "toast.limitFive", comment: "일기는 5개까지만 작성할 수 있어요.")
+        static let alarm = String(localized: "toast.alarm", comment: "설정 > 알림 > 클로디에서 알림을 켜주세요.")
+        static let changeComplete = String(localized: "toast.changeComplete", comment: "변경을 완료했어요.")
+        static let notificationTimeChangeComplete = String(localized: "toast.notificationTimeChangeComplete", comment: "알림 시간 설정을 완료했어요.")
+        static let continueWritingAlarmChangeComplete = String(localized: "toast.continueWritingAlarmChangeComplete", comment: "이어쓰기 알림 설정을 완료했어요.")
+    }
+    
     enum List {
         static let emptyList = String(localized: "list.emptyList", comment: "작성된 감사일기가 없어요!")
     }

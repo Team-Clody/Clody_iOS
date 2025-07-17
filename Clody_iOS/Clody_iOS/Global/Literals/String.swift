@@ -34,15 +34,6 @@ enum I18N {
         static let writeMore = "이어쓰기"
     }
     
-    enum Toast {
-        static let needToWriteAll = "빈 칸을 채워야 보낼 수 있어요."
-        static let limitFive = "일기는 5개까지만 작성할 수 있어요."
-        static let alarm = "설정 > 알림 > 클로디에서 알림을 켜주세요."
-        static let changeComplete = "변경을 완료했어요."
-        static let notificationTimeChangeComplete = "알림 시간 설정을 완료했어요."
-        static let continueWritingAlarmChangeComplete = "이어쓰기 알림 설정을 완료했어요."
-    }
-    
     enum BottomSheet {
         static let viewOtherTimes = "다른 시간 보기"
         

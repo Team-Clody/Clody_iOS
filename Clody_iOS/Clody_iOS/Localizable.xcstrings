@@ -1174,6 +1174,102 @@
         }
       }
     },
+    "toast.alarm" : {
+      "comment" : "설정 > 알림 > 클로디에서 알림을 켜주세요.",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정 > 알림 > 클로디에서 알림을 켜주세요."
+          }
+        }
+      }
+    },
+    "toast.changeComplete" : {
+      "comment" : "변경을 완료했어요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Changes"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "변경을 완료했어요."
+          }
+        }
+      }
+    },
+    "toast.continueWritingAlarmChangeComplete" : {
+      "comment" : "이어쓰기 알림 설정을 완료했어요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue-writing reminders are now on!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "이어쓰기 알림 설정을 완료했어요."
+          }
+        }
+      }
+    },
+    "toast.limitFive" : {
+      "comment" : "일기는 5개까지만 작성할 수 있어요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can write up to 5 entries."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "일기는 5개까지만 작성할 수 있어요."
+          }
+        }
+      }
+    },
+    "toast.needToWriteAll" : {
+      "comment" : "빈 칸을 채워야 보낼 수 있어요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Field required to send"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "빈 칸을 채워야 보낼 수 있어요."
+          }
+        }
+      }
+    },
+    "toast.notificationTimeChangeComplete" : {
+      "comment" : "알림 시간 설정을 완료했어요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved your reminder time"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "알림 시간 설정을 완료했어요."
+          }
+        }
+      }
+    },
     "writingDiary.helpMessage" : {
       "comment" : "신조어, 비속어, 이모지 작성은 불가능해요",
       "localizations" : {

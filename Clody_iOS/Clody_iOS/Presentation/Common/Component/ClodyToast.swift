@@ -19,12 +19,12 @@ enum ToastType {
     
     var message: String {
         switch self {
-        case .needToWriteAll: return I18N.Toast.needToWriteAll
-        case .limitFive: return I18N.Toast.limitFive
-        case .alarm: return I18N.Toast.alarm
-        case .changeComplete: return I18N.Toast.changeComplete
-        case .notificationTimeChangeComplete: return I18N.Toast.notificationTimeChangeComplete
-        case .continueWritingAlarmChangeComplete: return I18N.Toast.continueWritingAlarmChangeComplete
+        case .needToWriteAll: return .Toast.needToWriteAll
+        case .limitFive: return .Toast.limitFive
+        case .alarm: return .Toast.alarm
+        case .changeComplete: return .Toast.changeComplete
+        case .notificationTimeChangeComplete: return .Toast.notificationTimeChangeComplete
+        case .continueWritingAlarmChangeComplete: return .Toast.continueWritingAlarmChangeComplete
         }
     }
 }
