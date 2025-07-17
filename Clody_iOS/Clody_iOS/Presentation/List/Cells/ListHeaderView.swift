@@ -62,7 +62,7 @@ final class ListHeaderView: UICollectionReusableView {
             $0.backgroundColor = .lightBlue
             $0.makeCornerRound(radius: 10)
             $0.setTitleColor(.blueCustom, for: .normal)
-            let attributedTitle = UIFont.pretendardString(text: I18N.WritingDiary.replyButton, style: .detail1_semibold)
+            let attributedTitle = UIFont.pretendardString(text: .WritingDiary.replyButton, style: .detail1_semibold)
             $0.setAttributedTitle(attributedTitle, for: .normal)
         }
         
@@ -143,13 +143,14 @@ final class ListHeaderView: UICollectionReusableView {
         newImageView.isHidden = diary.replyStatus != "READY_NOT_READ"
         
         let dateOfContent = DateFormatter.date(from: diary.date)
-        guard let dayOfContent = dateOfContent?.koreanDayOfWeek() else { return }
+        guard let dayOfContent = dateOfContent?.dayOfWeek() else { return }
         dayLabel.text = "/\(dayOfContent)"
         if let date = DateFormatter.date(from: diary.date) {
             let formattedDate = DateFormatter.string(from: date, format: "dd")
-            dateLabel.text = "\(formattedDate)일"
+            dateLabel.text = LocalizationConstant.List.localizedDayString(from: formattedDate)
         } else {
-            dateLabel.text = "\(diary.date.split(separator: "-").last!)일"
+            let day = diary.date.split(separator: "-").last.map(String.init) ?? ""
+            dateLabel.text = LocalizationConstant.List.localizedDayString(from: day)
         }
     }
 }

@@ -76,7 +76,7 @@ extension SettingTableViewCell {
         title.attributedText = UIFont.pretendardString(text: item.title, style: .body1_medium)
         isAppVerisionCell = item == SettingList.version
         if isAppVerisionCell {
-            appVersionLabel.attributedText = UIFont.pretendardString(text: I18N.Setting.newVersion, style: .body4_medium)
+            appVersionLabel.attributedText = UIFont.pretendardString(text: AppVersionManager.shared.version, style: .body4_medium)
         }
         
         setStyle()

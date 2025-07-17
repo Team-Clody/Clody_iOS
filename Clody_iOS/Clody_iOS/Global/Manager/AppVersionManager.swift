@@ -10,31 +10,42 @@ import FirebaseRemoteConfig
 
 class AppVersionManager {
     
-    private enum UpdateType {
+    enum UpdateType {
         case force, optional, none
     }
     
     static let shared = AppVersionManager()
     
     private let remoteConfig = RemoteConfig.remoteConfig()
+    private let latestVersion: String?
+    private let currentVersion: String?
+    let version: String
     
     private init() {
         let settings = RemoteConfigSettings()
         settings.minimumFetchInterval = 300
         remoteConfig.configSettings = settings
+        
+        latestVersion = remoteConfig["latest_version_iOS"].stringValue
+        currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        if let latestVersion, let currentVersion {
+            version = latestVersion <= currentVersion ? .Setting.latestVersion : currentVersion
+        } else {
+            version = ""
+        }
     }
     
     func checkForUpdateAndProceed(completion: @escaping (Bool) -> Void) {
-        remoteConfig.fetchAndActivate { status, error in
-            guard error == nil, let latestVersion = self.remoteConfig["latest_version_iOS"].stringValue else {
+        remoteConfig.fetchAndActivate { [weak self] status, error in
+            guard error == nil,
+                  let self = self,
+                  let latestVersion,
+                  let currentVersion else {
                 completion(true)
                 return
             }
             
-            
-            let currentVersion = self.currentAppVersion()
-            
-            switch self.compareVersion(currentVersion, latestVersion) {
+            switch compareVersion(currentVersion, latestVersion) {
             case .force:
                 DispatchQueue.main.async {
                     self.showForceUpdateAlert(appStoreVersion: latestVersion)
@@ -50,7 +61,27 @@ class AppVersionManager {
         }
     }
     
-    private func compareVersion(_ current: String, _ store: String) -> UpdateType {
+    func checkForDowntimeAndProceed(completion: @escaping (Bool) -> Void) {
+        remoteConfig.fetchAndActivate { [weak self] status, error in
+            guard let self = self else {
+                completion(true)
+                return
+            }
+
+            if let message = self.remoteConfig["downtime_message_iOS"].stringValue,
+               !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                presentMaintenanceScreen(message: message)
+                completion(false)
+            } else {
+                completion(true)
+            }
+        }
+    }
+}
+
+private extension AppVersionManager {
+    
+    func compareVersion(_ current: String, _ store: String) -> UpdateType {
         let currentComponents = current.split(separator: ".").map { Int($0) ?? 0 }
         let storeComponents = store.split(separator: ".").map { Int($0) ?? 0 }
         
@@ -67,7 +98,8 @@ class AppVersionManager {
         return .none
     }
     
-    private func showForceUpdateAlert(appStoreVersion: String) {
+    /// 강제 업데이트 Alert
+    func showForceUpdateAlert(appStoreVersion: String) {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let topViewController = windowScene.windows.first?.rootViewController else { return }
         
@@ -91,7 +123,8 @@ class AppVersionManager {
         topViewController.present(alert, animated: true, completion: nil)
     }
     
-    private func showOptionalUpdateAlert(appStoreVersion: String, completion: @escaping (Bool) -> Void) {
+    /// 선택 업데이트 Alert
+    func showOptionalUpdateAlert(appStoreVersion: String, completion: @escaping (Bool) -> Void) {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let topViewController = windowScene.windows.first?.rootViewController else { return }
         
@@ -114,40 +147,15 @@ class AppVersionManager {
         topViewController.present(alert, animated: true, completion: nil)
     }
     
-    private func openAppStore() {
+    /// 업데이트를 위해 앱스토어로 이동
+    func openAppStore() {
         if let url = URL(string: I18N.Common.appLink) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
-    
-    func currentAppVersion() -> String {
-        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            return version
-        }
-        return "최신 버전"
-    }
-}
 
-extension AppVersionManager {
-    func checkForDowntimeAndProceed(completion: @escaping (Bool) -> Void) {
-        remoteConfig.fetchAndActivate { [weak self] status, error in
-            guard let self = self else {
-                completion(true)
-                return
-            }
-
-            if let message = self.remoteConfig["downtime_message_iOS"].stringValue,
-               !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                presentMaintenanceScreen(message: message)
-                completion(false)
-            } else {
-                completion(true)
-            }
-        }
-    }
-
-    private func presentMaintenanceScreen(message: String) {
-        
+    /// 시스템 점검 모달창
+    func presentMaintenanceScreen(message: String) {
         let viewController = MaintenanceViewController()
         viewController.configureContent(time: message)
         viewController.modalPresentationStyle = .overFullScreen
@@ -157,5 +165,4 @@ extension AppVersionManager {
 
         top.present(viewController, animated: false)
     }
-
 }

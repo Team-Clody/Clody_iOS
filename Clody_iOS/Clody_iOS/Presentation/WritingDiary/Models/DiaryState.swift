@@ -34,7 +34,7 @@ struct DiaryState {
     
     mutating func updateItem(at index: Int, text: String) {
         guard index < items.count else { return }
-        let limitedText = String(text.prefix(50))
+        let limitedText = String(text.prefix(LocalizationConstant.WritingDiary.maxLength))
         items[index].text = limitedText
         items[index].isPlaceholder = false
     }

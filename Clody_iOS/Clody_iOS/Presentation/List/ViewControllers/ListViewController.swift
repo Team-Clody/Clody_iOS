@@ -126,10 +126,17 @@ private extension ListViewController {
                 self.presentPickerView()
                 
                 let date = viewModel.selectedMonthRelay.value
-                let year = date[0]
-                let month = DateFormatter.convertToDoubleDigitMonth(from: date[1])
+                let yearString = date[0]
+                let monthString = DateFormatter.convertToDoubleDigitMonth(from: date[1])
+
+                guard
+                    let year = Int(yearString),
+                    let month = Int(monthString ?? "")
+                else {
+                    return 
+                }
                 
-                let selectedMonth = "\(year)년 \(month ?? "")월"
+                let selectedMonth = LocalizationConstant.Calendar.localizedYearMonthString(year: year, month: month)
                 rootView.navigationBarView.dateText = selectedMonth
             })
             .disposed(by: disposeBag)
@@ -264,8 +271,8 @@ private extension ListViewController {
                 self?.dismissPickerView(animated: true,
                                         completion: {
                     // 로직
-                    let selectedYearIndex = self?.datePickerView.pickerView.selectedRow(inComponent: 0) ?? 0
-                    let selectedMonthIndex = self?.datePickerView.pickerView.selectedRow(inComponent: 1) ?? 0
+                    let selectedYearIndex = self?.datePickerView.pickerView.selectedRow(inComponent: LocalizationConstant.Calendar.yearPickerIndex) ?? 0
+                    let selectedMonthIndex = self?.datePickerView.pickerView.selectedRow(inComponent: LocalizationConstant.Calendar.monthPickerIndex) ?? 0
                     
                     guard let selectedYear = self?.datePickerView.pickerView.years[selectedYearIndex] else {
                         return

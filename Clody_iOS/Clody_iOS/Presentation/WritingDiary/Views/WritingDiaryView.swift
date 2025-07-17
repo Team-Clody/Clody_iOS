@@ -12,7 +12,7 @@ import Then
 
 final class WritingDiaryView: BaseView {
     
-    // MARK: - UI Components
+    // MARK: - UI Component
     
     lazy var writingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: writingCollectionViewLayout())
     lazy var addButton = UIButton()

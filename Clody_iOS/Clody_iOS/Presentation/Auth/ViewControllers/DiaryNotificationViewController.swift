@@ -23,7 +23,7 @@ final class DiaryNotificationViewController: UIViewController {
     // MARK: - UI Components
      
     private let rootView = DiaryNotificationView()
-    private let timePickerView = NotificationPickerView(title: I18N.BottomSheet.changeTime)
+    private let timePickerView = NotificationPickerView(title: .BottomSheet.changeTime)
     
     // MARK: - Life Cycles
     
@@ -121,7 +121,7 @@ private extension DiaryNotificationViewController {
                 }
                 
                 let hour24: Int
-                if timePeriods == "오전" {
+                if timePeriods == .BottomSheet.am {
                     hour24 = (hour == 12) ? 0 : hour
                 } else {
                     hour24 = (hour == 12) ? 12 : hour + 12

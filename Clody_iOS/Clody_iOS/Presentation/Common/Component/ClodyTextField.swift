@@ -32,25 +32,27 @@ final class ClodyTextField: BaseView {
             underline.backgroundColor  = .redCustom
         }
     }
+    
     var count: Int = 0 {
         didSet {
             countLabel.attributedText = UIFont.pretendardString(text: "\(count)", style: .detail1_medium)
         }
     }
     
+    private let isKorean = LocalizationConstant.languageCode == "ko"
+    
     // MARK: - Methods
     
     override func setStyle() {
         textField.do {
             $0.autocapitalizationType = .none
-            $0.autocorrectionType = .no
             $0.spellCheckingType = .no
             $0.backgroundColor = .clear
             $0.font = .pretendard(.body1_medium)
             $0.textColor = .grey03
             $0.clearButtonMode = .always
             $0.attributedPlaceholder = NSAttributedString(
-                string: I18N.Common.enterNickname,
+                string: .Common.enterNickname,
                 attributes: [NSAttributedString.Key.foregroundColor : UIColor.grey05]
             )
         }
@@ -62,8 +64,8 @@ final class ClodyTextField: BaseView {
         messageLabel.do {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.Common.nicknameCondition,
-                style: .detail1_regular
+                text: .Common.nicknameCondition,
+                style: isKorean ? .detail1_regular : .detail1_medium
             )
         }
         
@@ -74,7 +76,10 @@ final class ClodyTextField: BaseView {
         
         charLimitLabel.do {
             $0.textColor = .grey06
-            $0.attributedText = UIFont.pretendardString(text: I18N.Common.charLimit, style: .detail1_medium)
+            $0.attributedText = UIFont.pretendardString(
+                text: .Common.charLimit,
+                style: isKorean ? .detail1_medium : .detail1_semibold
+            )
         }
     }
     
@@ -90,25 +95,25 @@ final class ClodyTextField: BaseView {
         
         underline.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getHeight(2))
-            $0.top.equalTo(textField.snp.bottom).offset(ScreenUtils.getHeight(4))
+            $0.top.equalTo(textField.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 4 : 7))
             $0.horizontalEdges.equalTo(textField.snp.horizontalEdges)
         }
         
         messageLabel.snp.makeConstraints {
             $0.top.equalTo(underline.snp.bottom).offset(ScreenUtils.getHeight(3))
             $0.leading.equalToSuperview()
-            $0.trailing.equalTo(countLabel.snp.leading).offset(-ScreenUtils.getWidth(16))
+            $0.trailing.equalTo(countLabel.snp.leading).offset(-ScreenUtils.getWidth(8))
             $0.bottom.equalToSuperview()
         }
         
         countLabel.snp.makeConstraints {
             $0.trailing.equalTo(charLimitLabel.snp.leading).offset(-ScreenUtils.getWidth(3))
-            $0.centerY.equalTo(charLimitLabel)
+            $0.centerY.equalTo(messageLabel)
         }
         
         charLimitLabel.snp.makeConstraints {
-            $0.top.equalTo(underline.snp.bottom).offset(ScreenUtils.getHeight(2))
-            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(2))
+            $0.trailing.equalToSuperview()
+            $0.centerY.equalTo(messageLabel)
         }
     }
 }
@@ -128,7 +133,7 @@ extension ClodyTextField {
         messageLabel.do {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.Common.nicknameCondition,
+                text: .Common.nicknameCondition,
                 style: .detail1_regular
             )
         }

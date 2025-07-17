@@ -46,7 +46,7 @@ private extension ClodyLoginButton {
         configuration?.imagePadding = 10
         configuration?.attributedTitle = AttributedString(
             UIFont.pretendardString(
-                text: type == .apple ? I18N.Auth.appleLogin : I18N.Auth.kakaoLogin,
+                text: type == .apple ? .Auth.appleLogin : .Auth.kakaoLogin,
                 style: .body2_semibold
             )
         )

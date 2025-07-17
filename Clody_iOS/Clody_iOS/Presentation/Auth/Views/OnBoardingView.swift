@@ -16,7 +16,7 @@ final class OnBoardingView: BaseView {
     
     lazy var pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     let pageControl = UIPageControl()
-    let nextButton = ClodyBottomButton(title: I18N.Common.next)
+    let nextButton = ClodyBottomButton(title: .Common.next)
     
     // MARK: - Methods
     

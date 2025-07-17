@@ -3,10 +3,23 @@
     {
       "filename" : "img_wordmark.svg",
       "idiom" : "universal"
+    },
+    {
+      "filename" : "img_wordmark_ko.svg",
+      "idiom" : "universal",
+      "locale" : "ko"
+    },
+    {
+      "filename" : "img_wordmark_en.svg",
+      "idiom" : "universal",
+      "locale" : "en"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
   }
 }

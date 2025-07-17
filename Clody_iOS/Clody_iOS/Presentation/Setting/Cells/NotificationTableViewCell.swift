@@ -19,10 +19,10 @@ enum NotificationSettingType: CaseIterable {
 
     var title: String {
         switch self {
-        case .diaryWriting: return I18N.Notification.diaryWriting
-        case .continueWriting: return I18N.Notification.continueWriting
-        case .time: return I18N.Notification.time
-        case .replyReceived: return I18N.Notification.replyReceived
+        case .diaryWriting: return .Notification.diaryWriting
+        case .continueWriting: return .Notification.continueWriting
+        case .time: return .Notification.time
+        case .replyReceived: return .Notification.replyReceived
         }
     }
 

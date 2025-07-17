@@ -16,7 +16,7 @@ final class WritingDiaryHeaderView: UIView {
     
     private let dateLabel = UILabel()
     lazy var infoButton = UIButton()
-    let helpMessageContainer = UIImageView()
+    let helpMessageContainer = UIView()
     let helpMessageDownArrowImage = UIImageView()
     private let helpMessageLabel = UILabel()
     let cancelHelpButton = UIButton()
@@ -46,7 +46,7 @@ final class WritingDiaryHeaderView: UIView {
         
         submitButton.do {
             $0.setTitleColor(.grey01, for: .normal)
-            let attributedTitle = UIFont.pretendardString(text: I18N.WritingDiary.submit, style: .body2_semibold)
+            let attributedTitle = UIFont.pretendardString(text: .WritingDiary.submit, style: .body2_semibold)
             $0.setAttributedTitle(attributedTitle, for: .normal)
         }
         
@@ -60,10 +60,8 @@ final class WritingDiaryHeaderView: UIView {
         }
         
         helpMessageContainer.do {
-            $0.image = .helpBox
-            $0.contentMode = .scaleAspectFit
-            $0.isUserInteractionEnabled = true
-            $0.bringSubviewToFront(cancelHelpButton)
+            $0.backgroundColor = .lightBlue
+            $0.makeCornerRound(radius: 4)
         }
         
         helpMessageDownArrowImage.do {
@@ -71,7 +69,7 @@ final class WritingDiaryHeaderView: UIView {
         }
         
         helpMessageLabel.do {
-            $0.attributedText = UIFont.pretendardString(text: I18N.WritingDiary.helpMessage, style: .detail1_medium)
+            $0.attributedText = UIFont.pretendardString(text: .WritingDiary.helpMessage, style: .detail1_medium)
             $0.textColor = .blueCustom
         }
         
@@ -113,6 +111,8 @@ final class WritingDiaryHeaderView: UIView {
 
         helpMessageContainer.snp.makeConstraints {
             $0.bottom.equalTo(helpMessageDownArrowImage.snp.top).offset(ScreenUtils.getHeight(4))
+            $0.width.equalTo(LocalizationConstant.WritingDiary.helpMessageContainerWidth)
+            $0.height.equalTo(ScreenUtils.getHeight(28))
         }
         
         helpMessageDownArrowImage.snp.makeConstraints {
@@ -122,7 +122,7 @@ final class WritingDiaryHeaderView: UIView {
 
         helpMessageLabel.snp.makeConstraints {
             $0.centerY.equalTo(cancelHelpButton)
-            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(8))
+            $0.leading.equalToSuperview().inset(LocalizationConstant.WritingDiary.helpMessageLabelLeading)
         }
 
         cancelHelpButton.snp.makeConstraints {
@@ -136,12 +136,7 @@ final class WritingDiaryHeaderView: UIView {
     }
 
     func bindData(dateData: Date) {
-        let month = DateFormatter.string(from: dateData, format: "M")
-        let date = DateFormatter.string(from: dateData, format: "d")
-        let dateString = DateFormatter.string(from: dateData, format: "yyyy-MM-dd")
-        let dayOfContent = DateFormatter.date(from: dateString)
-        
-        let dateText = month + "월 " + date + "일 " + (dayOfContent?.koreanDayOfWeek() ?? "")
+        let dateText = LocalizationConstant.WritingDiary.headerDate(from: dateData)
         dateLabel.attributedText = UIFont.pretendardString(text: dateText, style: .head2, applyLineHeight: true)
     }
 }

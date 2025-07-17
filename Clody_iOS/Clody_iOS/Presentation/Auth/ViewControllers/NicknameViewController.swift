@@ -92,7 +92,7 @@ private extension NicknameViewController {
                     self.clodyTextField.hideErrorMessage()
                     output.nextButtonIsEnabled.accept(false)
                 case .error:
-                    self.clodyTextField.showErrorMessage(I18N.Common.nicknameError)
+                    self.clodyTextField.showErrorMessage(.Common.nicknameError)
                     output.nextButtonIsEnabled.accept(false)
                 case .normal:
                     self.clodyTextField.hideErrorMessage()

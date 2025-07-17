@@ -20,7 +20,7 @@ final class ClodyPickerView: UIPickerView {
     // MARK: - Properties
     
     var type: PickerType
-    lazy var timePeriods = ["오전", "오후"]
+    lazy var timePeriods: [String] = [.BottomSheet.am, .BottomSheet.pm]
     lazy var hours = Array(1...12)
     lazy var minutes = [0, 10, 20, 30, 40, 50]
     lazy var years = Array(2000...2030)
@@ -62,9 +62,9 @@ final class ClodyPickerView: UIPickerView {
             let currentYear = Calendar.current.component(.year, from: Date())
             let currentMonth = Calendar.current.component(.month, from: Date())
             if let yearIndex = years.firstIndex(of: currentYear) {
-                selectRow(yearIndex, inComponent: 0, animated: false)
+                selectRow(yearIndex, inComponent: LocalizationConstant.Calendar.yearPickerIndex, animated: false)
             }
-            selectRow(currentMonth - 1, inComponent: 1, animated: false)
+            selectRow(currentMonth - 1, inComponent: LocalizationConstant.Calendar.monthPickerIndex, animated: false)
         }
     }
 }
@@ -80,17 +80,17 @@ extension ClodyPickerView {
                 let calendar = Calendar.current
                 let hour = calendar.component(.hour, from: date)
                 let minute = calendar.component(.minute, from: date)
-
+                
                 // 오전/오후 설정
                 let periodIndex = (hour >= 12) ? 1 : 0
                 selectRow(periodIndex, inComponent: 0, animated: false)
-
+                
                 // 시간 설정
                 let adjustedHour = hour % 12
                 if let hourIndex = hours.firstIndex(of: adjustedHour == 0 ? 12 : adjustedHour) {
                     selectRow(hourIndex, inComponent: 1, animated: false)
                 }
-
+                
                 // 분 설정
                 if let minuteIndex = minutes.firstIndex(of: minute) {
                     selectRow(minuteIndex, inComponent: 2, animated: false)
@@ -109,7 +109,7 @@ extension ClodyPickerView: UIPickerViewDelegate {
         case .notification:
             return ScreenUtils.getWidth(65)
         case .calendar:
-            return ScreenUtils.getWidth(90)
+            return LocalizationConstant.Calendar.pickerViewWidth
         }
     }
     
@@ -174,9 +174,9 @@ extension ClodyPickerView: UIPickerViewDataSource {
     
     func numberOfRowsInCalendar(_ component: Int) -> Int {
         switch component {
-        case 0:
+        case LocalizationConstant.Calendar.yearPickerIndex:
             return years.count
-        case 1:
+        case LocalizationConstant.Calendar.monthPickerIndex:
             return months.count
         default:
             return 0
@@ -198,10 +198,10 @@ extension ClodyPickerView: UIPickerViewDataSource {
     
     func dataOfRowsInCalendar(component: Int, row: Int) -> String {
         switch component {
-        case 0:
-            return "\(years[row])년"
-        case 1:
-            return "\(months[row])월"
+        case LocalizationConstant.Calendar.yearPickerIndex:
+            return LocalizationConstant.Calendar.localizedYear(years[row])
+        case LocalizationConstant.Calendar.monthPickerIndex:
+            return LocalizationConstant.Calendar.localizedMonth(months[row])
         default:
             return ""
         }
