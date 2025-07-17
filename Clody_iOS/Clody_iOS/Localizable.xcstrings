@@ -211,7 +211,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Retry"
+            "value" : "Try Again"
           }
         },
         "ko" : {
@@ -1432,9 +1432,15 @@
     "toast.alarm" : {
       "comment" : "설정 > 알림 > 클로디에서 알림을 켜주세요.",
       "localizations" : {
-        "ko" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Turn on notifications in Settings > App > Clody"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "설정 > 알림 > 클로디에서 알림을 켜주세요."
           }
         }
