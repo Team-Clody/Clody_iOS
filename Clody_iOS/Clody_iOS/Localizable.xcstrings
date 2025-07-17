@@ -1,6 +1,142 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "alert.back" : {
+      "comment" : "나가기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exit"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "나가기"
+          }
+        }
+      }
+    },
+    "alert.cancel" : {
+      "comment" : "취소",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "취소"
+          }
+        }
+      }
+    },
+    "alert.delete" : {
+      "comment" : "삭제할래요",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "삭제할래요"
+          }
+        }
+      }
+    },
+    "alert.deleteDiaryMessage" : {
+      "comment" : "아직 답장이 오지 않았거나 삭제하고 다시 작성한 일기는 답장을 받을 수 없어요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You won’t receive another reply\nif you delete and rewrite your entry."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "아직 답장이 오지 않았거나 삭제하고 \n다시 작성한 일기는 답장을 받을 수 없어요."
+          }
+        }
+      }
+    },
+    "alert.deleteDiaryTitle" : {
+      "comment" : "정말 일기를 삭제할까요?",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete this entry?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "정말 일기를 삭제할까요?"
+          }
+        }
+      }
+    },
+    "alert.draft" : {
+      "comment" : "임시저장",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Draft"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "임시저장"
+          }
+        }
+      }
+    },
+    "alert.draftMessage" : {
+      "comment" : "나가기를 누르면 작성 중인 내용이 모두 사라져요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your journal will be lost if you exit now."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "나가기를 누르면 작성 중인 내용이 모두 사라져요."
+          }
+        }
+      }
+    },
+    "alert.draftTitle" : {
+      "comment" : "지금까지 쓴 일기를 임시저장할까요?",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Want to send this later instead?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "지금까지 쓴 일기를 임시저장할까요?"
+          }
+        }
+      }
+    },
     "alert.logout" : {
       "comment" : "로그아웃",
       "localizations" : {
@@ -69,6 +205,74 @@
         }
       }
     },
+    "alert.retry" : {
+      "comment" : "다시 시도",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retry"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "다시 시도"
+          }
+        }
+      }
+    },
+    "alert.submit" : {
+      "comment" : "보내기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "보내기"
+          }
+        }
+      }
+    },
+    "alert.submitDiaryMessage" : {
+      "comment" : "보낸 일기는 수정이 어려워요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sent journals can’t be edited."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "보낸 일기는 수정이 어려워요."
+          }
+        }
+      }
+    },
+    "alert.submitDiaryTitle" : {
+      "comment" : "일기를 로디에게 보낼까요?",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready to share your journal with Lody?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "일기를 로디에게 보낼까요?"
+          }
+        }
+      }
+    },
     "alert.withdraw" : {
       "comment" : "탈퇴할래요",
       "localizations" : {
@@ -116,6 +320,57 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "서비스를 탈퇴하시겠어요?"
+          }
+        }
+      }
+    },
+    "alert.writeMore" : {
+      "comment" : "이어쓰기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "이어쓰기"
+          }
+        }
+      }
+    },
+    "alert.writeMoreMessage" : {
+      "comment" : "답장 기한이 지나서 답장은 받을 수 없어요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This journal’s reply time has expired."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "답장 기한이 지나서 답장은 받을 수 없어요."
+          }
+        }
+      }
+    },
+    "alert.writeMoreTitle" : {
+      "comment" : "임시저장된 일기를 이어 쓸까요?",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick up where you left off?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "임시저장된 일기를 이어 쓸까요?"
           }
         }
       }

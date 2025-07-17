@@ -206,9 +206,9 @@ private extension WritingDiaryViewController {
                 
                 showAlert(
                     type: .saveDiary,
-                    title: I18N.Alert.submitDiaryTitle,
-                    message: I18N.Alert.submitDiaryMessage,
-                    rightButtonText: I18N.Alert.submit
+                    title: .Alert.submitDiaryTitle,
+                    message: .Alert.submitDiaryMessage,
+                    rightButtonText: .Alert.submit
                 )
                 
                 alert?.leftButton.rx.tap
@@ -267,9 +267,9 @@ private extension WritingDiaryViewController {
                 
                 showAlert(
                     type: .draftDiary,
-                    title: I18N.Alert.draftTitle,
-                    message: I18N.Alert.draftMessage,
-                    rightButtonText: I18N.Alert.back
+                    title: .Alert.draftTitle,
+                    message: .Alert.draftMessage,
+                    rightButtonText: .Alert.back
                 )
                 
                 alert?.rightButton.rx.tap

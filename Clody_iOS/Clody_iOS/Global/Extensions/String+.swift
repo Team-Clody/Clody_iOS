@@ -99,6 +99,21 @@ extension String {
         static let logout = String(localized: "alert.logout", comment: "로그아웃")
         static let withdraw = String(localized: "alert.withdraw", comment: "탈퇴할래요")
         static let no = String(localized: "alert.no", comment: "아니요")
+        static let submitDiaryTitle = String(localized: "alert.submitDiaryTitle", comment: "일기를 로디에게 보낼까요?")
+        static let submitDiaryMessage = String(localized: "alert.submitDiaryMessage", comment: "보낸 일기는 수정이 어려워요.")
+        static let deleteDiaryTitle = String(localized: "alert.deleteDiaryTitle", comment: "정말 일기를 삭제할까요?")
+        static let deleteDiaryMessage = String(localized: "alert.deleteDiaryMessage", comment: "아직 답장이 오지 않았거나 삭제하고 다시 작성한 일기는 답장을 받을 수 없어요.")
+        static let cancel = String(localized: "alert.cancel", comment: "취소")
+        static let submit = String(localized: "alert.submit", comment: "보내기")
+        static let delete = String(localized: "alert.delete", comment: "삭제할래요")
+        static let retry = String(localized: "alert.retry", comment: "다시 시도")
+        static let draftTitle = String(localized: "alert.draftTitle", comment: "지금까지 쓴 일기를 임시저장할까요?")
+        static let draftMessage = String(localized: "alert.draftMessage", comment: "나가기를 누르면 작성 중인 내용이 모두 사라져요.")
+        static let draft = String(localized: "alert.draft", comment: "임시저장")
+        static let back = String(localized: "alert.back", comment: "나가기")
+        static let writeMoreTitle = String(localized: "alert.writeMoreTitle", comment: "임시저장된 일기를 이어 쓸까요?")
+        static let writeMoreMessage = String(localized: "alert.writeMoreMessage", comment: "답장 기한이 지나서 답장은 받을 수 없어요.")
+        static let writeMore = String(localized: "alert.writeMore", comment: "이어쓰기")
     }
     
     enum Auth {
