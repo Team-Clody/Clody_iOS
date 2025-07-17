@@ -46,15 +46,18 @@ extension DateFormatter {
     }
     
     static func convertTo12HourFormat(_ time: String) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        guard let date = dateFormatter.date(from: time) else {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "HH:mm"
+        guard let date = inputFormatter.date(from: time) else {
             return time
         }
-
-        dateFormatter.dateFormat = "a h시 mm분"
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        return dateFormatter.string(from: date)
+        
+        let outputFormatter = DateFormatter()
+        let isKorean = Locale.current.languageCode == "ko"
+        outputFormatter.dateFormat = isKorean ? "a h시 mm분" : "h:mm a"
+        outputFormatter.locale = Locale(identifier: isKorean ? "ko_KR" : "en_US")
+        
+        return outputFormatter.string(from: date)
     }
     
     static func convertTo24HourFormat(
