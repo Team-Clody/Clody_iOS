@@ -172,6 +172,7 @@
 		95A98EA42C9C5C1D0073AD3C /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E992C9C5C1D0073AD3C /* NotificationViewModel.swift */; };
 		95A98EA52C9C5C1D0073AD3C /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E9B2C9C5C1D0073AD3C /* AccountView.swift */; };
 		95A98EA72C9C5C1D0073AD3C /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A98E9D2C9C5C1D0073AD3C /* NotificationView.swift */; };
+		95BEAB6B2E28E687001E3169 /* DateComponents+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEAB6A2E28E687001E3169 /* DateComponents+.swift */; };
 		95CE94DE2D7266790028D308 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 95CE94DD2D7266790028D308 /* GoogleMobileAds */; };
 		95D561B52D8BCB9400FD212F /* ChangeNicknameBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D561B42D8BCB9400FD212F /* ChangeNicknameBottomSheet.swift */; };
 		95D561B72D8BDECB00FD212F /* SettingSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D561B62D8BDECB00FD212F /* SettingSectionHeaderView.swift */; };
@@ -328,6 +329,7 @@
 		95A98E992C9C5C1D0073AD3C /* NotificationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		95A98E9B2C9C5C1D0073AD3C /* AccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		95A98E9D2C9C5C1D0073AD3C /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		95BEAB6A2E28E687001E3169 /* DateComponents+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateComponents+.swift"; sourceTree = "<group>"; };
 		95D561B42D8BCB9400FD212F /* ChangeNicknameBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNicknameBottomSheet.swift; sourceTree = "<group>"; };
 		95D561B62D8BDECB00FD212F /* SettingSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSectionHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -666,6 +668,7 @@
 				0B190F0A2C380F5300D46CFC /* DateFormatter+.swift */,
 				0B4EF9CE2C478AAF00CAF1F6 /* Date+.swift */,
 				952EB1982C6BCF7E00D1E516 /* UIViewController+.swift */,
+				95BEAB6A2E28E687001E3169 /* DateComponents+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1242,6 +1245,7 @@
 				0BE7EA0D2C466AB2000C5358 /* PostAlarmSetRequestDTO.swift in Sources */,
 				0BE7E9F52C4656EB000C5358 /* PostDiaryRequestDTO.swift in Sources */,
 				95310F742C3C765C00023C7B /* ClodyTextField.swift in Sources */,
+				95BEAB6B2E28E687001E3169 /* DateComponents+.swift in Sources */,
 				0BFCC5CF2C2E8DAE00B5E0DB /* BaseTargetType.swift in Sources */,
 				95310F832C3FF53400023C7B /* LoginView.swift in Sources */,
 				0B6AC2382DF27D7E00F625FA /* PostDiaryDraftResponseDTO.swift in Sources */,

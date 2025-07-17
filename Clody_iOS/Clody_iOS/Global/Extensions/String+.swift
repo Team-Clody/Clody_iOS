@@ -31,10 +31,10 @@ extension String {
     }
     
     enum TermsURL {
-        static let terms = "https://www.notion.so/1c7e3fedb3f4802c8db1f3056c03973f?pvs=21"
-        static let privacy = "https://www.notion.so/1c7e3fedb3f48024a334c8116255b378?pvs=21"
-        static let announcement = "https://www.notion.so/1c7e3fedb3f48029b36cf9d76c5fb6d6?pvs=21"
-        static let contactUs = "https://docs.google.com/forms/d/e/1FAIpQLSeCS3Z9ctFyqHZH7qkryOEQYQdhvNCMPT6QJ3J2GQw86WId4Q/viewform"
+        static let terms = String(localized: "termsURL.terms", comment: "서비스 이용약관")
+        static let privacy = String(localized: "termsURL.privacy", comment: "개인정보 처리방침")
+        static let announcement = String(localized: "termsURL.announcement", comment: "공지사항")
+        static let contactUs = String(localized: "termsURL.contactUs", comment: "제안/문의하기")
     }
     
     enum Toast {
@@ -142,6 +142,7 @@ extension String {
     enum Common {
         static let next = String(localized: "common.next", comment: "다음")
         static let complete = String(localized: "common.complete", comment: "완료")
+        static let ok = String(localized: "common.ok", comment: "확인")
         static let enterNickname = String(localized: "common.enterNickname", comment: "닉네임을 입력해주세요")
         static let nicknameCondition = String(localized: "common.nicknameCondition", comment: "특수문자, 띄어쓰기 없이 작성해주세요")
         static let nicknameError = String(localized: "common.nicknameError", comment: "사용할 수 없는 닉네임이에요")
@@ -153,6 +154,14 @@ extension String {
         static let viewOtherTimes = String(localized: "bottomSheet.viewOtherTimes", comment: "다른 시간 보기")
         static let am = String(localized: "bottomSheet.am", comment: "오전")
         static let pm = String(localized: "bottomSheet.pm", comment: "오후")
+        
+        enum ContinueWriting {
+            static let title = String(localized: "bottomSheet.continueWriting.title", comment: "기한이 지나면 로디의 답장을 받을 수 없어요!")
+            static let subtitle = String(localized: "bottomSheet.continueWriting.subtitle", comment: "답장 마감 전에 일기를 이어쓸 수 있도록 알려 드리기 위해서는 알림 설정이 필요해요.")
+            static let notificationSettingPath = String(localized: "bottomSheet.continueWriting.notificationSettingPath", comment: "[설정 > 앱 > 클로디 알림 허용]")
+            static let enableNotification = String(localized: "bottomSheet.continueWriting.enableNotification", comment: "알림 받기")
+            static let skipForNow = String(localized: "bottomSheet.continueWriting.skipForNow", comment: "다음에 하기")
+        }
     }
     
     enum Onboarding {
@@ -167,6 +176,21 @@ extension String {
         static let start = String(localized: "onboarding.start", comment: "시작하기")
     }
     
+    enum Reply {
+        static let writingReply = String(localized: "reply.writingReply", comment: "로디가 열심히 답장을 쓰고 있어요!")
+        static let waitAfterAd = String(localized: "reply.waitAfterAd", comment: "로디가 답장을 거의 다 써가요!\n조금만 기다려주세요")
+        static let replyReceived = String(localized: "reply.replyReceived", comment: "로디가 쓴 행운의 답장이 도착했어요!")
+        static let quickReplyAfterAd = String(localized: "reply.quickReplyAfterAd", comment: "광고 보고 바로 답장 받기")
+        static let open = String(localized: "reply.open", comment: "열어보기")
+        static func luckyReplyFor(_ nickname: String) -> String {
+            return String(format: String(localized: "reply.luckyReplyForYou", comment: "님을 위한 행운의 답장"), nickname)
+        }
+        static func luckIsHere(_ nickname: String) -> String {
+            return String(format: String(localized: "reply.luckIsHere", comment: "님을 위한 행운 도착"), nickname)
+        }
+        static let getClover = String(localized: "reply.getClover", comment: "1개의 네잎클로버 획득")
+    }
+  
     enum Error {
         static let network = String(
             localized: "error.network",

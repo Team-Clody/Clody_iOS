@@ -20,7 +20,7 @@ final class ReplyWaitingView: BaseView {
     let timeLabel = UILabel()
     let introLabel = UILabel()
     let quickReplyButton = UIButton()
-    let openButton = ClodyBottomButton(title: I18N.Reply.open)
+    let openButton = ClodyBottomButton(title: .Reply.open)
     
     override func setStyle() {
         backgroundColor = .white
@@ -36,7 +36,7 @@ final class ReplyWaitingView: BaseView {
         
         introLabel.do {
             $0.textColor = .grey04
-            $0.attributedText = UIFont.pretendardString(text: I18N.Reply.writingDiary, style: .body3_medium)
+            $0.attributedText = UIFont.pretendardString(text: .Reply.writingReply, style: .body3_medium)
             $0.numberOfLines = 0
         }
         
@@ -45,7 +45,7 @@ final class ReplyWaitingView: BaseView {
             $0.configuration?.baseForegroundColor = .blueCustom
             $0.configuration?.baseBackgroundColor = .lightBlue
             $0.configuration?.attributedTitle = AttributedString(
-                UIFont.pretendardString(text: I18N.Reply.quickReplyAfterAd, style: .body4_medium)
+                UIFont.pretendardString(text: .Reply.quickReplyAfterAd, style: .body4_medium)
             )
             $0.configuration?.image = .icAd
             $0.configuration?.contentInsets = .init(top: 6, leading: 12, bottom: 6, trailing: 12)
@@ -112,7 +112,7 @@ extension ReplyWaitingView {
         timeLabel.isHidden = false
         quickReplyButton.isHidden = true
         openButton.isHidden = false
-        introLabel.attributedText = UIFont.pretendardString(text: I18N.Reply.replyReceived, style: .body3_medium)
+        introLabel.attributedText = UIFont.pretendardString(text: .Reply.replyReceived, style: .body3_medium)
         waitingLottie.removeFromSuperview()
         lottieView.addSubview(replyLottie)
         
@@ -141,7 +141,7 @@ extension ReplyWaitingView {
         }
         
         introLabel.attributedText = UIFont.pretendardString(
-            text: I18N.Reply.waitAfterAd,
+            text: .Reply.waitAfterAd,
             style: .body3_medium,
             applyLineHeight: true,
             align: .center

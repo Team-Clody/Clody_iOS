@@ -61,7 +61,7 @@ final class MaintenanceView: BaseView {
             $0.setTitleColor(.grey02, for: .normal)
             $0.backgroundColor = .mainYellow
             $0.makeCornerRound(radius: 8)
-            let attributedTitle = UIFont.pretendardString(text: I18N.Common.ok, style: .body3_semibold)
+            let attributedTitle = UIFont.pretendardString(text: .Common.ok, style: .body3_semibold)
             $0.setAttributedTitle(attributedTitle, for: .normal)
         }
     }

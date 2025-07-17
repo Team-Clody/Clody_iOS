@@ -698,6 +698,91 @@
         }
       }
     },
+    "bottomSheet.continueWriting.enableNotification" : {
+      "comment" : "알림 받기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn On Notifications"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "알림 받기"
+          }
+        }
+      }
+    },
+    "bottomSheet.continueWriting.notificationSettingPath" : {
+      "comment" : "[설정 > 앱 > 클로디 알림 허용]",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[Settings > Apps > Clody > Notifications]"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "[설정 > 앱 > 클로디 알림 허용]"
+          }
+        }
+      }
+    },
+    "bottomSheet.continueWriting.skipForNow" : {
+      "comment" : "다음에 하기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip for now"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "다음에 하기"
+          }
+        }
+      }
+    },
+    "bottomSheet.continueWriting.subtitle" : {
+      "comment" : "답장 마감 전에 일기를 이어쓸 수 있도록 알려 드리기 위해서는 알림 설정이 필요해요.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To receive a reminder before the reply deadline, \nconfirm notification permissions."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "답장 마감 전에 일기를 이어쓸 수 있도록\n알려 드리기 위해서는 알림 설정이 필요해요."
+          }
+        }
+      }
+    },
+    "bottomSheet.continueWriting.title" : {
+      "comment" : "기한이 지나면 로디의 답장을 받을 수 없어요!",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heads up- drafts expire\nDon't miss Lody's reply!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "기한이 지나면\n로디의 답장을 받을 수 없어요!"
+          }
+        }
+      }
+    },
     "bottomSheet.pm" : {
       "comment" : "오후",
       "localizations" : {
@@ -970,6 +1055,23 @@
         }
       }
     },
+    "common.ok" : {
+      "comment" : "확인",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "확인"
+          }
+        }
+      }
+    },
     "list.date" : {
       "comment" : "d일",
       "localizations" : {
@@ -982,7 +1084,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "%@일"
+             "value" : "%@일"
           }
         }
       }
@@ -1259,6 +1361,142 @@
         }
       }
     },
+    "reply.getClover" : {
+      "comment" : "1개의 네잎클로버 획득",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 Four-Leaf Clover"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "1개의 네잎클로버 획득"
+          }
+        }
+      }
+    },
+    "reply.luckIsHere" : {
+      "comment" : "님을 위한 행운 도착",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, your luck is here!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@님을 위한 행운 도착"
+          }
+        }
+      }
+    },
+    "reply.luckyReplyForYou" : {
+      "comment" : "님을 위한 행운의 답장",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A lucky reply for %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@님을 위한 행운의 답장"
+          }
+        }
+      }
+    },
+    "reply.open" : {
+      "comment" : "열어보기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Reply"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "열어보기"
+          }
+        }
+      }
+    },
+    "reply.quickReplyAfterAd" : {
+      "comment" : "광고 보고 바로 답장 받기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watch Ad for Instant Reply"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "광고 보고 바로 답장 받기"
+          }
+        }
+      }
+    },
+    "reply.replyReceived" : {
+      "comment" : "로디가 쓴 행운의 답장이 도착했어요!",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You’ve got a lucky reply from Lody!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "로디가 쓴 행운의 답장이 도착했어요!"
+          }
+        }
+      }
+    },
+    "reply.waitAfterAd" : {
+      "comment" : "로디가 답장을 거의 다 써가요!\n조금만 기다려주세요",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lody’s almost done writing your reply\njust a little longer!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "로디가 답장을 거의 다 써가요!\n조금만 기다려주세요"
+          }
+        }
+      }
+    },
+    "reply.writingReply" : {
+      "comment" : "로디가 열심히 답장을 쓰고 있어요!",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lody’s working hard on your reply!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "로디가 열심히 답장을 쓰고 있어요!"
+          }
+        }
+      }
+    },
     "setting.announcement" : {
       "comment" : "공지사항",
       "localizations" : {
@@ -1510,6 +1748,74 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "앱 버전"
+          }
+        }
+      }
+    },
+    "termsURL.announcement" : {
+      "comment" : "공지사항",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://tropical-buckthorn-d17.notion.site/Notice-22ae3fedb3f480feb229e7dcc7a23887?source=copy_link"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "https://www.notion.so/1c7e3fedb3f48029b36cf9d76c5fb6d6?pvs=21"
+          }
+        }
+      }
+    },
+    "termsURL.contactUs" : {
+      "comment" : "제안/문의하기",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://docs.google.com/forms/d/e/1FAIpQLSe1LJg6tYaWBY2ji3O1smCH1ux5ItbVyGVUQko-Mg609Xt9eg/viewform"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "https://docs.google.com/forms/d/e/1FAIpQLSeCS3Z9ctFyqHZH7qkryOEQYQdhvNCMPT6QJ3J2GQw86WId4Q/viewform"
+          }
+        }
+      }
+    },
+    "termsURL.privacy" : {
+      "comment" : "개인정보 처리방침",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://tropical-buckthorn-d17.notion.site/Clody-Privacy-Policy-22ae3fedb3f4808ab8dcc8ba60ad6cd6?source=copy_link"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "https://www.notion.so/1c7e3fedb3f48024a334c8116255b378?pvs=21"
+          }
+        }
+      }
+    },
+    "termsURL.terms" : {
+      "comment" : "서비스 이용약관",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://tropical-buckthorn-d17.notion.site/Clody-Terms-of-Use-22ae3fedb3f48092ace1fba817df8605?source=copy_link"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "https://www.notion.so/1c7e3fedb3f4802c8db1f3056c03973f?pvs=21"
           }
         }
       }

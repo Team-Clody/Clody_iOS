@@ -12,21 +12,18 @@ import Then
 
 final class ReplyDetailView: BaseView {
     
-    lazy var navigationBar = ClodyNavigationBar(type: .reply, title: "\(month)월 \(day)일")
+    lazy var navigationBar = ClodyNavigationBar(type: .reply, title: navigationTitle)
     private let backgroundView = UIView()
     private let rodyImageView = UIImageView()
     private lazy var titleLabel = UILabel()
     private lazy var replyTextView = UITextView()
     
-    private let month: Int
-    private let day: Int
+    private let navigationTitle: String
     private var nickname = ""
     private var content = ""
     
     init(month: Int, day: Int) {
-        self.month = month
-        self.day = day
-        
+        navigationTitle = DateComponents(month: month, day: day).localizedMonthDay()
         super.init(frame: .zero)
     }
     
@@ -96,7 +93,7 @@ extension ReplyDetailView {
     
     func setStyleForData() {
         titleLabel.do {
-            let title = nickname + I18N.Reply.luckyReplyForYou
+            let title = String.Reply.luckyReplyFor(nickname)
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(text: title, style: .body2_semibold)
             $0.numberOfLines = 0

@@ -36,7 +36,7 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
         titleLabel.do {
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.BottomSheet.ContinueWriting.title,
+                text: .BottomSheet.ContinueWriting.title,
                 style: .head3,
                 applyLineHeight: true
             )
@@ -47,7 +47,7 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
         subtitleLabel.do {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.BottomSheet.ContinueWriting.subtitle,
+                text: .BottomSheet.ContinueWriting.subtitle,
                 style: .body3_regular,
                 applyLineHeight: true
             )
@@ -58,7 +58,7 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
         settingPathLabel.do {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.BottomSheet.ContinueWriting.notificationSettingPath,
+                text: .BottomSheet.ContinueWriting.notificationSettingPath,
                 style: .body3_regular,
                 applyLineHeight: true
             )
@@ -67,7 +67,7 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
         enableNotificationButton.do {
             $0.setAttributedTitle(
                 UIFont.pretendardString(
-                    text: I18N.BottomSheet.ContinueWriting.enableNotification,
+                    text: .BottomSheet.ContinueWriting.enableNotification,
                     style: .body2_semibold,
                     color: .grey01
                 ),
@@ -80,7 +80,7 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
         skipForNowButton.do {
             $0.setAttributedTitle(
                 UIFont.pretendardString(
-                    text: I18N.BottomSheet.ContinueWriting.skipForNow,
+                    text: .BottomSheet.ContinueWriting.skipForNow,
                     style: .body4_medium,
                     color: .grey05
                 ),
@@ -95,6 +95,8 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
     }
     
     override func setLayout() {
+        let isKorean = LocalizationConstant.languageCode == "ko"
+        
         dimmedView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -104,12 +106,12 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(20))
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(isKorean ? 20 : 22))
             $0.centerX.equalToSuperview()
         }
         
         subtitleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(10))
+            $0.top.equalTo(titleLabel.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 10 : 12))
             $0.centerX.equalToSuperview()
         }
         
@@ -120,14 +122,14 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
         
         enableNotificationButton.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getHeight(48))
-            $0.top.equalTo(settingPathLabel.snp.bottom).offset(ScreenUtils.getHeight(28))
+            $0.top.equalTo(settingPathLabel.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 28 : 37))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         skipForNowButton.snp.makeConstraints {
-            $0.height.equalTo(ScreenUtils.getHeight(40))
+            $0.height.equalTo(ScreenUtils.getHeight(isKorean ? 40 : 37))
             $0.top.equalTo(enableNotificationButton.snp.bottom)
-            $0.bottom.equalTo(safeAreaLayoutGuide)
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(isKorean ? 0 : 3))
             $0.centerX.equalToSuperview()
         }
     }
