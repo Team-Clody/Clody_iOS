@@ -36,6 +36,31 @@ enum LocalizationConstant {
             formatter.dateFormat = isKorean ? "yyyy년 M월" : "MMMM yyyy"
             return formatter.string(from: date)
         }
+        
+        static func localizedYear(_ year: Int) -> String {
+            return isKorean ? "\(year)년" : "\(year)"
+        }
+        
+        static func localizedMonth(_ month: Int) -> String {
+            if isKorean {
+                return "\(month)월"
+            } else {
+                let dateFormatter = DateFormatter()
+                dateFormatter.locale = calendarLocale
+                let monthSymbols = dateFormatter.monthSymbols
+                let index = month - 1
+                return monthSymbols?[index] ?? "\(month)"
+            }
+        }
+        
+        static var yearPickerIndex: Int {
+            return isKorean ? 0 : 1
+        }
+
+        static var monthPickerIndex: Int {
+            return isKorean ? 1 : 0
+        }
+
     }
     
     enum List {

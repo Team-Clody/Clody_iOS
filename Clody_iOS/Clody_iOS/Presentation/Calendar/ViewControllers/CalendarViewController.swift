@@ -455,8 +455,8 @@ private extension CalendarViewController {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 dismissBottomSheet(datePickerView, animated: true) {
-                    let selectedYearIndex = self.datePickerView.pickerView.selectedRow(inComponent: 0)
-                    let selectedMonthIndex = self.datePickerView.pickerView.selectedRow(inComponent: 1)
+                    let selectedYearIndex = self.datePickerView.pickerView.selectedRow(inComponent: LocalizationConstant.Calendar.yearPickerIndex)
+                    let selectedMonthIndex = self.datePickerView.pickerView.selectedRow(inComponent: LocalizationConstant.Calendar.monthPickerIndex)
                     let selectedYear = self.datePickerView.pickerView.years[selectedYearIndex]
                     let selectedMonth = self.datePickerView.pickerView.months[selectedMonthIndex]
                     

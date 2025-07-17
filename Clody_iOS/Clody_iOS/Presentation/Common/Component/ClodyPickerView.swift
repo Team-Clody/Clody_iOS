@@ -62,9 +62,9 @@ final class ClodyPickerView: UIPickerView {
             let currentYear = Calendar.current.component(.year, from: Date())
             let currentMonth = Calendar.current.component(.month, from: Date())
             if let yearIndex = years.firstIndex(of: currentYear) {
-                selectRow(yearIndex, inComponent: 0, animated: false)
+                selectRow(yearIndex, inComponent: LocalizationConstant.Calendar.yearPickerIndex, animated: false)
             }
-            selectRow(currentMonth - 1, inComponent: 1, animated: false)
+            selectRow(currentMonth - 1, inComponent: LocalizationConstant.Calendar.monthPickerIndex, animated: false)
         }
     }
 }
@@ -174,9 +174,9 @@ extension ClodyPickerView: UIPickerViewDataSource {
     
     func numberOfRowsInCalendar(_ component: Int) -> Int {
         switch component {
-        case 0:
+        case LocalizationConstant.Calendar.yearPickerIndex:
             return years.count
-        case 1:
+        case LocalizationConstant.Calendar.monthPickerIndex:
             return months.count
         default:
             return 0
@@ -198,10 +198,10 @@ extension ClodyPickerView: UIPickerViewDataSource {
     
     func dataOfRowsInCalendar(component: Int, row: Int) -> String {
         switch component {
-        case 0:
-            return "\(years[row])년"
-        case 1:
-            return "\(months[row])월"
+        case LocalizationConstant.Calendar.yearPickerIndex:
+            return LocalizationConstant.Calendar.localizedYear(years[row])
+        case LocalizationConstant.Calendar.monthPickerIndex:
+            return LocalizationConstant.Calendar.localizedMonth(months[row])
         default:
             return ""
         }

@@ -271,8 +271,8 @@ private extension ListViewController {
                 self?.dismissPickerView(animated: true,
                                         completion: {
                     // 로직
-                    let selectedYearIndex = self?.datePickerView.pickerView.selectedRow(inComponent: 0) ?? 0
-                    let selectedMonthIndex = self?.datePickerView.pickerView.selectedRow(inComponent: 1) ?? 0
+                    let selectedYearIndex = self?.datePickerView.pickerView.selectedRow(inComponent: LocalizationConstant.Calendar.yearPickerIndex) ?? 0
+                    let selectedMonthIndex = self?.datePickerView.pickerView.selectedRow(inComponent: LocalizationConstant.Calendar.monthPickerIndex) ?? 0
                     
                     guard let selectedYear = self?.datePickerView.pickerView.years[selectedYearIndex] else {
                         return
