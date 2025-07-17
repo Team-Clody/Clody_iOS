@@ -2,10 +2,34 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AD_UNIT_ID</key>
+	<string>$(AD_UNIT_ID)</string>
+	<key>AMPLITUDE_KEY</key>
+	<string>$(AMPLITUDE_KEY)</string>
+	<key>BASE_URL</key>
+	<string>$(BASE_URL)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kakao$(KAKAO_KEY)</string>
+			</array>
+		</dict>
+	</array>
 	<key>GADApplicationIdentifier</key>
 	<string>$(AD_APP_ID)</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+	<key>KAKAO_KEY</key>
+	<string>$(KAKAO_KEY)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>kakaokompassauth</string>
+		<string>kakaolink</string>
+	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -181,30 +205,6 @@
 			<key>SKAdNetworkIdentifier</key>
 			<string>3qcr597p9d.skadnetwork</string>
 		</dict>
-	</array>
-	<key>BASE_URL</key>
-	<string>$(BASE_URL)</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>kakao$(KAKAO_KEY)</string>
-			</array>
-		</dict>
-	</array>
-	<key>KAKAO_KEY</key>
-	<string>$(KAKAO_KEY)</string>
-	<key>AMPLITUDE_KEY</key>
-	<string>$(AMPLITUDE_KEY)</string>
-	<key>AD_UNIT_ID</key>
-	<string>$(AD_UNIT_ID)</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>kakaokompassauth</string>
-		<string>kakaolink</string>
 	</array>
 	<key>UIAppFonts</key>
 	<array>

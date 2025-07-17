@@ -17,7 +17,7 @@ final class NicknameView: BaseView {
     let navigationBar = ClodyNavigationBar(type: .normal)
     private let introLabel = UILabel()
     let textField = ClodyTextField()
-    let nextButton = ClodyBottomButton(title: I18N.Common.next)
+    let nextButton = ClodyBottomButton(title: .Common.next)
     
     // MARK: - Methods
     
@@ -27,9 +27,9 @@ final class NicknameView: BaseView {
         introLabel.do {
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.Auth.nickNameIntro,
+                text: .Auth.nickNameIntro,
                 style: .head1,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
             $0.numberOfLines = 0
         }
@@ -45,6 +45,8 @@ final class NicknameView: BaseView {
     }
     
     override func setLayout() {
+        let isKorean = LocalizationConstant.languageCode == "ko"
+        
         navigationBar.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getHeight(44))
             $0.top.equalTo(safeAreaLayoutGuide)
@@ -52,12 +54,12 @@ final class NicknameView: BaseView {
         }
         
         introLabel.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(40))
+            $0.top.equalTo(navigationBar.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 40 : 32))
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
         textField.snp.makeConstraints {
-            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(40))
+            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 40 : 92))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         

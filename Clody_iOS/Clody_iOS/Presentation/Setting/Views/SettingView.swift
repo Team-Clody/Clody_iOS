@@ -12,7 +12,7 @@ import Then
 
 final class SettingView: BaseView {
     
-    let navigationBar = ClodyNavigationBar(type: .setting, title: I18N.Setting.setting)
+    let navigationBar = ClodyNavigationBar(type: .setting, title: .Setting.settings)
     let tableView = UITableView()
     
     override func setStyle() {

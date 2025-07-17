@@ -19,7 +19,7 @@ final class DiaryNotificationView: BaseView {
     let timeLabel = UILabel()
     private let downButton = UIButton()
     private let divider = UIView()
-    let completeButton = ClodyBottomButton(title: I18N.Common.complete)
+    let completeButton = ClodyBottomButton(title: .Common.complete)
     let setNextButton = UIButton()
     
     // MARK: - Methods
@@ -30,9 +30,9 @@ final class DiaryNotificationView: BaseView {
         introLabel.do {
             $0.textColor = .grey01
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.Auth.notificationIntro,
+                text: .Auth.notificationIntro,
                 style: .head1,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
             $0.numberOfLines = 0
         }
@@ -61,7 +61,7 @@ final class DiaryNotificationView: BaseView {
                 .font: UIFont.pretendard(.detail1_medium),
                 .underlineStyle: NSUnderlineStyle.single.rawValue
             ]
-            let attributedTitle = NSAttributedString(string: I18N.Auth.setNext, attributes: attributes)
+            let attributedTitle = NSAttributedString(string: .Auth.skipForNow, attributes: attributes)
             $0.setAttributedTitle(attributedTitle, for: .normal)
         }
     }
@@ -72,8 +72,10 @@ final class DiaryNotificationView: BaseView {
     }
     
     override func setLayout() {
+        let isKorean = LocalizationConstant.languageCode == "ko"
+        
         introLabel.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(84))
+            $0.top.equalTo(safeAreaLayoutGuide).inset(ScreenUtils.getHeight(isKorean ? 84 : 76))
             $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         
@@ -97,7 +99,7 @@ final class DiaryNotificationView: BaseView {
         
         timeSettingView.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getHeight(27))
-            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(49))
+            $0.top.equalTo(introLabel.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 49 : 100))
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
         }
         

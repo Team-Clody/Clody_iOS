@@ -105,11 +105,11 @@ extension ReplyDetailView {
         
         replyTextView.do {
             $0.backgroundColor = .clear
-            $0.textColor = .grey02
             $0.attributedText = UIFont.pretendardString(
                 text: content,
                 style: .letter_medium,
-                lineHeightMultiple: 1.9
+                color: .grey02,
+                applyLineHeight: true
             )
             $0.isScrollEnabled = true
             $0.showsVerticalScrollIndicator = false

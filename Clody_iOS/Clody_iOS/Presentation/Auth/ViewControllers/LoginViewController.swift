@@ -47,12 +47,12 @@ private extension LoginViewController {
     
     func bindViewModel() {
         let input = LoginViewModel.Input(
-            kakaoLoginButtonTapEvent: rootView.kakaoLoginButton.rx.tap.asSignal(),
+            kakaoLoginButtonTapEvent: rootView.kakaoLoginButton?.rx.tap.asSignal(),
             appleLoginButtonTapEvent: rootView.appleLoginButton.rx.tap.asSignal()
         )
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
         
-        output.signInWithKakao
+        output.signInWithKakao?
             .drive(onNext: {
                 if UserApi.isKakaoTalkLoginAvailable() {
                     UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in

@@ -101,7 +101,7 @@ final class AccountViewController: UIViewController {
                     self.changeNicknameBottomSheet.clodyTextField.hideErrorMessage()
                     output.isDoneButtonEnabled.accept(false)
                 case .error:
-                    self.changeNicknameBottomSheet.clodyTextField.showErrorMessage(I18N.Common.nicknameError)
+                    self.changeNicknameBottomSheet.clodyTextField.showErrorMessage(.Common.nicknameError)
                     output.isDoneButtonEnabled.accept(false)
                 case .normal:
                     self.changeNicknameBottomSheet.clodyTextField.hideErrorMessage()
@@ -141,9 +141,9 @@ final class AccountViewController: UIViewController {
                 guard let self = self else { return }
                 self.showAlert(
                     type: .logout,
-                    title: I18N.Alert.logoutTitle,
-                    message: I18N.Alert.logoutMessage,
-                    rightButtonText: I18N.Alert.logout
+                    title: .Alert.logoutTitle,
+                    message: .Alert.logoutMessage,
+                    rightButtonText: .Alert.logout
                 )
 
                 alert?.leftButton.rx.tap
@@ -166,9 +166,9 @@ final class AccountViewController: UIViewController {
                 guard let self = self else { return }
                 self.showAlert(
                     type: .withdraw,
-                    title: I18N.Alert.withdrawTitle,
-                    message: I18N.Alert.withdrawMessage,
-                    rightButtonText: I18N.Alert.withdraw
+                    title: .Alert.withdrawTitle,
+                    message: .Alert.withdrawMessage,
+                    rightButtonText: .Alert.withdraw
                 )
                 
                 alert?.leftButton.rx.tap

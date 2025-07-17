@@ -143,7 +143,7 @@ extension ReplyWaitingView {
         introLabel.attributedText = UIFont.pretendardString(
             text: I18N.Reply.waitAfterAd,
             style: .body3_medium,
-            lineHeightMultiple: 1.5,
+            applyLineHeight: true,
             align: .center
         )
     }

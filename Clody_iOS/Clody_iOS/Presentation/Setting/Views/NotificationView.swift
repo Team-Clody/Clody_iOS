@@ -12,7 +12,7 @@ import Then
 
 final class NotificationView: BaseView {
 
-    let navigationBar = ClodyNavigationBar(type: .setting, title: I18N.Setting.alarmSet)
+    let navigationBar = ClodyNavigationBar(type: .setting, title: .Setting.notification)
     let tableView = UITableView()
 
     override func setStyle() {

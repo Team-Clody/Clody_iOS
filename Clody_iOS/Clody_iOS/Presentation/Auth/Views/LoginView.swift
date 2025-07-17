@@ -17,8 +17,23 @@ final class LoginView: BaseView {
     private let symbolImageView = UIImageView()
     private let introImageView = UIImageView()
     private let clodyLogoImageView = UIImageView()
-    let kakaoLoginButton = ClodyLoginButton(type: .kakao)
+    var kakaoLoginButton: ClodyLoginButton?
     let appleLoginButton = ClodyLoginButton(type: .apple)
+    
+    // MARK: - Properties
+    
+    private let isKorean = LocalizationConstant.languageCode == "ko"
+    
+    // MARK: - Initializer
+    
+    init() {
+        self.kakaoLoginButton = isKorean ? ClodyLoginButton(type: .kakao) : nil
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Methods
     
@@ -42,29 +57,37 @@ final class LoginView: BaseView {
     }
     
     override func setHierarchy() {
-        self.addSubviews(symbolImageView, introImageView, clodyLogoImageView, kakaoLoginButton, appleLoginButton)
+        self.addSubviews(symbolImageView, introImageView, clodyLogoImageView, appleLoginButton)
+        if let kakaoLoginButton {
+            self.addSubviews(kakaoLoginButton)
+        }
     }
     
     override func setLayout() {
         symbolImageView.snp.makeConstraints {
+            $0.width.equalTo(ScreenUtils.getWidth(87))
+            $0.height.equalTo(ScreenUtils.getHeight(85))
             $0.top.equalToSuperview().inset(ScreenUtils.getHeight(296))
             $0.centerX.equalToSuperview()
         }
         
         introImageView.snp.makeConstraints {
-            $0.top.equalTo(symbolImageView.snp.bottom).offset(ScreenUtils.getHeight(21))
+            $0.top.equalTo(symbolImageView.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 21 : 19.5))
             $0.centerX.equalToSuperview()
         }
         
         clodyLogoImageView.snp.makeConstraints {
-            $0.top.equalTo(introImageView.snp.bottom).offset(ScreenUtils.getHeight(11))
+            $0.top.equalTo(introImageView.snp.bottom).offset(ScreenUtils.getHeight(isKorean ? 11 : 4.5))
+            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(isKorean ? 120 : 106))
             $0.centerX.equalToSuperview()
         }
         
-        kakaoLoginButton.snp.makeConstraints {
-            $0.height.equalTo(ScreenUtils.getHeight(48))
-            $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
-            $0.bottom.equalTo(appleLoginButton.snp.top).offset(ScreenUtils.getHeight(-12))
+        if isKorean, let kakaoLoginButton {
+            kakaoLoginButton.snp.makeConstraints {
+                $0.height.equalTo(ScreenUtils.getHeight(48))
+                $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
+                $0.bottom.equalTo(appleLoginButton.snp.top).offset(ScreenUtils.getHeight(-12))
+            }
         }
         
         appleLoginButton.snp.makeConstraints {

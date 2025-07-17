@@ -110,13 +110,13 @@ extension UIViewController {
             errorAlertView.titleLabel.attributedText = UIFont.pretendardString(
                 text: I18N.Error.network,
                 style: .body3_medium,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
         } else {
             errorAlertView.titleLabel.attributedText = UIFont.pretendardString(
                 text: I18N.Error.unKnown,
                 style: .body3_medium,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
         }
         
@@ -132,13 +132,13 @@ extension UIViewController {
             errorAlertView.titleLabel.attributedText = UIFont.pretendardString(
                 text: I18N.Error.network,
                 style: .body2_semibold,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
         } else {
             errorAlertView.titleLabel.attributedText = UIFont.pretendardString(
                 text: I18N.Error.unKnown,
                 style: .body2_semibold,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
         }
 

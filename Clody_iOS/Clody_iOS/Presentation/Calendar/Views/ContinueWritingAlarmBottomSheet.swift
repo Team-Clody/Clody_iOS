@@ -38,7 +38,7 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
             $0.attributedText = UIFont.pretendardString(
                 text: I18N.BottomSheet.ContinueWriting.title,
                 style: .head3,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
             $0.numberOfLines = 0
             $0.textAlignment = .center
@@ -49,7 +49,7 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
             $0.attributedText = UIFont.pretendardString(
                 text: I18N.BottomSheet.ContinueWriting.subtitle,
                 style: .body3_regular,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
             $0.numberOfLines = 0
             $0.textAlignment = .center
@@ -60,7 +60,7 @@ final class ContinueWritingAlarmBottomSheet: BaseView, BottomSheet {
             $0.attributedText = UIFont.pretendardString(
                 text: I18N.BottomSheet.ContinueWriting.notificationSettingPath,
                 style: .body3_regular,
-                lineHeightMultiple: 1.5
+                applyLineHeight: true
             )
         }
         

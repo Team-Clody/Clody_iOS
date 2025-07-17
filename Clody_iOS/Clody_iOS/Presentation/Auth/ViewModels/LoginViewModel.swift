@@ -19,17 +19,17 @@ enum LoginPlatformType: String, CaseIterable {
 final class LoginViewModel: ViewModelType {
     
     struct Input {
-        let kakaoLoginButtonTapEvent: Signal<Void>
+        let kakaoLoginButtonTapEvent: Signal<Void>?
         let appleLoginButtonTapEvent: Signal<Void>
     }
     
     struct Output {
-        let signInWithKakao: Driver<Void>
+        let signInWithKakao: Driver<Void>?
         let signInWithApple: Driver<Void>
     }
     
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
-        let signInWithKakao = input.kakaoLoginButtonTapEvent
+        let signInWithKakao = input.kakaoLoginButtonTapEvent?
             .asDriver(onErrorJustReturn: Void())
         let signInWithApple = input.appleLoginButtonTapEvent
             .asDriver(onErrorJustReturn: Void())
