@@ -95,6 +95,12 @@ enum LocalizationConstant {
         }
     }
     
+    enum List {
+        static var replyButtonVerticalInset: CGFloat {
+            return ScreenUtils.getWidth(isKorean ? 5 : 6)
+        }
+    }
+    
     enum Common {
         static var nicknameMaxLength: Int {
             return isKorean ? 10 : 15

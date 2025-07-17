@@ -59,11 +59,19 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         replyButton.do {
-            $0.backgroundColor = .lightBlue
-            $0.makeCornerRound(radius: 10)
-            $0.setTitleColor(.blueCustom, for: .normal)
-            let attributedTitle = UIFont.pretendardString(text: .WritingDiary.replyButton, style: .detail1_semibold)
-            $0.setAttributedTitle(attributedTitle, for: .normal)
+            $0.configuration = UIButton.Configuration.filled()
+            $0.configuration?.baseBackgroundColor = .lightBlue
+            $0.configuration?.baseForegroundColor = .blueCustom
+            $0.configuration?.attributedTitle = AttributedString(
+                UIFont.pretendardString(text: .WritingDiary.replyButton, style: .detail1_semibold)
+            )
+            $0.configuration?.contentInsets = .init(
+                top: LocalizationConstant.List.replyButtonVerticalInset,
+                leading: 10,
+                bottom: LocalizationConstant.List.replyButtonVerticalInset,
+                trailing: 10
+            )
+            $0.makeCornerRound(radius: 9)
         }
         
         newImageView.do {
@@ -108,8 +116,6 @@ final class ListHeaderView: UICollectionReusableView {
         replyButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
             $0.trailing.equalTo(kebabButton.snp.leading).offset(-ScreenUtils.getWidth(4))
-            $0.width.equalTo(ScreenUtils.getWidth(64))
-            $0.height.equalTo(ScreenUtils.getHeight(28))
         }
         
         newImageView.snp.makeConstraints {
