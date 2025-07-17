@@ -108,13 +108,13 @@ extension UIViewController {
     func showErrorAlert(isNetworkError: Bool) {
         if isNetworkError {
             errorAlertView.titleLabel.attributedText = UIFont.pretendardString(
-                text: I18N.Error.network,
+                text: .Error.network,
                 style: .body3_medium,
                 applyLineHeight: true
             )
         } else {
             errorAlertView.titleLabel.attributedText = UIFont.pretendardString(
-                text: I18N.Error.unKnown,
+                text: .Error.unKnown,
                 style: .body3_medium,
                 applyLineHeight: true
             )
@@ -130,13 +130,13 @@ extension UIViewController {
     func showRetryView(isNetworkError: Bool, retryAction: @escaping () -> Void) {
         if isNetworkError {
             errorAlertView.titleLabel.attributedText = UIFont.pretendardString(
-                text: I18N.Error.network,
+                text: .Error.network,
                 style: .body2_semibold,
                 applyLineHeight: true
             )
         } else {
             errorAlertView.titleLabel.attributedText = UIFont.pretendardString(
-                text: I18N.Error.unKnown,
+                text: .Error.unKnown,
                 style: .body2_semibold,
                 applyLineHeight: true
             )

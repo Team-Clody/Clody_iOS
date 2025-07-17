@@ -30,7 +30,7 @@ final class ClodyErrorRetryView: BaseView {
         titleLabel.do {
             $0.textColor = .grey04
             $0.attributedText = UIFont.pretendardString(
-                text: I18N.Error.unKnown,
+                text: .Error.unKnown,
                 style: .body2_semibold,
                 applyLineHeight: true
             )

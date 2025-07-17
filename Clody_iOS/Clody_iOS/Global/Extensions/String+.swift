@@ -155,4 +155,15 @@ extension String {
         static let onboarding_4_sub = String(localized: "onboarding.onboarding_4_sub", comment: "두번째 일기부터는 네잎클로버를 찾는 데 12시간이 걸리니 조금만 기다려 주세요")
         static let start = String(localized: "onboarding.start", comment: "시작하기")
     }
+    
+    enum Error {
+        static let network = String(
+            localized: "error.network",
+            comment: "서비스 접속이 원활하지 않아요. 네트워크 연결을 확인해주세요."
+        )
+        static let unKnown = String(
+            localized: "error.unknown",
+            comment: "일시적인 오류가 발생했어요. 잠시 후 다시 시도해주세요."
+        )
+    }
 }
