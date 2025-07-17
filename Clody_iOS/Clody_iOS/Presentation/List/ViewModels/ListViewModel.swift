@@ -81,16 +81,15 @@ final class ListViewModel: ViewModelType {
                 
                 let yearString = date[0]
                 
-                guard
-                    let monthString = DateFormatter.convertToDoubleDigitMonth(from: date[1]),
+                guard let monthString = DateFormatter.convertToDoubleDigitMonth(from: date[1]),
                     let year = Int(yearString),
                     let month = Int(monthString)
                 else {
                     return ""
                 }
-
+                
                 let dateSelected = LocalizationConstant.Calendar.localizedYearMonthString(year: year, month: month)
-
+                
                 return dateSelected
             }
             .asDriver(onErrorJustReturn: "Error")

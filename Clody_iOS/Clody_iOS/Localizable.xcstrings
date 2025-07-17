@@ -715,6 +715,23 @@
         }
       }
     },
+    "list.date" : {
+      "comment" : "d일",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "%@일"
+          }
+        }
+      }
+    },
     "list.emptyList" : {
       "comment" : "작성된 감사일기가 없어요!",
       "localizations" : {

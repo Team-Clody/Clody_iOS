@@ -128,7 +128,7 @@ private extension ListViewController {
                 let date = viewModel.selectedMonthRelay.value
                 let yearString = date[0]
                 let monthString = DateFormatter.convertToDoubleDigitMonth(from: date[1])
-
+                
                 guard
                     let year = Int(yearString),
                     let month = Int(monthString ?? "")
@@ -191,7 +191,7 @@ private extension ListViewController {
                 }
             })
             .disposed(by: disposeBag)
-
+        
         output.errorStatus
             .drive(onNext: { [weak self] errorStatus in
                 switch errorStatus {
@@ -270,7 +270,6 @@ private extension ListViewController {
                 [weak self] _ in
                 self?.dismissPickerView(animated: true,
                                         completion: {
-                    // 로직
                     let selectedYearIndex = self?.datePickerView.pickerView.selectedRow(inComponent: LocalizationConstant.Calendar.yearPickerIndex) ?? 0
                     let selectedMonthIndex = self?.datePickerView.pickerView.selectedRow(inComponent: LocalizationConstant.Calendar.monthPickerIndex) ?? 0
                     

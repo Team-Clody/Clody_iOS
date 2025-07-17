@@ -45,11 +45,9 @@ enum LocalizationConstant {
             if isKorean {
                 return "\(month)월"
             } else {
-                let dateFormatter = DateFormatter()
-                dateFormatter.locale = calendarLocale
-                let monthSymbols = dateFormatter.monthSymbols
-                let index = month - 1
-                return monthSymbols?[index] ?? "\(month)"
+                let calendar = Foundation.Calendar.current
+                let monthSymbol = calendar.monthSymbols[month - 1]
+                return monthSymbol
             }
         }
         
@@ -62,13 +60,7 @@ enum LocalizationConstant {
         }
         
         static var pickerViewWidth: CGFloat {
-            return isKorean ? ScreenUtils.getWidth(90) : ScreenUtils.getWidth(120)
-        }
-    }
-    
-    enum List {
-        static func localizedDayString(from day: String) -> String {
-            return isKorean ? "\(day)일" : "\(day)"
+            return ScreenUtils.getWidth(isKorean ? 90 : 120)
         }
     }
     
@@ -78,11 +70,11 @@ enum LocalizationConstant {
         }
         
         static var helpMessageContainerWidth: CGFloat {
-            return isKorean ? ScreenUtils.getWidth(228) : ScreenUtils.getWidth(285)
+            return ScreenUtils.getWidth(isKorean ? 228 : 285)
         }
         
         static var helpMessageLabelLeading: CGFloat {
-            return isKorean ? ScreenUtils.getWidth(8) : ScreenUtils.getWidth(9)
+            return ScreenUtils.getWidth(isKorean ? 8 : 9)
         }
         
         static var cancelHelpButtonLeading: CGFloat {
