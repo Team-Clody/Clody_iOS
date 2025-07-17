@@ -38,6 +38,12 @@ enum LocalizationConstant {
         }
     }
     
+    enum List {
+        static func localizedDayString(from day: String) -> String {
+            return isKorean ? "\(day)일" : "\(day)"
+        }
+    }
+    
     enum WritingDiary {
         static var maxLength: Int {
             return isKorean ? 50 : 100
