@@ -29,7 +29,7 @@ extension DiaryRouter: BaseTargetType {
         case .deleteDiary:
             return APIConstants.accessTokenHeader
         case .postDiary:
-            return APIConstants.accessTokenHeader
+            return APIConstants.postDiaryHeader
         case .postDraftDiary:
             return APIConstants.accessTokenHeader
         case .getWritingTime:

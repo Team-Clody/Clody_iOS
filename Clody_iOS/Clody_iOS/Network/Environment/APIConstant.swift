@@ -18,6 +18,8 @@ struct APIConstants{
     static let refreshToken = "Bearer " + ""
     static var authCode = ""
     static let Bearer = "Bearer "
+    static let timeZone = "Time-Zone"
+    static let acceptLanguage = "Accept-Language"
 }
 
 extension APIConstants{
@@ -28,10 +30,18 @@ extension APIConstants{
     
     static var accessTokenHeader: [String: String] {
         [contentType: applicationJSON,
-            auth: Bearer + UserManager.shared.accessTokenValue]
+                auth: Bearer + UserManager.shared.accessTokenValue]
     }
     
     static var refreshTokenHeader: [String: String] {
         [auth: Bearer + UserManager.shared.refreshTokenValue]
+    }
+    
+    static var postDiaryHeader: [String: String] {
+        [contentType: applicationJSON,
+                auth: Bearer + UserManager.shared.accessTokenValue,
+            timeZone: LocalizationConstant.timeZoneCode,
+      acceptLanguage: LocalizationConstant.languageCode
+        ]
     }
 }
