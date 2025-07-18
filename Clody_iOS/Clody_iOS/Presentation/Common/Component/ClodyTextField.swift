@@ -77,7 +77,7 @@ final class ClodyTextField: BaseView {
         charLimitLabel.do {
             $0.textColor = .grey06
             $0.attributedText = UIFont.pretendardString(
-                text: .Common.charLimit,
+                text: "/ \(LocalizationConstant.Common.nicknameMaxLength)",
                 style: isKorean ? .detail1_medium : .detail1_semibold
             )
         }

@@ -61,6 +61,7 @@ final class CalendarViewController: UIViewController {
         registerCells()
         bindViewModel()
         setUI()
+        requestPermission()
     }
 }
 
@@ -502,6 +503,10 @@ private extension CalendarViewController {
         
         AmplitudeManager.shared.trackEvent("home_list_diary")
         self.navigationController?.pushViewController(listViewController, animated: true)
+    }
+    
+    func requestPermission() {
+        PermissionManager.shared.requestNotificationPermission(completion: nil)
     }
 }
 

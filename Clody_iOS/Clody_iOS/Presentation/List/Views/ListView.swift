@@ -34,12 +34,10 @@ final class ListView: BaseView {
     }
     
     override func setHierarchy() {
-        
         self.addSubviews(navigationBarView, listCollectionView, topBackgroundView, listEmptyView)
     }
     
     override func setLayout() {
-        
         topBackgroundView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
@@ -55,7 +53,7 @@ final class ListView: BaseView {
         listCollectionView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(ScreenUtils.getWidth(24))
             $0.bottom.equalToSuperview()
-            $0.top.equalTo(navigationBarView.snp.bottom)
+            $0.top.equalTo(navigationBarView.snp.bottom).offset(ScreenUtils.getHeight(18))
         }
         
         listEmptyView.snp.makeConstraints {
@@ -64,40 +62,49 @@ final class ListView: BaseView {
             $0.top.equalTo(navigationBarView.snp.bottom)
         }
     }
-
     
     func listCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionNumber, environment) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(ScreenUtils.getHeight(42)))
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(ScreenUtils.getHeight(42))
+            )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(ScreenUtils.getHeight(42)))
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(ScreenUtils.getHeight(42))
+            )
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
-            let section = NSCollectionLayoutSection(group: group)
-            
             let headerSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .estimated(ScreenUtils.getHeight(46))
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(ScreenUtils.getHeight(60))
             )
             let header = NSCollectionLayoutBoundarySupplementaryItem(
                 layoutSize: headerSize,
                 elementKind: UICollectionView.elementKindSectionHeader,
                 alignment: .top
             )
+            let section = NSCollectionLayoutSection(group: group)
             section.boundarySupplementaryItems = [header]
-            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 30, trailing: 0)
+            section.interGroupSpacing = ScreenUtils.getHeight(13)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0)
             
             let sectionBackgroundDecoration = NSCollectionLayoutDecorationItem.background(elementKind: ListBackgroundView.description())
-            
-            sectionBackgroundDecoration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
-            
             section.decorationItems = [sectionBackgroundDecoration]
             
             return section
         }
         
+        setInterSectionSpacing(layout)
         layout.register(ListBackgroundView.self, forDecorationViewOfKind: ListBackgroundView.description())
         return layout
+    }
+    
+    private func setInterSectionSpacing(_ layout: UICollectionViewCompositionalLayout) {
+          let config = UICollectionViewCompositionalLayoutConfiguration()
+          config.interSectionSpacing = ScreenUtils.getHeight(13)
+          layout.configuration = config
     }
 }

@@ -25,14 +25,12 @@ final class PermissionManager: NSObject {
     }
 
     // 권한을 요청하는 함수
-    func requestNotificationPermission(completion: @escaping (Bool) -> Void) {
+    func requestNotificationPermission(completion: ((Bool) -> Void)?) {
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         userNotiCenter.requestAuthorization(options: authOptions) { granted, error in
             DispatchQueue.main.async {
-                completion(granted)
+                completion?(granted)
             }
         }
     }
 }
-
-

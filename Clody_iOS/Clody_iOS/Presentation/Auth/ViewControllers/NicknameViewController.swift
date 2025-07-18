@@ -17,7 +17,6 @@ final class NicknameViewController: UIViewController {
     
     private let viewModel = NicknameViewModel()
     private let disposeBag = DisposeBag()
-    private let maxLength = 10
     
     // MARK: - UI Components
      
@@ -63,7 +62,7 @@ private extension NicknameViewController {
         
         clodyTextField.textField.rx.text
             .orEmpty
-            .map { String($0.prefix(self.maxLength)) }
+            .map { String($0.prefix(LocalizationConstant.Common.nicknameMaxLength)) }
             .bind(to: self.clodyTextField.textField.rx.text)
             .disposed(by: disposeBag)
 
