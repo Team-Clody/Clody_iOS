@@ -84,6 +84,8 @@ final class ListHeaderView: UICollectionReusableView {
         kebabButton.do {
             $0.setImage(.kebob, for: .normal)
             $0.contentMode = .scaleAspectFit
+            $0.contentVerticalAlignment = .fill
+            $0.contentHorizontalAlignment = .fill
         }
     }
     
@@ -93,8 +95,8 @@ final class ListHeaderView: UICollectionReusableView {
             dateLabel,
             dayLabel,
             replyButton,
-            newImageView,
-            kebabButton
+            kebabButton,
+            newImageView
         )
     }
     
@@ -102,7 +104,8 @@ final class ListHeaderView: UICollectionReusableView {
         cloverImageView.snp.makeConstraints {
             $0.width.equalTo(ScreenUtils.getWidth(24))
             $0.height.equalTo(ScreenUtils.getHeight(23))
-            $0.top.leading.equalToSuperview().inset(ScreenUtils.getHeight(20))
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(20))
+            $0.leading.equalToSuperview().inset(LocalizationConstant.List.diaryHorizontalInset)
         }
         
         dateLabel.snp.makeConstraints {
@@ -113,11 +116,12 @@ final class ListHeaderView: UICollectionReusableView {
         dayLabel.snp.makeConstraints {
             $0.leading.equalTo(dateLabel.snp.trailing).offset(ScreenUtils.getWidth(3))
             $0.bottom.equalTo(dateLabel)
+            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(19))
         }
         
         replyButton.snp.makeConstraints {
             $0.height.equalTo(ScreenUtils.getHeight(28))
-            $0.centerY.equalTo(kebabButton)
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(18))
             $0.trailing.equalTo(kebabButton.snp.leading).offset(LocalizationConstant.List.replyButtonTrailing)
         }
         
@@ -127,10 +131,9 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         kebabButton.snp.makeConstraints {
-            $0.size.equalTo(ScreenUtils.getWidth(28))
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(18))
+            $0.size.equalTo(ScreenUtils.getHeight(28))
             $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(4))
-            $0.bottom.equalToSuperview()
+            $0.centerY.equalTo(replyButton)
         }
     }
     

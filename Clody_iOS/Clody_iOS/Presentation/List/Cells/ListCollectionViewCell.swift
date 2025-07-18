@@ -66,12 +66,12 @@ final class ListCollectionViewCell: UICollectionViewCell {
         
         listNumberLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(20))
+            $0.leading.equalToSuperview().inset(LocalizationConstant.List.diaryHorizontalInset)
         }
         
         diaryTextLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(40))
-            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(20))
+            $0.leading.equalToSuperview().inset(LocalizationConstant.List.textLeading)
+            $0.trailing.equalToSuperview().inset(LocalizationConstant.List.diaryHorizontalInset)
             $0.top.equalTo(listNumberLabel)
             $0.bottom.equalToSuperview()
         }

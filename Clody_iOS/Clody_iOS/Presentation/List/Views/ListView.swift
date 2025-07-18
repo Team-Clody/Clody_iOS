@@ -79,7 +79,7 @@ final class ListView: BaseView {
             
             let headerSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
-                heightDimension: .estimated(ScreenUtils.getHeight(46))
+                heightDimension: .estimated(ScreenUtils.getHeight(60))
             )
             let header = NSCollectionLayoutBoundarySupplementaryItem(
                 layoutSize: headerSize,
@@ -89,7 +89,7 @@ final class ListView: BaseView {
             let section = NSCollectionLayoutSection(group: group)
             section.boundarySupplementaryItems = [header]
             section.interGroupSpacing = ScreenUtils.getHeight(13)
-            section.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 0, bottom: 20, trailing: 0)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0)
             
             let sectionBackgroundDecoration = NSCollectionLayoutDecorationItem.background(elementKind: ListBackgroundView.description())
             section.decorationItems = [sectionBackgroundDecoration]

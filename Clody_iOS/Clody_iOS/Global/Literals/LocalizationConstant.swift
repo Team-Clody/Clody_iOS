@@ -97,11 +97,19 @@ enum LocalizationConstant {
     
     enum List {
         static var replyButtonVerticalInset: CGFloat {
-            return ScreenUtils.getWidth(isKorean ? 5 : 6)
+            return ScreenUtils.getHeight(isKorean ? 5 : 6)
         }
         
         static var replyButtonTrailing: CGFloat {
             return ScreenUtils.getWidth(isKorean ? -4 : -2)
+        }
+        
+        static var diaryHorizontalInset: CGFloat {
+            return ScreenUtils.getWidth(isKorean ? 20 : 23)
+        }
+        
+        static var textLeading: CGFloat {
+            return ScreenUtils.getWidth(isKorean ? 40 : 43)
         }
     }
     
