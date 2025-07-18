@@ -140,13 +140,14 @@ extension String {
     }
     
     enum Common {
+        static let bundleID = "com.Clody.Clody"
+        static let appLink = "https://apps.apple.com/app/6511215518"
         static let next = String(localized: "common.next", comment: "다음")
         static let complete = String(localized: "common.complete", comment: "완료")
         static let ok = String(localized: "common.ok", comment: "확인")
         static let enterNickname = String(localized: "common.enterNickname", comment: "닉네임을 입력해주세요")
         static let nicknameCondition = String(localized: "common.nicknameCondition", comment: "특수문자, 띄어쓰기 없이 작성해주세요")
         static let nicknameError = String(localized: "common.nicknameError", comment: "사용할 수 없는 닉네임이에요")
-        static let charLimit = "/ 10"
     }
     
     enum BottomSheet {

@@ -55,30 +55,27 @@ final class ListCollectionViewCell: UICollectionViewCell {
     }
     
     func setHierarchy() {
-        
         self.addSubview(listContainerView)
         listContainerView.addSubviews(listNumberLabel, diaryTextLabel)
     }
     
     func setLayout() {
-        
         listContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
         listNumberLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(14))
-            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(20))
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().inset(LocalizationConstant.List.diaryHorizontalInset)
         }
         
         diaryTextLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(35))
-            $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(18))
+            $0.leading.equalToSuperview().inset(LocalizationConstant.List.textLeading)
+            $0.trailing.equalToSuperview().inset(LocalizationConstant.List.diaryHorizontalInset)
             $0.top.equalTo(listNumberLabel)
             $0.bottom.equalToSuperview()
         }
     }
-
     
     func bindData(diaryContent: String, index: Int) {
         listNumberLabel.text = "\(index + 1)."

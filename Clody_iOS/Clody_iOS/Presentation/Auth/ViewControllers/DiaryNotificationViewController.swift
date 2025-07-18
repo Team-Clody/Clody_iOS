@@ -39,7 +39,6 @@ final class DiaryNotificationViewController: UIViewController {
         bindViewModel()
         setUI()
         setupPickerView()
-        requestPermission()
     }
 }
 
@@ -160,16 +159,6 @@ private extension DiaryNotificationViewController {
             self?.timePickerView.isHidden = true
             completion?()
         }
-    }
-    
-    private func requestPermission() {
-        PermissionManager.shared.requestNotificationPermission(completion: { isPermitted in
-            if isPermitted {
-               // 알림 설정 API 통신 가능
-            } else {
-                // API 안보냄
-            }
-        })
     }
 }
 

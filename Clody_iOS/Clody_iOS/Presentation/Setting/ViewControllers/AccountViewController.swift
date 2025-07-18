@@ -12,7 +12,6 @@ final class AccountViewController: UIViewController {
     
     private let viewModel = AccountViewModel()
     private let disposeBag = DisposeBag()
-    private let maxLength = 10
     
     // MARK: - UI Components
     
@@ -65,7 +64,7 @@ final class AccountViewController: UIViewController {
         
         textField.rx.text
             .orEmpty
-            .map { String($0.prefix(self.maxLength)) }
+            .map { String($0.prefix(LocalizationConstant.Common.nicknameMaxLength)) }
             .bind(to: self.textField.rx.text)
             .disposed(by: disposeBag)
         

@@ -46,6 +46,7 @@ final class ListHeaderView: UICollectionReusableView {
         
         cloverImageView.do {
             $0.image = .clover0
+            $0.contentMode = .scaleAspectFit
         }
         
         dateLabel.do {
@@ -59,57 +60,69 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         replyButton.do {
-            $0.backgroundColor = .lightBlue
-            $0.makeCornerRound(radius: 10)
-            $0.setTitleColor(.blueCustom, for: .normal)
-            let attributedTitle = UIFont.pretendardString(text: .WritingDiary.replyButton, style: .detail1_semibold)
-            $0.setAttributedTitle(attributedTitle, for: .normal)
+            $0.configuration = UIButton.Configuration.filled()
+            $0.configuration?.baseBackgroundColor = .lightBlue
+            $0.configuration?.baseForegroundColor = .blueCustom
+            $0.configuration?.attributedTitle = AttributedString(
+                UIFont.pretendardString(text: .WritingDiary.replyButton, style: .detail1_semibold)
+            )
+            $0.configuration?.contentInsets = .init(
+                top: LocalizationConstant.List.replyButtonVerticalInset,
+                leading: 10,
+                bottom: LocalizationConstant.List.replyButtonVerticalInset,
+                trailing: 10
+            )
+            $0.makeCornerRound(radius: 9)
         }
         
         newImageView.do {
             $0.image = .new
             $0.isHidden = true
+            $0.contentMode = .scaleAspectFit
         }
         
         kebabButton.do {
             $0.setImage(.kebob, for: .normal)
+            $0.contentMode = .scaleAspectFit
+            $0.contentVerticalAlignment = .fill
+            $0.contentHorizontalAlignment = .fill
         }
     }
     
     func setHierarchy() {
-        
         self.addSubviews(
             cloverImageView,
             dateLabel,
             dayLabel,
             replyButton,
-            newImageView,
-            kebabButton
+            kebabButton,
+            newImageView
         )
     }
     
     func setLayout() {
-        
         cloverImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(30))
-            $0.leading.equalToSuperview().inset(ScreenUtils.getWidth(20))
+            $0.width.equalTo(ScreenUtils.getWidth(24))
+            $0.height.equalTo(ScreenUtils.getHeight(23))
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(20))
+            $0.leading.equalToSuperview().inset(LocalizationConstant.List.diaryHorizontalInset)
         }
         
         dateLabel.snp.makeConstraints {
-            $0.centerY.equalTo(cloverImageView)
             $0.leading.equalTo(cloverImageView.snp.trailing).offset(ScreenUtils.getWidth(6))
+            $0.centerY.equalTo(cloverImageView)
         }
         
         dayLabel.snp.makeConstraints {
+            $0.leading.equalTo(dateLabel.snp.trailing).offset(ScreenUtils.getWidth(3))
             $0.bottom.equalTo(dateLabel)
-            $0.leading.equalTo(dateLabel.snp.trailing).offset(ScreenUtils.getWidth(2))
+            $0.bottom.equalToSuperview().inset(ScreenUtils.getHeight(19))
         }
         
         replyButton.snp.makeConstraints {
-            $0.centerY.equalTo(dateLabel)
-            $0.trailing.equalTo(kebabButton.snp.leading).offset(-ScreenUtils.getWidth(4))
-            $0.width.equalTo(ScreenUtils.getWidth(64))
             $0.height.equalTo(ScreenUtils.getHeight(28))
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(18))
+            $0.trailing.equalTo(kebabButton.snp.leading).offset(LocalizationConstant.List.replyButtonTrailing)
         }
         
         newImageView.snp.makeConstraints {
@@ -118,12 +131,11 @@ final class ListHeaderView: UICollectionReusableView {
         }
         
         kebabButton.snp.makeConstraints {
+            $0.size.equalTo(ScreenUtils.getHeight(28))
             $0.trailing.equalToSuperview().inset(ScreenUtils.getWidth(4))
-            $0.centerY.equalTo(dateLabel)
-            $0.size.equalTo(ScreenUtils.getWidth(28))
+            $0.centerY.equalTo(replyButton)
         }
     }
-    
     
     func bindData(diary: ListDiary) {
         if diary.isDeleted || diary.replyStatus == "INVALID_DRAFT" {
