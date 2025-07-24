@@ -226,7 +226,7 @@ private extension WritingDiaryViewController {
                         let dateString = DateFormatter.string(from: date, format: "yyyy-MM-dd")
                         
                         viewModel.postDiary(
-                            date: dateString.localDateStringToKST() ?? dateString,
+                            date: dateString,
                             content: viewModel.getCurrentTexts()
                         ) { [weak self] statusCode, type, isFromDraft in
                             guard let self = self else { return }
@@ -287,9 +287,9 @@ private extension WritingDiaryViewController {
                         let dateString = DateFormatter.string(from: date, format: "yyyy-MM-dd")
                         
                         viewModel.postDraftDiary(
-                            date: dateString.localDateStringToKST() ?? dateString,
+                            date: dateString,
                             content: viewModel.getCurrentTexts()
-                        ) { [weak self] statusCode, type in
+                          ) { [weak self] statusCode, type in
                             guard let self = self else { return }
                             hideLoadingIndicator()
                             

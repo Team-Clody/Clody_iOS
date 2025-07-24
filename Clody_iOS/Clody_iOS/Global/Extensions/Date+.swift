@@ -74,21 +74,3 @@ extension String {
         return kstFormatter.string(from: localDate)
     }
 }
-
-
-extension String {
-    /// "yyyy-MM-dd" 형식의 현지(Local) 날짜 문자열 → KST 기준 날짜 문자열로 변환
-    func localDateStringToKST(format: String = "yyyy-MM-dd") -> String? {
-        let localFormatter = DateFormatter()
-        localFormatter.dateFormat = format
-        localFormatter.timeZone = TimeZone.current
-        
-        guard let localDate = localFormatter.date(from: self) else { return nil }
-
-        let kstFormatter = DateFormatter()
-        kstFormatter.dateFormat = format
-        kstFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
-
-        return kstFormatter.string(from: localDate)
-    }
-}
