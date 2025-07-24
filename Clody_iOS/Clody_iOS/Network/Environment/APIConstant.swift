@@ -41,7 +41,7 @@ extension APIConstants{
         [contentType: applicationJSON,
                 auth: Bearer + UserManager.shared.accessTokenValue,
             timeZone: LocalizationConstant.timeZoneCode,
-      acceptLanguage: LocalizationConstant.languageCode
+      acceptLanguage: LocalizationConstant.Calendar.calendarLocale.identifier
         ]
     }
 }
