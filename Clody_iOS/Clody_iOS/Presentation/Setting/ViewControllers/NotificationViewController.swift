@@ -66,7 +66,7 @@ private extension NotificationViewController {
                         let data = NotificationState(
                             isDiaryWritingAlarmOn: data.isDiaryAlarm,
                             isContinueWritingAlarmOn: data.isDraftAlarm,
-                            alarmTime: data.time,
+                            alarmTime: data.time.convertLocalTimeToKST() ?? data.time,
                             isReplyAlarmOn: data.isReplyAlarm
                         )
                         self?.viewModel.alarmStatesRelay.accept(data)
@@ -225,9 +225,10 @@ private extension NotificationViewController {
             let notificationState = NotificationState(
                 isDiaryWritingAlarmOn: data.isDiaryAlarm,
                 isContinueWritingAlarmOn: data.isDraftAlarm,
-                alarmTime: data.time,
+                alarmTime: data.time.convertKSTToLocalTime() ?? data.time,
                 isReplyAlarmOn: data.isReplyAlarm
             )
+            
             self.viewModel.alarmStatesRelay.accept(notificationState)
         }
     }
