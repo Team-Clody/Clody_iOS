@@ -138,6 +138,10 @@ final class ListHeaderView: UICollectionReusableView {
     }
     
     func bindData(diary: ListDiary) {
+        replyButton.backgroundColor = .lightBlue
+        replyButton.isEnabled = true
+        replyButton.setTitleColor(.blueCustom, for: .normal)
+        
         if diary.isDeleted || diary.replyStatus == "INVALID_DRAFT" {
             replyButton.backgroundColor = .grey08
             replyButton.isEnabled = false
