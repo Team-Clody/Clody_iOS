@@ -25,23 +25,23 @@ extension DiaryRouter: BaseTargetType {
     var headers: [String : String]? {
         switch self {
         case .getDailyDiary:
-            return APIConstants.accessTokenHeader
+            return APIConstants.timeZoneHeader
         case .deleteDiary:
-            return APIConstants.accessTokenHeader
+            return APIConstants.timeZoneHeader
         case .postDiary:
             return APIConstants.postDiaryHeader
         case .postDraftDiary:
-            return APIConstants.accessTokenHeader
+            return APIConstants.timeZoneHeader
         case .getWritingTime:
-            return APIConstants.accessTokenHeader
+            return APIConstants.timeZoneHeader
         case .postAdStart:
-            return APIConstants.accessTokenHeader
+            return APIConstants.timeZoneHeader
         case .patchAdEnd:
-            return APIConstants.accessTokenHeader
+            return APIConstants.timeZoneHeader
         case .getReply:
-            return APIConstants.accessTokenHeader
+            return APIConstants.timeZoneHeader
         case .getDraftDiaryList:
-            return APIConstants.accessTokenHeader
+            return APIConstants.timeZoneHeader
         }
     }
     

@@ -44,4 +44,11 @@ extension APIConstants{
       acceptLanguage: LocalizationConstant.Calendar.calendarLocale.identifier
         ]
     }
+    
+    static var timeZoneHeader: [String: String] {
+        [contentType: applicationJSON,
+                auth: Bearer + UserManager.shared.accessTokenValue,
+            timeZone: LocalizationConstant.timeZoneCode
+        ]
+    }
 }
