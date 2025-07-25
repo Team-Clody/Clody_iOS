@@ -116,7 +116,8 @@ extension UIViewController {
             errorAlertView.titleLabel.attributedText = UIFont.pretendardString(
                 text: .Error.unKnown,
                 style: .body3_medium,
-                applyLineHeight: true
+                applyLineHeight: true,
+                align: .center
             )
         }
         
@@ -138,7 +139,8 @@ extension UIViewController {
             errorAlertView.titleLabel.attributedText = UIFont.pretendardString(
                 text: .Error.unKnown,
                 style: .body2_semibold,
-                applyLineHeight: true
+                applyLineHeight: true,
+                align: .center
             )
         }
 

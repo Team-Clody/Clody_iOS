@@ -117,6 +117,7 @@ extension String {
         static let writeMoreTitle = String(localized: "alert.writeMoreTitle", comment: "임시저장된 일기를 이어 쓸까요?")
         static let writeMoreMessage = String(localized: "alert.writeMoreMessage", comment: "답장 기한이 지나서 답장은 받을 수 없어요.")
         static let writeMore = String(localized: "alert.writeMore", comment: "이어쓰기")
+        static let close = String(localized: "alert.close", comment: "확인")
     }
     
     enum Auth {

@@ -41,17 +41,17 @@ final class ClodyErrorAlertView: BaseView {
             $0.attributedText = UIFont.pretendardString(
                 text: .Error.unKnown,
                 style: .body3_medium,
-                applyLineHeight: true
+                applyLineHeight: true,
+                align: .center
             )
             $0.numberOfLines = 2
-            $0.textAlignment = .center
         }
         
         errorConfirmButton.do {
             $0.backgroundColor = .mainYellow
             $0.makeCornerRound(radius: 8)
             $0.setTitleColor(.grey02, for: .normal)
-            let attributedTitle = UIFont.pretendardString(text: "확인", style: .body2_semibold)
+            let attributedTitle = UIFont.pretendardString(text: .Alert.close, style: .body2_semibold)
             $0.setAttributedTitle(attributedTitle, for: .normal)
             $0.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         }
