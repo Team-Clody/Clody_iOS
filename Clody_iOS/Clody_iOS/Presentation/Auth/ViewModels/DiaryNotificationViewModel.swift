@@ -53,7 +53,7 @@ extension DiaryNotificationViewModel {
                     isDiaryAlarm: true,
                     isDraftAlarm: false,
                     isReplyAlarm: true,
-                    time: time.convertLocalTimeToKST() ?? time,
+                    time: time.convertLocalTimeToKST() ?? "",
                     fcmToken: UserManager.shared.fcmTokenValue
                 )
             ),
