@@ -39,6 +39,7 @@
 		0B4A1BE82C456CD100E31EC4 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 0B4A1BE72C456CD100E31EC4 /* KakaoSDKUser */; };
 		0B4EF9CF2C478AAF00CAF1F6 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4EF9CE2C478AAF00CAF1F6 /* Date+.swift */; };
 		0B4EF9D12C48C39600CAF1F6 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4EF9D02C48C39600CAF1F6 /* PermissionManager.swift */; };
+		0B5F37432E330A01007F4D14 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 0B5F37422E330A01007F4D14 /* InfoPlist.xcstrings */; };
 		0B6AC2362DF27AEB00F625FA /* PostDraftDiaryRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6AC2352DF27AD100F625FA /* PostDraftDiaryRequestDTO.swift */; };
 		0B6AC2382DF27D7E00F625FA /* PostDiaryDraftResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6AC2372DF27D7C00F625FA /* PostDiaryDraftResponseDTO.swift */; };
 		0B6C07372C3B99970054A0B0 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 0B6C07362C3B99970054A0B0 /* Differentiator */; };
@@ -209,6 +210,7 @@
 		0B4A1BDD2C45686300E31EC4 /* EmptyResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponseDTO.swift; sourceTree = "<group>"; };
 		0B4EF9CE2C478AAF00CAF1F6 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		0B4EF9D02C48C39600CAF1F6 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
+		0B5F37422E330A01007F4D14 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		0B6AC2352DF27AD100F625FA /* PostDraftDiaryRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDraftDiaryRequestDTO.swift; sourceTree = "<group>"; };
 		0B6AC2372DF27D7C00F625FA /* PostDiaryDraftResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDiaryDraftResponseDTO.swift; sourceTree = "<group>"; };
 		0B6C07422C3DC2DE0054A0B0 /* ListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListModel.swift; sourceTree = "<group>"; };
@@ -683,6 +685,7 @@
 		0BFCC5C32C2E8C4600B5E0DB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0B5F37422E330A01007F4D14 /* InfoPlist.xcstrings */,
 				0BB74F8F2E1F488E001C1975 /* Localizable.xcstrings */,
 				0B03B19F2C86D2AD00144596 /* waitingLody.json */,
 				0BE7EA182C46AE25000C5358 /* replyLody.json */,
@@ -1147,6 +1150,7 @@
 				0B20F3E92C2C4DAB00F8D62D /* Base in Resources */,
 				2CE3AB2F2C36E9F50042085A /* Pretendard-Regular.otf in Resources */,
 				2C0B3C862C30DD55002EB1A3 /* Pretendard-Medium.otf in Resources */,
+				0B5F37432E330A01007F4D14 /* InfoPlist.xcstrings in Resources */,
 				2C0B3C882C30DD5B002EB1A3 /* Pretendard-SemiBold.otf in Resources */,
 				95310F8A2C401A1F00023C7B /* GoogleService-Info.plist in Resources */,
 				0BB74F902E1F488E001C1975 /* Localizable.xcstrings in Resources */,
@@ -1482,7 +1486,7 @@
 				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Clody_iOS/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "클로디Dev";
+				INFOPLIST_KEY_CFBundleDisplayName = ClodyDev;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1493,7 +1497,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Clody.Clody;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1518,7 +1522,7 @@
 				CURRENT_PROJECT_VERSION = 2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Clody_iOS/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "클로디";
+				INFOPLIST_KEY_CFBundleDisplayName = Clody;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1529,7 +1533,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Clody.Clody;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
