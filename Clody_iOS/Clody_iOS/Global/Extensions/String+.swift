@@ -207,29 +207,53 @@ extension String {
 
 
 extension String {
+    
     /// "HH:mm" 형식의 KST 문자열을 로컬 시간 문자열로 변환합니다.
     func convertKSTToLocalTime() -> String? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        formatter.timeZone = TimeZone(identifier: "Asia/Seoul") // KST 기준
-
-        guard let dateInKST = formatter.date(from: self) else { return nil }
-
-        formatter.timeZone = TimeZone.current // Local 기준
-        return formatter.string(from: dateInKST)
+        return convertTime(from: TimeZone(identifier: "Asia/Seoul")!, to: TimeZone.current)
     }
-
+    
     /// "HH:mm" 형식의 Local 문자열을 KST 기준 시간 문자열로 변환합니다.
     func convertLocalTimeToKST() -> String? {
+        return convertTime(from: TimeZone.current, to: TimeZone(identifier: "Asia/Seoul")!)
+    }
+    
+    private func convertTime(from sourceTimeZone: TimeZone, to targetTimeZone: TimeZone) -> String? {
+        guard let timeComponents = parseTimeComponents() else { return nil }
+        guard let sourceDate = createDate(hour: timeComponents.hour,
+                                          minute: timeComponents.minute,
+                                          timeZone: sourceTimeZone) else { return nil }
+        return formatTime(sourceDate, in: targetTimeZone)
+    }
+    
+    private func parseTimeComponents() -> (hour: Int, minute: Int)? {
+        let components = self.split(separator: ":")
+        guard components.count == 2,
+              let hour = Int(components[0]),
+              let minute = Int(components[1]),
+              hour >= 0 && hour <= 23,
+              minute >= 0 && minute <= 59 else {
+            return nil
+        }
+        return (hour: hour, minute: minute)
+    }
+    
+    private func createDate(hour: Int, minute: Int, timeZone: TimeZone) -> Date? {
+        let calendar = Foundation.Calendar.current
+        let now = Date()
+        
+        var components = calendar.dateComponents([.year, .month, .day], from: now)
+        components.hour = hour
+        components.minute = minute
+        components.timeZone = timeZone
+        
+        return calendar.date(from: components)
+    }
+    
+    private func formatTime(_ date: Date, in timeZone: TimeZone) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
-        formatter.timeZone = TimeZone.current
-
-        guard let localDate = formatter.date(from: self) else { return nil }
-
-        formatter.dateFormat = "HH:mm"
-        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
-
-        return formatter.string(from: localDate)
+        formatter.timeZone = timeZone
+        return formatter.string(from: date)
     }
 }
