@@ -9,12 +9,10 @@ import Foundation
 
 enum LocalizationConstant {
     
-    static let languageCode: String = {
-        let code = Locale.current.languageCode ?? "ko"
-        return code == "ko" ? "ko" : "en"
-    }()
+    static let languageCode = Locale.current.languageCode == "ko" ? "ko" : "en"
     private static let regionCode = Locale.current.regionCode ?? "KR"
     static let timeZoneCode: String = TimeZone.current.identifier
+    static let acceptLanguage = "\(languageCode)-\(regionCode)"
     
     private static var isKorean: Bool {
         return languageCode == "ko"
