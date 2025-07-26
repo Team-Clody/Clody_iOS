@@ -225,7 +225,7 @@ private extension NotificationViewController {
             let notificationState = NotificationState(
                 isDiaryWritingAlarmOn: data.isDiaryAlarm,
                 isContinueWritingAlarmOn: data.isDraftAlarm,
-                alarmTime: data.time.convertKSTToLocalTime() ?? data.time,
+                alarmTime: data.time.convertKSTToLocalTime() ?? "",
                 isReplyAlarmOn: data.isReplyAlarm
             )
             
