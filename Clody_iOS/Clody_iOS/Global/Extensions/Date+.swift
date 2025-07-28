@@ -42,6 +42,6 @@ extension Date {
     }
 
     var isWritingAvailable: Bool {
-        return isToday || isYesterday
+        LocalizationConstant.isKSTTimeZone ? (isToday || isYesterday) : isToday
     }
 }

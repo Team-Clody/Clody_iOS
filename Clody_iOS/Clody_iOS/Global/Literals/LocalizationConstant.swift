@@ -13,6 +13,9 @@ enum LocalizationConstant {
     private static let regionCode = Locale.current.regionCode ?? "KR"
     static let timeZoneCode: String = TimeZone.current.identifier
     static let acceptLanguage = "\(languageCode)-\(regionCode)"
+    static var isKSTTimeZone: Bool {
+        return timeZoneCode == "Asia/Seoul"
+    }
     
     private static var isKorean: Bool {
         return languageCode == "ko"
