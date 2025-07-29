@@ -1316,7 +1316,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You can only journal \nfor today and yesterday"
+            "value" : "You can only\njournal for today"
           }
         },
         "ko" : {
