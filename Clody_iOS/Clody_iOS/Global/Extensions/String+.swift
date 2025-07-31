@@ -256,4 +256,13 @@ extension String {
         formatter.timeZone = timeZone
         return formatter.string(from: date)
     }
+    
+    static func currentKSTDateString() -> String {
+        let now = Date()
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        return formatter.string(from: now)
+    }
 }
