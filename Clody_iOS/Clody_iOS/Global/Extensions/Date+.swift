@@ -44,4 +44,22 @@ extension Date {
     var isWritingAvailable: Bool {
         LocalizationConstant.isKSTTimeZone ? (isToday || isYesterday) : isToday
     }
+    
+    func toKSTDiaryString() -> String {
+        let now = Date()
+        let calendar = Calendar.current
+        var targetDate = now
+        
+        if calendar.isDateInYesterday(self) {
+            if let adjustedDate = calendar.date(byAdding: .day, value: -1, to: now) {
+                targetDate = adjustedDate
+            }
+        }
+        
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        return formatter.string(from: targetDate)
+    }
 }

@@ -223,8 +223,8 @@ private extension WritingDiaryViewController {
                         guard let self = self else { return }
                         AmplitudeManager.shared.trackEvent("writing_diary_complete")
                         showLoadingIndicator()
-
-                        let dateString = String.currentKSTDateString()
+                        
+                        let dateString = date.toKSTDiaryString()
                         
                         viewModel.postDiary(
                             date: dateString,
