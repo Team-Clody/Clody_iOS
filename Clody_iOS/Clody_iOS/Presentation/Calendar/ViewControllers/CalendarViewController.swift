@@ -326,7 +326,7 @@ private extension CalendarViewController {
                 let notificationState = NotificationState(
                     isDiaryWritingAlarmOn: data.isDiaryAlarm,
                     isContinueWritingAlarmOn: data.isDraftAlarm,
-                    alarmTime: data.time,
+                    alarmTime: data.time.convertKSTToLocalTime() ?? "",
                     isReplyAlarmOn: data.isReplyAlarm
                 )
                 notificationStateRelay.accept(notificationState)

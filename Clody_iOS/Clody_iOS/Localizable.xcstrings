@@ -35,6 +35,23 @@
         }
       }
     },
+    "alert.close" : {
+      "comment" : "확인",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "확인"
+          }
+        }
+      }
+    },
     "alert.delete" : {
       "comment" : "삭제할래요",
       "localizations" : {
@@ -1072,23 +1089,6 @@
         }
       }
     },
-    "list.date" : {
-      "comment" : "d일",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-             "value" : "%@일"
-          }
-        }
-      }
-    },
     "error.network" : {
       "comment" : "서비스 접속이 원활하지 않아요. 네트워크 연결을 확인해주세요.",
       "localizations" : {
@@ -1119,6 +1119,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "일시적인 오류가 발생했어요.\n잠시 후 다시 시도해주세요."
+          }
+        }
+      }
+    },
+    "list.date" : {
+      "comment" : "d일",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "%@일"
           }
         }
       }
@@ -1299,7 +1316,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You can only journal \nfor today and yesterday"
+            "value" : "You can only\njournal for today"
           }
         },
         "ko" : {

@@ -72,7 +72,7 @@ final class ListViewModel: ViewModelType {
         let showPickerView = input.tapDateButton.asSignal()
         
         let changeNavigationDate = selectedMonthRelay
-            .observe(on: MainScheduler.asyncInstance)
+            .distinctUntilChanged()
             .map { date -> String in
                 let year = self.selectedMonthRelay.value[0]
                 let month = self.selectedMonthRelay.value[1]
@@ -127,8 +127,7 @@ extension ListViewModel {
             let today = Date()
             return Int(DateFormatter.string(from: today, format: "MM")) ?? 0
         }()
-        
-        self.getListData(year: year, month: month)
+
         self.selectedMonthRelay.accept([String(year), String(month)])
     }
     

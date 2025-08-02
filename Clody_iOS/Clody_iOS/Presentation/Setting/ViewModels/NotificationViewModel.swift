@@ -72,7 +72,7 @@ extension NotificationViewModel {
                     isDiaryAlarm: notificationState.isDiaryWritingAlarmOn,
                     isDraftAlarm: notificationState.isContinueWritingAlarmOn,
                     isReplyAlarm: notificationState.isReplyAlarmOn,
-                    time: notificationState.alarmTime,
+                    time: notificationState.alarmTime.convertLocalTimeToKST() ?? "error",
                     fcmToken: UserManager.shared.fcmTokenValue
                 )
             ),

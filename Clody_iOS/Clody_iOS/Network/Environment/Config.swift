@@ -14,6 +14,7 @@ enum Config {
             static let kakaoKey = "KAKAO_KEY"
             static let amplitudeKey = "AMPLITUDE_KEY"
             static let adUnitId = "AD_UNIT_ID"
+            static let airbridgeToken = "AIRBRIDGE_TOKEN"
         }
     }
     
@@ -50,5 +51,12 @@ enum Config {
             fatalError("Ad Unit Id is not set in plist for this configuration.")
         }
         return id
+    }()
+    
+    static let airbridgeToken: String = {
+        guard let token = Config.infoDictionary[Keys.Plist.airbridgeToken] as? String else {
+            fatalError("airbridgeToken is not set in plist for this configuration.")
+        }
+        return token
     }()
 }

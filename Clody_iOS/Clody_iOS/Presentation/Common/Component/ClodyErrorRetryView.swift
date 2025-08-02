@@ -32,10 +32,10 @@ final class ClodyErrorRetryView: BaseView {
             $0.attributedText = UIFont.pretendardString(
                 text: .Error.unKnown,
                 style: .body2_semibold,
-                applyLineHeight: true
+                applyLineHeight: true,
+                align: .center
             )
             $0.numberOfLines = 2
-            $0.textAlignment = .center
         }
         
         retryButton.do {

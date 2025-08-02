@@ -8,6 +8,7 @@
 import UIKit
 import UserNotifications
 
+import Airbridge
 import Firebase
 import FirebaseAnalytics
 import GoogleMobileAds
@@ -39,6 +40,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 파이어베이스 Meesaging 설정
         Messaging.messaging().delegate = self
+        
+        let option = AirbridgeOptionBuilder(name: "clody", token: Config.airbridgeToken)
+            .build()
+        Airbridge.initializeSDK(option: option)
         
         return true
     }
