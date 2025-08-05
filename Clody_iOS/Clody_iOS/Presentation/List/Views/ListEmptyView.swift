@@ -23,7 +23,7 @@ final class ListEmptyView: BaseView {
             $0.textColor = .grey06
             $0.attributedText = UIFont.pretendardString(
                 text: .List.emptyList,
-                style: .body2_semibold,
+                style: .body3_regular,
                 applyLineHeight: true
             )
             $0.numberOfLines = 0
