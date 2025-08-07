@@ -1485,7 +1485,7 @@
 				CODE_SIGN_ENTITLEMENTS = Clody_iOS/Clody_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1523,7 +1523,7 @@
 				CODE_SIGN_ENTITLEMENTS = Clody_iOS/Clody_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Clody_iOS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Clody;

@@ -204,7 +204,7 @@ final class CalendarView: BaseView {
         
         kebabButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
-            $0.trailing.equalTo(mainCalendarView)
+            $0.trailing.equalTo(mainCalendarView).offset(ScreenUtils.getWidth(12))
         }
         
         dailyDiaryCollectionView.snp.makeConstraints {
@@ -221,7 +221,7 @@ final class CalendarView: BaseView {
         
         emptyDiaryLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.top.equalToSuperview().inset(ScreenUtils.getHeight(51))
         }
     }
 
