@@ -241,8 +241,14 @@ extension CalendarViewModel {
         let diary = calendarData[day]
         let isToday = date.isToday
         let replyStatus = diary.replyStatus
+        let isDeleted = diary.isDeleted
+        let diaryCount = diary.diaryCount
         
         let cloverType: CloverType = {
+            if isDeleted && diaryCount != 0 {
+                return .draftDone
+            }
+            
             switch replyStatus {
             case "HAS_DRAFT":
                 return .hasDraft
