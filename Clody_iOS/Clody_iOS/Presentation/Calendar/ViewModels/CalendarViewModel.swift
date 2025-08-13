@@ -246,7 +246,7 @@ extension CalendarViewModel {
         
         let cloverType: CloverType = {
             if isDeleted && diaryCount != 0 {
-                return .draftDone
+                return .rewriteAfterDeleting
             }
             
             switch replyStatus {

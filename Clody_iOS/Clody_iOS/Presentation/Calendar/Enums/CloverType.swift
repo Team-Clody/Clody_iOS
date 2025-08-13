@@ -18,6 +18,7 @@ enum CloverType: Int {
     case todayDone
     case hasDraft
     case draftDone
+    case rewriteAfterDeleting
 
     var image: UIImage? {
         switch self {
@@ -31,6 +32,7 @@ enum CloverType: Int {
         case .todayDone: return .cloverTodayDone
         case .hasDraft: return .cloverDraft
         case .draftDone: return .cloverDraftExpired
+        case .rewriteAfterDeleting: return .cloverDraftExpired
         }
     }
 
