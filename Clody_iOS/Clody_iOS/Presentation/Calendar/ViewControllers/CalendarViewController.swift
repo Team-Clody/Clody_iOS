@@ -147,7 +147,7 @@ private extension CalendarViewController {
                 let emptyText = .draftEnabled == state ? String.Calendar.draft : String.Calendar.empty
                 rootView.emptyDiaryLabel.attributedText = UIFont.pretendardString(text: emptyText, style: .body3_regular)
                 rootView.emptyDiaryView.isHidden = (state == .replyEnabled || state == .replyDisabled)
-                rootView.kebabButton.isHidden = (state == .writeDisabled || state == .writeEnabled)
+                rootView.kebabButton.isHidden = (state == .writeDisabled || state == .writeEnabled || state == .draftEnabled)
                 rootView.calendarActionButton.setAttributedTitle(
                     UIFont.pretendardString(text: config.text, style: .body1_semibold),
                     for: .normal

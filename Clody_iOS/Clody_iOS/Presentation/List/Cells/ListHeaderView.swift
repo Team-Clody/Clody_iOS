@@ -148,7 +148,9 @@ final class ListHeaderView: UICollectionReusableView {
             replyButton.setTitleColor(.grey06, for: .normal)
         }
         
-        if diary.replyStatus == "INVALID_DRAFT" {
+        let shouldShowDraftExpired = (diary.isDeleted && diary.diaryCount != 0) || diary.replyStatus == "INVALID_DRAFT"
+        
+        if shouldShowDraftExpired {
             cloverImageView.image = .cloverDraftExpired
         } else if diary.replyStatus == "READY_READ" {
             cloverImageView.image = UIImage(named: diary.diaryCount == 0 ? "clover0" : "clover\(diary.diaryCount)")
@@ -169,4 +171,5 @@ final class ListHeaderView: UICollectionReusableView {
             dateLabel.text = .List.date(date: day)
         }
     }
+    
 }
