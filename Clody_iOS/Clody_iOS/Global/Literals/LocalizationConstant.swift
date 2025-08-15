@@ -138,13 +138,13 @@ enum LocalizationConstant {
                 let start = localFormatter.string(from: startDate)
                 localFormatter.dateFormat = "M/d(E) h:mm"
                 let end = localFormatter.string(from: endDate)
-                return "\(start) ~ \(end)"
+                return "점검 시간: \(start) ~ \(end)"
             } else {
                 localFormatter.dateFormat = "MMMM d (EEE), h:mm"
                 let start = localFormatter.string(from: startDate)
                 localFormatter.dateFormat = "MMMM d (EEE) h:mm"
                 let end = localFormatter.string(from: endDate)
-                return "\(start) ~ \(end)"
+                return "[Maintenance]\n\(start) ~ \(end)"
             }
         }
     }

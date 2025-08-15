@@ -1089,6 +1089,40 @@
         }
       }
     },
+    "downtime.confirm" : {
+      "comment" : "확인",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "확인"
+          }
+        }
+      }
+    },
+    "downtime.description" : {
+      "comment" : "보다 안정적인 클로디 서비스를 위해\n시스템 점검 중이에요. 곧 다시 만나요!",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We’re conducting system maintenance \nto improve your experience on Clody. \nSee you again soon!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "보다 안정적인 클로디 서비스를 위해 \n시스템 점검 중이에요. 곧 다시 만나요!"
+          }
+        }
+      }
+    },
     "error.network" : {
       "comment" : "서비스 접속이 원활하지 않아요. 네트워크 연결을 확인해주세요.",
       "localizations" : {
