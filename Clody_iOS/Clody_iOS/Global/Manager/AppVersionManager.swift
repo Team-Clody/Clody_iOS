@@ -73,10 +73,20 @@ class AppVersionManager {
                 return
             }
 
-            if let message = self.remoteConfig["downtime_message_iOS"].stringValue,
-               !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                presentMaintenanceScreen(message: message)
-                completion(false)
+            let isDowntime = self.remoteConfig["is_downtime_iOS"].boolValue
+            if isDowntime {
+                let startTimeString = self.remoteConfig["inspection_start_iOS"].stringValue ?? ""
+                let endTimeString = self.remoteConfig["inspection_end_iOS"].stringValue ?? ""
+
+                let formattedTimeString = LocalizationConstant.Downtime.formatDowntimePeriod(
+                    startTime: startTimeString,
+                    endTime: endTimeString
+                )
+                
+                DispatchQueue.main.async {
+                    self.presentMaintenanceScreen(message: formattedTimeString)
+                    completion(false)
+                }
             } else {
                 completion(true)
             }
