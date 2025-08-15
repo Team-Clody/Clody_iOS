@@ -89,13 +89,13 @@ enum LocalizationConstant {
         static func headerDate(from date: Date) -> String {
             let formatter = DateFormatter()
             formatter.locale = Locale(identifier: "\(languageCode)_\(regionCode)")
-
+            
             if isKorean {
                 formatter.dateFormat = "M월 d일 EEEE"
             } else {
                 formatter.dateFormat = "EEEE, MMMM d"
             }
-
+            
             return formatter.string(from: date)
         }
     }
@@ -115,6 +115,37 @@ enum LocalizationConstant {
         
         static var textLeading: CGFloat {
             return ScreenUtils.getWidth(isKorean ? 40 : 43)
+        }
+    }
+    
+    enum Downtime {
+        static func formatDowntimePeriod(startTime: String, endTime: String) -> String {
+            let kstFormatter = DateFormatter()
+            kstFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+            kstFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+            
+            guard let startDate = kstFormatter.date(from: startTime),
+                  let endDate = kstFormatter.date(from: endTime) else {
+                return ""
+            }
+            
+            let localFormatter = DateFormatter()
+            localFormatter.timeZone = .current
+            localFormatter.locale = Locale(identifier: languageCode)
+            
+            if isKorean {
+                localFormatter.dateFormat = "M/d(E) h:mm"
+                let start = localFormatter.string(from: startDate)
+                localFormatter.dateFormat = "M/d(E) h:mm"
+                let end = localFormatter.string(from: endDate)
+                return "점검 시간: \(start) ~ \(end)"
+            } else {
+                localFormatter.dateFormat = "MMMM d (EEE), h:mm"
+                let start = localFormatter.string(from: startDate)
+                localFormatter.dateFormat = "MMMM d (EEE) h:mm"
+                let end = localFormatter.string(from: endDate)
+                return "[Maintenance]\n\(start) ~ \(end)"
+            }
         }
     }
     

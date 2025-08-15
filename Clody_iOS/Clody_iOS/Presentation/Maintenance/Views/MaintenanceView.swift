@@ -40,20 +40,22 @@ final class MaintenanceView: BaseView {
         
         titleLabel.do {
             $0.textColor = .grey03
-            $0.textAlignment = .center
             $0.numberOfLines = 0
             $0.attributedText = UIFont.pretendardString(
-                text: "보다 안정적인 클로디 서비스를 위해\n시스템 점검 중이에요. 곧 다시 만나요!",
+                text: .Downtime.description,
                 style: .body3_medium,
-                applyLineHeight: true
+                applyLineHeight: true,
+                align: .center
             )
         }
         
         timeLabel.do {
             $0.textColor = .grey04
+            $0.numberOfLines = 0
             $0.attributedText = UIFont.pretendardString(
                 text: "점검 중",
-                style: .body3_medium
+                style: .body3_medium,
+                align: .center
             )
         }
         
@@ -61,7 +63,7 @@ final class MaintenanceView: BaseView {
             $0.setTitleColor(.grey02, for: .normal)
             $0.backgroundColor = .mainYellow
             $0.makeCornerRound(radius: 8)
-            let attributedTitle = UIFont.pretendardString(text: .Common.ok, style: .body3_semibold)
+            let attributedTitle = UIFont.pretendardString(text: .Downtime.confirm, style: .body3_semibold)
             $0.setAttributedTitle(attributedTitle, for: .normal)
         }
     }
@@ -111,8 +113,7 @@ final class MaintenanceView: BaseView {
     }
     
     func configureContent(time: String) {
-        let messaage = "점검 시간: " + time
-        timeLabel.attributedText = UIFont.pretendardString(text: messaage, style: .body3_regular)
+        timeLabel.attributedText = UIFont.pretendardString(text: time, style: .body3_regular, align: .center)
     }
 }
 

@@ -203,6 +203,14 @@ extension String {
             comment: "일시적인 오류가 발생했어요. 잠시 후 다시 시도해주세요."
         )
     }
+    
+    enum Downtime {
+        static let description = String(
+            localized: "downtime.description",
+            comment: "보다 안정적인 클로디 서비스를 위해\n시스템 점검 중이에요. 곧 다시 만나요!"
+        )
+        static let confirm = String(localized: "downtime.confirm", comment: "확인")
+    }
 }
 
 
