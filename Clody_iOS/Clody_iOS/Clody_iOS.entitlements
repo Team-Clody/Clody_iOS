@@ -8,5 +8,10 @@
 	<array>
 		<string>Default</string>
 	</array>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>clody.airbridge.io</string>
+		<string>YOUR_APP_NAME.deeplink.page</string>
+	</array>
 </dict>
 </plist>
